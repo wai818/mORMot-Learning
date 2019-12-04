@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>1_Synopse mORMot概述</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-2 .node > rect { }
+#mermaid-diagram-2 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-3 .node > rect { }
+#mermaid-diagram-3 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div class="vnote-toc"><ul><li><a href="#toc_0">1. Synopse mORMot概述</a><ul><li><a href="#toc_1">1.1. 客户端-服务端ORM/SOA架构</a></li><li><a href="#toc_2">1.2. 关键点</a></li><li><a href="#toc_3">1.3. 好处</a></li><li><a href="#toc_4">1.4. 遗留代码与项目</a></li><li><a href="#toc_5">1.5. 常见问题</a></li></ul></li></ul></div>
+<div style="page-break-after: always;"></div>
+<h1 id="toc_0">1. Synopse mORMot概述<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src='data:image/png;base64,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' alt="IamLost.png" class="view-image"></p>
+<p>  Synopse mORMot是一个开源的客户端-服务端ORM SOA MVC框架，支持Delphi 6到Delphi 10.2 Tokyo和FPC，支持构建Win/Linux服务端应用，支持构建各种跨平台的客户端应用（包括移动端和AJAX）。</p>
+<p>  mORMot的主要特征包括：</p>
+<ul>
+<li>ORM/ODM：支持几乎所有数据库（SQL或NoSQL）的对象持久性;</li>
+<li>SOA：将业务逻辑整合到REST服务中；</li>
+<li>客户端：通过ORM类或SOA接口跨平台访问数据或服务；</li>
+<li>Web MVC：发布ORM/SOA服务以响应Web应用。</li>
+</ul>
+<p>  客户端-服务端自适应的REST设计，支持本地或远程访问。</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 1455.5 971" style="max-width:1455.5px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"><g class="cluster" id="subGraph8" transform="translate(1045.5,884)" style="opacity: 1;"><rect width="268" height="94" x="-134" y="-47"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-33" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> Web Clients</text></g><g class="cluster" id="subGraph7" transform="translate(682.5,596.5)" style="opacity: 1;"><rect width="1325" height="381" x="-662.5" y="-190.5"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-176.5" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> LR</text></g><g class="cluster" id="subGraph5" transform="translate(274.5,703)" style="opacity: 1;"><rect width="469" height="118" x="-234.5" y="-59"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-45" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> REST Clients</text></g><g class="cluster" id="subGraph6" transform="translate(1004.5,596.5)" style="opacity: 1;"><rect width="641" height="331" x="-320.5" y="-165.5"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-151.5" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> mORMot&lt;br/&gt;Server</text></g><g class="cluster" id="subGraph4" transform="translate(762.375,188)" style="opacity: 1;"><rect width="1306.25" height="336" x="-653.125" y="-168"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-154" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> LR</text></g><g class="cluster" id="subGraph0" transform="translate(307.75,188)" style="opacity: 1;"><rect width="357" height="286" x="-178.5" y="-143"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-129" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> Featuring</text></g><g class="cluster" id="subGraph1" transform="translate(744.5,188)" style="opacity: 1;"><rect width="298" height="286" x="-149" y="-143"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-129" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> Services</text></g><g class="cluster" id="subGraph2" transform="translate(998,188)" style="opacity: 1;"><rect width="169" height="286" x="-84.5" y="-143"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-129" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> NoSQL Databases</text></g><g class="cluster" id="subGraph3" transform="translate(1249,188)" style="opacity: 1;"><rect width="293" height="286" x="-146.5" y="-143"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-129" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> SQL Databases</text></g></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M744.5,246L744.5,331L744.5,356L744.5,381L744.5,406L744.5,431L744.5,456" marker-end="url(#arrowhead178)" style="fill:none"></path><defs><marker id="arrowhead178" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M998,234L998,331L998,356L998,381L998,406L998,431L998,456" marker-end="url(#arrowhead179)" style="fill:none"></path><defs><marker id="arrowhead179" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M1249,234L1249,331L1249,356L1249,381L1249,406L1249,431L1249,456" marker-end="url(#arrowhead180)" style="fill:none"></path><defs><marker id="arrowhead180" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M963.4787234042553,594L924.25,619L924.25,644L474,699.4298382889932" marker-end="url(#arrowhead181)" style="fill:none"></path><defs><marker id="arrowhead181" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M946.5,582.0539979231568L757.25,619L757.25,644L366,699.0596302921884" marker-end="url(#arrowhead182)" style="fill:none"></path><defs><marker id="arrowhead182" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M946.5,581.2828379674017L737.25,619L737.25,644L260,699.0224719101124" marker-end="url(#arrowhead183)" style="fill:none"></path><defs><marker id="arrowhead183" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M946.5,580.6215494211932L717.25,619L717.25,644L141,699.80426754206" marker-end="url(#arrowhead184)" style="fill:none"></path><defs><marker id="arrowhead184" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M972.8404255319149,594L944.25,619L944.25,644L649,694.0927390366643" marker-end="url(#arrowhead185)" style="fill:none"></path><defs><marker id="arrowhead185" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M1012.271186440678,737L986,762L986,787L986,812L986,837L986,862" marker-end="url(#arrowhead186)" style="fill:none"></path><defs><marker id="arrowhead186" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M1083.7288135593221,737L1110,762L1110,787L1110,812L1110,837L1110,862" marker-end="url(#arrowhead187)" style="fill:none"></path><defs><marker id="arrowhead187" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M744.5,500L744.5,525L946.5,562.4516765285996" marker-end="url(#arrowhead188)" style="fill:none"></path><defs><marker id="arrowhead188" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M998,500L998,525L998,550" marker-end="url(#arrowhead189)" style="fill:none"></path><defs><marker id="arrowhead189" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M1249,500L1249,525L1049.5,562.3565737051792" marker-end="url(#arrowhead190)" style="fill:none"></path><defs><marker id="arrowhead190" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M1021.4042553191489,594L1048,619L1048,644L1048,669" marker-end="url(#arrowhead191)" style="fill:none"></path><defs><marker id="arrowhead191" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="C2" transform="translate(986,884)" style="opacity: 1;"><rect rx="0" ry="0" x="-39.5" y="-22" width="79" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29.5,-12)"><foreignObject width="59" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Desktop</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(1110,884)" style="opacity: 1;"><rect rx="0" ry="0" x="-34.5" y="-22" width="69" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-24.5,-12)"><foreignObject width="49" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Mobile</div></foreignObject></g></g></g><g class="node cyan" id="B6" transform="translate(596.5,703)" style="opacity: 1;"><rect rx="0" ry="0" x="-52.5" y="-34" width="105" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-42.5,-24)"><foreignObject width="85" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Stand Alone<br>Application</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(744.5,478)" style="opacity: 1;"><rect rx="0" ry="0" x="-25.5" y="-22" width="51" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-15.5,-12)"><foreignObject width="31" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">SOA</div></foreignObject></g></g></g><g class="node cyan" id="B4" transform="translate(998,572)" style="opacity: 1;"><rect rx="0" ry="0" x="-51.5" y="-22" width="103" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-41.5,-12)"><foreignObject width="83" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">REST Server</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(998,478)" style="opacity: 1;"><rect rx="0" ry="0" x="-29" y="-22" width="58" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-19,-12)"><foreignObject width="38" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">ODM</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(1249,478)" style="opacity: 1;"><rect rx="0" ry="0" x="-28" y="-22" width="56" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-18,-12)"><foreignObject width="36" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">ORM</div></foreignObject></g></g></g><g class="node cyan" id="B5" transform="translate(1048,703)" style="opacity: 1;"><rect rx="0" ry="0" x="-54.5" y="-34" width="109" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-44.5,-24)"><foreignObject width="89" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">MVC/MVVM<br>Web Serve</div></foreignObject></g></g></g><g class="node cyan" id="B7" transform="translate(108,703)" style="opacity: 1;"><rect rx="0" ry="0" x="-33" y="-22" width="66" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-23,-12)"><foreignObject width="46" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Delphi</div></foreignObject></g></g></g><g class="node cyan" id="B8" transform="translate(225.5,703)" style="opacity: 1;"><rect rx="0" ry="0" x="-34.5" y="-22" width="69" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-24.5,-12)"><foreignObject width="49" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Mobile</div></foreignObject></g></g></g><g class="node cyan" id="B9" transform="translate(338,703)" style="opacity: 1;"><rect rx="0" ry="0" x="-28" y="-22" width="56" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-18,-12)"><foreignObject width="36" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">AJAX</div></foreignObject></g></g></g><g class="node cyan" id="B10" transform="translate(445,703)" style="opacity: 1;"><rect rx="0" ry="0" x="-29" y="-22" width="58" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-19,-12)"><foreignObject width="38" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">...Any</div></foreignObject></g></g></g><g class="node cyan" id="A1" transform="translate(1249,188)" style="opacity: 1;"><rect rx="0" ry="0" x="-111.5" y="-46" width="223" height="92"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-101.5,-36)"><foreignObject width="203" height="72"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">SQLite3 - Firebird - NexusDB<br>PostgreSQL - MySQL - DB2<br>MS SQL - Oracle - Informix</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(998,188)" style="opacity: 1;"><rect rx="0" ry="0" x="-49.5" y="-46" width="99" height="92"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-39.5,-36)"><foreignObject width="79" height="72"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">MongoDB<br>In-Memory<br>File</div></foreignObject></g></g></g><g class="node cyan" id="A3" transform="translate(744.5,188)" style="opacity: 1;"><rect rx="0" ry="0" x="-114" y="-58" width="228" height="116"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-104,-48)"><foreignObject width="208" height="96"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Method-based Services<br>Interface-based Services<br>Asynchronous (Push) Services<br>Remote (Saas) Services</div></foreignObject></g></g></g><g class="node cyan" id="A4" transform="translate(307.75,188)" style="opacity: 1;"><rect rx="0" ry="0" x="-143.5" y="-118" width="287" height="236"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-133.5,-108)"><foreignObject width="267" height="216"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">User Management - Security &amp; Rights<br>Sessions - Replication<br>Unit Testing - Mocks/Stubs<br>Logging - Performance<br>Profiling - http.sys<br>WebSockets - MultiCore<br>Templates (MVC) - JSON<br>JavaScript Engine - Reporting<br>PDF - UI</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  mORMot提供了构建现代软件项目所需的完整功能，包括先进、集成化的软件组件、设计的完整性和互补性、约定优于配置的解决方案、确保速度和效率的代码实现。</p>
+<p>  为存储一些数据，您定义了一个类，之后框架将负责完成所有事情：路由、JSON编码、创建表、生成SQL和有效性验证。</p>
+<p>  为创建一个服务，您定义了一个接口和类，你要做的也就这些。框架会负责处理ORM/ODM或SOA方法同时在服务端和客户端的运行，一次编码，随处使用！</p>
+<p>  为构建MVC的web站点，用Delphi编写一个控制类，然后用Mustache模版制作HTML视图，并复用前面的ORM/ODM或SOA方法模型即可。</p>
+<p>  如果您需要HTTP服务器、代理重定向、主/从复制、发布-订阅、测试、模拟、添加安全性、用户及权限管理、脚本引擎、报表、用户界面、转换为XML格式或发布HTML动态页面，您所需要的工具或特性框架中已经存在了，您只需选择适当的类或方法，就等您来使用了。</p>
+<p>  这个文档的目录已经清楚说明：这不是一个普通的软件。</p>
+<p>  mORMot框架提供了一套开源的完整丰富的单元，使用Delphi初学者版就足以创建各种多层架构，甚至最复杂的<a href="">领域驱动设计</a>：</p>
+<ul>
+<li>表现层特性包括Delphi富客户端的MVC UI生成、i18n和报表，基于Mustache模版的web视图及AJAX富客户端；</li>
+<li>应用层通过基于接口的服务（如WCF）和客户端-服务端ORM实现了面向服务的架构，遵循REST规范，支持多种通信协议（如HTTP/1.1和HTTPS）上的JSON传输；</li>
+<li>领域模型层使用普通的Delphi对象处理所有的业务逻辑，包括高级类型管理：动态数组、记录、值对象、专用实体类或聚合、变体存储与动态文档的后期绑定，业务逻辑也可以通过服务端JavaScript来完成；</li>
+<li>数据持久化基础架构层提供ORM持久化，支持Oracle、MS SQL、OleDB、ODBC、Zeos数据库连接，支持各种基于DB.pas驱动（如NexusDB，DBExpress，FireDAC，AnyDAC，UniDAC…）的连接，强大的SQLite3内核支持直接SQL访问，支持SQLite3、Oracle、Jet/MSAccess、MS SQL、Firebird、DB2、MySQL、PostgreSQL、Informix和NexusDB自动化SQL生成；ORM也支持NoSQL引擎，通过框架原生代码连接到MongoDB，完成ODM持久化；</li>
+<li>公共基础架构层用于处理数据过滤和验证、安全性、会话、缓存、日志和测试（框架使用测试驱动的方法、stub和mock）。</li>
+</ul>
+<p>  <strong><em>译者注：</em></strong></p>
+<p>  <strong><em>Cross-Cutting infrastructure layers，公共基础架构层，很多地方将Cross-Cutting译为横切、交叉等，本质上看是指这些功能模块是用于所有模块组件的公共方法。</em></strong></p>
+<p>  如果你还不清楚其中的一些概念，别担心，本文将会详细介绍。</p>
+<p>  对于mORMot，ORM不仅用于数据库对象的数据持久化（在这一点上与其他ORM实现类似），也是面向服务的多层体系架构（SOA）的一部分，也是领域驱动的解决方案。</p>
+<p>  mORMot并不是简单地添加了传输层的ORM，就像Delphi、c#或Java开发框架，mORMot是一个完整的客户端-服务端ORM/SOA，这一点很重要。</p>
+<p>  应用程序的业务逻辑可以很容易地暴露为服务，并从轻客户端（用Delphi或其他各种工具编写，包括AJAX）访问。</p>
+<p>  虽然框架的核心是看不见的，它只通过代码提供一系列需要用到的类，但您可以使用一些UI单元（如屏幕自动创建、报表和ribbon GUI），并通过各种的RAD、web或AJAX客户端来访问。</p>
+<p>  客户端没有外部依赖性（无需DB驱动程序，或第三方运行环境），它可以通过标准HTTP或HTTPS进行连接，也可以通过公司的代理或VPN进行连接。只需复制并运行独立的小型可执行文件，就可以部署Delphi富客户端，无需更多安装过程。客户端身份验证有几种安全实现的方法，通信可以通过HTTS或SHA/AES-256专用算法加密。对于发布的每个接口，在服务端和客户端都会自动配置SOA端点，创建负载均衡代理只需一个方法调用。从一个数据库引擎迁移到另一个数据库引擎只是一行代码。如果需要，可以使用完整的审计跟踪功能来跟踪ORM/ODM持久化类的所有变更。</p>
+<p>  可以很容易地创建跨平台客户端，包括Win32和Win64，以及Delphi支持的各种平台（Mac OSX、iPhone/iPad和Android）或FreePascal/Lazarus支持的各种平台。可以使用Smart Mobile Studio轻松创建AJAX应用，支持部署到Windows、Apple或谷歌云存储中，并通过各种移动操作系统的HTML5 web富客户端或独立的PhoneGap应用程序进行访问。后面有关于mORMot<a href="">跨平台客户端</a>的详细描述。</p>
+<p>  基于底层实现的快速和可伸缩性，参见<a href="">数据访问基准测试</a>一节，是一个真正优化的多线程核心，支持单台服务器处理超过50,000个客户端并发，比DataSnap、WCF或node更快。通过使用企业级SQL或NoSQL数据库进行存储，我们健壮的SOA设计支持垂直和水平两个方向的可伸缩主机服务。</p>
+<p>  总之，使用mORMot，您的收益是最大化的。</p>
+<h2 id="toc_1">1.1. 客户端-服务端ORM/SOA架构<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<p>  Synopse mORMot框架实现了一个客户端-服务端的RESTful体系架构，并尽可能遵循MVC、多层、ORM、SOA最佳实践模式，参见<a href="">架构原则</a>部分。</p>
+<p>  多个客户端，可以使用不同的通信协议，访问远程或本地服务器：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-2" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 704 874" style="max-width:704px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-2 .node&gt;rect { ; }
+#mermaid-diagram-2 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"><g class="cluster" id="subGraph6" transform="translate(265.875,692)" style="opacity: 1;"><rect width="182.25" height="284" x="-91.125" y="-142"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-128" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> PC Server</text></g><g class="cluster" id="subGraph5" transform="translate(324.75,322)" style="opacity: 1;"><rect width="609.5" height="168" x="-304.75" y="-84"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-70" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> LR</text></g><g class="cluster" id="subGraph3" transform="translate(277.5,322)" style="opacity: 1;"><rect width="145" height="118" x="-72.5" y="-59"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-45" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> PC 3</text></g><g class="cluster" id="subGraph4" transform="translate(112.5,322)" style="opacity: 1;"><rect width="145" height="118" x="-72.5" y="-59"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-45" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> PC 1</text></g><g class="cluster" id="subGraph2" transform="translate(489.5,104)" style="opacity: 1;"><rect width="349" height="168" x="-174.5" y="-84"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-70" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> LR</text></g><g class="cluster" id="subGraph0" transform="translate(407.5,104)" style="opacity: 1;"><rect width="145" height="118" x="-72.5" y="-59"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-45" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> PC n</text></g><g class="cluster" id="subGraph1" transform="translate(572,104)" style="opacity: 1;"><rect width="144" height="118" x="-72" y="-59"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-45" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> PC 2</text></g></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M407.5,138L407.5,163L407.5,188L407.5,213L407.5,238L407.5,263L459.0805084745763,300" marker-end="url(#arrowhead322)" style="fill:none"></path><defs><marker id="arrowhead322" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M572,138L572,163L572,188L572,213L572,238L572,263L520.4194915254237,300" marker-end="url(#arrowhead323)" style="fill:none"></path><defs><marker id="arrowhead323" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M112.5,356L112.5,381L112.5,406L112.5,431L217,460.76666666666665" marker-end="url(#arrowhead324)" style="fill:none"></path><defs><marker id="arrowhead324" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M277.5,356L277.5,381L277.5,406L277.5,431L277.5,456" marker-end="url(#arrowhead325)" style="fill:none"></path><defs><marker id="arrowhead325" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M489.75,344L489.75,381L489.75,406L489.75,431L338,464.603062426384" marker-end="url(#arrowhead326)" style="fill:none"></path><defs><marker id="arrowhead326" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M277.5,500L277.5,525L277.5,550L277.5,575" marker-end="url(#arrowhead327)" style="fill:none"></path><defs><marker id="arrowhead327" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M268.6867469879518,619L244.25,680L265.6,741" marker-end="url(#arrowhead328)" style="fill:none"></path><defs><marker id="arrowhead328" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M289.4,741L310.75,680L286.3132530120482,619" marker-end="url(#arrowhead329)" style="fill:none"></path><defs><marker id="arrowhead329" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(244.25,680)" style="opacity: 1;"><g transform="translate(-46.5,-36)" class="label"><foreignObject width="93" height="72"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">JSON + REST<br>named pipe<br>connection</span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="D1" transform="translate(277.5,597)" style="opacity: 1;"><rect rx="0" ry="0" x="-32" y="-22" width="64" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-22,-12)"><foreignObject width="44" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Server</div></foreignObject></g></g></g><g class="node cyan" id="D2" transform="translate(277.5,775)" style="opacity: 1;"><rect rx="0" ry="0" x="-37.5" y="-34" width="75" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27.5,-24)"><foreignObject width="55" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 4<br>(Delphi)</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(489.75,322)" style="opacity: 1;"><rect rx="0" ry="0" x="-60" y="-22" width="120" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-50,-12)"><foreignObject width="100" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Internet (VPN)</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(112.5,322)" style="opacity: 1;"><rect rx="0" ry="0" x="-37.5" y="-34" width="75" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27.5,-24)"><foreignObject width="55" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 1<br>(Delphi)</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(277.5,322)" style="opacity: 1;"><rect rx="0" ry="0" x="-37.5" y="-34" width="75" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27.5,-24)"><foreignObject width="55" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 3<br>(Delphi)</div></foreignObject></g></g></g><g class="node cyan" id="A1" transform="translate(572,104)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-34" width="74" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-24)"><foreignObject width="54" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 2<br>(AJAX)</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(407.5,104)" style="opacity: 1;"><rect rx="0" ry="0" x="-37.5" y="-34" width="75" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27.5,-24)"><foreignObject width="55" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client n<br>(Delphi)</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(277.5,478)" style="opacity: 1;"><rect rx="0" ry="0" x="-60.5" y="-22" width="121" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-50.5,-12)"><foreignObject width="101" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Local Network</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  也可以包含在独立应用中：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-3" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 374 177.5" style="max-width:374px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-3 .node&gt;rect { ; }
+#mermaid-diagram-3 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"><g class="cluster" id="subGraph0" transform="translate(177,78.75)" style="opacity: 1;"><rect width="314" height="117.5" x="-157" y="-58.75"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-44.75" fill="black" stroke="none" id="mermaid-diagram-3Text" style="text-anchor: middle;"> Stand-Alone application</text></g></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M106,75.62L175.5,64.5L245,75.45566502463055" marker-end="url(#arrowhead355)" style="fill:none"></path><defs><marker id="arrowhead355" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M245,86.33251231527093L175.5,99L106,86.1425" marker-end="url(#arrowhead356)" style="fill:none"></path><defs><marker id="arrowhead356" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(175.5,64.5)" style="opacity: 1;"><g transform="translate(-44.5,-12)" class="label"><foreignObject width="89" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">direct access</span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(75.5,80.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-30.5" y="-22" width="61" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-20.5,-12)"><foreignObject width="41" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(277,80.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-32" y="-22" width="64" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-22,-12)"><foreignObject width="44" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Server</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  从嵌入式体系架构切换到客户端-服务端架构只是如何初始化mORMot类的问题，同样的可执行文件，根据运行时参数，既可以以独立应用运行，也可以运行在服务端，或运行在客户端！</p>
+<h2 id="toc_2">1.2. 关键点<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h2>
+<p>  首先，需要强调一些关键点，说明这个框架与其它解决方案的不同：</p>
+<ul>
+<li>
+<p>客户端-服务端支持，基于RESTful体系架构的请求缓存优化与智能更新，当然也可使用独立应用程序；</p>
+</li>
+<li>
+<p>没有RAD组件，只有真正的ORM和SOA方法；</p>
+</li>
+<li>
+<p>多层体系架构，易于快速实现的ORM类和领域驱动设计为业务规则整合提供支持；</p>
+</li>
+<li>
+<p>面向服务的体系架构模型，通过自定义RESTful JSON服务，您可以将各种<code>TStrings</code>、<code>TCollection</code>、<code>TPersistent</code>或<code>TObject</code>（通过注册自定义序列化方法）实例，甚至是动态数组，或各种记录内容，通过客户端和服务端共享的基于接口的协议，使用集成的JSON序列化，以JSON的形式发送；</p>
+</li>
+<li>
+<p>具有双重安全模型（session+per-query），实现了真正的RESTful身份验证；</p>
+<p><strong><em>译者注：session + per-query，查询级会话，为每个查询单独提供session控制？</em></strong></p>
+</li>
+<li>
+<p>快速JSON生成和解析器，具有SQL级的缓存；</p>
+</li>
+<li>
+<p>基于http.sys内核模式实现了快速免配置HTTP/HTTPS服务器，也可采用更轻量化的命名管道、Windows消息或进程通信；</p>
+</li>
+<li>
+<p>使用SQLite3作为内核，支持连接到任何数据库（通过OleDB / ODBC / Zeos或客户端函数库直接访问，如Oracle）；框架的<code>SynDB.pas</code>类很强大，不依赖于Delphi的DB.pas单元或其它第三方（所以Delphi Starter edition版本就足够了）；<code>SynDBDataset</code>单元也可以访问各种基于DB.pas的数据库连接（如NexusDB, DBExpress, FireDAC, AnyDAC, UniDAC，甚至BDE…）；</p>
+</li>
+<li>
+<p>使用同一代码库实现了NoSQL数据库引擎（如MongoDB）的RESTful ORM访问；</p>
+</li>
+<li>
+<p>能够同时对多个数据库使用SQL和RESTful请求（这得益于SQLite3独特的虚拟表机制）；</p>
+</li>
+<li>
+<p>支持全文搜索引擎，实现了增强版的谷歌式排名算法；</p>
+</li>
+<li>
+<p>服务端JavaScript引擎，可用于定义您的商业智能（BI）；</p>
+</li>
+<li>
+<p>用户界面生成：动态创建表格，现代的Ribbon（类似于“Office 2007”）显示设计，只需定义好执行代码，并将它们写到表中，即可使用几行代码构建整个界面，而不使用任何IDE；</p>
+</li>
+<li>
+<p>集成报表系统，可为您的应用程序提供复杂的PDF报表；</p>
+</li>
+<li>
+<p>设计得尽可能高效（尽量使用asm，读写缓存降低了大量内存消耗，多线程架构…），所以与其他解决方案相比，我们的基准测试数据令人耳目一新，参见<a href="">数据访问基准测试</a>部分；</p>
+</li>
+<li>
+<p>有超过1800页的文档；</p>
+</li>
+<li>
+<p>Delphi、FreePascal、mobile和AJAX客户端可以共用同一服务端，可以根据各种应用程序请求生成客户端ORM/SOA访问代码，参见<a href="">跨平台客户端</a>部分；</p>
+</li>
+<li>
+<p>提供完整的源代码，您可以改进它，以满足各种需求；</p>
+</li>
+<li>
+<p>支持从Delphi 6到Delphi 10.2 Tokyo和FPC 2.6.4/2.7.1/3.1.1，真正的Unicode（我们的内核使用UTF-8编码，与JSON一样）。</p>
+</li>
+</ul>
+<h2 id="toc_3">1.3. 好处<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h2>
+<p>  从前面可以看出，mORMot提供了一套整全面的特性，可以帮助您通过一组可复用的组件和核心功能来处理各关注点。</p>
+<p><img src='data:image/png;base64,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' alt="IamLost.png" class="view-image"></p>
+<p>  当然，像许多开发人员一样，您可能患有著名的NIH综合症。所以，使用标准得和经过验证的代码库和组件可以节省开发时间、降低成本、减少使用宝贵的测试资源，并减少总体维护工作，这样就更易于接受。</p>
+<p>  <strong><em>译者注：NIH综合症（Not Invented Here Syndrome），指的是社会、公司和组织中的一种文化现象，人们不愿意使用、购买或者接受某种产品、研究成果或者知识，不是出于技术或者法律等因素，而只是因为它源自其他地方。</em></strong></p>
+<p>  因此，mORMot的好处是:</p>
+<ul>
+<li>约定优于配置设计：mORMot拥有您所需要的所有这方面的特性，您唯一要做的就是：减少配置，减少开发人员和客户的疑虑；</li>
+<li>面向Pascal：实现没有遵循现有的Java或C#模式（使用泛型、可变语法和黑盒方法），而是努力释放Pascal对象的天赋；</li>
+<li>集成：很好地整合了所有相关的场景与内容，您可以从API和文档的一致性、大量代码复用、JSON/RESTful化的底层实现中获益；</li>
+<li>测试：大多数框架是测试驱动的，并提供了所有回归测试，包括广泛的系统集成测试；</li>
+<li>不要改变方向，因为我们就是为你而设计的：现在是专注于你的事业的时候了;</li>
+<li>开源、文档化和维护：项目已开发多年，有很多活跃成员，所以mORMot可常伴您左右！</li>
+</ul>
+<h2 id="toc_4">1.4. 遗留代码与项目<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h2>
+<p>  mORMot很容易用在新的设计项目中，同时也适用于现有的Delphi存量项目，或者用于AJAX应用的服务端。</p>
+<p>  这个框架的好处之一是促进传统的客户端-服务端体系结构向多层模式的转换。</p>
+<p>  由于其模块化设计，您可以将框架的一些模块集成到您现有的应用程序中：</p>
+<ul>
+<li>您可以将日志记录添加到您的代码中，参见<a href="">增强型日志</a>，以跟踪问题，增加客户端性能分析；</li>
+<li>使用底层类，如记录或动态数组包装器（参见<a href="">TDynArray动态数组包装</a>），或通过变体实现动态文档存储（参见<a href="">TDocVariant自定义变体类型</a>），包括JSON或二进制持久性；</li>
+<li>您可以直接使用数据库层，包括<code>TQuery</code>仿真类来代替BDE查询，或者引入一些独特的特性，如直接数据库访问或数组绑定，以实现快速数据插入，或者迁移到NoSQL数据库，参见<a href="">外部数据库访问</a>，</li>
+<li>得益于<code>mORMotReport.pas</code>代码，当您的业务逻辑主要依赖于对象，而不是直接数据库访问时，在服务器端也很容易提供报表（PDF文件），参见<a href="">报表生成</a>；</li>
+<li>HTTP请求可以使用<a href="">基于方法的客户端/服务端服务</a>的方式提供，并使用Mustache模板动态生成HTML页面、图片、报表，请参阅<a href="">Mustache模版引擎</a>;</li>
+<li>您可以逐步将您的逻辑从客户端代码移到基于接口的服务端服务中，而无需使用SOAP或WCF，参见<a href="">基于接口的客户端/服务端服务</a>；<strong>迁移到SOA是mORMot对现有项目的主要好处</strong>；</li>
+<li>让您的应用程序拥有RESTful接口，通过AJAX或移动客户端获取JSON内容，参见<a href="">跨平台客户端</a>；</li>
+<li>新的表可以通过mORMot的ORM/ODM来定义，就如之前的数据，仍可驻留在您的外部SQL服务器中，请参阅下面的<a href="">外部数据库访问</a>；特别是ORM和普通SQL请求可以混合共存；或者mORMot的数据模型可以在多个服务器之间均衡存储（以及NoSQL等技术）；</li>
+<li>在遗留的SQL代码和mORMot ORM之间可以共享相同的表是，但为了避免一致性问题，您最好遵循<a href="">与遗留代码共享数据库</a>章节介绍的一些规则；</li>
+<li>你可能受益于我们的快速内存引擎，特有的基于SQLite3的数据库整合与缓存特性，参见<a href="">ORM缓存</a>，实现服务器端共享，当需要优先考虑性能时，它可以通过RESTful接口为应用程序整合CQRS模式（命令查询责任隔离）并从数据库委派查询；</li>
+<li>如果您仍然在使用旧版本的Delphi，并且由于一些第三方组件或现有的代码库而无法轻松升级，mORMot将提供启动ORM、多层和SOA所需的所有特性，从Delphi 6版本开始。</li>
+</ul>
+<p>  mORMot针对Michael Feathers在他的著作《有效地处理遗留代码》中提到的seam实现了必要的技术，seam是一个可以分离一些遗留代码并开始引入更新的区域，mORMot的仿真能力（参见<a href="">实践中的接口：依赖注入、预埋和模拟</a>）也能帮助您完成seam这个微妙任务（参见http://www.infoq.com/articles/utilization - logging）。</p>
+<p>  不要忘记，作为一家公司，Synopse能够为这种迁移提供专门的咨询和支持，又快又好。</p>
+<h2 id="toc_5">1.5. 常见问题<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h2>
+<p>  在进一步深入之前，我们在这里提出一个简单的常见问题，包括我们在论坛上收到的最常见的问题。</p>
+<p>  首先，看一看本文开头提供的关键字索引，带下划线的条目主要是针对给定概念或技术术语的文章。</p>
+<p>  欢迎在http://synopse.info/forum提出您的反馈，提出新的问题或改进答案！</p>
+<p>  <strong>文档太长了，短时间根本看不完。</strong></p>
+<p>  太多的文档可能扼杀文档！但是您不需要阅读整个文档：大部分文档是对每个单元、对象或类的详细描述。但是第一部分值得一读，只需要15-30分钟，否则你很可能会错过一些主要的概念或模式！还可考虑一下在https://drive.google.com/folderview?id=0B0r8u-FwvxWdeVJVZnBhSEpKYkE可获得得幻灯片。</p>
+<p>  <strong>我应该从哪里开始？</strong></p>
+<p>  看看下面的<a href="">架构原理</a>，然后下载并安装源代码，编译并运行TestSQL3.dpr程序，阅读下ORM、SOA和MVC部分内容，然后测试各种示例（在SQLite3\ samples文件夹），特别是01、02、04、11、12、14、17、26、28、30和MainDemo。</p>
+<p>  <strong>我认为您的mORMot确实满足很多需求，但似乎只适用于数据库的客户端-服务端应用。</strong></p>
+<p>  首先，框架是一系列的砖块，所以你可以使用它来构建基于接口的服务，即使根本没有使用数据库，我们努力使其主要功能模块化和解耦。</p>
+<p>  <strong>抱歉，我不是ORM的超级粉丝，我仍然喜欢SQL，并且有一些这方面的经验。有时，复杂的SQL查询很难更改为ORM代码。</strong></p>
+<p>  ORM可以使开发更加容易：但是您可以同时使用基于接口的服务和手工编写SQL语句，这样，您就可以使用mORMot类，这些类支持非常高的性能并能直接导出为JSON。</p>
+<p>  <strong>我喜欢使用ORM，但是mORMot强制从TSQLRecord根类继承，而我喜欢使用任意类型的对象。</strong></p>
+<p>  我们将在下面详细讨论这个问题。向现有类中添加属性是很诱人的，但是混合持久性和业务逻辑最终会污染您的代码，请参阅下面的持久性无感和聚合。该框架提出了第二级对象映射，通过定义CQRS服务，允许持久化任何类型的PODO（普通的旧Delphi对象），请参见下面。</p>
+<p>  <strong>为什么不使用编译器的最新特性，比如泛型或类属性?</strong></p>
+<p>  ORM不依赖于泛型，而是基于object pascal类型系统的能力：指定一个类或接口作为参数是安全和高效的，泛型的可执行文件太大，降低性能（当前RTL不是很优化，有缺陷），隐藏了实现细节。在新版本的编译器中可通过泛型引入一些方法访问，但这并不是强制性的。还有，对Java或c#专家，类属性听起来可能是一个好主意，但往往会污染代码，并引入意外的耦合。最后也最重要的是，这些特性与我们想要支持的旧版本Delphi不兼容，并可能降低与FPC的兼容性。</p>
+<p>  <strong>我还注意到在您的文档中，数据类型与Delphi不同，你有RawUTF8等，这让我很困惑，它们是什么？</strong></p>
+<p>  您可以使用标准的Delphi字符串类型，但我们定义了一些更优化的类型：由于整个框架是基于UTF-8的，所以我们定义了一个专用类型，支持Delphi的所有版本，Delphi 2009之前和之后版本都可以使用。顺便提一下，您可以在本文的关键字索引中搜索到RawUTF8的内容。</p>
+<p>  <strong>在我的测试中，我的客户端接收到字段未加引号的非标准JSON。</strong></p>
+<p>  在框架内部，JSON使用MongoDB扩展语法，即字段不加引号，这提供了更好的性能，并减少了mORMot客户端的内存和带宽消耗。要接收<code>"field":value</code>而不是<code>field:value</code>，只需在客户机请求添加正确的<code>User-Agent</code>HTTP报文头（就如各种浏览器那样），服务端就会发送标准JSON。</p>
+<p>  <strong>当使用浮点数和JSON时，具有4个以上小数的数值会转换为JSON字符串。</strong></p>
+<p>  默认情况下，在JSON序列化中禁用<code>double</code> 值，以避免在转换过程中隐性丢失精度：请参阅<a href="">数值选项</a>部分了解如何启用它。</p>
+<p>  <strong>我在使用SynDB ISQLDBRows中遇到了访问冲突。</strong></p>
+<p>  在释放宿主连接之前，需要显式地先释放<code>ISQLDBRows</code>实例，方法是将其设置为nil。</p>
+<p>  <strong>接口回调时发生了死锁。</strong></p>
+<p>  在websocket上处理异步通知时，需要确保不会直接从主方法执行中触发回调，请参阅<a href="">线程的正确实现</a>提到的几个解决方案。</p>
+<p>  <strong>所有的对象看起来都不是vcl组件，这意味着需要对每个属性进行编码，并记住它们。</strong></p>
+<p>  这其实是一个特性。该框架不是RAD，而是完全面向对象的。借助于Delphi IDE，您可以通过自动完成、代码导航访问所有属性描述，我们也尽力使文档详尽准确。之后，您仍然可以使用RAD进行UI设计，但应将业务逻辑抽象为纯代码，再使用mORMotVCL.pas单元将各种ORM结果通过TDataSource发布给UI。</p>
+<p>  <strong>我知道你参加了DataSnap的性能讨论，你的表现在那里赢得了很好的口碑。如果我想用你的框架来代替我以前的DataSnap项目，会有多简单？</strong></p>
+<p>  如果您使用DataSnap来构建基于方法的服务，那么将其迁移到mORMot将只是代码重构的问题。您将受益于一些新特性，如基于接口的服务，这些特性比基于方法的模式高级得多，并且将避免通过向导模式生成客户端类，并提供其他特性。</p>
+<p>  <strong>什么是SMS？你知道与JQuery或AngularJS相比有什么优点吗？</strong></p>
+<p>  Smart Mobile Studio是一个IDE和一些源代码运行时，能够开发和编译Object-Pascal项目并生成HTML 5 / CSS 3 / JavaScript嵌入式应用，能够独立工作，没有远程服务器。当在服务端与mORMot一起使用时，您可以在服务器端和客户端使用完全相同的object pascal语言，具有强类型和真正的OOP设计，然后使用联机或脱机模式进行安全身份验证和JSON通信。您的SmartPascal客户端代码将由您的mORMot服务端生成。</p>
+<p>  <strong>我正在尝试寻找WebSnap的替代解决方案，您有任何示例或文档来描述如何构建健壮的web服务器吗？</strong></p>
+<p>  您确实可以轻松地创建一个可伸缩的现代MVC / MVVM Web应用，使用mORMot服务可以轻松地发布其ORM/SOA业务模型，使用Mustache无逻辑模板呈现视图，将视图模型/控制器定义为普通的Delphi方法。有关更多细节，请参见“blog”示例应用。</p>
+<p>  <strong>您是否考虑过使用像Github或BitBucket这样流行的源代码托管主机？</strong></p>
+<p>  我们喜欢托管自己的源代码存储库，发现fossil 完全满足我们的需求。但是我们在GitHub上也并行地创建了一个存储库，这样您就可以查看或派生我们的项目，请参见http://github.com/synopse/mORMot。</p>
+<p>  请注意，您可以直接从我们的官方源代码存储库获取每日快照</p>
+<p><a href="http://synopse.info/files/mORMotNightlyBuild.zip%E3%80%82">http://synopse.info/files/mORMotNightlyBuild.zip。</a></p>
+<p>  <strong>为什么这个框架被命名为mORMot？</strong></p>
+<ul>
+<li>
+<p>因为它的初始标识符是“Synopse SQLite3 database framework”，这可能会产生SQLite3-only的歧义，而框架现在可以连接到任何数据库引擎；</p>
+</li>
+<li>
+<p>因为我们喜欢山，喜欢那些大型的地面啮齿动物；</p>
+</li>
+<li>
+<p>因为土拨鼠是冬眠的，就像我们的宝贝一样；</p>
+</li>
+<li>
+<p>因为土拨鼠具有高度的社会性，它们会用响亮的哨子互相交流，就像我们的应用不是孤立的一样；</p>
+</li>
+<li>
+<p>因为即使它们吃绿色蔬菜，它们也会在春天为自己的领地而战；</p>
+</li>
+<li>
+<p>因为它可能是“跨领域管理对象关系映射”的首字母缩写，或者是您可能想到的任何东西……</p>
+</li>
+</ul>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>
