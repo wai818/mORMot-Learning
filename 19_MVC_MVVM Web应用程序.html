@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>19_MVC_MVVM Web应用程序</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">19. MVC/MVVM Web应用程序<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src='data:image/png;base64,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' alt="" class="view-image"></p>
+<p>  我们现在将解释如何使用mORMot构建MVC/MVVM Web应用程序，从<code>"30 - MVC Server"</code>示例开始。 以下解释可能与框架存储库的“不稳定”分支中的示例源代码的当前状态有点不同步，但您将从下面得到主要的关键点。</p>
+<p>  这个小小的Web应用程序发布了一个简单的BLOG，还没有完全完成（这只是一个示例）。 但您仍然可以在桌面浏览器或任何移动设备上执行它（基于Bootstrap的简单响应式设计），查看文章列表，看一篇文章及其注释，查看作者信息，登录和注销。</p>
+<p>  此示例实现如下：</p>
+<table>
+<thead>
+<tr>
+<th>MVVM</th>
+<th>源代码</th>
+<th>mORMot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model</td>
+<td>MVCModel.pas</td>
+<td>基于SQlite3数据库的TSQLRestServerDB ORM</td>
+</tr>
+<tr>
+<td>View</td>
+<td>*.html</td>
+<td>视图子文件夹中的Mustache模板引擎</td>
+</tr>
+<tr>
+<td>ViewModel</td>
+<td>MVCViewModel.pas</td>
+<td>定义为一个IBlogApplication接口</td>
+</tr>
+</tbody>
+</table>
+<p>  为简单起见，该示例将在其第一次执行时在其本地SQlite3数据库中创建一些伪数据。</p>
+<h2 id="toc_1">19.1. MVCModel<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<h3 id="toc_2">19.1.1. 数据模型<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h3>
+<p>  <code>MVCModel.pas</code>单元将数据库Model定义为常规<code>TSQLRecord</code>类。</p>
+<p>  例如，您将找到以下类型定义：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TSQLContent</span> = <span class="hljs-keyword">class</span>(TSQLRecordTimestamped)
+  <span class="hljs-keyword">private</span> ...
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Title: RawUTF8 <span class="hljs-keyword">index</span> <span class="hljs-number">80</span> <span class="hljs-keyword">read</span> fTitle <span class="hljs-keyword">write</span> fTitle;
+    <span class="hljs-keyword">property</span> Content: RawUTF8 <span class="hljs-keyword">read</span> fContent <span class="hljs-keyword">write</span> fContent;
+    <span class="hljs-keyword">property</span> Author: TSQLAuthor <span class="hljs-keyword">read</span> fAuthor <span class="hljs-keyword">write</span> fAuthor;
+    <span class="hljs-keyword">property</span> AuthorName: RawUTF8 <span class="hljs-keyword">index</span> <span class="hljs-number">50</span> <span class="hljs-keyword">read</span> fAuthorName <span class="hljs-keyword">write</span> fAuthorName;
+  <span class="hljs-keyword">end</span>;
+
+  <span class="hljs-title">TSQLArticle</span> = <span class="hljs-keyword">class</span>(TSQLContent)
+  <span class="hljs-keyword">private</span> ...
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CurrentPublishedMonth</span>:</span> Integer;
+    <span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">InitializeTable</span><span class="hljs-params">(Server: TSQLRestServer; <span class="hljs-keyword">const</span> FieldName: RawUTF8;
+      Options: TSQLInitializeTableOptions)</span>;</span> <span class="hljs-keyword">override</span>;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TagsAddOrdered</span><span class="hljs-params">(aTagID: integer; <span class="hljs-keyword">var</span> aTags: TSQLTags)</span>;</span>
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> PublishedMonth: Integer <span class="hljs-keyword">read</span> fPublishedMonth <span class="hljs-keyword">write</span> fPublishedMonth;
+    <span class="hljs-keyword">property</span> <span class="hljs-keyword">Abstract</span>: RawUTF8 <span class="hljs-keyword">index</span> <span class="hljs-number">1024</span> <span class="hljs-keyword">read</span> fAbstract <span class="hljs-keyword">write</span> fAbstract;
+    <span class="hljs-keyword">property</span> Tags: TIntegerDynArray <span class="hljs-keyword">index</span> <span class="hljs-number">1</span> <span class="hljs-keyword">read</span> fTags <span class="hljs-keyword">write</span> fTags;
+  <span class="hljs-keyword">end</span>;
+
+  <span class="hljs-title">TSQLComment</span> = <span class="hljs-keyword">class</span>(TSQLContent)
+  <span class="hljs-keyword">private</span> ...
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Article: TSQLArticle <span class="hljs-keyword">read</span> fArticle <span class="hljs-keyword">write</span> fArticle;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  然后将在此函数中创建整个数据库模型：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CreateModel</span>:</span> TSQLModel;
+<span class="hljs-keyword">begin</span>
+  result := TSQLModel.Create([TSQLBlogInfo,TSQLAuthor,
+    TSQLTag,TSQLArticle,TSQLComment,TSQLArticleSearch],<span class="hljs-string">'blog'</span>);
+  TSQLArticle.AddFilterNotVoidText([<span class="hljs-string">'Title'</span>,<span class="hljs-string">'Content'</span>]);
+  TSQLComment.AddFilterNotVoidText([<span class="hljs-string">'Title'</span>,<span class="hljs-string">'Content'</span>]);
+  TSQLTag.AddFilterNotVoidText([<span class="hljs-string">'Ident'</span>]);
+  result.Props[TSQLArticleSearch].FTS4WithoutContent(TSQLArticle);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  你可以发现：</p>
+<ul>
+<li>我们使用派生类来收集类似表的属性;</li>
+<li>有些类不是模型的一部分，因为它们只是抽象的父类，例如<code>TSQLContent</code>不是模型的一部分，但<code>TSQLArticle</code>和<code>TSQLComment</code>是；</li>
+<li>我们定义了一些常规的一对一关系，例如：每个<code>Content</code>（可能是<code>Article</code>或<code>Comment</code>）都将与一位<code>Author</code>联系在一起 ；</li>
+<li>我们定义了一些常规的一对多关系，例如：每条<code>Comment</code>都与一篇<code>Article</code>联系在一起；</li>
+<li><code>Article</code>标签在记录中存储为整数的动态数组，而不是在单独的数据透视表中：它会使数据库变小，查询速度更快（因为我们避免了<code>JOIN</code>）；</li>
+<li>一些属性被定义（和存储）两次，例如，除了<code>Author</code>ID字段之外，<code>TSQLContent</code>还定义了一个<code>AuthorName</code>字段，作为对作者名称的方便直接访问，因此避免在每篇<code>Article</code>或<code>Comment</code>显示中进行JOINed查询 - 请参阅<a href="">无共享体系结构（或切片）</a>；</li>
+<li>我们定义了文本字段的最大预期宽度（例如，通过<code>Title: RawUTF8 index 80</code>），即使它不会被SQLite3使用，但它将来可能迁移到外部数据库，请参阅<a href="">代码优先ORM</a> ；</li>
+<li>一些验证规则是使用<code>TSQLArticle.AddFilterNotVoidText(0</code>方法设置的，该方法将在控制器代码执行<code>Article</code>存储之前调用（在<code>TBlogApplication.ArticleCommit</code>之前）；</li>
+<li>整个应用程序将运行而不编写任何SQL，只有高级ORM方法；</li>
+<li>即使我们想避免编写SQL，我们也需要对数据进行建模以满足常规的RDBMS期望，如大多数使用的查询（如从BLOG主页运行的查询）；</li>
+<li>使用SQLite3引擎实现为FTS3/FTS4/FTS5的全文索引数据存储在专用的<code>TSQLArticleSearch</code>表中。</li>
+</ul>
+<p>  外键和索引是这样管理的：</p>
+<ul>
+<li>任何ORM类的<code>TSQLRecord.ID</code>主键都将被索引；</li>
+<li>对于一对一和一对多关系，索引由ORM创建：例如，<code>TSQLArticle.Autho</code>和<code>TSQLComment.Author</code>将被索引，就像<code>TSQLComment.Article</code>；</li>
+<li><code>TSQLArticle.PublishedMonth</code>字段需要SQL索引，该字段用于在主BLOG页面中显示发布月份列表，并链接到相应的文章。</li>
+</ul>
+<p>  以下代码将处理它：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TSQLArticle</span>.<span class="hljs-title">InitializeTable</span><span class="hljs-params">(Server: TSQLRestServer;
+  <span class="hljs-keyword">const</span> FieldName: RawUTF8; Options: TSQLInitializeTableOptions)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">inherited</span>;
+  <span class="hljs-keyword">if</span> (FieldName=<span class="hljs-string">''</span>) <span class="hljs-keyword">or</span> (FieldName=<span class="hljs-string">'PublishedMonth'</span>) <span class="hljs-keyword">then</span>
+    Server.CreateSQLIndex(TSQLArticle,<span class="hljs-string">'PublishedMonth'</span>,false);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<h3 id="toc_3">19.1.2. 通过HTTP托管在REST服务中<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  ORM定义为在<code>MVCServer.dpr</code>主程序中的SQLite3数据库上运行，通过<code>MVCServer.dpr</code>中定义的HTTP服务提供：</p>
+<pre><code class="lang-pascal hljs">  aModel := CreateModel;
+  <span class="hljs-keyword">try</span>
+    aServer := TSQLRestServerDB.Create(aModel,ChangeFileExt(paramstr(<span class="hljs-number">0</span>),<span class="hljs-string">'.db'</span>));
+    <span class="hljs-keyword">try</span>
+      aServer.DB.Synchronous := smNormal;
+      aServer.DB.LockingMode := lmExclusive;
+      aServer.CreateMissingTables;
+      aApplication := TBlogApplication.Create;
+      <span class="hljs-keyword">try</span>
+        aApplication.Start(aServer);
+        aHTTPServer := TSQLHttpServer.Create(<span class="hljs-string">'8092'</span>,aServer,<span class="hljs-string">'+'</span>,useHttpApiRegisteringURI);
+        <span class="hljs-keyword">try</span>
+          aHTTPServer.RootRedirectToURI(<span class="hljs-string">'blog/default'</span>); <span class="hljs-comment">// redirect server:8092</span>
+          writeln(<span class="hljs-string">'"MVC Blog Server" launched on port 8092'</span>);
+  ....
+</code></pre>
+<p>  与常规的客户端-服务器进程相比，我们实例化了<code>TBlogApplication</code>，它将MVC行为注入<code>aServer</code>和<code>aHTTPServer</code>。 相同的mORMot程序可用作远程对象关系映射（ORM）和面向服务的架构（SOA）的RESTful服务器，也可用于通过单个HTTP URI和端口发布Web应用程序，共享相同的数据和业务逻辑。</p>
+<p>  对<code>RootRedirectToURI()</code>的调用将允许任何<code>http://server:8092</code>HTTP请求重定向到<code>http://server:8092/blog/default</code>，这是我们的BLOG应用程序主页。 其他URI可以照常使用，就像任何mORMot的<a href="">JSON RESTful 客户端-服务端</a>一样。</p>
+<p>  您还可以使用子域托管（通过HTTP访问网络和Internet）来区分REST方法和MVC网站。 例如，您可以为每个域/每个子域定义托管重定向：</p>
+<pre><code class="lang-pascal hljs">aHttpServer.DomainHostRedirect(<span class="hljs-string">'rest.project.com'</span>,<span class="hljs-string">'root'</span>);      <span class="hljs-comment">// 'root' is current Model.Root</span>
+ aHttpServer.DomainHostRedirect(<span class="hljs-string">'project.com'</span>,<span class="hljs-string">'root/html'</span>);      <span class="hljs-comment">// call the Html() method</span>
+ aHttpServer.DomainHostRedirect(<span class="hljs-string">'www.project.com'</span>,<span class="hljs-string">'root/html'</span>);  <span class="hljs-comment">// call the Html() method</span>
+ aHttpServer.DomainHostRedirect(<span class="hljs-string">'blog.project.com'</span>,<span class="hljs-string">'root/blog'</span>); <span class="hljs-comment">// MVC application</span>
+</code></pre>
+<p>  应通过<code>rest.project.com</code>远程访问所有ORM/SOA活动，然后将按照<code>TSQLRestServer</code>实例的ORM/SOA方法按预期处理。</p>
+<p>  对于正确的AJAX/JavaScript过程，您可能需要编写：</p>
+<pre><code class="lang-pascal hljs"> aHttpServer.AccessControlAllowOrigin := <span class="hljs-string">'*'</span>; <span class="hljs-comment">// allow cross-site AJAX queries</span>
+</code></pre>
+<p>  任何访问<code>project.com</code>或<code>www.project.com</code> URI的尝试都将被重定向到以下基于方法的服务：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyServer</span>.<span class="hljs-title">Html</span><span class="hljs-params">(Ctxt: TSQLRestServerURIContext)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> fMyFileCache=<span class="hljs-string">''</span> <span class="hljs-keyword">then</span>
+    fMyFileCache := StringFromFile(ChangeFileExt(paramstr(<span class="hljs-number">0</span>),<span class="hljs-string">'.html'</span>));
+  Ctxt.Returns(fMyFileCache,HTTP_SUCCESS,HTML_CONTENT_TYPE_HEADER,true);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  此方法将提供一些静态HTML内容作为此服务器连接到Internet的主要前端页面。 为了获得最佳性能，此UTF-8内容将缓存在内存中，如果浏览器支持，则将处理HTTP 304命令。 当然，您的应用程序可能会返回一些更复杂的内容，甚至可以提供托管在本地文件夹中的一组文件，例如： 通过调用<code>Html()</code>服务中的<code>Ctxt.ReturnFile()</code>或<code>Ctxt.ReturnFileFromFolder()</code>方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyServer</span>.<span class="hljs-title">Html</span><span class="hljs-params">(Ctxt: TSQLRestServerURIContext)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  Ctxt.ReturnFileFromFolder(<span class="hljs-string">'c:\www'</span>);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  此方法将搜索本地<code>c:\www</code>文件夹及其子目录中的任何匹配文件，如果在URI级别未指定文件，则返回默认的<code>index.html</code>内容。 请参阅<code>Ctxt.ReturnFileFromFolder()</code>方法的可选参数以进行正确调整，如更改默认文件名或禁用HTTP 304响应。 在所有情况下，文件内容将由高性能http.sys服务器直接从内核模式提供，因此速度非常快。</p>
+<p>  为了在<code>root/blog</code> URI中托管BLOG内容，您应该在初始化<code>TMVCApplication</code>时指定预期的子URI：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">Start</span><span class="hljs-params">(aServer: TSQLRestServer)</span>;</span>
+<span class="hljs-keyword">begin</span>
+ ...
+ fMainRunner := TMVCRunOnRestServer.Create(self,<span class="hljs-keyword">nil</span>,<span class="hljs-string">'blog'</span>).
+ ...
+</code></pre>
+<p>  在这里，对<code>blog.project.com</code>的任何请求都将被重定向到<code>root/blog</code>，因此将匹配预期的<code>TBlogApplication</code> URI。 请注意，默认情况下，<code>TMVCRunOnRestServer.RunOnRestServerSub</code>会将任何<code>root/blog</code>请求重定向到<code>root/blog/default</code>，因此该URI对用户是透明的。</p>
+<h2 id="toc_4">19.2. MVCViewModel<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h2>
+<h3 id="toc_5">19.2.1. 定义命令<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h3>
+<p>  <code>MVCViewModel.pas</code>单元定义<code>"30 - MVC Server"</code>示例应用程序的Controller（或ViewModel）。</p>
+<p>  它使用了<code>mORMotMVC.pas</code>单元，这是框架主要的MVC内核，允许轻松创建将ORM/SOA功能（<code>mORMot.pas</code>）绑定到Mustache视图（<code>SynMustache.pas</code>）的控制器。</p>
+<p>  首先，我们定义了一个接口，其中预期的方法对应于Web应用程序的各种命令：</p>
+<pre><code class="lang-pascal hljs">  IBlogApplication = <span class="hljs-keyword">interface</span>(IMVCApplication)
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">ArticleView</span><span class="hljs-params">(
+      ID: integer; <span class="hljs-keyword">var</span> WithComments: boolean; Direction: integer;
+      <span class="hljs-keyword">out</span> Article: TSQLArticle; <span class="hljs-keyword">out</span> Author: TSQLAuthor;
+      <span class="hljs-keyword">out</span> Comments: TObjectList)</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">AuthorView</span><span class="hljs-params">(
+      <span class="hljs-keyword">var</span> ID: integer; <span class="hljs-keyword">out</span> Author: variant; <span class="hljs-keyword">out</span> Articles: variant)</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Login</span><span class="hljs-params">(
+      <span class="hljs-keyword">const</span> LogonName,PlainPassword: RawUTF8)</span>:</span> TMVCAction;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Logout</span>:</span> TMVCAction;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">ArticleEdit</span><span class="hljs-params">(
+      <span class="hljs-keyword">var</span> ID: integer; <span class="hljs-keyword">const</span> Title,Content: RawUTF8;
+      <span class="hljs-keyword">const</span> ValidationError: variant;
+      <span class="hljs-keyword">out</span> Article: TSQLArticle)</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ArticleCommit</span><span class="hljs-params">(
+      ID: integer; <span class="hljs-keyword">const</span> Title,Content: RawUTF8)</span>:</span> TMVCAction;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  实际上，<code>IMVCApplication</code>应用程序在<code>mORMotMVC.pas</code>中定义如下：</p>
+<pre><code class="lang-pascal hljs">  IMVCApplication = <span class="hljs-keyword">interface</span>(IInvokable)
+    [<span class="hljs-string">'{C48718BF-861B-448A-B593-8012DB51E15D}'</span>]
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">Default</span><span class="hljs-params">(<span class="hljs-keyword">var</span> Scope: variant)</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">Error</span><span class="hljs-params">(<span class="hljs-keyword">var</span> Msg: RawUTF8; <span class="hljs-keyword">var</span> Scope: variant)</span>;</span>
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  因此，<code>IBlogApplication</code>将定义下面的网页，对应于其每个方法：Default，Error，ArticleView，AuthorView，Login，Logout，ArticleEdit和ArticleCommit。该应用程序的每个命令都将映射URI，例如<code>/blog/default</code>或<code>/blog/login</code>，请记住我们的模型将'<code>blog'</code>定义为其根URI。您可以从子URI（例如<code>/blog/web/default</code>）访问所有命令，但这里不需要，因为我们正在创建一个“纯web”应用程序。</p>
+<p>  每个命令都有自己的视图。例如，您将在示例的<code>"Views"</code>子文件夹中找到<code>Default.html</code>，<code>Error.html</code>或<code>ArticleView.html</code>。如果您未在此文件夹中提供任何文件，则会创建一些空文件。</p>
+<p>  每个方法传入的方法参数（即定义为<code>const</code>或<code>var</code>）将在URI上传输，编码为常规HTTP参数，而传出方法参数（即定义为<code>var</code>或<code>out</code>）将传输到视图，作为数据上下文渲染。可以传输简单类型（如整数或RawUTF8），但您也会发现传输ORM类（如<code>TSQLAuthor</code>）、<code>TObjectList</code>或某些变体，可能是值或复杂的<code>TDocVariant</code>自定义变体类型。</p>
+<p>  实际上，您可能会发现Login，Logout和ArticleCommit方法没有任何传出参数，但被定义为返回<code>TMVCAction</code>记录的函数。</p>
+<p>  此类型在<code>mORMotMVC.pas</code>中声明为：</p>
+<pre><code class="lang-pascal hljs">  TMVCAction = <span class="hljs-keyword">record</span>
+    RedirectToMethodName: RawUTF8;
+    RedirectToMethodParameters: RawUTF8;
+    ReturnedStatus: cardinal;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  返回<code>TMVCAction</code>内容的任何方法都不会直接呈现任何视图，但它只需提供方法名称和一些可选参数，就可以直接转到另一个方法，以进行正确的渲染。</p>
+<p>  即使常规视图（即没有此<code>TMVCAction</code>参数的方法）也可能在出现错误时中断默认渲染过程，从而引发<code>EMVCApplication</code>异常，实际上将视图重定向到另一个页面，主要是错误页面。</p>
+<p>  为了更好地理解它是如何工作的，运行<code>"30 - MVC Server"</code>示例。请记住，为了能够为http.sys服务器注册端口#8092，您需要使用Windows管理员权限至少运行一次<code>MVCServer.exe</code>程序，然后将浏览器指向<code>http://localhost:8092/</code>，您将看到BLOG的主页面，其中包含一些随机数据。</p>
+<p>  您看到的是渲染的<code>Default</code>页面，调用<code>IBlogApplication.Default()</code>方法，然后<code>Default.html</code> Mustache模板渲染了输出的<code>Scope</code>数据。</p>
+<p>  如果你点击文章标题，它将转到<code>http://localhost:8092/blog/articleView?id=99</code>，即调用<code>ID</code>参数等于99的<code>IBlogApplication.ArticleView()</code>，其他输入参数（即<code>WithComments</code>和<code>Direction</code>）设置为默认值（分别为<code>false</code>和<code>0</code>）。然后，<code>ArticleView()</code>方法将从ORM读取<code>TSQLArticle</code>数据，然后将其发送到<code>ArticleView.html</code> Mustache模板。</p>
+<p>  现在，将浏览器中的URI从<code>http://localhost:8092/blog/articleView?id=99</code>（这里我们点击了<code>ID</code>为<code>99</code>的<code>Article</code>）更改为<code>http://localhost:8092/blog/articleView/json?id=99</code>（即输入/ <code>/articleView/json</code>而不是<code>/articleView</code>，作为伪子URI）。</p>
+<p>  现在，浏览器向您显示传输到<code>ArticleView.html</code>模板的JSON数据上下文。只需检查JSON内容和相应的Mustache模板：我想你会发现它是如何工作的。看看<a href="">Mustache模板引擎</a>作为参考。</p>
+<p>  在任何博客文章视图中，单击<code>"Show Comments"</code>按钮：您将被重定向到新页面，在URI <code>http://localhost:8092/blog/ArticleView?id=99&amp;withComments=true#comments</code>并且现在文章显示了对应的注释。如果单击<code>"Previous"</code>或<code>"Next"</code>按钮，将提交新的URI <code>http://localhost:8092/blog/ArticleView?id=99&amp;withComments=true&amp;direction=1</code>：实际上，<code>direction=1</code>将搜索上一篇文章，我们仍然设置了<code>withComments=true</code>参数，以便用户能够按预期看到注释。如果单击<code>"Hide Comments"</code>按钮，URI将更改为没有<code>withComments=true</code>参数，如<code>http://localhost:8092/blog/ArticleView?id=98#comments</code>：现在评论不再显示。</p>
+<p>  渲染流程如下：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 858.5 840" style="max-width:858.5px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M102.5,64L102.5,125L102.5,186" marker-end="url(#arrowhead42)" style="fill:none"></path><defs><marker id="arrowhead42" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M102.5,230L102.5,279L102.5,364" marker-end="url(#arrowhead43)" style="fill:none"></path><defs><marker id="arrowhead43" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M102.5,408L102.5,493L102.5,542" marker-end="url(#arrowhead44)" style="fill:none"></path><defs><marker id="arrowhead44" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M102.5,610L102.5,659L102.5,720" marker-end="url(#arrowhead45)" style="fill:none"></path><defs><marker id="arrowhead45" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M327.5,64L327.5,125L327.5,186" marker-end="url(#arrowhead46)" style="fill:none"></path><defs><marker id="arrowhead46" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M327.5,230L327.5,279L327.5,340" marker-end="url(#arrowhead47)" style="fill:none"></path><defs><marker id="arrowhead47" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M327.5,432L327.5,493L327.5,542" marker-end="url(#arrowhead48)" style="fill:none"></path><defs><marker id="arrowhead48" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M327.5,610L327.5,659L327.5,708" marker-end="url(#arrowhead49)" style="fill:none"></path><defs><marker id="arrowhead49" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M645.5,64L645.5,125L645.5,186" marker-end="url(#arrowhead50)" style="fill:none"></path><defs><marker id="arrowhead50" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M645.5,230L645.5,279L645.5,328" marker-end="url(#arrowhead51)" style="fill:none"></path><defs><marker id="arrowhead51" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M645.5,444L645.5,493L645.5,542" marker-end="url(#arrowhead52)" style="fill:none"></path><defs><marker id="arrowhead52" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M645.5,610L645.5,659L645.5,708" marker-end="url(#arrowhead53)" style="fill:none"></path><defs><marker id="arrowhead53" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(102.5,125)" style="opacity: 1;"><g transform="translate(-73.5,-36)" class="label"><foreignObject width="147" height="72"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">routing + decode<br>incoming params<br>to controller method</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(102.5,279)" style="opacity: 1;"><g transform="translate(-61.5,-24)" class="label"><foreignObject width="123" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">outgoing params<br>encoded as JSON</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(102.5,493)" style="opacity: 1;"><g transform="translate(-44,-24)" class="label"><foreignObject width="88" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">rendering<br>data context</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(102.5,659)" style="opacity: 1;"><g transform="translate(-34.5,-24)" class="label"><foreignObject width="69" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">Mustache<br>engine</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(327.5,125)" style="opacity: 1;"><g transform="translate(-73.5,-36)" class="label"><foreignObject width="147" height="72"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">routing + decode<br>incoming params<br>to controller method</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(327.5,279)" style="opacity: 1;"><g transform="translate(-61.5,-24)" class="label"><foreignObject width="123" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">outgoing params<br>encoded as JSON</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(327.5,493)" style="opacity: 1;"><g transform="translate(-44,-24)" class="label"><foreignObject width="88" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">rendering<br>data context</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(327.5,659)" style="opacity: 1;"><g transform="translate(-34.5,-24)" class="label"><foreignObject width="69" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">Mustache<br>engine</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(645.5,125)" style="opacity: 1;"><g transform="translate(-73.5,-36)" class="label"><foreignObject width="147" height="72"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">routing + decode<br>incoming params<br>to controller method</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(645.5,279)" style="opacity: 1;"><g transform="translate(-61.5,-24)" class="label"><foreignObject width="123" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">outgoing params<br>encoded as JSON</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(645.5,493)" style="opacity: 1;"><g transform="translate(-44,-24)" class="label"><foreignObject width="88" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">rendering<br>data context</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(645.5,659)" style="opacity: 1;"><g transform="translate(-34.5,-24)" class="label"><foreignObject width="69" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">Mustache<br>engine</span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A1" transform="translate(102.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-71.5" y="-22" width="143" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-61.5,-12)"><foreignObject width="123" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">/blog/default URI</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(102.5,208)" style="opacity: 1;"><rect rx="0" ry="0" x="-40.5" y="-22" width="81" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-30.5,-12)"><foreignObject width="61" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Default()</div></foreignObject></g></g></g><g class="node cyan" id="A3" transform="translate(102.5,386)" style="opacity: 1;"><rect rx="0" ry="0" x="-74" y="-22" width="148" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-64,-12)"><foreignObject width="128" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">{Scope:{articles:[....</div></foreignObject></g></g></g><g class="node cyan" id="A4" transform="translate(102.5,576)" style="opacity: 1;"><rect rx="0" ry="0" x="-52.5" y="-34" width="105" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-42.5,-24)"><foreignObject width="85" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">default.html<br>template</div></foreignObject></g></g></g><g class="node cyan" id="A5" transform="translate(102.5,754)" style="opacity: 1;"><rect rx="0" ry="0" x="-82.5" y="-34" width="165" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-72.5,-24)"><foreignObject width="145" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">main blog web page<br>with list of articles</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(327.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-95" y="-22" width="190" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-85,-12)"><foreignObject width="170" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">/blog/articleView?id=99</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(327.5,208)" style="opacity: 1;"><rect rx="0" ry="0" x="-76" y="-22" width="152" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-66,-12)"><foreignObject width="132" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">ArticleView(ID=99)</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(327.5,386)" style="opacity: 1;"><rect rx="0" ry="0" x="-101" y="-46" width="202" height="92"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-91,-36)"><foreignObject width="182" height="72"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">{WithComments=false,<br>Article={ID=99,Author:1,...<br>Comments:[],...</div></foreignObject></g></g></g><g class="node cyan" id="B4" transform="translate(327.5,576)" style="opacity: 1;"><rect rx="0" ry="0" x="-66" y="-34" width="132" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-56,-24)"><foreignObject width="112" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">articleView.html<br>template</div></foreignObject></g></g></g><g class="node cyan" id="B5" transform="translate(327.5,754)" style="opacity: 1;"><rect rx="0" ry="0" x="-76" y="-46" width="152" height="92"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-66,-36)"><foreignObject width="132" height="72"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">web page<br>with one article<br>without comments</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(645.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-173" y="-22" width="346" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-163,-12)"><foreignObject width="326" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">/blog/articleView?id=99&amp;withcomments=true</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(645.5,208)" style="opacity: 1;"><rect rx="0" ry="0" x="-152" y="-22" width="304" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-142,-12)"><foreignObject width="284" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">ArticleView(ID=99,WithComments=true)</div></foreignObject></g></g></g><g class="node cyan" id="C3" transform="translate(645.5,386)" style="opacity: 1;"><rect rx="0" ry="0" x="-101" y="-58" width="202" height="116"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-91,-48)"><foreignObject width="182" height="96"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">WithComments=true,<br>Article={ID=99,Author:1,...<br>Comments:[<br>{ID:163],...</div></foreignObject></g></g></g><g class="node cyan" id="C4" transform="translate(645.5,576)" style="opacity: 1;"><rect rx="0" ry="0" x="-66" y="-34" width="132" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-56,-24)"><foreignObject width="112" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">articleView.html<br>template</div></foreignObject></g></g></g><g class="node cyan" id="C5" transform="translate(645.5,754)" style="opacity: 1;"><rect rx="0" ry="0" x="-72.5" y="-46" width="145" height="92"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-62.5,-36)"><foreignObject width="125" height="72"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">web page<br>with one article<br>and its comments</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  在此图中，我们可以看到每个HTTP请求都是无状态的，与前一个不相关。 通过更改URI及其附加参数（例如<code>withComments=true</code>）来创建用户体验。</p>
+<p>  这就是web的工作方式。</p>
+<p>  然后尝试转到<code>http://localhost:8092/blog/mvc-info</code>，并查看出现的页面。</p>
+<p>  您将获得与您的应用程序相对应的所有信息，尤其是所有可用命令的列表：</p>
+<pre><code class="hljs">/blog/Default?Scope=..[variant]..
+/blog/Error?Msg=..[string]..&amp;Scope=..[variant]..
+/blog/ArticleView?ID=..[integer]..&amp;WithComments=..[boolean]..&amp;Direction=..[integer]..
+/blog/AuthorView?ID=..[integer]..
+/blog/Login?LogonName=..[string]..&amp;PlainPassword=..[string]..
+/blog/Logout
+/blog/ArticleEdit?ID=..[integer]..&amp;Title=..[string]..&amp;Content=..[string]..&amp;ValidationError=..[variant]..
+/blog/ArticleCommit?ID=..[integer]..&amp;Title=..[string]..&amp;Content=..[string]..
+</code></pre>
+<p>  每个视图，包括其数据上下文，例如</p>
+<pre><code class="hljs">/blog/AuthorView?ID=..[integer]..
+{{Main}}: variant
+{{ID}}: integer
+{{Author}}: TSQLAuthor
+{{Articles}}: variant
+</code></pre>
+<p>  在编写“Mustache视图”时，您可以使用此页面作为参考。 它将反映正在运行的应用程序的确切状态。</p>
+<h3 id="toc_6">19.2.2. 实现控制器<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h3>
+<p>  要构建应用程序控制器，我们需要实现我们的<code>IBlogApplication</code>接口。</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TBlogApplication</span> = <span class="hljs-keyword">class</span>(TMVCApplication,IBlogApplication)
+  ...
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">Start</span><span class="hljs-params">(aServer: TSQLRestServer)</span>;</span> <span class="hljs-keyword">reintroduce</span>;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">Default</span><span class="hljs-params">(<span class="hljs-keyword">var</span> Scope: variant)</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">ArticleView</span><span class="hljs-params">(ID: integer; <span class="hljs-keyword">var</span> WithComments: boolean;
+      Direction: integer;
+      <span class="hljs-keyword">out</span> Article: TSQLArticle; <span class="hljs-keyword">out</span> Author: variant;
+      <span class="hljs-keyword">out</span> Comments: TObjectList)</span>;</span>
+    ...
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  我们定义了一个新类，继承自<code>TMVCApplication</code>，<code>在mORMotMVC.pas</code>中定义，并实现我们期望的接口。<code>TMVCApplication</code>将使用一组实现类为您完成所有底层构件。</p>
+<p>  让我们实现一个简单的命令：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">AuthorView</span><span class="hljs-params">(<span class="hljs-keyword">var</span> ID: integer; <span class="hljs-keyword">out</span> Author: TSQLAuthor;
+  <span class="hljs-keyword">out</span> Articles: variant)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  RestModel.Retrieve(ID,Author);
+  <span class="hljs-keyword">if</span> Author.ID&lt;&gt;<span class="hljs-number">0</span> <span class="hljs-keyword">then</span>
+    Articles := RestModel.RetrieveListJSON(
+      TSQLArticle,<span class="hljs-string">'Author=? order by id desc limit 50'</span>,[ID],ARTICLE_FIELDS) <span class="hljs-keyword">else</span>
+    <span class="hljs-keyword">raise</span> EMVCApplication.CreateGotoError(HTTP_NOTFOUND);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  按照惯例，当<code>TMVCApplication</code>执行方法时，将分配所有参数。因此，您无需分配或处理<code>Author: TSQLAuthor</code>实例生命周期。</p>
+<p>  您可以通过<code>TMVCApplication.RestModel</code>直接访问底层TSQLRest实例：因此所有CRUD操作都可用。您可以让ORM为您执行SQL底层工作：要检索有关一个<code>TSQLAuthor</code>的所有信息并获取其相关文章的列表，我们只使用带有相应WHERE子句的<code>TSQLRest</code>方法。这里我们将文章列表作为<code>TDocVariant</code>返回，以便它们作为JSON数组传输，而不对<code>TSQLArticle</code>实例进行任何中间编码，但将标签动态数组发布属性作为整数数组返回（您可能已使用<code>TObjectList</code>或者<code>RawJSON</code>。</p>
+<p>  如果出现任何错误，将引发<code>EMVCApplication</code>：当发生此类异常时，<code>TMVCApplication</code>将处理并转换为页面更改，重定向到<code>IBlogApplication.Error()</code>方法，该方法将返回错误页面，<code>Error.html</code>视图模板。</p>
+<p>  让我们看一个更复杂的方法，我们在mORMot MVC/MVVM URI中讨论过，命令序列：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">ArticleView</span><span class="hljs-params">(
+  ID: integer; <span class="hljs-keyword">var</span> WithComments: boolean; Direction: integer;
+  <span class="hljs-keyword">out</span> Article: TSQLArticle; <span class="hljs-keyword">out</span> Author: variant; <span class="hljs-keyword">out</span> Comments: TObjectList)</span>;</span>
+<span class="hljs-keyword">var</span> newID: TID;
+<span class="hljs-keyword">const</span> WHERE: <span class="hljs-keyword">array</span>[<span class="hljs-number">1</span>..<span class="hljs-number">2</span>] <span class="hljs-keyword">of</span> PUTF8Char = (
+  <span class="hljs-string">'ID&lt;? order by id desc'</span>,<span class="hljs-string">'ID&gt;? order by id'</span>);
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> Direction <span class="hljs-keyword">in</span> [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>] <span class="hljs-keyword">then</span> <span class="hljs-comment">// allows fast paging using index on ID</span>
+    <span class="hljs-keyword">if</span> RestModel.OneFieldValue(TSQLArticle,<span class="hljs-string">'ID'</span>,WHERE[Direction],[],[ID],newID) <span class="hljs-keyword">and</span>
+      (newID&lt;&gt;<span class="hljs-number">0</span>) <span class="hljs-keyword">then</span>
+      ID := newID;
+  RestModel.Retrieve(ID,Article);
+  <span class="hljs-keyword">if</span> Article.ID&lt;&gt;<span class="hljs-number">0</span> <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+    Author := RestModel.RetrieveDocVariant(
+      TSQLAuthor,<span class="hljs-string">'ID=?'</span>,[Article.Author.ID],<span class="hljs-string">'FirstName,FamilyName'</span>);
+    <span class="hljs-keyword">if</span> WithComments <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+      Comments.Free; <span class="hljs-comment">// we will override the TObjectList created at input</span>
+      Comments := RestModel.RetrieveList(TSQLComment,<span class="hljs-string">'Article=?'</span>,[Article.ID]);
+    <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">end</span> <span class="hljs-keyword">else</span>
+    <span class="hljs-keyword">raise</span> EMVCApplication.CreateGotoError(HTTP_NOTFOUND);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  此方法必须管理多个用例：</p>
+<ul>
+<li>显示数据库中的文章；</li>
+<li>检索作者的名字和姓氏；</li>
+<li>可选择显示相关的评论；</li>
+<li>可选择获取上一篇或下一篇文章；</li>
+<li>如果请求无效，则触发错误。</li>
+</ul>
+<p>  阅读上面的代码足以理解这个方法中如何实现这5个功能。 由视图触发的传入参数用于标识要采取的操作。 然后使用<code>TMVCApplication.RestModel</code>方法直接从ORM检索所需信息，输出参数（文章，作者，评论）被传送到Mustache视图，用于渲染。</p>
+<p>  实际上，有几种方法可以使用<code>RestModel</code> ORM方法检索数据。 例如，在上面的代码中，我们使用<code>TObjectList</code>来传输我们的注释。</p>
+<p>  但我们也可以使用<code>TDocVariant</code>自定义变量类型参数：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">ArticleView</span><span class="hljs-params">(
+  ID: integer; <span class="hljs-keyword">var</span> WithComments: boolean; Direction: integer;
+  <span class="hljs-keyword">out</span> Article: TSQLArticle; <span class="hljs-keyword">out</span> Author: variant; <span class="hljs-keyword">out</span> Comments: variant)</span>;</span>
+ ...
+    <span class="hljs-keyword">if</span> WithComments <span class="hljs-keyword">then</span>
+      Comments := RestModel.RetrieveDocVariantArray(TSQLComment,<span class="hljs-string">''</span>,<span class="hljs-string">'Article=?'</span>,[Article.ID],<span class="hljs-string">''</span>);
+</code></pre>
+<p>  在这种情况下，将为每个表示返回变体值数据。 任何动态数组属性都将在<code>TSQLRecord</code>中标识，并转换为适当的数组值。</p>
+<p>  或者使用RawJSON类型的输出参数：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">ArticleView</span><span class="hljs-params">(
+  ID: integer; <span class="hljs-keyword">var</span> WithComments: boolean; Direction: integer;
+  <span class="hljs-keyword">out</span> Article: TSQLArticle; <span class="hljs-keyword">out</span> Author: variant; <span class="hljs-keyword">out</span> Comments: RawJSON)</span>;</span>
+ ...
+    <span class="hljs-keyword">if</span> WithComments <span class="hljs-keyword">then</span>
+      Comments := RestModel.RetrieveListJSON(TSQLComment,<span class="hljs-string">'Article=?'</span>,[Article.ID],<span class="hljs-string">''</span>);
+</code></pre>
+<p>  事实上，使用RawJSON是处理服务端信息的最快方式。 它将直接从数据库返回数据，因此，动态数组将作为Base64编码的blob返回。</p>
+<p>  您可以选择确切上下文所需的方法和编码。</p>
+<p>  如果您的目的只是检索一些数据并将其推回到视图，<code>RawJSON</code>很快，但<code>TDocVariant</code>也会将动态数组转换为适当的JSON数组。 如果要使用某些业务代码处理返回的信息，或需要在返回的列表上运行某些<code>TSQLRecord</code>方法，则返回TObjectList可能很方便。</p>
+<p>  <code>TDocVariant</code>数组可能有它的需要，如果你想创建一些收集所有信息的元对象，如对于<code>Default</code>方法返回的<code>Scope</code>：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">Default</span><span class="hljs-params">(<span class="hljs-keyword">var</span> Scope: variant)</span>;</span>
+ ...
+  <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> fDefaultData.AddExistingProp(<span class="hljs-string">'Archives'</span>,Scope) <span class="hljs-keyword">then</span>
+    fDefaultData.AddNewProp(<span class="hljs-string">'Archives'</span>,RestModel.RetrieveDocVariantArray(
+      TSQLArticle,<span class="hljs-string">''</span>,<span class="hljs-string">'group by PublishedMonth order by PublishedMonth desc limit 12'</span>,[],
+      <span class="hljs-string">'distinct(PublishedMonth),max(ID)+1 as FirstID'</span>),Scope);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  您需要注意如何从数据库中检索日历月，使用安全的<code>fDefaultData: ILockedDocVariant</code>私有字段以线程安全的方式将值存储在缓存（稍后我们将看到有关如何实现线程安全的更多信息）。 如果<code>'Archives'</code>值缓存在<code>fDefaultData</code>中，它将作为<code>Scope</code>返回文档的一部分立即返回。 否则，它将使用<code>RestModel.RetrieveDocVariantArray</code>来检索最近12个可用月份。 创建或修改新文章时，<code>TBlogApplication.FlushAnyCache</code>将调用<code>fDefaultData.Clear</code>以确保在下一次<code>Default()</code>调用时从数据库中检索更新信息。</p>
+<p>  上面的ORM请求将生成以下SQL语句：</p>
+<pre><code class="lang-sql hljs"> <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">distinct</span>(PublishedMonth),<span class="hljs-keyword">max</span>(<span class="hljs-keyword">ID</span>)+<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> FirstID <span class="hljs-keyword">FROM</span> Article
+  <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> PublishedMonth <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> PublishedMonth <span class="hljs-keyword">desc</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">12</span>
+</code></pre>
+<p>因此，<code>Default()</code>方法将返回以下JSON上下文：</p>
+<pre><code class="lang-json hljs">{
+  <span class="hljs-attr">"Scope"</span>: {
+    ...
+    <span class="hljs-attr">"Archives"</span>:
+    [
+      {
+        <span class="hljs-attr">"PublishedMonth"</span>: <span class="hljs-number">24178</span>,
+        <span class="hljs-attr">"FirstID"</span>: <span class="hljs-number">101</span>
+      },
+      {
+        <span class="hljs-attr">"PublishedMonth"</span>: <span class="hljs-number">24177</span>,
+        <span class="hljs-attr">"FirstID"</span>: <span class="hljs-number">100</span>
+      },
+      ...
+</code></pre>
+<p>  并将由Mustache引擎处理。</p>
+<p>  如果在此<code>Default()</code>方法的末尾放置一个断点，并检查<code>"Scope"</code>变量，Delphi调试器实际上会实时显示从ORM检索到的确切JSON内容。</p>
+<p>  我想你已经了解了mORMot的ORM/SOA是如何产生的，以及JSON/TDocVariant提供处理数据的惊人方法。您可以充分利用这两个方面：ORM/SOA为您提供固定的结构和强类型（如C++/C#/Java），而TDocVariant为您提供灵活的对象方案，使用后期绑定来访问其内容（如Python/Ruby/JavaScript）。</p>
+<h3 id="toc_7">19.2.3. 可变输入参数<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h3>
+<p>  如果要支持可变数量的命名参数，可以使用<code>TDocVariant</code>存储定义变体输入参数，并提供JSON文档作为输入。但是将上下文编码为JSON涉及在HTML页面中使用一些JavaScript，这可能不是很方便。</p>
+<p>  如果要处理非固定的常规URI或POST值集，可以使用单个已定义变体的点名称为所有传入参数名称添加前缀。</p>
+<p>  例如，如果您有以下控制器方法：</p>
+<pre><code class="lang-pascal hljs"> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TnWebMVCMenu</span>.<span class="hljs-title">CadastroSalvar3</span><span class="hljs-params">(<span class="hljs-keyword">const</span> p: variant)</span>:</span> TMVCAction;
+</code></pre>
+<p>然后，您可以在URI级别提供参数：</p>
+<pre><code class="hljs"> p.a1=5&amp;p.a2=dfasdfa
+</code></pre>
+<p>  您将能够在控制器主体中处理它们：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TnWebMVCMenu</span>.<span class="hljs-title">CadastroSalvar3</span><span class="hljs-params">(<span class="hljs-keyword">const</span> p: variant)</span>:</span> TMVCAction;
+<span class="hljs-keyword">begin</span>
+  GotoView(result,<span class="hljs-string">'Cadastro'</span>,
+    [<span class="hljs-string">'pp1'</span>,p.a1,
+     <span class="hljs-string">'pp2'</span>,p.a2])
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  您现在可以在视图中指定一些通用的HTML表单，并为控制器提供任何类型的输入参数。<br>
+当然，使用简单类型（如整数或RawUTF8）显式定义和命名每个输入参数可能看起来更安全、更容易。但是这个约定可以帮助您使用任何类型的HTML视图。</p>
+<h3 id="toc_8">19.2.4. 在控制器中使用服务<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h3>
+<p>  任何控制器方法都可以按照IoC模式从其接口检索和执行任何依赖，请参阅<a href="">依赖性倒置原则</a>。</p>
+<p>  您有两种方法来执行依赖项解析：</p>
+<ul>
+<li>使用关联的<code>TSQLRest.Services</code>容器;</li>
+<li>使用它自己受保护的<code>Resolve()</code>方法，因为<code>TMVCApplication</code>继承自<code>TInjectableObject</code>。</li>
+</ul>
+<p>  实际上，您可以使用其<code>CreateInjected()</code>构造函数而不是普通的<code>Create</code>来设置<code>TMVCApplication</code>实例以使用任何外部依赖项（包括stub和mock）或高级DDD服务（例如存储库或模型化过程）。</p>
+<h3 id="toc_9">19.2.5. 控制器线程安全<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h3>
+<p>  从<code>TSQLRestServer</code>实例运行时，默认情况下将执行我们的MVC应用程序命令，而不进行任何线程保护。托管在<code>TSQLHttpServer</code>实例中时，请参阅<a href="">高性能http.sys服务</a>，多个线程可以同时执行相同的控制器方法。因此，您的应用程序代码应确保您的<code>TMVCApplication</code>进程是线程安全的。</p>
+<p>  请注意，根据设计，所有<code>TMVCApplication.RestModel</code> ORM方法都是线程安全的。</p>
+<p>  如果您的控制器业务代码仅使用ORM方法，将信息发送回视图，而不在本地存储任何数据，那么它将是完全线程安全的。</p>
+<p>  例如，请参阅上面描述的<code>TBlogApplication.AuthorView</code>方法。</p>
+<p>  但请考虑这种方法（从真正的<code>"30 - MVC Server"</code>示例中简化）：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TBlogApplication</span> = <span class="hljs-keyword">class</span>(TMVCApplication,IBlogApplication)
+  <span class="hljs-keyword">protected</span>
+    fDefaultArticles: variant;
+   ...
+
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">Default</span><span class="hljs-params">(<span class="hljs-keyword">var</span> Scope: variant)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> VarIsEmpty(fDefaultArticles) <span class="hljs-keyword">then</span>
+    fDefaultArticles := RestModel.RetrieveDocVariantArray(
+      TSQLArticle,<span class="hljs-string">''</span>,<span class="hljs-string">'order by ID desc limit 20'</span>,[],ARTICLE_FIELDS);
+  _ObjAddProps([<span class="hljs-string">'Articles'</span>,fDefaultArticles],Scope);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  实际上，即使这种方法看起来很安全，但是当它由多个线程执行时我们会遇到一个问题：一个线程可能正在为<code>fDefaultArticles</code>赋值，而另一个线程可能正在使用<code>fDefaultArticles</code>内容。 这可能导致随机运行时错误，很难解决。 即使创建局部变量也可能不安全，因为应该保护对<code>fDefaultArticles</code>的任何访问。</p>
+<p>  第一个，残酷的解决方案可能是强制<code>TSQLRestServer</code>实例在巨型锁中执行所有基于方法的服务（包括我们的MVC命令），如关于线程安全所述：</p>
+<pre><code class="lang-pascal hljs"> aServer.AcquireExecutionMode[execSOAByMethod] := amLocked; <span class="hljs-comment">// or amBackgroundThread</span>
+</code></pre>
+<p>  但这可能会降低整个服务器进程的速度，并降低其扩展能力。</p>
+<p>  您还可以显式锁定控制器方法，例如：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">Default</span><span class="hljs-params">(<span class="hljs-keyword">var</span> Scope: variant)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  Locker.ProtectMethod;
+  <span class="hljs-keyword">if</span> VarIsEmpty(fDefaultData) <span class="hljs-keyword">then</span>
+ ...
+</code></pre>
+<p>  使用<code>TMVCApplication.Locker: IAutoLocker</code>是一种保护方法的简单而有效的方法。 事实上，<code>TAutoLocker</code>类<code>ProtectMethod</code>将返回一个<code>IUnknown</code>变量，它将让编译器在方法体中创建一个隐藏的<code>try .. finally</code>块，以便在退出时释放锁。 但是这个保险柜将由整个<code>TMVCApplication</code>实例共享，因此就像是一个巨大的锁定控制器进程。</p>
+<p>  更加优化和安全的实现可能是使用<code>ILockedDocVariant</code>而不是普通的<code>TDocVariant</code>来缓存数据。 你可以写：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TBlogApplication</span> = <span class="hljs-keyword">class</span>(TMVCApplication,IBlogApplication)
+  <span class="hljs-keyword">protected</span>
+    fDefaultData: ILockedDocVariant;
+   ...
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">Start</span><span class="hljs-params">(aServer: TSQLRestServer)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  fDefaultData := TLockedDocVariant.Create;
+  ...
+
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">Default</span><span class="hljs-params">(<span class="hljs-keyword">var</span> Scope: variant)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> fDefaultData.AddExistingProp(<span class="hljs-string">'Articles'</span>,Scope) <span class="hljs-keyword">then</span>
+    fDefaultData.AddNewProp(<span class="hljs-string">'Articles'</span>,RestModel.RetrieveDocVariantArray(
+      TSQLArticle,<span class="hljs-string">''</span>,<span class="hljs-string">'order by ID desc limit 20'</span>,[],ARTICLE_FIELDS),Scope);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  使用ILockedDocVariant将确保仅锁定对此资源的访问权限（不再使用巨型锁），并且缓慢的ORM进程（如RestModel.RetrieveDocVariantArray）将无锁地发生，以最大限度地利用资源。</p>
+<p>  这实际上是<code>"30 - MVC Server"</code>示例使用的模式。即使是基于接口的客户端-服务端服务也可以从这种<code>TLockedDocVariant</code>类型的存储中受益，以实现高效的多线程进程 - 请参阅<a href="">服务端执行选项（线程）</a>。</p>
+<h3 id="toc_10">19.2.6. Web会话<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h3>
+<p>  会话通常通过网站上的cookie实现。登录/注销过程增强了Web应用程序的安全性，并且可以通过客户端驱动的小数据持久性来调整用户体验，<code>TMVCApplication</code>类支持创建此类会话。</p>
+<p>  您可以在客户端<code>cookie</code>中存储所需的任何信息。 <code>TMVCSessionWithCookies</code>允许在浏览器缓存中定义一条记录，该记录将用于将信息优化存储为二进制文件。您可以将此<code>cookie</code>信息用作当前会话的缓存，例如存储记录的用户名称、偏好或权限，避免数据库交互往返。</p>
+<p>  当然，您永远不应该信任<code>cookie</code>内容（即使我们的格式使用安全加密，并且通过HMAC-CRC32C算法使用数字签名）。但是，您可以将其用作方便的缓存，当您要执行任何与安全相关的操作时，始终检查数据库中的实际数据。<code>cookie</code>还存储整数会话ID，发布日期和到期日期：因此，它匹配所有JWT（Javascript Web令牌） - 请参阅<code>http://jwt.io</code>功能，如签名、加密和jwi/iat/exp声称，具有较小的开销，并且不使用不安全的Web本地存储。</p>
+<p>  对于我们的<code>"30 - MVC Server"</code>示例应用程序，我们在<code>MVCViewModel.pas</code>中定义了以下记录：</p>
+<pre><code class="lang-pascal hljs">  TCookieData = <span class="hljs-keyword">packed</span> <span class="hljs-keyword">record</span>
+    AuthorName: RawUTF8;
+    AuthorID: cardinal;
+    AuthorRights: TSQLAuthorRights;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  此记录将以两种方式序列化：</p>
+<ul>
+<li>数据在加密和数字签名后进行Base64编码，作为原始二进制文件，没有字段名称，在cookie内；</li>
+<li>当作为“Session”数据上下文传输到视图时，作为JSON对象，具有显式字段名称。</li>
+</ul>
+<p>  为了对<code>record</code>进行适当的JSON序列化，如果在没有新RTII的情况下使用Delphi版本（即在Delphi 2010之前），则需要指定其结构，请参阅<a href="">记录序列化</a>。</p>
+<p>  然后我们可以使用<code>TMVCApplication.CurrentSession</code>属性在成功登录后执行身份验证：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">Login</span><span class="hljs-params">(<span class="hljs-keyword">const</span> LogonName, PlainPassword: RawUTF8)</span>:</span> TMVCAction;
+<span class="hljs-keyword">var</span> Author: TSQLAuthor;
+    SessionInfo: TCookieData;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> CurrentSession.CheckAndRetrieve&lt;&gt;<span class="hljs-number">0</span> <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+    GotoError(result,HTTP_BADREQUEST);
+    <span class="hljs-keyword">exit</span>;
+  <span class="hljs-keyword">end</span>;
+  Author := TSQLAuthor.Create(RestModel,<span class="hljs-string">'LogonName=?'</span>,[LogonName]);
+  <span class="hljs-keyword">try</span>
+    <span class="hljs-keyword">if</span> (Author.ID&lt;&gt;<span class="hljs-number">0</span>) <span class="hljs-keyword">and</span> Author.CheckPlainPassword(PlainPassword) <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+      SessionInfo.AuthorName := Author.LogonName;
+      SessionInfo.AuthorID := Author.ID;
+      SessionInfo.AuthorRights := Author.Rights;
+      CurrentSession.Initialize(@SessionInfo,TypeInfo(TCookieData));
+      GotoDefault(result);
+    <span class="hljs-keyword">end</span> <span class="hljs-keyword">else</span>
+      GotoError(result,sErrorInvalidLogin);
+  <span class="hljs-keyword">finally</span>
+    Author.Free;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  如您所见，此<code>Login()</code>方法将从<code>http://localhost:8092/blog/login</code>触发，并使用<code>LogonName=...&amp;plainpassword=...</code>参数。 它将首先检查没有当前会话，检索ORM中<code>LogonName</code>对应的<code>Author</code>，检查提供的密码，并使用所需信息设置<code>SessionInfo: TCookieData</code>结构。</p>
+<p>  <code>对CurrentSession.Initialize()</code>的调用将计算cookie，然后准备将其发送到客户端浏览器。</p>
+<p>  <code>Login()</code>方法返回<code>TMVCAction</code>结构。 因此，对<code>GotoDefault(result)</code>的调用将让<code>TMVCApplication</code>处理器呈现<code>Default()</code>方法，就好像已经请求了<code>/blog/default</code> URI一样。 在登陆凭证无效时，将显示错误页面。</p>
+<p>  当计算网页时，将执行以下重载方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">GetViewInfo</span><span class="hljs-params">(MethodIndex: integer)</span>:</span> variant;
+<span class="hljs-keyword">begin</span>
+  result := <span class="hljs-keyword">inherited</span> GetViewInfo(MethodIndex);
+  _ObjAddProps([<span class="hljs-string">'blog'</span>,fBlogMainInfo,
+    <span class="hljs-string">'session'</span>,CurrentSession.CheckAndRetrieveInfo(TypeInfo(TCookieData))],result);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  它会将cookie中的会话信息附加到返回视图的数据上下文中，如下所示：</p>
+<pre><code class="lang-json hljs">{
+  <span class="hljs-attr">"Scope"</span>: {
+    <span class="hljs-attr">"articles"</span>:
+    ...
+  },
+  <span class="hljs-attr">"main"</span>: {
+    <span class="hljs-attr">"pageName"</span>: <span class="hljs-string">"Default"</span>,
+    <span class="hljs-attr">"blog"</span>: {
+      <span class="hljs-attr">"Title"</span>: <span class="hljs-string">"mORMot BLOG"</span>,
+      ...
+    },
+    <span class="hljs-attr">"session"</span>: {
+      <span class="hljs-attr">"AuthorName"</span>: <span class="hljs-string">"synopse"</span>,
+      <span class="hljs-attr">"AuthorID"</span>: <span class="hljs-number">1</span>,
+      <span class="hljs-attr">"AuthorRights"</span>: {
+        <span class="hljs-attr">"Comment"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"Post"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"Delete"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"Administrate"</span>: <span class="hljs-literal">true</span>
+      },
+      <span class="hljs-attr">"id"</span>: <span class="hljs-number">1</span>
+    }
+  }
+}
+</code></pre>
+<p>  这里，<code>session</code>对象将包含<code>TCookieData</code>信息，准备好由Mustache视图处理，如作为<code>session.AuthorName</code>。 此外，您的视图可以包含一些仅用于记录功能的按钮，如注释或内容版本，使用<code>session.AuthorRights</code>中定义的布尔字段。</p>
+<p>  出于安全原因，在实际执行需要特定权限的操作之前，最好从模型中检查用户是否被有效允许。 攻击者可能伪造了一个假<code>cookie</code>，即使它不太可能，因为cookie是加密和签名的。 将所有<code>cookie</code>信息视为不安全的缓存是一种很好的方法，大多数操作都可以接受，但应始终进行双重检查。</p>
+<p>  因此，您的服务端代码将调用<code>CurrentSession.CheckAndRetrieve</code>，然后在执行任何敏感操作之前访问数据<code>RestModel</code>进行验证。 定义一个常用方法可能很方便：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">GetLoggedAuthorID</span><span class="hljs-params">(Right: TSQLAuthorRight;
+  ContentToFillAuthor: TSQLContent)</span>:</span> TID;
+<span class="hljs-keyword">var</span> SessionInfo: TCookieData;
+    author: TSQLAuthor;
+<span class="hljs-keyword">begin</span>
+  result := <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">if</span> (CurrentSession.CheckAndRetrieve(@SessionInfo,TypeInfo(TCookieData))&gt;<span class="hljs-number">0</span>) <span class="hljs-keyword">and</span>
+     (Right <span class="hljs-keyword">in</span> SessionInfo.AuthorRights) <span class="hljs-keyword">then</span>
+    <span class="hljs-keyword">with</span> TSQLAuthor.AutoFree(author,RestModel,SessionInfo.AuthorID) <span class="hljs-keyword">do</span>
+    <span class="hljs-keyword">if</span> Right <span class="hljs-keyword">in</span> author.Rights <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+      result := SessionInfo.AuthorID;
+      <span class="hljs-keyword">if</span> ContentToFillAuthor&lt;&gt;<span class="hljs-keyword">nil</span> <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+        ContentToFillAuthor.Author := pointer(result);
+        ContentToFillAuthor.AuthorName := author.LogonName;
+      <span class="hljs-keyword">end</span>;
+    <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  它将如此使用，例如， 验证用户是否可以评论文章：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">ArticleComment</span><span class="hljs-params">(ID: TID;
+  <span class="hljs-keyword">const</span> Title,Comment: RawUTF8)</span>:</span> TMVCAction;
+<span class="hljs-keyword">var</span> comm: TSQLComment;
+    AuthorID: TID;
+    error: <span class="hljs-keyword">string</span>;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">with</span> TSQLComment.AutoFree(comm) <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+    AuthorID := GetLoggedAuthorID(canComment,comm);
+    <span class="hljs-keyword">if</span> AuthorID=<span class="hljs-number">0</span> <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+      GotoError(result,sErrorNeedValidAuthorSession);
+      <span class="hljs-keyword">exit</span>;
+    <span class="hljs-keyword">end</span>;
+  ...
+</code></pre>
+<p>  最后，当浏览器请求<code>/blog/logout</code> URI时，将执行以下方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">Logout</span>:</span> TMVCAction;
+<span class="hljs-keyword">begin</span>
+  CurrentSession.Finalize;
+  GotoDefault(result);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  然后会在浏览器端删除会话<code>cookie</code>。</p>
+<p>  请注意，如果mORMot MVC服务器检测到任何已弃用或无效的cookie，它也将在浏览器端自动删除。</p>
+<h2 id="toc_11">19.3. 写入视图<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h2>
+<p>  有关如何在此MVC/MVVM应用程序中进行渲染的描述，请参阅<a href="">Mustache模板引擎</a>。 您将在<code>"30 - MVC Server"</code>示例应用程序的<code>"Views"</code>子文件夹中找到Mustache模板。</p>
+<p>  你会发现一些<code>*.html</code>文件，每个命令需要一个视图，一些<code>*.partial</code>文件，它们是一种可重用的子模板，我们用它们来轻松计算页面的页眉和页脚，这是一种便于收集一些模板代码，以在几个<code>*.html</code>视图中重复使用的方式。</p>
+<p>  以下是<code>Default.html</code>的定义方式：</p>
+<pre><code class="hljs">{{&gt;header}}
+{{&gt;masthead}}
+      &lt;div class="blog-header"&gt;
+        &lt;h1 class="blog-title"&gt;{{main.blog.title}}&lt;/h1&gt;
+        &lt;p class="lead blog-description"&gt;{{main.blog.description}}&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="row"&gt;
+        &lt;div class="col-sm-8 blog-main"&gt;
+{{#Scope}}
+{{&gt;articlerow}}
+        {{#lastID}}
+        &lt;p&gt;&lt;a href="default?scope={{.}}" class="btn btn-primary btn-sm"&gt;Previous Articles&lt;/a&gt;&lt;/p&gt;
+        {{/lastID}}
+        &lt;/div&gt;
+        &lt;div class="col-sm-3 col-sm-offset-1 blog-sidebar"&gt;
+          &lt;div class="sidebar-module sidebar-module-inset"&gt;
+            &lt;h4&gt;About&lt;/h4&gt;
+            {{{WikiToHtml main.blog.about}}}
+          &lt;/div&gt;
+          &lt;div class="sidebar-module"&gt;
+            &lt;h4&gt;Archives&lt;/h4&gt;
+            &lt;ol class="list-unstyled"&gt;
+              {{#Archives}}
+              &lt;li&gt;&lt;a href="default?scope={{FirstID}}"&gt;{{MonthToText PublishedMonth}}&lt;/a&gt;&lt;/li&gt;
+              {{/Archives}}
+            &lt;/ol&gt;
+          &lt;/div&gt;
+  &lt;/div&gt;
+   &lt;/div&gt;
+{{/Scope}}
+{{&gt;footer}}
+</code></pre>
+<p>  与其他<code>{{...}}</code>值标记一样，可以轻松识别<code>{{&gt;partials}}</code>。 主要部分是<code>{{&gt;articlerow}}</code>，它将显示所有文章列表。</p>
+<p>  {{{WikiToHtml main.blog.about}}}是一个表达式块，能够使用简单的Wiki语法将一些简单文本呈现为正确的HTML。</p>
+<p>  <code>{{{WikiToHtml main.blog.about}}}</code>将执行我们的<code>TBlogApplication</code>中定义的自定义表达式块，它将难以理解的<code>TSQLArticle.PublishedMonth</code>整数值转换为相应的名称和年份：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TBlogApplication</span>.<span class="hljs-title">MonthToText</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: variant;
+  <span class="hljs-keyword">out</span> result: variant)</span>;</span>
+<span class="hljs-keyword">const</span> MONTHS: <span class="hljs-keyword">array</span>[<span class="hljs-number">0</span>..<span class="hljs-number">11</span>] <span class="hljs-keyword">of</span> <span class="hljs-keyword">string</span> = (
+  <span class="hljs-string">'January'</span>,<span class="hljs-string">'February'</span>,<span class="hljs-string">'March'</span>,<span class="hljs-string">'April'</span>,<span class="hljs-string">'May'</span>,<span class="hljs-string">'June'</span>,<span class="hljs-string">'July'</span>,<span class="hljs-string">'August'</span>,
+  <span class="hljs-string">'September'</span>,<span class="hljs-string">'October'</span>,<span class="hljs-string">'November'</span>,<span class="hljs-string">'December'</span>);
+<span class="hljs-keyword">var</span> month: integer;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> VariantToInteger(Value,month) <span class="hljs-keyword">and</span> (month&gt;<span class="hljs-number">0</span>) <span class="hljs-keyword">then</span>
+    result := MONTHS[month <span class="hljs-keyword">mod</span> <span class="hljs-number">12</span>]+<span class="hljs-string">' '</span>+IntToStr(month <span class="hljs-keyword">div</span> <span class="hljs-number">12</span>);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  显示<code>Author</code>信息的页面实际上非常简单：</p>
+<pre><code class="hljs">{{&gt;header}}
+{{&gt;masthead}}
+      &lt;div class="blog-header"&gt;
+        &lt;h1 class="blog-title"&gt;User {{Author.LogonName}}&lt;/h1&gt;
+  &lt;div class="lead blog-description"&gt;{{Author.FirstName}} {{Author.FamilyName}}
+  &lt;/div&gt;
+      &lt;/div&gt;
+   &lt;div class="panel panel-default"&gt;
+   &lt;div class="panel-heading"&gt;Information about &lt;strong&gt;{{Author.LogonName}}&lt;/strong&gt;&lt;/div&gt;
+   &lt;div class="panel-body"&gt;
+      {{{TSQLAuthor.HtmlTable Author}}}
+   &lt;/div&gt;
+   &lt;/div&gt;
+{{&gt;articlerow}}
+{{&gt;footer}}
+</code></pre>
+<p>  它将共享相同的<code>{{&gt;partials}}</code>，以实现一致且可维护的网站设计，但实际上大部分过程都将通过两个标记的神奇之处进行：</p>
+<ul>
+<li><code>{{{TSQLAuthor.HtmlTable Author}}}</code>是一个链接到<code>TMVCApplication.RestModel</code> ORM的表达式块，它将创建一个HTML表，具有我们的BootStrap CSS所需的语法，用于<code>TSQLAuthor</code>记录，识别属性类型并根据需要显示（例如日期或时间戳，或枚举或集）。</li>
+<li><code>{{&gt;articlerow}}</code>也部分与<code>ArticleView.html</code>共享，它将呈现<code>TSQLArticle</code>列表并编码到<code>{{#Articles}}...{{/Articles}}</code>部分。</li>
+</ul>
+<p>  看看<code>mORMotMVC.pas</code>单元：你会发现MVC进程的每个方面都被分成了小类，因此框架能够创建Web应用程序，还可以创建任何类型的MVC应用程序，包括移动或VCL/FMX应用程序和/或报表，使用<code>mORMotReport.pas</code>。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

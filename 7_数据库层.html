@@ -1,0 +1,2550 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>7_数据库层</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-2 .node > rect { }
+#mermaid-diagram-2 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-3 .node > rect { }
+#mermaid-diagram-3 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-4 .node > rect { }
+#mermaid-diagram-4 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-4 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-4 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-4 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-5 .node > rect { }
+#mermaid-diagram-5 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-5 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-5 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-5 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-6 .node > rect { }
+#mermaid-diagram-6 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-6 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-6 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-6 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">7. 数据库层<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src='data:image/png;base64,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' alt="" class="view-image"></p>
+<h2 id="toc_1">7.1. SQLite3驱动但不限于SQLite3<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<p>  这个框架的核心数据库使用SQLite3库，它是一个免费的、安全的、零配置的、无服务器的、单一稳定的跨平台文件数据库引擎。</p>
+<p>  <strong><em>译者注：Server-less，无服务架构，旨在帮助开发者摆脱运行后端应用程序所需的服务器设备的设置和管理工作。这项技术的目标并不是为了实现真正意义上的“无服务器”，而是指由第三方供应商负责后端基础结构的维护，以服务的方式为开发者提供所需功能，例如数据库、消息，以及身份验证等。这种服务基础结构通常可以叫做后端即服务（Backend-as-a-Service，BaaS），或移动后端即服务（MobileBackend-as-a-service，MBaaS）。</em></strong></p>
+<p>  <strong><em>现在，无服务器架构是指大量依赖第三方服务(也叫做后端即服务，即“BaaS”)或暂存容器中运行的自定义代码(函数即服务，即“FaaS”)的应用程序，函数是无服务器架构中抽象语言运行时的最小单位，在这种架构中，我们并不看重运行一个函数需要多少CPU或RAM或任何其他资源，而是更看重运行函数所需的时间，我们也只为这些函数的运行时间付费。无服务器架构中函数可以多种方式触发，如定期运行函数的定时器、HTTP请求或某些相关服务中的某个事件。</em></strong></p>
+<p>  如下所述，如果您愿意，您可以使用任何其他数据库访问层：</p>
+<ul>
+<li>包含了一个快速的内存引擎，在速度方面比任何sql的解决方案都要好，但是在磁盘上满足ACID行为的代价高（可使用RAM满足ACID)；</li>
+<li>一个集成的SQLite3引擎，它是嵌入式解决方案（即便是在服务器端）的最佳候选；</li>
+<li>任何远程RDBMS数据库，通过一个或多个OleDB、ODBC、Zeos或Oracle连接来存储您宝贵的ORM对象。或者你也可以使用任意DB.pas单元，访问NexusDB或DBExpress、FireDAC、AnyDAC、UniDAC（或已废弃的BDE）支持的任何数据库引擎。在所有这些情况下，ORM目前支持SQLite3、Oracle、Jet/MSAccess、MS SQL、Firebird、DB2、PostgreSQL、MySQL、Informix和NexusDB SQL；</li>
+<li>任何其他TSQLRest实例（TSQLRestServer或远程TSQLRestClientHTTP）；</li>
+<li>直接访问MongoDB数据库，它实现了真正的NoSQL和对象文档映射(ODM)设计。</li>
+</ul>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 715 754" style="max-width:715px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"><g class="cluster" id="subGraph3" transform="translate(304.75,655)" style="opacity: 1;"><rect width="489" height="118" x="-244.5" y="-59"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-45" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> </text></g><g class="cluster" id="subGraph2" transform="translate(347.5,439)" style="opacity: 1;"><rect width="655" height="118" x="-327.5" y="-59"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-45" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> </text></g><g class="cluster" id="subGraph1" transform="translate(205,259)" style="opacity: 1;"><rect width="166" height="94" x="-83" y="-47"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-33" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> </text></g><g class="cluster" id="subGraph0" transform="translate(317.625,79)" style="opacity: 1;"><rect width="588.75" height="118" x="-294.375" y="-59"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-45" fill="black" stroke="none" id="mermaid-diagram-1Text" style="text-anchor: middle;"> </text></g></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M300.5,97.85338345864662L210,138L210,175L210,212L210,237" marker-end="url(#arrowhead114)" style="fill:none"></path><defs><marker id="arrowhead114" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M300.5,88.60727969348659L82,138L82,175L82,212L82,259L82,306L82,343L82,380L98.94915254237289,405" marker-end="url(#arrowhead115)" style="fill:none"></path><defs><marker id="arrowhead115" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M195.02127659574467,281L178,306L178,343L178,380L154.27118644067798,405" marker-end="url(#arrowhead116)" style="fill:none"></path><defs><marker id="arrowhead116" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M224.97872340425533,281L242,306L242,343L242,380L265.728813559322,405" marker-end="url(#arrowhead117)" style="fill:none"></path><defs><marker id="arrowhead117" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M343,113L343,138L343,175L343,212L343,259L343,306L343,343L343,380L323.93220338983053,405" marker-end="url(#arrowhead118)" style="fill:none"></path><defs><marker id="arrowhead118" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M385.5,102.88095238095238L448,138L448,175L448,212L448,259L448,306L448,343L448,380L448,405" marker-end="url(#arrowhead119)" style="fill:none"></path><defs><marker id="arrowhead119" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M385.5,89.070281124498L592,138L592,175L592,212L592,259L592,306L592,343L592,380L592,405" marker-end="url(#arrowhead120)" style="fill:none"></path><defs><marker id="arrowhead120" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M244,466.1727078891258L180.75,498L180.75,547L180.75,596L180.75,621" marker-end="url(#arrowhead121)" style="fill:none"></path><defs><marker id="arrowhead121" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M352,466.1727078891258L415.25,498L415.25,547L415.25,596L415.25,621" marker-end="url(#arrowhead122)" style="fill:none"></path><defs><marker id="arrowhead122" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(210,175)" style="opacity: 1;"><g transform="translate(-20,-12)" class="label"><foreignObject width="40" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">direct</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(82,259)" style="opacity: 1;"><g transform="translate(-20,-12)" class="label"><foreignObject width="40" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">direct</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(178,343)" style="opacity: 1;"><g transform="translate(-22,-12)" class="label"><foreignObject width="44" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">virtual</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(242,343)" style="opacity: 1;"><g transform="translate(-22,-12)" class="label"><foreignObject width="44" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">virtual</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(343,259)" style="opacity: 1;"><g transform="translate(-20,-12)" class="label"><foreignObject width="40" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">direct</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(448,259)" style="opacity: 1;"><g transform="translate(-20,-12)" class="label"><foreignObject width="40" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">direct</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(592,259)" style="opacity: 1;"><g transform="translate(-20,-12)" class="label"><foreignObject width="40" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">direct</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(180.75,547)" style="opacity: 1;"><g transform="translate(-20,-12)" class="label"><foreignObject width="40" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">direct</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(415.25,547)" style="opacity: 1;"><g transform="translate(-32,-24)" class="label"><foreignObject width="64" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">DB.pas<br>TDataSet</span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="D1" transform="translate(180.75,655)" style="opacity: 1;"><rect rx="0" ry="0" x="-85.5" y="-34" width="171" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-75.5,-24)"><foreignObject width="151" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Oracle SQLite3 ODBC<br>OleDB ZDBC</div></foreignObject></g></g></g><g class="node cyan" id="D2" transform="translate(415.25,655)" style="opacity: 1;"><rect rx="0" ry="0" x="-99" y="-34" width="198" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-89,-24)"><foreignObject width="178" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">FireDAC AnyDAC UniDAC<br>BDE DBExpress NexusD</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(122,439)" style="opacity: 1;"><rect rx="0" ry="0" x="-49" y="-34" width="98" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-39,-24)"><foreignObject width="78" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TObjectList<br>NoSQL</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(298,439)" style="opacity: 1;"><rect rx="0" ry="0" x="-54" y="-34" width="108" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-44,-24)"><foreignObject width="88" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">External SQL<br>RDBMS</div></foreignObject></g></g></g><g class="node cyan" id="C3" transform="translate(448,439)" style="opacity: 1;"><rect rx="0" ry="0" x="-46" y="-34" width="92" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-36,-24)"><foreignObject width="72" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">MongoDB<br>NoSQL</div></foreignObject></g></g></g><g class="node cyan" id="C4" transform="translate(592,439)" style="opacity: 1;"><rect rx="0" ry="0" x="-48" y="-34" width="96" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-38,-24)"><foreignObject width="76" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRest<br>redirection</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(210,259)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">SQLite3</div></foreignObject></g></g></g><g class="node cyan" id="A" transform="translate(343,79)" style="opacity: 1;"><rect rx="0" ry="0" x="-42.5" y="-34" width="85" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-32.5,-24)"><foreignObject width="65" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">mORMot<br>ORM</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  SQlite3将被用作主要的SQL引擎，由于其虚拟表的独特特性，它能够连接所有上述这些表。实际上，您可以在相同的数据库模型中混合使用内部和外部引擎，并在一条SQL语句中访问所有数据。</p>
+<h3 id="toc_2">7.1.1. SQLite3是核心<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h3>
+<p>  这个框架使用了官方SQLite3库源代码的编译版本，并将其集成在Delphi代码中。因此，这个框架为标准的SQLite3数据库引擎添加了一些非常有用的功能，但又保留了它的所有优势，如本文前一段所述：</p>
+<ul>
+<li>可以静态链接到可执行文件，或动态加载sqlite3.dll；</li>
+<li>更快的数据库访问，通过统一的内存模型，使用FastMM4内存管理器（在内存分配方面几乎比Windows默认内存管理器快10倍）；</li>
+<li>可选的直接加密磁盘数据（至AES256级别，即最高加密安全级别）；</li>
+<li>通过mORMot的ORM将数据库在Delphi源代码中定义一次（作为类的发布属性），避免了很多SQL语句编写，避免了公共字段或表名的不匹配问题；</li>
+<li>数据库的记录级锁定（SQLite3只支持文件级锁定）；</li>
+<li>当然，SQLite3引擎主要新增强化的是它可以既可独立部署，也可部署在C/S架构中，而SQLite3库原本仅在独立模式下工作。</li>
+</ul>
+<p>  从技术角度来看，以下是目前构建SQLite3引擎时使用的编译选项：</p>
+<ul>
+<li>使用ISO 861:2004格式妥善处理文本字段中的日期/时间值，或更快捷的Int64自定义类型（TTimeLog / TModTime / TCreateTime或TUnixTime）；</li>
+<li>SQLite3库的单元编译使用了RTREE扩展，支持快速大范围查询；</li>
+<li>可包含FTS3/FTS4全文搜索引擎（匹配操作），集成SQL优化排序功能；</li>
+<li>框架仅使用最新的API （sqlite3_prepare_v2），并遵循最新的SQLite3官方设计文档；</li>
+<li>添加了额外的排序规则（如排序功能），不仅可以有效地处理UTF-8文本，还可以有效地处理ISO 8601时间编码、快速Win1252不相容性比较和本地慢但准确的Windows UTF-16功能；</li>
+<li>额外的SQL函数，如用于英语/法语/西班牙语的Soundex语音算法、MOD或CONCAT，以及一些专门的函数，可以直接在Delphi高级类型（比如序列化的动态数组）定义的BLOB字段中搜索数据；</li>
+<li>使用开源PCRE库处理SQL语句中的正则表达式查询的REGEXP操作符/函数；</li>
+<li>在Delphi代码中自定义SQL函数；</li>
+<li>SQL语句参数准备自动化，加快执行速度；</li>
+<li>TSQLDatabase可以为SELECT语句缓存最后的结果，或使用客户端、服务端记录逐一缓存的优化方案，以实现更轻便的web服务器或为客户端用户接口提升读取速度。</li>
+<li>用户身份验证处理（SQLite3是免验证设计）；</li>
+<li>SQLite3源代码编译时没有线程互斥，调用者必须具有线程安全意识，这在很多结构中会更快，因为互斥每次必须获取，底层sqlite3_*()函数不是线程安全的，TSQLRequest和TSQLBlobStream只是包装它们，但TSQLDataBase是线程安全的，因为TSQLTableDB / TSQLRestServerDB / TSQLRestClientDB是调用TSQLDataBase；</li>
+<li>使用SQLITE_OMIT_SHARED_CACHE定义进行编译，因为框架的C/S实现方法，不可能发生并发访问，并且内部增加了高效的缓存算法，在多用户环境中减少了对SQLite3引擎的调用（所有AJAX调用都会从中受益）；</li>
+</ul>
+<p>  <strong><em>译者注：SQLITE_OMIT_SHARED_CACHE，省略共享缓存，允许消除代码中性能部分的许多关键条件，可以给性能带来明显的改善。</em></strong></p>
+<p>  <strong><em>SHARED_CACHE，同一线程或同一进程对同一数据库的多个连接（connection）可以以共享缓存的方式呈现，实际上对于数据库只有一个连接。</em></strong></p>
+<ul>
+<li>嵌入的SQLite3数据库引擎可以从http://sqlite.org的官方SQLite3源代码轻松更新，使用C语言的混合编程，只做了一些小修改（文档在SynSQLite3Static.pas单元中），最终C语言源代码以.obj的形式交付，也可以在官方源代码库中找到。</li>
+</ul>
+<p>  在您的服务端应用包含SQlite3所付出的成本是值得的，对可执行文件只增加了KB级字节，但是有很多不错的特性，即使只使用其它外部数据库。</p>
+<h3 id="toc_3">7.1.2. 对SQLite3虚拟表的扩充<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  由于框架是真正面向对象的，因此可以使用其它数据库引擎来代替框架。您可以很容易地编写自己的TSQLRestServer派生类（我们包含了一个快速内存数据库引擎TSQLRestServerFullMemory可作为参考示例）并连接到另一个引擎（比如FireBird或专用引擎）。您甚至可以使用我们的框架，而不需要连接到SQLite3引擎本身，仅使用我们提供的高速内存数据集（可以通过在磁盘上写入和读取JSON文件来实现持久化）。SQLite3引擎在一个名为SynSQLite3.pas的独立单元中实现，框架的主要单元是mORMot.pas，两个单元通过mORMotSQLite3.pas桥接，从中可看出我们的ORM框架使用了SQLite3作为其核心。</p>
+<p>  框架的ORM能够通过强大的SQLite3虚拟表机制访问任意数据库类（内部或外部）。例如，任何外部数据库（通过OleDB / ODBC / ZDBC提供程序或直接Oracle连接）都可以通过我们的SynDB.pas专用单元实现访问。</p>
+<p>  因此，除了正常的基于文件的SQLite3引擎外，框架还支持其它的数据库后端。根据应用的需求，每个引擎都有自己的用途。目前，ORM可支持SQLite3、Oracle、Jet/MSAccess、MS SQL、Firebird、DB2、PostgreSQL、MySQL、Informix和NexusDB SQL。</p>
+<h3 id="toc_4">7.1.3. 数据访问的基准测试<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h3>
+<p>  这里的目的不是说一个库或数据库比另一个更好或更快，而是发布mORMot持久化层针对每个数据库后端的访问能力的基本情况。</p>
+<p>  在这种情况下，我们不只是对单纯的SQL/DB层访问能力进行基准测试（SynDB.pas单元），还包括框架在C/S架构下的ORM访问能力。</p>
+<p>  以下测试过程涉及ORM的各个方面：</p>
+<ul>
+<li>通过高级CRUD方法访问（添加/更新/删除/检索，按对象或批处理模式）；</li>
+<li>通过优化的RTTI对TSQLRecord实例的读写访问；</li>
+<li>JSON编码各种值（为网络传输做好了准备）；</li>
+<li>REST路由，具有安全性、日志记录和统计功能；</li>
+<li>使用SQLite3内核实现了虚拟跨数据库层；</li>
+<li>SQL动态生成和转换（在虚拟模式下）；</li>
+<li>通过几个库或驱动访问数据库引擎。</li>
+</ul>
+<p>  在这些测试中，我们只是绕过了通信层，因为TSQLRestClient和TSQLRestServer是在进程中运行的，在同一个线程中，就像TSQLRestServerDB实例一样。因此，这里有一些关于我们的框架的ORM和RESTful核心性能的第一手证据，当通过网络在高端硬件上运行时，框架会有很好的伸缩性。</p>
+<p>  在最近的笔记本电脑（Core i7和SSD驱动器）上，根据后端数据库接口，mORMot在速度方面表现出色，如下所示：</p>
+<ul>
+<li>您可以每秒持久化57万个对象，或者每秒检索87万个对象（对于我们的纯Delphi内存引擎而言）；</li>
+<li>当从服务端或客户端的ORM缓存中检索数据时，无论数据库后端是什么，每秒可以读取超过90万个对象；</li>
+<li>使用像Oracle这样的高性能数据库和我们的直接访问类，您可以在100 MB的网络上每秒写入70,000个对象（通过数组绑定）和读取160,000个对象；</li>
+<li>当使用数据库访问库（例如Zeos或基于DB.pas的类），速度较低（无论是DB2、MS SQL、PostgreSQL还是MySQL），但仍然足以完成大多数工作，这是由于mORMot代码中的一些优化（如准备语句的缓存、SQL多值插入、直接JSON导入/导出、SQlite3虚拟模式设计、避免了大多数临时内存分配…）。</li>
+</ul>
+<p>  我想很难找到一个更快的ORM。</p>
+<h4 id="toc_5">7.1.3.1. 软硬件配置<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h4>
+<p>  下面的表总结了所有的配置选项，并给出一些基准测试（平均每秒读写对象）。</p>
+<ul>
+<li>'SQLite3(file full/off/exc)'表示使用内部SQLite3引擎，<code>Synchronous := smOff</code>是否开启或<code>DB.LockingMode := lmExclusive</code>，参见下图；</li>
+<li>SQLite3 (mem)'表示在内存中运行的内部SQLite3引擎；</li>
+<li>'SQLite3 (ext…)'表示访问SQLite3引擎文件或内存外部数据库，请参阅下面；</li>
+<li>‘TObjectList’表示一个TSQLRestStorageInMemory实例，如下所示，静态（没有SQL支持）或虚拟（即SQL通过SQLite3虚拟表机制），可以将数据以JSON或压缩二进制形式保存在磁盘上；</li>
+<li>'WinHTTP SQLite3'和'Sockets SQLite3'表示使用我们的SynDBRemote.pas单元在HTTP上发布的SQLite3引擎，在客户端使用WinHTTP API或普通套接字，然后通过ORM作为外部数据库访问；</li>
+<li>“NexusDB”是免费的嵌入式版本，可从官方网站获得；</li>
+<li>'Jet'表示通过OleDB访问的Jet/MSAccess数据库引擎。</li>
+<li>'Oracle'显示了我们的直接OCI访问层(SynDBOracle.pas)的结果;</li>
+<li>'Zeos *'表示数据库直接通过ZDBC层访问;</li>
+<li>'FireDAC *'表示FireDAC库；</li>
+<li>'UniDAC *'代表UniDAC库；</li>
+<li>'BDE *'时使用BDE连接；</li>
+<li>'ODBC *'用于直接通过ODBC访问；</li>
+<li>'MongoDB ack/no ack'表示直接MongoDB访问（SynMongoDB.pas），带或不带写入应答。</li>
+</ul>
+<p>  此数据库驱动程序列表未来将扩充，欢迎任何反馈！</p>
+<p>  数字表示行/秒或对象/秒，这个基准测试是用Delphi XE4编译的，因为较新的编译器往往会提供更好的结果，这主要归功于函数内联（在Delphi 6-7中不支持）。</p>
+<p>  注意，这些测试不是对每个数据库引擎的速度比较，而是在mORMot中集成了多个数据库进行访问的当前状态。</p>
+<p>  基准测试运行在i7笔记本上，运行Windows 7，配备标准SSD，包括杀毒和后台应用程序:</p>
+<ul>
+<li>通过100兆以太网连接到Oracle 11.2.0.1共享数据库；</li>
+<li>本机在64位模式下运行的MS SQL Express 2008 R2；</li>
+<li>本机在64位模式下运行的IBM DB2 Express-C edition 10.5；</li>
+<li>本机在64位模式下运行的PostgreSQL 9.2.7；</li>
+<li>本机在64位模式下运行的MySQL 5.6.16；</li>
+<li>Firebird 2.5.2嵌入式版本；</li>
+<li>NexusDB 3.11免费的嵌入式版本;</li>
+<li>在64位模式下运行的MongoDB 2.6。</li>
+</ul>
+<p>  所以它是一个开发环境，非常类似于低成本的生产现场，不致力于提供最好的性能。在此过程中，CPU只被用于内存中的SQLite3和TObjectList，大多数情况下，瓶颈不是CPU，而是存储或网络。因此，速率和时间可能会因网络和服务器负载的不同而有所不同，但是您得到的结果与在客户端使用普通硬件配置时所期望的结果相似。当使用优化后的Linux高级服务器和存储运行时，您可以期望得到更好的数字。</p>
+<p>  测试是用Delphi XE4 32位模式编译的。大多数测试在编译为64位程序时都能通过，但是有些程序（如Jet）除外，它在这个平台上是不可用的。速度结果几乎相同，只是稍微慢一些，这里就不展示了。</p>
+<p>  您可以编译“15 - External DB performance”提供的示例代码，并在自己的配置上运行相同的基准测试。欢迎反馈！</p>
+<p>  在我们的测试中，我们使用的UniDAC版本在与DB2一起使用时存在很大的稳定性问题：测试没有通过，DB2服务器会挂起查询操作，而其他库没有问题。它现在可能已经修复了，但是在这里，您在下面的基准测试中找不到关于“UniDAC DB2”的结果。</p>
+<h4 id="toc_6">7.1.3.2. 插入速度<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h4>
+<p>  我们将在不同的场景各插入5000行数据：</p>
+<ul>
+<li>“Direct”表示调用<code>Client.Add()</code>逐条插入。</li>
+<li>“Batch”批处理模式；</li>
+<li>“Trans”表示所有插入都嵌套在一个事务中，会导致很大差异。</li>
+</ul>
+<p>  下面是一些插入速度值（单位：对象/秒）：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Direct</strong></th>
+<th><strong>Batch</strong></th>
+<th><strong>Trans</strong></th>
+<th><strong>Batch Trans</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SQLite3 (file full)</strong></td>
+<td>462</td>
+<td>28123</td>
+<td>84823</td>
+<td>181455</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (file off)</strong></td>
+<td>2102</td>
+<td>83093</td>
+<td>88006</td>
+<td>202667</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (file off exc)</strong></td>
+<td>28847</td>
+<td>193453</td>
+<td>89451</td>
+<td>207615</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (mem)</strong></td>
+<td>89456</td>
+<td>236540</td>
+<td>104249</td>
+<td>239165</td>
+</tr>
+<tr>
+<td><strong>TObjectList (static)</strong></td>
+<td>314465</td>
+<td>543892</td>
+<td>326370</td>
+<td>542652</td>
+</tr>
+<tr>
+<td><strong>TObjectList (virtual)</strong></td>
+<td>325393</td>
+<td>545672</td>
+<td>298846</td>
+<td>545018</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (ext full)</strong></td>
+<td>424</td>
+<td>14523</td>
+<td>102049</td>
+<td>164636</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (ext off)</strong></td>
+<td>2245</td>
+<td>47961</td>
+<td>109706</td>
+<td>189250</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (ext off exc)</strong></td>
+<td>41589</td>
+<td>180759</td>
+<td>108481</td>
+<td>192071</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (ext mem)</strong></td>
+<td>101440</td>
+<td>211389</td>
+<td>113530</td>
+<td>209713</td>
+</tr>
+<tr>
+<td><strong>WinHTTP SQLite3</strong></td>
+<td>2165</td>
+<td>36464</td>
+<td>2079</td>
+<td>38478</td>
+</tr>
+<tr>
+<td><strong>Sockets SQLite3</strong></td>
+<td>8118</td>
+<td>75251</td>
+<td>8553</td>
+<td>80550</td>
+</tr>
+<tr>
+<td><strong>MongoDB (ack)</strong></td>
+<td>10081</td>
+<td>84585</td>
+<td>9800</td>
+<td>85232</td>
+</tr>
+<tr>
+<td><strong>MongoDB (no ack)</strong></td>
+<td>33223</td>
+<td>273672</td>
+<td>34665</td>
+<td>274393</td>
+</tr>
+<tr>
+<td><strong>ODBC SQLite3</strong></td>
+<td>492</td>
+<td>11746</td>
+<td>35367</td>
+<td>82425</td>
+</tr>
+<tr>
+<td><strong>ZEOS SQlite3</strong></td>
+<td>494</td>
+<td>11851</td>
+<td>56206</td>
+<td>85705</td>
+</tr>
+<tr>
+<td><strong>FireDAC SQlite3</strong></td>
+<td>20605</td>
+<td>38853</td>
+<td>40042</td>
+<td>113752</td>
+</tr>
+<tr>
+<td><strong>UniDAC SQlite3</strong></td>
+<td>477</td>
+<td>8725</td>
+<td>26552</td>
+<td>38756</td>
+</tr>
+<tr>
+<td><strong>ODBC Firebird</strong></td>
+<td>1495</td>
+<td>18056</td>
+<td>13485</td>
+<td>17731</td>
+</tr>
+<tr>
+<td><strong>ZEOS Firebird</strong></td>
+<td>10452</td>
+<td>62851</td>
+<td>22003</td>
+<td>63708</td>
+</tr>
+<tr>
+<td><strong>FireDAC Firebird</strong></td>
+<td>18147</td>
+<td>46877</td>
+<td>18922</td>
+<td>46353</td>
+</tr>
+<tr>
+<td><strong>UniDAC Firebird</strong></td>
+<td>5986</td>
+<td>14809</td>
+<td>6522</td>
+<td>14948</td>
+</tr>
+<tr>
+<td><strong>Jet</strong></td>
+<td>4235</td>
+<td>4424</td>
+<td>4954</td>
+<td>5094</td>
+</tr>
+<tr>
+<td><strong>NexusDB</strong></td>
+<td>5998</td>
+<td>15494</td>
+<td>7687</td>
+<td>18619</td>
+</tr>
+<tr>
+<td><strong>Oracle</strong></td>
+<td>226</td>
+<td>56112</td>
+<td>1133</td>
+<td>52367</td>
+</tr>
+<tr>
+<td><strong>ZEOS Oracle</strong></td>
+<td>210</td>
+<td>32725</td>
+<td>1027</td>
+<td>31982</td>
+</tr>
+<tr>
+<td><strong>ODBC Oracle</strong></td>
+<td>236</td>
+<td>1664</td>
+<td>1515</td>
+<td>7709</td>
+</tr>
+<tr>
+<td><strong>FireDAC Oracle</strong></td>
+<td>118</td>
+<td>48575</td>
+<td>1519</td>
+<td>12566</td>
+</tr>
+<tr>
+<td><strong>UniDAC Oracle</strong></td>
+<td>164</td>
+<td>5701</td>
+<td>1215</td>
+<td>2884</td>
+</tr>
+<tr>
+<td><strong>BDE Oracle</strong></td>
+<td>489</td>
+<td>927</td>
+<td>839</td>
+<td>1022</td>
+</tr>
+<tr>
+<td><strong>MSSQL local</strong></td>
+<td>5246</td>
+<td>54360</td>
+<td>12988</td>
+<td>62453</td>
+</tr>
+<tr>
+<td><strong>ODBC MSSQL</strong></td>
+<td>4911</td>
+<td>18652</td>
+<td>11541</td>
+<td>20976</td>
+</tr>
+<tr>
+<td><strong>FireDAC MSSQL</strong></td>
+<td>5016</td>
+<td>7341</td>
+<td>11686</td>
+<td>51242</td>
+</tr>
+<tr>
+<td><strong>UniDAC MSSQL</strong></td>
+<td>4392</td>
+<td>29768</td>
+<td>8649</td>
+<td>33464</td>
+</tr>
+<tr>
+<td><strong>ODBC DB2</strong></td>
+<td>4792</td>
+<td>48387</td>
+<td>14085</td>
+<td>70104</td>
+</tr>
+<tr>
+<td><strong>FireDAC DB2</strong></td>
+<td>4452</td>
+<td>48635</td>
+<td>11014</td>
+<td>52781</td>
+</tr>
+<tr>
+<td><strong>ZEOS PostgreSQL</strong></td>
+<td>4196</td>
+<td>31409</td>
+<td>9689</td>
+<td>41225</td>
+</tr>
+<tr>
+<td><strong>ODBC PostgreSQL</strong></td>
+<td>4068</td>
+<td>26262</td>
+<td>5130</td>
+<td>30435</td>
+</tr>
+<tr>
+<td><strong>FireDAC PostgreSQL</strong></td>
+<td>4181</td>
+<td>26635</td>
+<td>10111</td>
+<td>36483</td>
+</tr>
+<tr>
+<td><strong>UniDAC PostgreSQL</strong></td>
+<td>2705</td>
+<td>18563</td>
+<td>4442</td>
+<td>28337</td>
+</tr>
+<tr>
+<td><strong>ODBC MySQL</strong></td>
+<td>3160</td>
+<td>38309</td>
+<td>10856</td>
+<td>47630</td>
+</tr>
+<tr>
+<td><strong>ZEOS MySQL</strong></td>
+<td>3426</td>
+<td>34037</td>
+<td>12217</td>
+<td>40186</td>
+</tr>
+<tr>
+<td><strong>FireDAC MySQL</strong></td>
+<td>3078</td>
+<td>43053</td>
+<td>10955</td>
+<td>45781</td>
+</tr>
+<tr>
+<td><strong>UniDAC MySQL</strong></td>
+<td>3119</td>
+<td>27772</td>
+<td>11246</td>
+<td>33288</td>
+</tr>
+</tbody>
+</table>
+<p>  由于其ACID实现，SQLite3进程等待硬盘将数据刷新到文件中，这就是它在不使用事务逐条插入比其他引擎慢的原因（每秒小于10个对象，采用机硬盘而不是SDD）。</p>
+<p>  因此，如果您希望使用默认引擎在应用程序中获得最佳的写入性能，那么您应该更好地使用事务，并将所有写入重新分组到服务或批处理流程中。另一种可能是SQLite3处理数据前先执行<code>DB.Synchronous := smOff</code>和/或<code>DB.LockingMode := lmExclusive</code>，在掉电并凑巧的情况下可能出现数据库文件损坏，但它会增加50倍速率（硬盘），参见表中“off'”和“off exc”行。默认情况下，FireDAC库两个选项都设置了，因此与“SQLite3 off exc”行才有可比性。在SQLite3 direct逐条插入模式中，批量处理多条插入语句优势明显（与采用外部数据库一样）：这解释了为什么<code>BatchAdd()</code>比普通的<code>Add()</code>快，即使在最慢和最安全的“file full”模式中也是如此。</p>
+<p>  在我们的SynDBOracle.pas<code>单元和</code>SynDBZeos.pas<code>或</code>SynDBFireDAC.pas`（在FireDAC/AnyDAC中称为数组DML）库的Oracle direct逐条访问中，数组绑定特性的批处理优势很大。</p>
+<p>  对于大多数引擎，我们的ORM内核能够生成正确的SQL语句来加速批量插入。例如:</p>
+<ul>
+<li>SQlite3, MySQL, PostgreSQL, MSSQL 2008, DB2, MySQL或NexusDB会使用多条<code>INSERT INTO .. VALUES (..),(..),(..)..</code>处理<code>INSERT</code>语句；</li>
+<li>Oracle使用<code>INSERT INTO .. INTO .. SELECT 1 FROM DUAL</code>（奇怪的语法，不是吗?）;</li>
+<li>Firebird实现了<code>EXECUTE BLOCK</code>。</li>
+</ul>
+<p>  因此，当使用<code>BatchAdd()</code>时，一些引擎显示了很好的速度提升，即便使用SQLite3外部引擎也比逐条执行时更快！该特性处于ORM/SQL级别，因此它对任何外部数据库都有好处。当然，如果给定的库具有更好的实现模式（如我们的direct Oracle、Zeos或带有本机数组绑定的FireDAC)，也会使用它。</p>
+<p>  MongoDB支持大容量数据插入，在批处理模式下也实现了惊人的速度提升。基于MongoDB写回执模式，插入速度可以非常高，默认情况下，对每个写操作服务器都有回执，但是你可以设置<code>wcUnacknowledged</code> 模式旁路回执，在这种情况下，任何错误（如一个唯一字段值重复）您永远得不到通知，所以它不能用于生产，除非你需要这个特性快速填充数据库，或尽可能快地合并一些数据。</p>
+<p>  <strong><em>译者注：write concern mode，写回执模式？</em></strong></p>
+<h4 id="toc_7">7.1.3.3. 读取速度<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h4>
+<p>  现在通过ORM层获取相同的数据：</p>
+<ul>
+<li>“By one”表示每次调用读取一个对象（ORM为<code>Client.Retrieve()</code>调用生成<code>SELECT * FROM table WHERE ID=?</code>）；</li>
+<li>“All *”是在一次调用中读取全部5000个对象（即<code>FillPrepare</code>方法调用会运行<code>SELECT * FROM table</code>），强制使用虚表层，或direct static调用。</li>
+</ul>
+<p>  以下是一些读取速度值（单位：对象/秒）：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>By one</strong></th>
+<th><strong>All Virtual</strong></th>
+<th><strong>All Direct</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SQLite3 (file full)</strong></td>
+<td>127284</td>
+<td>558721</td>
+<td>550842</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (file off)</strong></td>
+<td>126896</td>
+<td>549450</td>
+<td>526149</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (file off exc)</strong></td>
+<td>128077</td>
+<td>557537</td>
+<td>535905</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (mem)</strong></td>
+<td>127106</td>
+<td>557537</td>
+<td>563316</td>
+</tr>
+<tr>
+<td><strong>TObjectList (static)</strong></td>
+<td>300012</td>
+<td>912408</td>
+<td>913742</td>
+</tr>
+<tr>
+<td><strong>TObjectList (virtual)</strong></td>
+<td>303287</td>
+<td>402706</td>
+<td>866551</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (ext full)</strong></td>
+<td>135380</td>
+<td>267436</td>
+<td>553158</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (ext off)</strong></td>
+<td>133696</td>
+<td>262977</td>
+<td>543065</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (ext off exc)</strong></td>
+<td>134698</td>
+<td>264186</td>
+<td>558596</td>
+</tr>
+<tr>
+<td><strong>SQLite3 (ext mem)</strong></td>
+<td>137487</td>
+<td>259713</td>
+<td>557475</td>
+</tr>
+<tr>
+<td><strong>WinHTTP SQLite3</strong></td>
+<td>2198</td>
+<td>209231</td>
+<td>340460</td>
+</tr>
+<tr>
+<td><strong>Sockets SQLite3</strong></td>
+<td>8524</td>
+<td>210260</td>
+<td>387687</td>
+</tr>
+<tr>
+<td><strong>MongoDB (ack)</strong></td>
+<td>8002</td>
+<td>262353</td>
+<td>271268</td>
+</tr>
+<tr>
+<td><strong>MongoDB (no ack)</strong></td>
+<td>8234</td>
+<td>272079</td>
+<td>274582</td>
+</tr>
+<tr>
+<td><strong>ODBC SQLite3</strong></td>
+<td>19461</td>
+<td>136600</td>
+<td>201280</td>
+</tr>
+<tr>
+<td><strong>ZEOS SQlite3</strong></td>
+<td>33541</td>
+<td>200835</td>
+<td>306955</td>
+</tr>
+<tr>
+<td><strong>FireDAC SQlite3</strong></td>
+<td>7683</td>
+<td>83532</td>
+<td>112470</td>
+</tr>
+<tr>
+<td><strong>UniDAC SQlite3</strong></td>
+<td>2522</td>
+<td>74030</td>
+<td>96420</td>
+</tr>
+<tr>
+<td><strong>ODBC Firebird</strong></td>
+<td>3446</td>
+<td>69607</td>
+<td>97585</td>
+</tr>
+<tr>
+<td><strong>ZEOS Firebird</strong></td>
+<td>20296</td>
+<td>114676</td>
+<td>117210</td>
+</tr>
+<tr>
+<td><strong>FireDAC Firebird</strong></td>
+<td>2376</td>
+<td>46276</td>
+<td>56269</td>
+</tr>
+<tr>
+<td><strong>UniDAC Firebird</strong></td>
+<td>2189</td>
+<td>66886</td>
+<td>88102</td>
+</tr>
+<tr>
+<td><strong>Jet</strong></td>
+<td>2640</td>
+<td>166112</td>
+<td>258277</td>
+</tr>
+<tr>
+<td><strong>NexusDB</strong></td>
+<td>1413</td>
+<td>120845</td>
+<td>208246</td>
+</tr>
+<tr>
+<td><strong>Oracle</strong></td>
+<td>1558</td>
+<td>120977</td>
+<td>159861</td>
+</tr>
+<tr>
+<td><strong>ZEOS Oracle</strong></td>
+<td>1420</td>
+<td>110367</td>
+<td>137982</td>
+</tr>
+<tr>
+<td><strong>ODBC Oracle</strong></td>
+<td>1620</td>
+<td>43441</td>
+<td>45764</td>
+</tr>
+<tr>
+<td><strong>FireDAC Oracle</strong></td>
+<td>1231</td>
+<td>42149</td>
+<td>54795</td>
+</tr>
+<tr>
+<td><strong>UniDAC Oracle</strong></td>
+<td>688</td>
+<td>27083</td>
+<td>30093</td>
+</tr>
+<tr>
+<td><strong>BDE Oracle</strong></td>
+<td>860</td>
+<td>3870</td>
+<td>4036</td>
+</tr>
+<tr>
+<td><strong>MSSQL local</strong></td>
+<td>10135</td>
+<td>210837</td>
+<td>437905</td>
+</tr>
+<tr>
+<td><strong>ODBC MSSQL</strong></td>
+<td>12458</td>
+<td>147544</td>
+<td>256502</td>
+</tr>
+<tr>
+<td><strong>FireDAC MSSQL</strong></td>
+<td>3776</td>
+<td>72123</td>
+<td>94091</td>
+</tr>
+<tr>
+<td><strong>UniDAC MSSQL</strong></td>
+<td>2505</td>
+<td>93231</td>
+<td>135932</td>
+</tr>
+<tr>
+<td><strong>ODBC DB2</strong></td>
+<td>7649</td>
+<td>84880</td>
+<td>124486</td>
+</tr>
+<tr>
+<td><strong>FireDAC DB2</strong></td>
+<td>3155</td>
+<td>71456</td>
+<td>88264</td>
+</tr>
+<tr>
+<td><strong>ZEOS PostgreSQL</strong></td>
+<td>8833</td>
+<td>158760</td>
+<td>223583</td>
+</tr>
+<tr>
+<td><strong>ODBC PostgreSQL</strong></td>
+<td>10361</td>
+<td>85680</td>
+<td>120913</td>
+</tr>
+<tr>
+<td><strong>FireDAC PostgreSQL</strong></td>
+<td>2261</td>
+<td>58252</td>
+<td>79002</td>
+</tr>
+<tr>
+<td><strong>UniDAC PostgreSQL</strong></td>
+<td>864</td>
+<td>86900</td>
+<td>122856</td>
+</tr>
+<tr>
+<td><strong>ODBC MySQL</strong></td>
+<td>10143</td>
+<td>65538</td>
+<td>82447</td>
+</tr>
+<tr>
+<td><strong>ZEOS MySQL</strong></td>
+<td>2052</td>
+<td>171803</td>
+<td>245772</td>
+</tr>
+<tr>
+<td><strong>FireDAC MySQL</strong></td>
+<td>3636</td>
+<td>75081</td>
+<td>105028</td>
+</tr>
+<tr>
+<td><strong>UniDAC MySQL</strong></td>
+<td>4798</td>
+<td>99940</td>
+<td>146968</td>
+</tr>
+</tbody>
+</table>
+<p>  SQLite3实现了惊人的读取结果，这使得它非常适合大多数典型的ORM使用。在<code>DB.LockingMode := lmExclusive</code>模式下运行（见"off exc"行），读取速度非常快，这得益于数据库文件的独占访问。只有当希望与其他进程共享数据时，或者为了更好的伸缩性，或使用专用数据库服务器的n层物理结构，才使用外部数据库访问。</p>
+<p>  在上表中，似乎所有基于<code>DB.pas</code>的数据库读取速度都比其他的慢。事实上，<code>TDataSet</code> 才是真正的瓶颈，由于它的内部数据编码。即使是众所周知速度优化优秀的FireDAC，也受到TDataSet结构的限制。我们的直接类，包括ZEOS/ZDBC的性能也更好，因为它们能够通过专用的<code>ColumnsToJSON()</code>方法输出JSON内容，而不需要额外的编码。</p>
+<p>  对于写和读，<code>TObjectList</code> / <code>TSQLRestStorageInMemory</code>引擎都给出了令人印象深刻的结果，但是它的缺点是内存模式，不是为ACID设计的，而且数据必须装在内存。注意，对于id和<code>stored AS_UNIQUE</code>属性可使用索引。</p>
+<p>  搜索非唯一值可能会很慢：引擎必须遍历所有数据行。但是对于唯一值（定义为stored AS_UNIQUE），插入和搜索速度都非常棒，这是由于其优化的O(1)哈希算法，特别是“TObjectList”列的“By name”行，它对应使用这种哈希算法搜索RawUTF8唯一属性值。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>SQLite3 (file full)</strong></th>
+<th><strong>SQLite3 (file off)</strong></th>
+<th><strong>SQLite3 (mem)</strong></th>
+<th><strong>TObjectList (static)</strong></th>
+<th><strong>TObjectList (virt.)</strong></th>
+<th><strong>SQLite3 (ext file full)</strong></th>
+<th><strong>SQLite3 (ext file off)</strong></th>
+<th><strong>SQLite3 (ext mem)</strong></th>
+<th><strong>Oracle</strong></th>
+<th><strong>Jet</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>By one</strong></td>
+<td>10461</td>
+<td>10549</td>
+<td>44737</td>
+<td>103577</td>
+<td>103553</td>
+<td>43367</td>
+<td>44099</td>
+<td>45220</td>
+<td>901</td>
+<td>1074</td>
+</tr>
+<tr>
+<td><strong>By name</strong></td>
+<td>9694</td>
+<td>9651</td>
+<td>32350</td>
+<td>70534</td>
+<td>60153</td>
+<td>22785</td>
+<td>22240</td>
+<td>23055</td>
+<td>889</td>
+<td>1071</td>
+</tr>
+<tr>
+<td><strong>All Virt.</strong></td>
+<td>167095</td>
+<td>162956</td>
+<td>168651</td>
+<td>253292</td>
+<td>118203</td>
+<td>97083</td>
+<td>90592</td>
+<td>94688</td>
+<td>56639</td>
+<td>52764</td>
+</tr>
+<tr>
+<td><strong>All Direct</strong></td>
+<td>167123</td>
+<td>144250</td>
+<td>168577</td>
+<td>254284</td>
+<td>256383</td>
+<td>170794</td>
+<td>165601</td>
+<td>168856</td>
+<td>88342</td>
+<td>75999</td>
+</tr>
+</tbody>
+</table>
+<p>  上表的结果是在一台酷睿2双核笔记本电脑上运行的，因此数据比前表要低。</p>
+<p>  在测试期间，禁用了内部缓存，所以当数据的读比写多时，你可以在实际应用中进一步提升速度，如当从缓存中检索一个对象时，你每秒能处理超过1,00,000次读请求，无论是否使用数据库。</p>
+<h4 id="toc_8">7.1.3.4. 分析和使用建议<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h4>
+<p>  当声明为虚表时(通过<code>VirtualTableRegister</code> 调用)，您就拥有了SQL（包括JOIN）的全部功能，具有非常快的CRUD操作：每秒处理100,000个对象读写请求，包括序列化和客户端-服务端通信！</p>
+<p>  一些数据库是mORMot的首选，比如SQLite3、Oracle、MS SQL、PostgreSQL、MySQL或IBM DB2。您可以连接到它们，而没有<code>DB.pas</code>单元导致的瓶颈，也没有任何<em>Delphi</em>许可限制（初学者版就足够了）。</p>
+<p>  首先，需要考虑使用SQLite3，即使对于生产服务器。由于mORMot的架构设计，这个“嵌入式”数据库在有大量的并发访问时可以作为客户端-服务端应用程序的主数据库引擎，如果您对其伸缩性有疑问，请参见<a href="">线程安全</a>。在这里，“嵌入式”也可用于“移动”环境，这是一个自包含、零配置、经过验证的引擎。</p>
+<p>  通过HTTP的远程访问取得了非常好的结果，在这个本地基准测试中，普通socket客户端（即<code>TSQLDBSocketConnectionProperties</code>类）取得了比WinHTTP API（在客户端使用<code>TSQLDBWinHTTPConnectionProperties</code>）更好的结果。但是在实际使用中，如在Internet上，WinHTTP API被认为更稳定，因此在生产中可能是优选。SQlite3后端为HTTP提供了相当好的性能，并有使用标准HTTP进行传输的好处。</p>
+<p>  大多数知名的闭源数据库是可用的：</p>
+<ul>
+<li>对Oracle的直接访问在批处理模式（即数组绑定）中产生了令人印象深刻的结果。如果您的最终客户将其数据存储在此类服务器中，并且希望降低IT解决方案的许可成本，那么Oracle Express edition是免费的，但在数据/硬件大小方面有些限制（请参阅其许可条款）；</li>
+<li>通过OleDB（或ODBC）直接访问MS SQL Server提供了很好的时效。microsoft SQL Server 2008 R2 Express与Windows环境集成得非常好，价格非常实惠，免费的LocalDB （MSI installer）版本初期已经足够使用了，但也有数据/硬件大小限制，就像Oracle Express一样;</li>
+<li>IBM DB2是另一个很好的候选，express - C（“C”代表社区）提供了一个免费的机会，以运行一个行业标准引擎，企业级特性，没有数据大小限制，但有硬件性能限制（最新的10.5版本限制16 GB内存和2个CPU）;</li>
+<li>我们这里没有包含Informix数据，因为这个数据库的支持是由一个补丁用户提供的，感谢Esteban Martin的分享！在这里我们不使用这类服务器；</li>
+<li>如果您拥有现有的Delphi代码和数据，则可以考虑使用NexusDB，但它与其商业竞争对手相比知名度和认知度较低。</li>
+</ul>
+<p>  开源数据库也是值得考虑的，尤其是与mORMot这样的开源框架一起使用时：</p>
+<ul>
+<li>MySQL是许多web站点使用的著名引擎，主要用于LAMP （Linux Apache MySQL PHP）配置。Windows不是运行它的最佳平台，但它可能是一个相当不错的选择，尤其是在它的MariaDB分支平台上，后者Oracle拥有所有权，听起来官方主版本更具吸引力；</li>
+<li>PostgreSQL是一个企业级数据库，作为开源替代品，它拥有许多令人惊叹的特性，能真正与商业解决方案竞争。即使在Windows下，它也易于安装和管理，并且比其他商业引擎使用更少的资源；</li>
+<li>Firebird在通过Zeos/ZDBC访问时给出了相当一致的时间。我们在这里展示的是嵌入式版本，但是服务器版本也值得考虑，因为许多Delphi程序员都能熟练地使用这个免费的Interbase替代方案；</li>
+<li>MongoDB似乎是SQL数据库的一个有力竞争者，它具有水平伸缩和安装/管理易用性的潜在优势，性能非常高，而且基于文档的存储与mORMot的高级ORM特性（如无共享架构\分片）非常匹配。</li>
+</ul>
+<p>  要访问这些数据库，还可以使用OleDB、ODBC或ZDBC驱动程序，这些驱动程序具有直接访问权限。mORMot是一种非常开放的杂食动物：你可以使用任何<code>DB.pas</code>驱动程序，例如FireDAC、UniDAC、DBExpress、NexusDB甚至BDE，但是在读取时TDataSet实例引入了其它层。</p>
+<p>  因此，典型使用场景可能是：</p>
+<table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>internal SQLite3 file</td>
+<td>在默认情况下创建的。<br>通用安全数据处理，在“off exc”模式下速度惊人</td>
+</tr>
+<tr>
+<td>internal SQLite3 in-memory</td>
+<td>使用'<code>:memory:</code>'文件名创建。<br>快速无持久性数据处理（如测试或临时存储）</td>
+</tr>
+<tr>
+<td><code>TObjectList</code> static</td>
+<td>使用<code>StaticDataCreate</code>创建。<br>没有ACID和SQL，为少量数据提供最佳性能</td>
+</tr>
+<tr>
+<td><code>TObjectList</code> virtual</td>
+<td>使用<code>VirtualTableRegister</code>创建。<br>如果不需要ACID，也不需要复杂的SQL，那么对于少量数据（在Win64无数据数量限制）的SQL，可以获得最佳的性能</td>
+</tr>
+<tr>
+<td>external SQLite3 file</td>
+<td>使用<code>VirtualTableExternalRegister创建</code><br>外部后端，如跨磁盘</td>
+</tr>
+<tr>
+<td>external SQLite3 in-memory</td>
+<td>使用<code>VirtualTableExternalRegister</code>和<code>':memory:'</code>创建<br>外部快速后端（例如用于测试）</td>
+</tr>
+<tr>
+<td>external Oracle / MS SQL / DB2 / PostgreSQL / MySQL / Informix / Firebird</td>
+<td>使用<code>VirtualTableExternalRegister</code>创建<br>快速、安全、符合行业标准的后端；数据可以脱离mORMot共享</td>
+</tr>
+<tr>
+<td>external NexusDB</td>
+<td>使用<code>VirtualTableExternalRegister</code>创建<br>免费的嵌入式版本，允许将整个引擎包含在可执行文件中，并使用任何现有代码，但是SQlite3听起来是更好的选择</td>
+</tr>
+<tr>
+<td>external Jet/MSAccess</td>
+<td>使用<code>VirtualTableExternalRegister</code>创建<br>可以用作数据交换格式（如与Office应用）</td>
+</tr>
+<tr>
+<td>external Zeos</td>
+<td>使用<code>VirtualTableExternalRegister</code>创建<br>允许访问几个外部引擎，使用直接的Zeos/ZDBC访问，绕过了<code>DB.pas</code>单元及其<code>TDataSet</code>瓶颈，我们也更喜欢这个活跃的开源项目！</td>
+</tr>
+<tr>
+<td>external FireDAC/UniDAC</td>
+<td>使用<code>VirtualTableExternalRegister</code>创建<br>允许访问多个外部引擎，包括<code>DB.pas</code>单元及其<code>TDataSet</code>瓶颈</td>
+</tr>
+<tr>
+<td>external <em>MongoDB</em></td>
+<td>使用<code>StaticMongoDBRegister()</code>创建<br>高速基于文档的存储，具有水平伸缩和嵌套子文档的高级查询能力</td>
+</tr>
+</tbody>
+</table>
+<p>  无论使用哪种数据库后端，不要忘记mORMot设计将允许您从一个库切换到另一个库，只需更改<code>TSQLDBConnectionProperties</code>类型即可。您可以混合使用外部引擎，不需要绑定到单个引擎，但是需要根据项目为每个ORM表优化数据库访问。</p>
+<h2 id="toc_9">7.2. SQLite3的使用<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h2>
+<p>  从框架的1.15版本开始，SQLite3引擎从mORMotSQLite3.pas单元剥离，独立定义为SynSQLite3.pas单元。</p>
+<p>  可以这样来使用它：</p>
+<ul>
+<li>通过SynSQLite3.pas独立调用其所有功能，甚至底层的C API，但此时你不能轻松地切换到另一个数据库引擎；</li>
+<li>通过SynDBSQLite3.pas ，使用SynDB.pas通用访问类，独立使用高级SQL访问，这样你就可以在需要的时候更换成其他数据库引擎（如MS SQL, PostgreSQL, MySQL或Oracle）；</li>
+<li>基于C/S模式可调用ORM所有功能，参见mORMotSQLite3.pas。</li>
+</ul>
+<p>  我们将在这里明确一些使用SQLite3引擎的重点内容，并参考http://sqlite.org上这个伟大的开源项目的官方文档，以了解其常用特性的基本信息。</p>
+<h3 id="toc_10">7.2.1. 静态链接或使用外部dll<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h3>
+<p>  框架从1.18版，SynSQlite3.pas单元可以通过两种方式调用SQLite3引擎：</p>
+<ul>
+<li>静态链接到项目可执行文件；</li>
+<li>使用外部sqlite3.dll库。</li>
+</ul>
+<p>  SQLite3 API和常量在SynSQlite3.pas中定义，可以通过定义TSQLite3Library类来访问。如下定义了一个全局sqlite3变量：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span>
+  sqlite3: TSQLite3Library;
+</code></pre>
+<p>  要使用SQLite3引擎，需要将TSQLite3Library的类实例分配给这个全局变量，然后mORMot的所有调用都将通过它进行，例如调用sqlite3.open()而不是sqlite3_open()。</p>
+<p>  它有两个实现类:</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-2" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 470 198" style="max-width:470px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-2 .node&gt;rect { ; }
+#mermaid-diagram-2 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M104.5,64L104.5,89L165.67021276595744,114" marker-end="url(#arrowhead130)" style="fill:none"></path><defs><marker id="arrowhead130" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M334.5,64L334.5,89L273.32978723404256,114" marker-end="url(#arrowhead131)" style="fill:none"></path><defs><marker id="arrowhead131" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(104.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-84.5" y="-22" width="169" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-74.5,-12)"><foreignObject width="149" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLite3LibraryStatic</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(219.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-65" y="-22" width="130" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-55,-12)"><foreignObject width="110" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLite3Library</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(334.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-95.5" y="-22" width="191" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-85.5,-12)"><foreignObject width="171" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLite3LibraryDynamic</div></foreignObject></g></g></g></g></g></g></svg></div>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>单元</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TSQLite3LibraryStatic</td>
+<td>SynSQLite3Static.pas</td>
+<td>静态链接的引擎（.obj链接到.exe)</td>
+</tr>
+<tr>
+<td>TSQLite3LibraryDynamic</td>
+<td>SynSQLite3.pas</td>
+<td>实例化一个sqlite3.dll外部实例</td>
+</tr>
+</tbody>
+</table>
+<p>  通过use引用SynSQLite3Static.pas即可将.obj引擎链接到可执行文件中。</p>
+<p>  <em>规则变化：在框架1.18版本前，链接静态.obj是必须的，所以你必须在你的项目中添加一个对SynSQLite3Static的引用来保证正常工作。</em></p>
+<p>  为了使用外部sqlite3.dll动态连接库，您必须设置全局sqlite3变量：</p>
+<pre><code class="lang-pascal hljs"> FreeAndNil(sqlite3); <span class="hljs-comment">// release any previous instance (e.g. static)</span>
+ sqlite3 := TSQLite3LibraryDynamic.Create;
+</code></pre>
+<p>  FreeAndNil(sqlite3)不是必需的，只有在分配了另一个sqlite3引擎实例时（如果在项目单元的某个地方引用了SynSQLite3Static，就可能会出现这种情况）才需要使用FreeAndNil(sqlite3)。</p>
+<p>  下面是一些用Delphi XE3编译的基准测试，运行在32位项目中，使用bcc编译的静态引擎或MinGW、Visual c++编译的sqlite3.dll外部动态连接库。</p>
+<h4 id="toc_11">7.2.1.1. bcc编译的.obj<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h4>
+<h4 id="toc_12">7.2.1.2. 官方MinGW编译的sqlite3.dll<a class="vnote-anchor" href="#toc_12" data-anchor-icon="#"></a></h4>
+<h4 id="toc_13">7.2.1.3. Visual C++编译的sqlite3.dll<a class="vnote-anchor" href="#toc_13" data-anchor-icon="#"></a></h4>
+<h3 id="toc_14">7.2.2. 语句缓存<a class="vnote-anchor" href="#toc_14" data-anchor-icon="#"></a></h3>
+<p>  为了减少在SQLite3引擎中的时间消耗（对于高端服务器可能有用），框架能够在本地处理SQL语句缓存。</p>
+<p>  从框架1.12版本开始，我们在数据库访问中添加了一个内部SQL语句缓存，可用于所有SQL请求。以前，只缓存了一条<code>SELECT * FROM ... WHERE RowID=…</code>SQL语句（如用于TSQLRest. Retrieve方法)。</p>
+<p>  这样，如果前面的SQL语句运行时带有一些给定的参数，那么就会使用缓存中现成可用的这个版本，并在SQLite3执行之前重新绑定为新参数。</p>
+<p>  在某些情况下，这样做可以极大加快SQLite3进程。根据我们的分析，语句缓存在内存数据库(':memory:'指定为文件名)中至少比一般的请求快两倍（如查询/插入/更新某一行）。</p>
+<p>  为了使用语句缓存，任何SQL语句都必须有一个参数并使用':('和'):'围起来，通过在SQL请求中添加可选标记参数的方法来增强SQL格式，以加强语句的准备和缓存。</p>
+<p>  因此，现在有两种编写同样的SQL请求的方式：</p>
+<p>  像以前是这样编写SQL语句：</p>
+<pre><code class="lang-pascal hljs">SELECT * FROM TABLE WHERE ID=<span class="hljs-number">10</span>;
+</code></pre>
+<p>  在这种情况下，SQL语句将由SQLite3引擎解析，然后编译一条执行一条。</p>
+<p>  使用新的标记选项来绑定并替换参数：</p>
+<pre><code class="lang-pascal hljs">SELECT * FROM TABLE WHERE ID=:(<span class="hljs-number">10</span>):;
+</code></pre>
+<p>  在这种情况下，任何已经就绪的匹配的缓存语句都将直接被重新用来执行。</p>
+<p>  在后面的示例中，将维护一个就绪的TSQLRequest语句内部缓存池。我们通常这样在SQL代码中进行参数匹配：</p>
+<pre><code class="lang-pascal hljs">SELECT * FROM TABLE WHERE ID=?;
+</code></pre>
+<p>  在执行之前，整数10将被绑定到已就绪的缓存语句。</p>
+<p>  可采用如下方式的内联值（注意文本参数允许双引号，除此以外SQL语句应该只使用单引号）：</p>
+<pre><code class="lang-pascal hljs">:(<span class="hljs-number">1234</span>): :(<span class="hljs-number">12.34</span>): :(<span class="hljs-number">12</span>E-<span class="hljs-number">34</span>): :("text"): :(<span class="hljs-string">'It''s great'</span>):
+</code></pre>
+<p>  ORM内部生成的所有SQL语句现在都使用这个新的参数语法。</p>
+<p>  例如，下面是SQlite3引擎如何实现对象删除：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TSQLRestServerDB</span>.<span class="hljs-title">EngineDelete</span><span class="hljs-params">(Table: TSQLRecordClass; ID: TID)</span>:</span> boolean;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> Assigned(OnUpdateEvent) <span class="hljs-keyword">then</span>
+    OnUpdateEvent(self,seDelete,Table,ID); <span class="hljs-comment">// notify BEFORE deletion</span>
+  result := ExecuteFmt(<span class="hljs-string">'DELETE FROM % WHERE RowID=:(%):;'</span>,[Table.SQLTableName,ID]);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  使用:(%):将使<code>DELETE FROM table_name WHERE RowID=?</code>语句在调用时完成缓存和重用准备。</p>
+<p>  在您的代码中，这样来用更方便，例如：</p>
+<pre><code class="lang-pascal hljs">aName := OneFieldValue(TSQLMyRecord,<span class="hljs-string">'Name'</span>,<span class="hljs-string">'ID=:(%):'</span>,[aID]);
+</code></pre>
+<p>  更简单的方式：</p>
+<pre><code class="lang-pascal hljs">aName := OneFieldValue(TSQLMyRecord,<span class="hljs-string">'Name'</span>,<span class="hljs-string">'ID=?'</span>,[],[aID]);
+</code></pre>
+<p>  而不是：</p>
+<pre><code class="lang-pascal hljs">aName := OneFieldValue(TSQLMyRecord,<span class="hljs-string">'Name'</span>,<span class="hljs-string">'ID=%'</span>,[aID]);
+</code></pre>
+<p>  也不是：</p>
+<pre><code class="lang-pascal hljs">aName := OneFieldValue(TSQLMyRecord,<span class="hljs-string">'Name'</span>,<span class="hljs-string">'ID='</span>+Int32ToUtf8(aID));
+</code></pre>
+<p>  实际上，从您的客户端代码中，您可能不会直接在请求中使用:(…):表达式，而是使用重载的TSQLRecord.Create, TSQLRecord.FillPrepare, TSQLRecord.CreateAndFillPrepare, TSQLRest.OneFieldValue, TSQLRest.MultiFieldValues, TQLRestClient.ExecuteFmt和TSQLRestClient.ListFmt方法，从框架的1.15版本开始，SQL的WHERE格式化文本可以接受'%'和'?'内联参数。</p>
+<p>  我们发现在Delphi代码中使用这种SQL增强格式要比通过名称或索引使用参数容易得多（而且更快），就像这个VCL的典型代码那样：</p>
+<pre><code class="lang-pascal hljs">SQL.Text := <span class="hljs-string">'SELECT Name FROM Table WHERE ID=:Index'</span>;
+SQL.ParamByName(<span class="hljs-string">'Index'</span>).AsInteger := aID;
+</code></pre>
+<p>  在底层，语句中带边界的内联值可以在C/S体系结构中实现更好的序列化，服务器端缓存更容易，整个SQL查询包含的所有参数都是RawUTF8值，因此可以直接与缓存的条目进行比较。这样，我们的框架能够处理已就绪的语句，而不需要将绑定参数与主SQL文本分离。</p>
+<p>  同样，外部数据库也将受益于语句缓存。内联值将单独绑定到外部SQL语句，以达到最佳的速度。</p>
+<h3 id="toc_15">7.2.3. R-Tree范围索引<a class="vnote-anchor" href="#toc_15" data-anchor-icon="#"></a></h3>
+<p>  2010-06-25源代码存储库更新后，RTREE扩展已默认编译到所提供的.obj文件中。</p>
+<p>  R-Tree是用于执行空间范围查询的特殊索引。R-Tree最常用在地理空间系统中，其中每个条目都是具有最小和最大XY坐标的矩形。给定一个查询矩形，R-Tree能够快速找到包含在查询矩形内或与查询矩形重叠的所有条目。该思路很容易推广到三维CAD系统中使用。R-Tree也可以用于时域范围查找。例如，假设数据库记录了大量事件的开始和结束时间，R-Tree能够快速查找所有事件，例如，在给定时间范围内始终处于活动状态的事件，或在特定时间范围内开始的所有事件，或在给定时间范围内包含开始和结束的所有事件，等等。参见http://www.sqlite.org/rtree.html。</p>
+<p>  可以使用专用的TSQLRecordRTree ORM类来创建这样的表，它继承自TSQLRecordVirtual，就像其他虚拟表类型（例如TSQLRecordFTS5）一样。</p>
+<p>  从这个TSQLRecordRTree类继承的所有记录都只有sftFloat（如Delphi的double）发布属性，最多5维度，每个维度都包含最小值和最大值（共11列，包括ID属性）。在向数据库添加TSQLRecordRTree记录之前，必须设置其ID: TID属性，如将R-Tree表链接到包含主数据的TSQLRecord表。</p>
+<p>  对ID或坐标范围的查询几乎是实时的，因此，您可以从主TSQLRecord表中提取一些坐标，然后使用TSQLRecordRTree连接查询来加快处理速度，TSQLRestClient.RTreeMatch就是采取的这中方法，例如，以下代码用[-81,-79.6,35,36.2]对aMapData.BlobField赋值后运行：</p>
+<pre><code class="lang-pascal hljs">aClient.RTreeMatch(TSQLRecordMapData,<span class="hljs-string">'BlobField'</span>,TSQLRecordMapBox,
+   aMapData.BlobField,ResultID);
+</code></pre>
+<p>  将执行以下SQL语句：</p>
+<pre><code class="lang-pascal hljs"> SELECT MapData.ID From MapData, MapBox WHERE MapData.ID=MapBox.ID
+  <span class="hljs-keyword">AND</span> minX&gt;=:(-<span class="hljs-number">81.0</span>): <span class="hljs-keyword">AND</span> maxX&lt;=:(-<span class="hljs-number">79.6</span>): <span class="hljs-keyword">AND</span> minY&gt;=:(<span class="hljs-number">35.0</span>): <span class="hljs-keyword">AND</span> :(maxY&lt;=<span class="hljs-number">36.2</span>):
+  <span class="hljs-keyword">AND</span> MapBox_in(MapData.BlobField,:(<span class="hljs-string">'\uFFF0base64encoded-81,-79.6,35,36.2'</span>):);
+</code></pre>
+<p>  MapBox_in SQL功能通过TSQLRestServerDB.Create构造函数注册，并为当前数据库模型的所有TSQLRecordRTree类创建。BlobToCoord和ContainedIn类方法都用于处理BLOB中存储的范围值。默认情况下，它将处理一个double的原始数组，并使用默认的方式进行范围匹配 （ContainedIn方法将简单地按minX&gt;=…maxY&lt;=…where子句进行匹配）。</p>
+<h3 id="toc_16">7.2.4. FTS3/FTS4/FTS5<a class="vnote-anchor" href="#toc_16" data-anchor-icon="#"></a></h3>
+<p>  FTS3/FTS4/FTS5是SQLite3虚拟表模块，允许用户对一组文档执行全文搜索。全文搜索的概念最好也最有效的描述是“谷歌、雅虎和Altavista如何处理放在互联网上的文档”。用户输入一个术语或一系列术语，这些术语可能由二进制操作符连接，或者组成一个短语，全文查询系统会找到一组文档，这些文档既满足用户指定的操作符和分组要求，也最匹配这些术语。</p>
+<p>  有关FTS3/FTS4在SQLite3中使用的参考资料见http://www.sqlite.org/fts3.html，有关FTS5的参考资料见https://www.sqlite.org/fts5.html。简而言之，FTS5是FTS4的一个新版本，它包含了在不牺牲向下兼容性的情况下无法在FTS4中修复的各种问题的修复和解决方案。</p>
+<p>  框架的最新版本，sqlite3.obj静态文件已包含FTS3/FTS4/FTS5引擎（也适用于FPC的其他平台）。</p>
+<h4 id="toc_17">7.2.4.1. FTS3/FTS4/FTS5专用记录类型<a class="vnote-anchor" href="#toc_17" data-anchor-icon="#"></a></h4>
+<p>  为了便于使用FTS特性，我们定义了一些类型：</p>
+<ul>
+<li>TSQLRecordFTS3用于创建一个FTS3表与默认的“简单”词干；</li>
+<li>TSQLRecordFTS3Porter使用波特词干提取算法创建一个FTS3表；</li>
+<li>TSQLRecordFTS3Unicode61使用Unicode61的词干提取算法创建一个FTS3表；</li>
+<li>TSQLRecordFTS4创建一个默认的“简单”词干的FTS4表；</li>
+<li>TSQLRecordFTS4Porter使用波特词干提取算法创建一个FTS4表;</li>
+<li>TSQLRecordFTS4Unicode61使用Unicode61接口创建一个FTS4表;</li>
+<li>TSQLRecordFTS5创建一个默认的“简单”词干的FTS5表;</li>
+<li>TSQLRecordFTS5Porter使用波特词干提取算法创建一个FTS5表;</li>
+<li>TSQLRecordFTS5Unicode61创建一个使用Unicode61词干的FTS5表;</li>
+</ul>
+<p>  <strong><em>译者注：stem-词干，stemming-提取词干，在英语中，一个单词常常是另一个单词的“变种”，如：happy=&gt;happiness，这里happy叫做happiness的词干（stem）。在信息检索系统中，我们常常做的一件事，就是在Term规范化过程中，提取词干，即除去英文单词分词变换形式的结尾。</em></strong></p>
+<p>  下面的图将详细描述这个类层次结构：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-3" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 693 574" style="max-width:693px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-3 .node&gt;rect { ; }
+#mermaid-diagram-3 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M320,64L320,89L320,114" marker-end="url(#arrowhead163)" style="fill:none"></path><defs><marker id="arrowhead163" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M320,158L320,183L320,208" marker-end="url(#arrowhead164)" style="fill:none"></path><defs><marker id="arrowhead164" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M251,245.47971360381862L110.5,277L110.5,302" marker-end="url(#arrowhead165)" style="fill:none"></path><defs><marker id="arrowhead165" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M320,252L320,277L320,302" marker-end="url(#arrowhead166)" style="fill:none"></path><defs><marker id="arrowhead166" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M389,244.3495575221239L546,277L546,302" marker-end="url(#arrowhead167)" style="fill:none"></path><defs><marker id="arrowhead167" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M251,339.4797136038186L110.5,371L110.5,396" marker-end="url(#arrowhead168)" style="fill:none"></path><defs><marker id="arrowhead168" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M320,346L320,371L320,396" marker-end="url(#arrowhead169)" style="fill:none"></path><defs><marker id="arrowhead169" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M389,338.3495575221239L546,371L546,396" marker-end="url(#arrowhead170)" style="fill:none"></path><defs><marker id="arrowhead170" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M262.0744680851064,440L196.25,465L196.25,490" marker-end="url(#arrowhead171)" style="fill:none"></path><defs><marker id="arrowhead171" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M377.9255319148936,440L443.75,465L443.75,490" marker-end="url(#arrowhead172)" style="fill:none"></path><defs><marker id="arrowhead172" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(320,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-52.5" y="-22" width="105" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-42.5,-12)"><foreignObject width="85" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecord</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(320,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-75.5" y="-22" width="151" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-65.5,-12)"><foreignObject width="131" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordVirtual</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(320,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-69" y="-22" width="138" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-59,-12)"><foreignObject width="118" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordFTS3</div></foreignObject></g></g></g><g class="node cyan" id="D1" transform="translate(110.5,324)" style="opacity: 1;"><rect rx="0" ry="0" x="-90.5" y="-22" width="181" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-80.5,-12)"><foreignObject width="161" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordFTS3Porter</div></foreignObject></g></g></g><g class="node cyan" id="D2" transform="translate(320,324)" style="opacity: 1;"><rect rx="0" ry="0" x="-69" y="-22" width="138" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-59,-12)"><foreignObject width="118" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordFTS4</div></foreignObject></g></g></g><g class="node cyan" id="D3" transform="translate(546,324)" style="opacity: 1;"><rect rx="0" ry="0" x="-107" y="-22" width="214" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-97,-12)"><foreignObject width="194" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordFTS3Unicode61</div></foreignObject></g></g></g><g class="node cyan" id="E1" transform="translate(110.5,418)" style="opacity: 1;"><rect rx="0" ry="0" x="-90.5" y="-22" width="181" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-80.5,-12)"><foreignObject width="161" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordFTS4Porter</div></foreignObject></g></g></g><g class="node cyan" id="E2" transform="translate(320,418)" style="opacity: 1;"><rect rx="0" ry="0" x="-69" y="-22" width="138" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-59,-12)"><foreignObject width="118" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordFTS5</div></foreignObject></g></g></g><g class="node cyan" id="E3" transform="translate(546,418)" style="opacity: 1;"><rect rx="0" ry="0" x="-107" y="-22" width="214" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-97,-12)"><foreignObject width="194" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordFTS4Unicode61</div></foreignObject></g></g></g><g class="node cyan" id="F1" transform="translate(196.25,512)" style="opacity: 1;"><rect rx="0" ry="0" x="-90.5" y="-22" width="181" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-80.5,-12)"><foreignObject width="161" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordFTS5Porter</div></foreignObject></g></g></g><g class="node cyan" id="F2" transform="translate(443.75,512)" style="opacity: 1;"><rect rx="0" ry="0" x="-107" y="-22" width="214" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-97,-12)"><foreignObject width="194" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordFTS5Unicode61</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  实际上，在处理拉丁内容时，您应该使用TSQLRecordFTS5，使用TSQLRecordFTS5Unicode61对非拉丁支持更好，如果您的内容是纯英语文本，则应该使用TSQLRecordFTS5Porter。</p>
+<h4 id="toc_18">7.2.4.2. 词干提取<a class="vnote-anchor" href="#toc_18" data-anchor-icon="#"></a></h4>
+<p>  “词干提取”算法（参见http://sqlite.org/fts3.html#tokenizer）是对英文文本进行解析以便从原始文本创建单词索引的方法。</p>
+<p>  默认的简单分词器提取符号特征或使用基本的FTS全文检索时会遵循以下规则：</p>
+<ul>
+<li>术语是符合条件的字符序列，其中符合条件的字符都是字母数字字符、“_”字符以及UTF代码点大于或等于128的所有字符。在将文档拆分为术语时，将丢弃所有其他字符。它们唯一的贡献是分离相邻项。</li>
+<li>作为标记化过程的一部分，ASCII范围内的所有大写字符(UTF代码点小于128)都被转换为小写字符。因此，在使用简单的分词器进行全文检索不区分大小写。</li>
+</ul>
+<p>  例如，当一个文档包含“<em>Right now, they're very frustrated.</em>”的文本时。从文档中提取并添加到全文索引中的术语，按照顺序是“right now they re very frustrated”。这样的文档将匹配全文查询，如"<code>MATCH 'Frustrated'</code>"，因为在检索全文索引之前，简单的分词器将查询中的术语转换成了小写。</p>
+<p>  波特词干提取算法分词器使用相同的规则将输入文档分隔成术语，同时将所有术语转换成小写，并使用波特词干提取算法将相关英语单词减少到只剩公共根。例如，使用与上文相同的输入文档，波特分词器提取了以下标记：“right now thei veri frustrat”。尽管这些术语中有些甚至不是英语单词，但在某些情况下，使用它们构建全文索引比使用简单的分词器生成更容易理解的输出更有用。使用波特分词器，文档不仅匹配全文查询(如"<code>MATCH 'Frustrated'</code>")，还匹配"<code>MATCH 'Frustration'</code>"，因为“<em>Frustration</em>”一词通过波特词干提取算法减为“<em>frustrat</em>”，就像“<em>Frustrated</em>”一样。因此，在使用波特分词器时，FTS能够找到的不仅是查询词的精确匹配，还能与类似的英语词汇匹配。有关波特词干提取算法的更多信息，请参阅http://tartarus.org/~martin/PorterStemmer。</p>
+<p>  Unicode61的词干提取算法分词器的工作原理与“简单”非常类似，只是它根据unicode 6.1版本中的规则进行简单的unicode大小写处理，并识别unicode空间和标点字符，并使用这些字符分隔特征符号。默认情况下，“Unicode61”还从拉丁字符中删除所有的变音符号。</p>
+<h4 id="toc_19">7.2.4.3. FTS检索<a class="vnote-anchor" href="#toc_19" data-anchor-icon="#"></a></h4>
+<p>  一个好的方法是将数据存储在普通的TSQLRecord表中，然后将文本内容存储在分离的FTS表中，通过<code>ID / DocID</code>属性将其关联到这个TSQLRecordFTS5表中。对于TSQLRecordFTS*类型，ID属性被重命名为DocID，这是FTS虚拟表定义的唯一整数键ID属性的内部名称。</p>
+<p>  例如（从回归测试代码中提取），您可以定义这个新类:</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TSQLFTSTest</span> = <span class="hljs-keyword">class</span>(TSQLRecordFTS5)
+  <span class="hljs-keyword">private</span>
+    fSubject: RawUTF8;
+    fBody: RawUTF8;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Subject: RawUTF8 <span class="hljs-keyword">read</span> fSubject <span class="hljs-keyword">write</span> fSubject;
+    <span class="hljs-keyword">property</span> Body: RawUTF8 <span class="hljs-keyword">read</span> fBody <span class="hljs-keyword">write</span> fBody;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  注意，FTS表仅支持UTF-8文本字段，即RawUTF8（在Delphi 2009及以上版本，您还可以使用Unicode字符串类型，它会被SQLite3引擎映射为UTF-8文本字段）。</p>
+<p>  然后，您可以通过框架的ORM特性向这个FTS表添加一些Body/Subject内容，就像任何普通TSQLRecord内容一样：</p>
+<pre><code class="lang-pascal hljs">  FTS := TSQLFTSTest.Create;
+  <span class="hljs-keyword">try</span>
+    Check(aClient.TransactionBegin(TSQLFTSTest)); <span class="hljs-comment">// MUCH faster with this</span>
+    <span class="hljs-keyword">for</span> i := StartID <span class="hljs-keyword">to</span> StartID+COUNT-<span class="hljs-number">1</span> <span class="hljs-keyword">do</span>
+    <span class="hljs-keyword">begin</span>
+      FTS.DocID := IntArray[i];
+      FTS.Subject := aClient.OneFieldValue(TSQLRecordPeople,<span class="hljs-string">'FirstName'</span>,FTS.DocID);
+      FTS.Body := FTS.Subject+<span class="hljs-string">' bodY'</span>+IntToStr(FTS.DocID);
+      aClient.Add(FTS,true);
+    <span class="hljs-keyword">end</span>;
+    aClient.Commit; <span class="hljs-comment">// Commit must be BEFORE OptimizeFTS3, memory leak otherwise</span>
+    Check(FTS.OptimizeFTS3Index(Client.fServer));
+</code></pre>
+<p>  上面的步骤是典型的，与“标准”ORM方法的唯一区别是，在添加TSQLRecordFTS5实例之前必须设置DocID属性，SQLite没有自动创建ID，必须手工指定ID，以便通过ID将FTS记录链接到TSQLRecordPeople行。</p>
+<p>  为了支持全文查询，FTS维护了一个反向索引，将数据中出现的每个唯一的术语或单词映射到表内容中出现的位置。调用专用的OptimizeFTS3Index方法将所有现有的b-trees索引合并到一个大型包含整个b-trees索引中，该方法可与FTS3、FTS4和FTS5类一起工作，不管它的名字是什么。这可能是一个昂贵的操作，但能加快将来的查询，不要在每次修改FTS表之后就调用这个方法，而是在添加了一些文本之后。</p>
+<p>  然后FTS搜索查询将使用自定义的FTSMatch方法：</p>
+<pre><code class="lang-pascal hljs">  Check(aClient.FTSMatch(TSQLFTSTest,<span class="hljs-string">'Subject MATCH ''salVador1'''</span>,IntResult));
+</code></pre>
+<p>  匹配的ID存储在IntResult动态整数数组中，您也可以使用通常的SQL查询代替，FTSMatch方法并不是强制使用的，实际上，它只是一个OneFieldValues方法的包装器，只是用RowID列名来返回结果：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TSQLRest</span>.<span class="hljs-title">FTSMatch</span><span class="hljs-params">(Table: TSQLRecordFTS3Class;
+  <span class="hljs-keyword">const</span> WhereClause: RawUTF8; <span class="hljs-keyword">var</span> DocID: TIntegerDynArray)</span>:</span> boolean;
+<span class="hljs-keyword">begin</span> <span class="hljs-comment">// FTS3 tables do not have any ID, but RowID or DocID</span>
+  result := OneFieldValues(Table,<span class="hljs-string">'RowID'</span>,WhereClause,DocID);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  上面的代码定义了一个重载的FTSMatch方法，并将处理详细的匹配信息，能够使用排序算法，排序结果将按相关性排序：</p>
+<pre><code class="lang-pascal hljs">  Check(aClient.FTSMatch(TSQLFTSTest,<span class="hljs-string">'body1*'</span>,IntResult,[<span class="hljs-number">1</span>,<span class="hljs-number">0.5</span>]));
+</code></pre>
+<p>  这个方法需要一些额外的常量参数来对每个FTS表列进行加权（必须有与TSQLRecordFTS5表中的列相同数量的PerFieldWeight参数）。在上面的示例代码中，Subject字段的权重为1.0,Body的权重为0.5，即“Body”列内容中的所有匹配都要比“Subject”列中的匹配的权重小两倍，这可能是精度最高的匹配。</p>
+<p>  以上查询将调用以下SQL语句：</p>
+<pre><code class="lang-pascal hljs"> SELECT RowID FROM FTSTest WHERE FTSTest MATCH <span class="hljs-string">'body1*'</span>
+ ORDER BY rank(matchinfo(FTSTest),<span class="hljs-number">1.0</span>,<span class="hljs-number">0.5</span>) DESC
+</code></pre>
+<p>  在Delphi中已经实现了rank内部SQL函数，依照SQLite3官方文档指南，可以在其Internet网站<a href="http://www.sqlite.org/fts3.html#appendix_a">http://www.sqlite.org/fts3.html#appendix_a</a>中找到，以实现最有效的排名方式。它将返回匹配全文查询的RowID的文档，该查询从最相关到最不相关排序。在计算相关性时，“subject”列中的查询术语权重是“body”列的两倍。</p>
+<h4 id="toc_20">7.2.4.4. 无内容的FTS4索引表<a class="vnote-anchor" href="#toc_20" data-anchor-icon="#"></a></h4>
+<p>  正如SQlite3所允许的，框架允许FTS4放弃存储被索引的文本，让被索引的文档存储在由用户创建和管理的数据库表中（一个“外部内容”的FTS4表）。</p>
+<p>  由于索引文档本身通常比全文索引大得多，因此可以使用此选项来节省大量存储空间。无内容的FTS4表仍然支持SELECT语句。但是，尝试检索docid列以外的任何表列的值都是错误的。可以使用matchinfo()辅助函数，TSQLRest.FTSMatch方法将按预期工作，但是snippet()和offsets()将在执行时导致异常。</p>
+<p>  例如在示例“30 - MVC Server”中，我们定义了这两个表：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TSQLArticle</span> = <span class="hljs-keyword">class</span>(TSQLContent)
+  <span class="hljs-keyword">private</span>
+    fContent: RawUTF8;
+    fTitle: RawUTF8;
+    fAbstract: RawUTF8;
+    fPublishedMonth: Integer;
+    fTags: TIntegerDynArray;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Title: RawUTF8 <span class="hljs-keyword">index</span> <span class="hljs-number">80</span> <span class="hljs-keyword">read</span> fTitle <span class="hljs-keyword">write</span> fTitle;
+    <span class="hljs-keyword">property</span> Content: RawUTF8 <span class="hljs-keyword">read</span> fContent <span class="hljs-keyword">write</span> fContent;
+    <span class="hljs-keyword">property</span> PublishedMonth: Integer <span class="hljs-keyword">read</span> fPublishedMonth <span class="hljs-keyword">write</span> fPublishedMonth;
+    <span class="hljs-keyword">property</span> <span class="hljs-keyword">Abstract</span>: RawUTF8 <span class="hljs-keyword">index</span> <span class="hljs-number">1024</span> <span class="hljs-keyword">read</span> fAbstract <span class="hljs-keyword">write</span> fAbstract;
+    <span class="hljs-keyword">property</span> Tags: TIntegerDynArray <span class="hljs-keyword">index</span> <span class="hljs-number">1</span> <span class="hljs-keyword">read</span> fTags <span class="hljs-keyword">write</span> fTags;
+  <span class="hljs-keyword">end</span>;
+
+  <span class="hljs-title">TSQLArticleSearch</span> = <span class="hljs-keyword">class</span>(TSQLRecordFTS4Porter)
+  <span class="hljs-keyword">private</span>
+    fContent: RawUTF8;
+    fTitle: RawUTF8;
+    fAbstract: RawUTF8;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Title: RawUTF8 <span class="hljs-keyword">read</span> fTitle <span class="hljs-keyword">write</span> fTitle;
+    <span class="hljs-keyword">property</span> <span class="hljs-keyword">Abstract</span>: RawUTF8 <span class="hljs-keyword">read</span> fAbstract <span class="hljs-keyword">write</span> fAbstract;
+    <span class="hljs-keyword">property</span> Content: RawUTF8 <span class="hljs-keyword">read</span> fContent <span class="hljs-keyword">write</span> fContent;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  我们对数据库模型进行了初始化，使所有数据仅存储在TSQLArticle中，而不存储在TSQLArticleSearch中，使用“外部内容”FTS4表对TSQLArticle所选Title<code>,</code>Abstract和Content字段中的文本进行索引：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CreateModel</span>:</span> TSQLModel;
+<span class="hljs-keyword">begin</span>
+  result := TSQLModel.Create([TSQLBlogInfo,TSQLAuthor,
+    TSQLTag,TSQLArticle,TSQLComment,TSQLArticleSearch],<span class="hljs-string">'blog'</span>);
+  result.Props[TSQLArticleSearch].FTS4WithoutContent(TSQLArticle);
+  ...
+</code></pre>
+<p>  TSQLModelRecordProperties.FTS4WithoutContent()将实际创建所需的SQLite3触发器，以便在主文章行更改时自动填充ArticleSearch全文索引。</p>
+<p>  由于FTS4特性是特定于SQlite3的，并且触发器目前还不能在虚拟表上工作，因此如果TSQLArticleSearch或TSQLArticle位于外部数据库上，那么这个方法就什么也做不了，两个表都需要存储在SQLite3 DB中。</p>
+<p>  在30 - MVC服务器示例中，搜索将这样执行:</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">if</span> scop^.GetAsRawUTF8(<span class="hljs-string">'match'</span>,match) <span class="hljs-keyword">and</span> fHasFTS <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+    <span class="hljs-keyword">if</span> scop^.GetAsDouble(<span class="hljs-string">'lastrank'</span>,rank) <span class="hljs-keyword">then</span>
+      whereClause := <span class="hljs-string">'and rank&lt;? '</span>;
+    whereClause := <span class="hljs-string">'join (select docid,rank(matchinfo(ArticleSearch),1.0,0.7,0.5) as rank '</span>+
+      <span class="hljs-string">'from ArticleSearch where ArticleSearch match ? '</span>+whereClause+
+      <span class="hljs-string">'order by rank desc limit 100) as r on (r.docid=Article.id)'</span>;
+    articles := RestModel.RetrieveDocVariantArray(
+      TSQLArticle,<span class="hljs-string">''</span>,whereClause,[match,rank],
+      <span class="hljs-string">'id,title,tags,author,authorname,createdat,abstract,contenthtml,rank'</span>);
+</code></pre>
+<p>  在上面的查询表达式中，rank()函数用于统计matchinfo()返回的FTS4详细搜索数据，对于标题列中的所有匹配使用1.0权值，抽象列使用0.7权值，内容使用0.5权值。然后，匹配的文章内容通过articles: TDocVariant数组返回，准备渲染到web页面。</p>
+<h3 id="toc_21">7.2.5. 列排序规则<a class="vnote-anchor" href="#toc_21" data-anchor-icon="#"></a></h3>
+<p>  在任何数据库中，都需要定义如何比较列数据，用于正确搜索和排序数据。这就是所谓排序规则。</p>
+<p>  默认情况下，当SQLite比较两个字符串时，它使用顺序排序或排序函数（两个单词表示相同的东西）来确定哪个字符串更大，或者两个字符串是否相等。SQLite有三个内置的排序函数：BINARY、NOCASE和RTRIM：</p>
+<ul>
+<li>BINARY，使用memcmp()比较字符串数据，而不考虑文本编码。</li>
+<li>NOCASE，与二进制相同，除了ASCII的26个大写字符在执行比较之前被转换成小写。注意，只有ASCII字符是大小写转换的。由于表的大小限制，SQLite一般不会对Unicode进行大小写转换，但是您可以使用mORMot的SYSTEMNOCASE或WIN32CASE/WIN32NOCASE自定义排序来增强大小写转换支持（见下面）；</li>
+<li>RTRIM，与二进制相同，只是后面的空格字符被忽略。</li>
+</ul>
+<p>  在mORMot ORM中，我们通过对sqlite3_create_collation() API的内部调用定义了一些额外的排序规则:</p>
+<table>
+<thead>
+<tr>
+<th>TSQLFieldType</th>
+<th>默认排序规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sftAnsiText</td>
+<td>NOCASE，不区分大小写</td>
+</tr>
+<tr>
+<td>sftUTF8Text</td>
+<td>SYSTEMNOCASE，如使用UTF8ILComp()，它将忽略Win-1252拉丁口音</td>
+</tr>
+<tr>
+<td>sftEnumerate</td>
+<td>BINARY，用于表示那些数值</td>
+</tr>
+<tr>
+<td>sftSet</td>
+<td></td>
+</tr>
+<tr>
+<td>sftInteger</td>
+<td></td>
+</tr>
+<tr>
+<td>sftID</td>
+<td></td>
+</tr>
+<tr>
+<td>sftTID</td>
+<td></td>
+</tr>
+<tr>
+<td>sftRecord</td>
+<td></td>
+</tr>
+<tr>
+<td>sftBoolean</td>
+<td></td>
+</tr>
+<tr>
+<td>sftFloat</td>
+<td></td>
+</tr>
+<tr>
+<td>sftCurrency</td>
+<td></td>
+</tr>
+<tr>
+<td>ftTimeLog</td>
+<td></td>
+</tr>
+<tr>
+<td>sftModTime</td>
+<td></td>
+</tr>
+<tr>
+<td>sftCreateTime</td>
+<td></td>
+</tr>
+<tr>
+<td>sftDateTime</td>
+<td>ISO8601，即在比较前将文本解码为日期/时间值</td>
+</tr>
+<tr>
+<td>ftDateTimeMS</td>
+<td></td>
+</tr>
+<tr>
+<td>sftObject</td>
+<td>BINARY，因为它是作为纯JSON内容存储的</td>
+</tr>
+<tr>
+<td>sftVariant</td>
+<td></td>
+</tr>
+<tr>
+<td>sftBlob</td>
+<td>BINARY</td>
+</tr>
+<tr>
+<td>sftBlobDynArray</td>
+<td></td>
+</tr>
+<tr>
+<td>sftBlobCustom</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>  您可以通过调用TSQLRecordProperties.SetCustomCollationForAll()来修改默认的排序方案（它将修改给定类型的所有字段排序）或在重载的class procedure InternalRegisterCustomProperties()或InternalDefineModel()中调用SetCustomCollation()方法（它将修改给定字段），可以通用于所有数据库模型、客户端和服务端、对应的TSQLRecord每次使用时。</p>
+<p>  您也可以调用TSQLModel.SetCustomCollationForAll()方法，它将对给定的模型中执行此操作。</p>
+<p>  因此，当在mORMot ORM中使用SQLite3时，可以使用以下排序:</p>
+<table>
+<thead>
+<tr>
+<th>排序</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BINARY</td>
+<td>默认memcmp()的比较</td>
+</tr>
+<tr>
+<td>NOCASE</td>
+<td>默认的ASCII 7位比较</td>
+</tr>
+<tr>
+<td>RTRIM</td>
+<td>默认memcmp()的比较，先删除右侧空格</td>
+</tr>
+<tr>
+<td>SYSTEMNOCASE</td>
+<td>mORMot的Win-1252 8位比较</td>
+</tr>
+<tr>
+<td>ISO8601</td>
+<td>mORMot日期/时间的比较</td>
+</tr>
+<tr>
+<td>WIN32CASE</td>
+<td>mORMot使用区分大小写的Windows API进行比较</td>
+</tr>
+<tr>
+<td>WIN32NOCASE</td>
+<td>mORMot使用不区分大小写的Windows API进行比较</td>
+</tr>
+</tbody>
+</table>
+<p>  注意，WIN32CASE/WIN32NOCASE比其他的要慢，但是可以正确地处理任何复杂的脚本。例如，如果您想在数据库级别上使用用于unicode的Windows API，您可以为每个数据库模型设置：</p>
+<pre><code class="lang-pascal hljs"> aModel.SetCustomCollationForAll(sftUTF8Text,<span class="hljs-string">'WIN32CASE'</span>);
+ aModel.SetCustomCollationForAll(sftDateTime,<span class="hljs-string">'NOCASE'</span>);
+</code></pre>
+<p>  如果使用非默认排序（例如SYSTEMNOCASE/ISO8601/WIN32CASE/WIN32NOCASE），那么使用“普通”SQLite3工具运行请求可能会有问题。但是您可以安全地使用我们的SynDBExplorer，因为它将声明所有上述排序。</p>
+<p>  当使用外部数据库，如果直接用数据库驱动检索内容虚拟表机制，返回的数据可能不是你希望的，自定义排序需要自定义外部表定义，为每个外部数据库引擎定义适当的SQL语句。</p>
+<h3 id="toc_22">7.2.6. 正则表达式运算符<a class="vnote-anchor" href="#toc_22" data-anchor-icon="#"></a></h3>
+<p>  我们的SQLite3引擎可以在SQL查询中使用正则表达式，在标准SQL操作符(= == != &lt;&gt; IS IN LIKE GLOB MATCH)之外启用正则表达式运算符，它将使用开源PCRE库来执行查询。</p>
+<p>  为了启用运算符，您需要使用use子句引用SynSQLite3RegEx.pas单元，并将RegExp() SQL函数注册到给定的SQLite3数据库实例中，如下所示:</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">uses</span> SynCommons, mORmot, mORMotSQLite3,
+  SynSQLite3RegEx;
+ ...
+Server := TSQLRestServerDB.Create(Model,<span class="hljs-string">'test.db3'</span>);
+<span class="hljs-keyword">try</span>
+  CreateRegExpFunction(Server.DB.DB);
+  <span class="hljs-keyword">with</span> TSQLRecordPeople.CreateAndFillPrepare(Client,
+    <span class="hljs-string">'FirstName REGEXP ?'</span>,[<span class="hljs-string">'\bFinley\b'</span>]) <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">try</span>
+    <span class="hljs-keyword">while</span> FillOne <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+      Check(LastName=<span class="hljs-string">'Morse'</span>);
+      Check(IdemPChar(pointer(FirstName),<span class="hljs-string">'SAMUEL FINLEY '</span>));
+    <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">finally</span>
+    Free;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">finally</span>
+  Server.Free;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  以上代码将执行以下SQL语句（为正则表达式自身准备一个参数）：</p>
+<pre><code class="lang-pascal hljs">SELECT * from People WHERE Firstname REGEXP <span class="hljs-string">'\bFinley\b'</span>;
+</code></pre>
+<p>  也就是说，它将找到TSQLRecordPeople.FirstName包含“Finley”单词的所有对象，在正则表达式中，\b定义了一个单词边界搜索。</p>
+<p>  实际上，REGEXP运算符是REGEXP()用户函数的特殊语法。默认情况下不定义regexp()用户函数，因此使用regexp操作符通常会导致错误消息。为给定的连接调用CreateRegExFunction()将在运行时添加一个名为“regexp()”的SQL函数，该函数将被调用以实现regexp操作符。</p>
+<p>  PCRE静态链接库在Delphi XE之后可用，旧版本的Delphi使用PCRE.pas包装单元，发布在http://www.regular-expressions.info/download/TPerlRegEx.zip中。</p>
+<p>  这个单元将直接调用PCRE库的UTF-8 API，并维护已编译正则表达式的每个连接缓存，以确保最佳性能。</p>
+<h3 id="toc_23">7.2.7. ACID和速度<a class="vnote-anchor" href="#toc_23" data-anchor-icon="#"></a></h3>
+<p>  如上面的数据访问基准测试所述，在普通硬盘上运行时，默认的SQlite3写入速度相当慢。默认情况下，引擎在发出OS级的写命令后会暂停。这保证了数据被写入磁盘，并具有数据库引擎的ACID属性。</p>
+<p>  ACID是“<em>Atomicity Consistency Isolation Durability</em>”属性的缩写，它保证数据库事务被可靠地处理。例如，在电源丢失或硬件故障的情况下，数据能以一致的方式保存在磁盘上，而不会有潜在的数据丢失。</p>
+<p>  在SQLite3中，ACID是通过两种方法在文件级实现的：</p>
+<ul>
+<li>同步写入：这意味着引擎在处理下一个请求之前将等待任何写入的内容被刷新到磁盘；</li>
+<li>文件锁定：这意味着数据库文件在写入期间被锁定为独占使用，允许多个进程并发地访问同一数据库文件。</li>
+</ul>
+<p>  更改这些默认设置可以提升写入性能。</p>
+<h4 id="toc_24">7.2.7.1. 写入同步<a class="vnote-anchor" href="#toc_24" data-anchor-icon="#"></a></h4>
+<p>  可以通过设置TSQLDataBase.Synchronous修改默认的ACID行为，设置为smOff，而不是默认的smFull。当将Synchronous属性设置为smOff时，SQLite在将数据传递给操作系统之后会继续运行，而不会等待同步。这样，如果运行SQLite的应用程序崩溃，数据将是安全的，但是如果操作系统崩溃，或者在数据写入磁盘表面之前计算机失去动力，数据库可能会损坏。另一方面，在此设置下，有些操作要快50倍甚至更多。</p>
+<p>  当在数据访问基准测试期间执行的测试使用Synchronous:= smOff时，在物理硬盘上（SSD或NAS驱动器可能不会受到这种延迟的影响），“写入”的速度会从每秒8-9行提高到大约每秒400行。</p>
+<p>  因此，根据您的应用程序需求，您可以将同步设置切换为off。</p>
+<p>  要更改主要SQLite3引擎同步参数，您可以编写以下代码：</p>
+<pre><code class="lang-pascal hljs">Client := TSQLRestClientDB.Create(Model,<span class="hljs-keyword">nil</span>,MainDBFileName,TSQLRestServerDB,false,<span class="hljs-string">''</span>);
+Client.Server.DB.Synchronous := smOff;
+</code></pre>
+<p>  注意，这个设置对于整个TSQLDatabase实例来说是通用的，因此会影响TSQLRestServerDB实例对所有表的处理。</p>
+<p>  但是如果您定义了一些SQLite3外部表，如下所示，您可以为特定的外部连接定义设置，例如:</p>
+<pre><code class="lang-pascal hljs">Props := TSQLDBSQLite3ConnectionProperties.Create(DBFileName,<span class="hljs-string">''''</span>,<span class="hljs-string">''</span>);
+VirtualTableExternalRegister(Model,TSQLRecordSample,Props,<span class="hljs-string">'SampleRecord'</span>);
+Client := TSQLRestClientDB.Create(Model,<span class="hljs-keyword">nil</span>,MainDBFileName,TSQLRestServerDB,false,<span class="hljs-string">''</span>);
+TSQLDBSQLite3Connection(Props.MainConnection).Synchronous := smOff;
+</code></pre>
+<p>  不要忘记在一个mORMot服务中可以有几个SQlite3引擎！</p>
+<h4 id="toc_25">7.2.7.2. 文件锁<a class="vnote-anchor" href="#toc_25" data-anchor-icon="#"></a></h4>
+<p>  您可以修改ACID默认行为，通过设置TSQLDataBase.LockingMode属性为lmExclusive，而不是默认的lmNormal。当锁定模式设置为lmExclusive时，SQLite会在整个会话期间锁定数据库文件供独占使用。它将阻止其他进程（例如数据库查看器工具）同时访问文件，这样小的写事务要快很多，通常大于40倍。涉及几百/几千条写入操作的更大的事务则不会被加速，主要是对单条插入会有加速，参见数据访问基准。</p>
+<p>  要更改SQLite3引擎锁定模式参数，您可以编写以下代码：</p>
+<pre><code class="lang-pascal hljs">Client := TSQLRestClientDB.Create(Model,<span class="hljs-keyword">nil</span>,MainDBFileName,TSQLRestServerDB,false,<span class="hljs-string">''</span>);
+Client.Server.DB.LockingMode := lmExclusive;
+</code></pre>
+<p>  注意，这个设置对于整个TSQLDatabase实例来说是通用的，因此会影响TSQLRestServerDB实例处理的所有表。</p>
+<p>  但是如果您定义了一些SQLite3外部表，如下所示，您可以为特定的外部连接修改设置，例如：</p>
+<pre><code class="lang-pascal hljs">Props := TSQLDBSQLite3ConnectionProperties.Create(DBFileName,<span class="hljs-string">''''</span>,<span class="hljs-string">''</span>);
+VirtualTableExternalRegister(Model,TSQLRecordSample,Props,<span class="hljs-string">'SampleRecord'</span>);
+Client := TSQLRestClientDB.Create(Model,<span class="hljs-keyword">nil</span>,MainDBFileName,TSQLRestServerDB,false,<span class="hljs-string">''</span>);
+TSQLDBSQLite3Connection(Props.MainConnection).LockingMode := lmExclusive;
+</code></pre>
+<p>  实际上，排它性的文件锁定将读取速度提高了4倍（在单独的行检索情况下）。因此，定义LockingMode := lmExclusive，而不使用Synchronous:= smOff，对于主要为客户机提供ORM内容的服务器来说会很有效。</p>
+<h4 id="toc_26">7.2.7.3. 性能优化<a class="vnote-anchor" href="#toc_26" data-anchor-icon="#"></a></h4>
+<p>  默认情况下，缓慢但真正的ACID设置将用于mORMot，就像SQlite3一样。我们不会改变这一策略，因为它将确保最好的安全，代价是在交易之外写入慢。</p>
+<p>  最好的性能将通过结合前面两个选项来实现:</p>
+<pre><code class="lang-pascal hljs">Client := TSQLRestClientDB.Create(Model,<span class="hljs-keyword">nil</span>,MainDBFileName,TSQLRestServerDB,false,<span class="hljs-string">''</span>);
+Client.Server.DB.LockingMode := lmExclusive;
+Client.Server.DB.Synchronous := smOff;
+</code></pre>
+<p>  或者，对于外部表:</p>
+<pre><code class="lang-pascal hljs">Props := TSQLDBSQLite3ConnectionProperties.Create(DBFileName,<span class="hljs-string">''''</span>,<span class="hljs-string">''</span>);
+VirtualTableExternalRegister(Model,TSQLRecordSample,Props,<span class="hljs-string">'SampleRecord'</span>);
+Client := TSQLRestClientDB.Create(Model,<span class="hljs-keyword">nil</span>,MainDBFileName,TSQLRestServerDB,false,<span class="hljs-string">''</span>);
+TSQLDBSQLite3Connection(Props.MainConnection).Synchronous := smOff;
+TSQLDBSQLite3Connection(Props.MainConnection).LockingMode := lmExclusive;
+</code></pre>
+<p>  如果你能承受在一些极端条件下损失一些数据的可能，或者如果你确定你的硬件配置是安全的（例如，如果服务器是连接到逆变器和RAID磁盘），你手头有数据备份，设置Synchronous := smOff将提升应用程序写入性能。设置LockingMode := lmExclusive对读写速度都有好处。如果您的安全要求非常高，并且默认的安全但缓慢的设置对您来说也不满足要求，那么可以考虑使用外部和专用数据库（如Firebird、Oracle、PostgreSQL、MySQL、DB2、Informix或MS SQL）。</p>
+<h3 id="toc_27">7.2.8. 数据库备份<a class="vnote-anchor" href="#toc_27" data-anchor-icon="#"></a></h3>
+<p>  在所有情况下，不要忘记尽可能频繁地执行SQlite3数据库备份（至少一天多次）。在服务器端添加备份功能就像跑步一样简单：</p>
+<pre><code class="lang-pascal hljs"> Server.DB.BackupBackground(<span class="hljs-string">'backup.db3'</span>,<span class="hljs-number">1024</span>,<span class="hljs-number">10</span>,<span class="hljs-keyword">nil</span>);
+</code></pre>
+<p>  上面的一行代码将对SQLite3主数据库执行后台实时备份，备份周期为每1024内存页备份一次（即它将每次备份1 MB，因为默认的内存页大小是1024字节），每拷贝1MB休眠10毫秒，这样主CRUD / ORM操作在备份期间才能保证持续不间断工作。<br>
+  您甚至可以指定OnProgress: TSQLDatabaseBackupEvent回调事件，以监视备份过程。</p>
+<p>  注意在运行的mORMot数据库中TSQLRestServerDB.Backup或TSQLRestServerDB.BackupGZ方法不再被推荐，因为虚拟表存在一些潜在问题，尤其是在Win64平台上。您应该明确地使用TSQLDatabase.BackupBackground()。</p>
+<p>  可以使用相同的备份过程，例如，将内存中的SQLite3数据库保存到SQLite3文件中，例如:</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">if</span> aInMemoryDB.BackupBackground(<span class="hljs-string">'backup.db3'</span>,-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-keyword">nil</span>) <span class="hljs-keyword">then</span>
+   aInMemoryDB.BackupBackgroundWaitUntilFinished;
+</code></pre>
+<p>  以上代码将把aInMemoryDB数据库保存到“backup.db3”文件。</p>
+<h2 id="toc_28">7.3. 神奇的虚表<a class="vnote-anchor" href="#toc_28" data-anchor-icon="#"></a></h2>
+<p>  SQlite3引擎具有从代码创建虚拟表的独特能力。从SQL语句的角度来看，虚拟表对象与其他表或视图类似。但是在幕后，对虚拟表的查询和更新调用虚拟表对象上的回调方法，而不是读写数据库文件。</p>
+<p>  虚拟表机制允许应用程序发布从SQL语句访问的接口，就好像它们是表一样。SQL语句通常可以对虚拟表做任何它们可以对真实表做的事情，但有以下例外：</p>
+<ul>
+<li>
+<p>不能在虚拟表上创建触发器。</p>
+</li>
+<li>
+<p>不能在虚拟表上创建额外的索引(虚拟表可以有索引，但必须构建到虚拟表实现中。不能使用</p>
+<p>CREATE INDEX语句单独添加索引。</p>
+</li>
+<li>
+<p>不能对虚拟表执行 <code>ALTER TABLE ... ADD COLUMN</code> 命令。</p>
+</li>
+<li>
+<p>特定的虚拟表实现可能会带来额外的约束。例如，一些虚拟实现可能提供只读表。或者一些虚拟表实现可能允许插入或删除，但不允许更新。或者一些虚拟表实现可能会限制可以进行的更新类型。</p>
+</li>
+</ul>
+<p>  已经包含在SQLite3引擎中的虚拟表的例子是FTS或RTREE表。</p>
+<p>  我们的框架引入了新的定制虚拟表类型。您将发现TSQLVirtualTableJSON或TSQLVirtualTableBinary类，它们处理内存中的数据结构，或者它可能表示不是SQLite3格式（例如TSQLVirtualTableLog）的磁盘数据视图。它可以用于访问任何外部数据库，就像它们是本地SQLite3表一样，参见下面。或者应用程序可以根据需要计算虚拟表的内容。</p>
+<p>  得益于SQLite3中的虚拟表的通用实现，您可以在SQL语句中使用这些表，甚至可以安全地在SELECT语句中使用JOIN或定制函数，混合普通的SQLite3表和任何其他虚拟表。从ORM的观点来看，虚拟表只是表，即它们继承自TSQLRecordVirtual，而TSQLRecordVirtual继承自公共基类TSQLRecord。</p>
+<h3 id="toc_29">7.3.1. 虚拟表模块类<a class="vnote-anchor" href="#toc_29" data-anchor-icon="#"></a></h3>
+<p>  从版本1.13开始，向框架添加了专用机制，以便使用纯Delphi代码轻松地添加这样的虚拟表。</p>
+<p>  为了实现新的虚拟表类型，您必须定义一个所谓的模块来处理字段和数据访问，并为SELECT语句定义一个关联的游标。这是由mORMot.pas单元中定义的TSQLVirtualTable和TSQLVirtualTableCursor两个类实现的。</p>
+<p>  例如，以下是从这些类派生出来的默认虚拟表类：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-4" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 984.5 292" style="max-width:984.5px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-4 .node&gt;rect { ; }
+#mermaid-diagram-4 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-4 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-4 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-4 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M102,158L102,183L160.51063829787233,208" marker-end="url(#arrowhead188)" style="fill:none"></path><defs><marker id="arrowhead188" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M322,64L322,89L322,114" marker-end="url(#arrowhead189)" style="fill:none"></path><defs><marker id="arrowhead189" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M322,158L322,183L263.48936170212767,208" marker-end="url(#arrowhead190)" style="fill:none"></path><defs><marker id="arrowhead190" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M573.5,64L573.5,89L644.2446808510638,114" marker-end="url(#arrowhead191)" style="fill:none"></path><defs><marker id="arrowhead191" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M839.5,64L839.5,89L768.7553191489362,114" marker-end="url(#arrowhead192)" style="fill:none"></path><defs><marker id="arrowhead192" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M706.5,158L706.5,183L706.5,208" marker-end="url(#arrowhead193)" style="fill:none"></path><defs><marker id="arrowhead193" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="B1" transform="translate(102,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-82" y="-22" width="164" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-72,-12)"><foreignObject width="144" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLVirtualTableLog</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(212,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-68.5" y="-22" width="137" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-58.5,-12)"><foreignObject width="117" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLVirtualTable</div></foreignObject></g></g></g><g class="node cyan" id="A1" transform="translate(322,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-90.5" y="-22" width="181" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-80.5,-12)"><foreignObject width="161" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLVirtualTableBinary</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(322,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-88" y="-22" width="176" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-78,-12)"><foreignObject width="156" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLVirtualTableJSON</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(573.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-111" y="-22" width="222" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-101,-12)"><foreignObject width="202" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLVirtualTableCursorJSON</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(706.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-111" y="-22" width="222" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-101,-12)"><foreignObject width="202" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLVirtualTableCursorIndex</div></foreignObject></g></g></g><g class="node cyan" id="A3" transform="translate(839.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-105" y="-22" width="210" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-95,-12)"><foreignObject width="190" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLVirtualTableCursorLog</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(706.5,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-92" y="-22" width="184" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-82,-12)"><foreignObject width="164" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLVirtualTableCursor</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  TSQLVirtualTableJSON、TSQLVirtualTableBinary和TSQLVirtualTableCursorJSON类将使用TSQLRestStorageInMemory实例实现虚拟表，以处理内存中的快速静态数据库。磁盘存储将被编码为UTF-8 JSON（用于TSQLVirtualTableJSON类，即“JSON”模块），或以专用的SynLZ压缩格式（用于TSQLVirtualTableBinary类，即“二进制”模块）。磁盘上的文件扩展名简单地为. JSON代表“JSON”模块，.data代表“二进制”模块。需要提一下磁盘存储的大小差异，502kb的People.json内容（由包含的回归测试创建）需92 KB的People.data存储文件，这是特有的格式优化。<br>
+  注意，虚拟表模块名是根据类名定义的。例如，TSQLVirtualTableJSON类在SQL代码中将其模块命名为“JSON”。</p>
+<p>  为了处理外部数据库，将以类似的方式定义两个专用类TSQLVirtualTableExternal和TSQLVirtualTableCursorExternal，请参阅下面的外部数据库类层次结构。</p>
+<p>  您可能已经知道，所有这些虚拟表机制都是在mORMot.pas中实现的。因此，它独立于SQLite3引擎，据我所知，没有其他SQL数据库引擎实现了这一优秀特性。</p>
+<h3 id="toc_30">7.3.2. 定义虚拟表模块<a class="vnote-anchor" href="#toc_30" data-anchor-icon="#"></a></h3>
+<p>  下面是如何定义TSQLVirtualTableLog类的，它将实现一个名为“Log”的虚拟表模块。添加一个新的模块只需要重载一些Delphi方法：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TSQLVirtualTableLog</span> = <span class="hljs-keyword">class</span>(TSQLVirtualTable)
+  <span class="hljs-keyword">protected</span>
+    fLogFile: TSynLogFile;
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">GetTableModuleProperties</span><span class="hljs-params">(
+      <span class="hljs-keyword">var</span> aProperties: TVirtualTableModuleProperties)</span>;</span> <span class="hljs-keyword">override</span>;
+    <span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">Create</span><span class="hljs-params">(aModule: TSQLVirtualTableModule; <span class="hljs-keyword">const</span> aTableName: RawUTF8;
+      FieldCount: integer; Fields: PPUTF8CharArray)</span>;</span> <span class="hljs-keyword">override</span>;
+    <span class="hljs-function"><span class="hljs-keyword">destructor</span> <span class="hljs-title">Destroy</span>;</span> <span class="hljs-keyword">override</span>;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这个模块将允许对.log文件内容的直接只读访问，该文件的文件名将由相应的SQL表名指定。</p>
+<p>  下面的方法将定义这个虚拟表模块的属性:</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TSQLVirtualTableLog</span>.<span class="hljs-title">GetTableModuleProperties</span><span class="hljs-params">(
+  <span class="hljs-keyword">var</span> aProperties: TVirtualTableModuleProperties)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  aProperties.Features := [vtWhereIDPrepared];
+  aProperties.CursorClass := TSQLVirtualTableCursorLog;
+  aProperties.RecordClass := TSQLRecordLogFile;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  提供的特性集定义了一个只读模块（因为没有选择vtWrite），vtWhereIDPrepared指示任何RowID=?SQL语句在游标类中这样处理（我们将使用日志行作为ID号，从1开始计数，这样我们可以加速RowID=?WHERE子句）。返回关联的游标类，指定一个TSQLRecord类来定义处理的字段，其发布的属性定义将被构造方法继承，用于向SQLite3引擎指定SQL语句中预期的字段类型：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TSQLRecordLogFile</span> = <span class="hljs-keyword">class</span>(TSQLRecordVirtualTableAutoID)
+  <span class="hljs-keyword">protected</span>
+    fContent: RawUTF8;
+    fDateTime: TDateTime;
+    fLevel: TSynLogInfo;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-comment">/// the log event time stamp</span>
+    <span class="hljs-keyword">property</span> DateTime: TDateTime <span class="hljs-keyword">read</span> fDateTime;
+    <span class="hljs-comment">/// the log event level</span>
+    <span class="hljs-keyword">property</span> Level: TSynLogInfo <span class="hljs-keyword">read</span> fLevel;
+    <span class="hljs-comment">/// the textual message associated to the log event</span>
+    <span class="hljs-keyword">property</span> Content: RawUTF8 <span class="hljs-keyword">read</span> fContent;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  您可以重载构造方法，以实现CREATE TABLE SQL语句。但是，使用Delphi类RTTI就可以构建需要的列类型和排序规则的SQL语句，ORM其它部分也需要这样的实现。</p>
+<p>  当然，这个RecordClass属性不是必须的。例如，TSQLVirtualTableJSON.GetTableModuleProperties方法不会返回任何关联的TSQLRecordClass，因为它将依赖于它所实现的表，即正在运行的TSQLRestStorageInMemory实例。相反，将重载构造方法，并返回每个关联表的相应字段定义。</p>
+<p>  下面是如何实现Prepare方法，并处理vtWhereIDPrepared特性:</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TSQLVirtualTable</span>.<span class="hljs-title">Prepare</span><span class="hljs-params">(<span class="hljs-keyword">var</span> Prepared: TSQLVirtualTablePrepared)</span>:</span> boolean;
+<span class="hljs-keyword">begin</span>
+  result := Self&lt;&gt;<span class="hljs-keyword">nil</span>;
+  <span class="hljs-keyword">if</span> result <span class="hljs-keyword">then</span>
+    <span class="hljs-keyword">if</span> (vtWhereIDPrepared <span class="hljs-keyword">in</span> fModule.Features) <span class="hljs-keyword">and</span>
+       Prepared.IsWhereIDEquals(true) <span class="hljs-keyword">then</span>
+    <span class="hljs-keyword">with</span> Prepared.Where[<span class="hljs-number">0</span>] <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span> <span class="hljs-comment">// check ID=?</span>
+      Value.VType := varAny; <span class="hljs-comment">// mark TSQLVirtualTableCursorJSON expects it</span>
+      OmitCheck := true;
+      Prepared.EstimatedCost := <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">end</span> <span class="hljs-keyword">else</span>
+      Prepared.EstimatedCost := <span class="hljs-number">1</span>E10; <span class="hljs-comment">// generic high cost</span>
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  下面是如何创建每个“log”虚拟表模块实例：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TSQLVirtualTableLog</span>.<span class="hljs-title">Create</span><span class="hljs-params">(aModule: TSQLVirtualTableModule;
+  <span class="hljs-keyword">const</span> aTableName: RawUTF8; FieldCount: integer; Fields: PPUTF8CharArray)</span>;</span>
+<span class="hljs-keyword">var</span> aFileName: TFileName;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">inherited</span>;
+  <span class="hljs-keyword">if</span> (FieldCount=<span class="hljs-number">1</span>) <span class="hljs-keyword">then</span>
+    aFileName := UTF8ToString(Fields[<span class="hljs-number">0</span>]) <span class="hljs-keyword">else</span>
+    aFileName := aModule.FileName(aTableName);
+  fLogFile := TSynLogFile.Create(aFileName);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  它只根据提供的文件名关联TSynLogFile实例（我们的SQL CREATE VIRTUAL TABLE语句只需要一个参数，即磁盘上的.log文件名，如果没有指定这个文件名，它将使用SQL表名）。</p>
+<p>  <code>TSQLVirtualTableLog.Destroy</code>析构将销毁这个fLogFile实例:</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">destructor</span> <span class="hljs-title">TSQLVirtualTableLog</span>.<span class="hljs-title">Destroy</span>;</span>
+<span class="hljs-keyword">begin</span>
+  FreeAndNil(fLogFile);
+  <span class="hljs-keyword">inherited</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  然后对应的游标类定义为：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TSQLVirtualTableCursorLog</span> = <span class="hljs-keyword">class</span>(TSQLVirtualTableCursorIndex)
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Search</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Prepared: TSQLVirtualTablePrepared)</span>:</span> boolean; <span class="hljs-keyword">override</span>;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Column</span><span class="hljs-params">(aColumn: integer; <span class="hljs-keyword">var</span> aResult: TVarData)</span>:</span> boolean; <span class="hljs-keyword">override</span>;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  由于该类继承自TSQLVirtualTableCursorIndex，因此它将具有通用的fCurrent / fMax保护字段，并将具有HasData、Next和Search方法属性用来处理游标导航。</p>
+<p>  被重载的搜索方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TSQLVirtualTableCursorLog</span>.<span class="hljs-title">Search</span><span class="hljs-params">(
+  <span class="hljs-keyword">const</span> Prepared: TSQLVirtualTablePrepared)</span>:</span> boolean;
+<span class="hljs-keyword">begin</span>
+  result := <span class="hljs-keyword">inherited</span> Search(Prepared); <span class="hljs-comment">// mark EOF by default</span>
+  <span class="hljs-keyword">if</span> result <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+    fMax := TSQLVirtualTableLog(Table).fLogFile.Count-<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> Prepared.IsWhereIDEquals(false) <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+      fCurrent := Prepared.Where[<span class="hljs-number">0</span>].Value.VInt64-<span class="hljs-number">1</span>; <span class="hljs-comment">// ID=? -&gt; index := ID-1</span>
+      <span class="hljs-keyword">if</span> cardinal(fCurrent)&lt;=cardinal(fMax) <span class="hljs-keyword">then</span>
+        fMax := fCurrent <span class="hljs-keyword">else</span> <span class="hljs-comment">// found one</span>
+        fMax := fCurrent-<span class="hljs-number">1</span>;   <span class="hljs-comment">// out of range ID</span>
+    <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这个方法的唯一目的是处理<code>SELECT WHERE</code>语句的<code>RowID=?</code>条件，对于任何有效ID返回<code>fCurrent=fMax=ID-1</code>，或<code>fMax&lt;fCurrent</code>，即如果ID超出范围，则没有返回结果。实际上，游标类的<code>Search</code>方法必须处理调用<code>Prepare</code>方法时通知的所有情况。在我们的例子中，由于我们已经设置了<code>vtwhereidprepare</code>特性，而Prepare方法在请求中标明了该特性并设置了<code>OmitCheck</code>标志，所以我们的<code>Search</code>方法必须处理<code>RowID=?</code>的情况。</p>
+<p>  如果WHERE子句不是<code>RowID=?</code>（即<code>Prepared.IsWhereIDEquals</code>返回false），它将返回<code>fCurrent=0</code>和<code>fMax=fLogFile.Count-1</code>，并让SQLite3引擎循环遍历所有搜索数据的行。</p>
+<p>  每个列值都是通过这个方法检索到的:</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TSQLVirtualTableCursorLog</span>.<span class="hljs-title">Column</span><span class="hljs-params">(aColumn: integer;
+  <span class="hljs-keyword">var</span> aResult: TVarData)</span>:</span> boolean;
+<span class="hljs-keyword">var</span> LogFile: TSynLogFile;
+<span class="hljs-keyword">begin</span>
+  result := false;
+  <span class="hljs-keyword">if</span> (self=<span class="hljs-keyword">nil</span>) <span class="hljs-keyword">or</span> (fCurrent&gt;fMax) <span class="hljs-keyword">then</span>
+    <span class="hljs-keyword">exit</span>;
+  LogFile := TSQLVirtualTableLog(Table).fLogFile;
+  <span class="hljs-keyword">if</span> LogFile=<span class="hljs-keyword">nil</span> <span class="hljs-keyword">then</span>
+    <span class="hljs-keyword">exit</span>;
+  <span class="hljs-keyword">case</span> aColumn <span class="hljs-keyword">of</span>
+   -<span class="hljs-number">1</span>: SetColumn(aResult,fCurrent+<span class="hljs-number">1</span>); <span class="hljs-comment">// ID = index + 1</span>
+    <span class="hljs-number">0</span>: SetColumn(aResult,LogFile.EventDateTime(fCurrent));
+    <span class="hljs-number">1</span>: SetColumn(aResult,ord(LogFile.EventLevel[fCurrent]));
+    <span class="hljs-number">2</span>: SetColumn(aResult,LogFile.LinePointers[fCurrent],LogFile.LineSize(fCurrent));
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">exit</span>;
+  <span class="hljs-keyword">end</span>;
+  result := true;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  正如<code>TSQLVirtualTableCursor</code>类的文档所述，-1是RowID的列索引，后面是代码中定义的列并通过构造方法返回（在我们的例子中，是TSQLRecordLogFile的DateTime、Level和Content字段）。</p>
+<p>  SetColumn重载方法用于将正确的结果赋给aResult变量。对于UTF-8文本，它将使用一个临时内存空间，以确保至少在下一次Column方法调用之前文本内存仍然可用。</p>
+<h3 id="toc_31">7.3.3. 使用虚拟表模块<a class="vnote-anchor" href="#toc_31" data-anchor-icon="#"></a></h3>
+<p>  从SQLite3底层的角度来看，下面是如何直接从SQLite3引擎使用这个“日志”虚拟表模块。</p>
+<p>  首先，我们将这个模块注册到一个DB连（这个方法只在这种低级访问的情况下使用，在我们的ORM中，您永远不应该调用这个方法，而是用TSQLModel. VirtualTableRegister，参看下一段）:</p>
+<pre><code class="lang-pascal hljs"> RegisterVirtualTableModule(TSQLVirtualTableLog,Demo);
+</code></pre>
+<p>  然后，我们可以执行以下SQL语句来创建Demo数据库连接的虚拟表:</p>
+<pre><code class="lang-pascal hljs"> Demo.Execute(<span class="hljs-string">'CREATE VIRTUAL TABLE test USING log(temptest.log);'</span>);
+</code></pre>
+<p>  这将创建虚拟表，因为TSQLVirtualTableLog类已经知道所有字段，所以没有必要在这里指定字段。我们只指定日志文件名，TSQLVirtualTableLog. Create构造函数将获取该文件名。</p>
+<pre><code class="hljs"> Demo.Execute('select count(*) from test',Res);
+ Check(Res=1);
+ s := Demo.ExecuteJSON('select * from test');
+ s2 := Demo.ExecuteJSON('select * from test where rowid=1');
+ s3 := Demo.ExecuteJSON('select * from test where level=3');
+</code></pre>
+<p>  从SQL的角度来看，您可以看到它与普通SQLite3表没有区别。实际上，SQLite3实现的全功能SQL语言（参见http://sqlite.org/lang.html）可以与任何类型的数据一起使用，只要您定义相应虚拟表模块的适用方法。</p>
+<h3 id="toc_32">7.3.4. 虚拟表、ORM和TSQLRecord<a class="vnote-anchor" href="#toc_32" data-anchor-icon="#"></a></h3>
+<p>  框架ORM能够使用虚拟表模块，只需定义一些继承TSQLRecordVirtual专用类的TSQLRecord：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-5" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 598 386" style="max-width:598px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-5 .node&gt;rect { ; }
+#mermaid-diagram-5 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-5 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-5 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-5 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M145.5,158L145.5,183L223.6914893617021,208" marker-end="url(#arrowhead211)" style="fill:none"></path><defs><marker id="arrowhead211" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M439.5,64L439.5,89L439.5,114" marker-end="url(#arrowhead212)" style="fill:none"></path><defs><marker id="arrowhead212" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M439.5,158L439.5,183L361.3085106382979,208" marker-end="url(#arrowhead213)" style="fill:none"></path><defs><marker id="arrowhead213" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M292.5,252L292.5,277L292.5,302" marker-end="url(#arrowhead214)" style="fill:none"></path><defs><marker id="arrowhead214" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="B1" transform="translate(145.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-125.5" y="-22" width="251" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-115.5,-12)"><foreignObject width="231" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordVirtualTableForcedID</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(292.5,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-75.5" y="-22" width="151" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-65.5,-12)"><foreignObject width="131" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordVirtual</div></foreignObject></g></g></g><g class="node cyan" id="A1" transform="translate(439.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-78" y="-22" width="156" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-68,-12)"><foreignObject width="136" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordLogFile</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(439.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-118.5" y="-22" width="237" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-108.5,-12)"><foreignObject width="217" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordVirtualTableAutoID</div></foreignObject></g></g></g><g class="node cyan" id="D1" transform="translate(292.5,324)" style="opacity: 1;"><rect rx="0" ry="0" x="-52.5" y="-22" width="105" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-42.5,-12)"><foreignObject width="85" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecord</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  可以为Delphi中实现的虚拟表定义TSQLRecordVirtualTableAutoID派生类，并在INSERT时自动生成一个新ID。<br>
+  可以为Delphi中实现的虚拟表定义TSQLRecordVirtualTableForcedID派生类，在INSERT时强制使用ID值（类似于TSQLRecordRTree或TSQLRecordFTS3/FTS4/FTS5）。</p>
+<p>  TSQLRecordLogFile被定义为对应TSQLVirtualTableLog ('log')模块检索到的列名，不应该用于任何其他目的。</p>
+<p>  这些虚拟表模块关联的类可从TSQLModel服务端获取。在C/S应用程序中，在客户端不需要关联（也不需要使用关联，因为它可能会增加代码大小）。但在服务端，必须调用<code>TSQLModel.VirtualTableRegister</code>方法将TSQLVirtualTableClass（即虚拟表模块实现）与TSQLRecordVirtualClass（即其ORM用户接口）关联起来。</p>
+<p>  例如，下面的代码将注册两个TSQLRecord类，第一个使用“JSON”虚拟表模块，第二个使用“二进制”模块:</p>
+<pre><code class="lang-pascal hljs">Model.VirtualTableRegister(TSQLRecordDali1,TSQLVirtualTableJSON);
+Model.VirtualTableRegister(TSQLRecordDali2,TSQLVirtualTableBinary);
+</code></pre>
+<p>  在调用TSQLRestServer.Create之前，需在服务器端完成此注册（或<code>TSQLRestClientDB.Create</code>，对独立应用程序）。否则，在创建虚拟表时将引发异常。</p>
+<h3 id="toc_33">7.3.5. 内存中的“静态”过程<a class="vnote-anchor" href="#toc_33" data-anchor-icon="#"></a></h3>
+<p>  我们已经看到TSQLVirtualTableJSON、TSQLVirtualTableBinary和TSQLVirtualTableCursorJSON类使用TSQLRestStorageInMemory实例实现了一个虚拟表模块，以处理快速的静态内存数据库。</p>
+<p>  既然可以使用:memory:文件名在内存中创建SQLite3表时，为什么还要使用这种类型的数据库呢？这就是问题所在…</p>
+<ul>
+<li>SQlite3内存中的表不是持久的，而我们的JSON或二进制虚拟表模块可以根据需要写入磁盘，此时将aServer.StaticVirtualTable[aClass].CommitShouldNotUpdateFile属性设置为true，并显式调用aServer.StaticVirtualTable[aClass].UpdateToFile来写入文件；</li>
+<li>SQlite3内存中的表需要两个数据库连接，或者调用<code>ATTACH DATABASE</code>SQL语句，两者都不是由我们的C/S框架进行处理的；</li>
+<li>SQlite3内存表只能通过SQL语句访问，而TSQLRestStorageInMemory表可以更快地直接访问许多常见的RESTful命令（GET / POST / PUT / DELETE单个行），这可能会影响服务端CPU负载能力，尤其是框架的批处理特性；</li>
+<li>在服务端，纯Delphi代码直接使用内存中的TSQLRecord实例表可能非常方便，这正是TSQLRestStorageInMemory所支持的，对于ORM框架来说这无疑是很有意义的；</li>
+<li>在客户端或服务端，您可以使用Delphi为TSQLRestStorageInMemory编写专用的“getter”方法，轻松地创建计算字段，而SQlite3内存表需要额外的SQL编码；</li>
+<li>SQLite3表存储在主数据库文件，在某些情况下，在一些分离的数据库文件中也便于增加一些额外的表内容（轮询调度表，一个配置表写入JSON，一些内容在用户间共享…），这使得使用我们的JSON或二进制虚拟表模块成为可能（老实说，<code>ATTACH DATABASE</code>语句可以提供类似的功能）；</li>
+<li>TSQLRestStorageInMemory类可以独立使用，也就是说，不需要SQLite3引擎，它可以用来生成小型高效的服务端软件，参见“SQLite3\Samples\01 - In Memory ORM”文件夹。</li>
+</ul>
+<h4 id="toc_34">7.3.5.1. 内存表<a class="vnote-anchor" href="#toc_34" data-anchor-icon="#"></a></h4>
+<p>  独立于SQLite3引擎使用静态表的第一种方法是调用TSQLRestServer.StaticDataCreate方法。</p>
+<p>  当然，这个方法只能在服务端调用。对于客户端，普通的表和静态表没有区别。</p>
+<p>  稍后可以通过TSQLRestServer的StaticDataServer[]属性数组访问TSQLRestStorageInMemory实例管理的存储内容。</p>
+<p>  正如我们刚刚指出的，这个简单但高效的数据库引擎可以在不需要SQLite3数据库引擎的情况下编译链接到可执行文件中使用，这样可以减少KB级的代码尺寸，也足以处理大多数基本的RESTful请求。</p>
+<h4 id="toc_35">7.3.5.2. 虚拟内存表<a class="vnote-anchor" href="#toc_35" data-anchor-icon="#"></a></h4>
+<p>  使用静态表的更高级和更强大的方法是定义TSQLRecordVirtualTableAutoID派生类，并与一些TSQLVirtualTable类关联起来。TSQLRecordVirtualTableAutoID父类将定义相关联的虚拟表模块行为，类似于普通的SQLite3表，在执行INSERT时会计算它们的RowID属性。</p>
+<p>  例如，在提供的回归测试中定义了两个表，表的发布属性定义了三个列，分别是FirstName、YearOfBirth和YearOfDeath：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TSQLRecordDali1</span> = <span class="hljs-keyword">class</span>(TSQLRecordVirtualTableAutoID)
+  <span class="hljs-keyword">private</span>
+    fYearOfBirth: integer;
+    fFirstName: RawUTF8;
+    fYearOfDeath: word;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> FirstName: RawUTF8 <span class="hljs-keyword">read</span> fFirstName <span class="hljs-keyword">write</span> fFirstName;
+    <span class="hljs-keyword">property</span> YearOfBirth: integer <span class="hljs-keyword">read</span> fYearOfBirth <span class="hljs-keyword">write</span> fYearOfBirth;
+    <span class="hljs-keyword">property</span> YearOfDeath: word <span class="hljs-keyword">read</span> fYearOfDeath <span class="hljs-keyword">write</span> fYearOfDeath;
+  <span class="hljs-keyword">end</span>;
+  <span class="hljs-title">TSQLRecordDali2</span> = <span class="hljs-keyword">class</span>(TSQLRecordDali1);
+</code></pre>
+<p>  然后，将这两个类添加到客户端和服务端应用程序的TSQLModel实例中：</p>
+<pre><code class="lang-pascal hljs">  ModelC := TSQLModel.Create(
+    [TSQLRecordPeople,  (...)
+     TSQLRecordDali1,TSQLRecordDali2],<span class="hljs-string">'root'</span>);
+</code></pre>
+<p>  然后，在服务端，将这两个类与对应的虚拟表模块关联：</p>
+<pre><code class="lang-pascal hljs">ModelC.VirtualTableRegister(TSQLRecordDali1,TSQLVirtualTableJSON);
+ModelC.VirtualTableRegister(TSQLRecordDali2,TSQLVirtualTableBinary);
+</code></pre>
+<p>  在服务器端，由于VirtualTableRegister调用，当初始化SQLite3数据库连接时，将自动启动“JSON”和“二进制”虚拟表模块：</p>
+<pre><code class="lang-pascal hljs">  Client := TSQLRestClientDB.Create(ModelC,<span class="hljs-keyword">nil</span>,Demo,TSQLRestServerTest);
+</code></pre>
+<p>  这个TSQLRestClientDB实际上有一个正在运行的TSQLRestServerDB实例，它将用于所有数据库访问，包括虚拟表进程。</p>
+<p>  如上所述，将在磁盘上创建名为'Dali1.json'和‘Dali2.data'的两个文件，JSON版本将更大，也更容易支持外部应用程序处理。</p>
+<p>  从代码的角度来看，与普通的TSQLRecord表相比，ORM处理这些虚拟表没有什么不同。例如，下面是从提供的回归测试代码中提取的一些代码：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">if</span> aClient.TransactionBegin(TSQLRecordDali1) <span class="hljs-keyword">then</span>
+  <span class="hljs-keyword">try</span>
+    <span class="hljs-comment">// add some items to the file</span>
+    V2.FillPrepare(aClient,<span class="hljs-string">'LastName=:("Dali"):'</span>);
+    n := <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> V2.FillOne <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+      VD.FirstName := V2.FirstName;
+      VD.YearOfBirth := V2.YearOfBirth;
+      VD.YearOfDeath := V2.YearOfDeath;
+      inc(n);
+      Check(aClient.Add(VD,true)=n,Msg);
+    <span class="hljs-keyword">end</span>;
+    <span class="hljs-comment">// update some items in the file</span>
+    <span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span> <span class="hljs-keyword">to</span> n <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+      Check(aClient.Retrieve(i,VD),Msg);
+      Check(VD.ID=i);
+      Check(IdemPChar(pointer(VD.FirstName),<span class="hljs-string">'SALVADOR'</span>));
+      Check(VD.YearOfBirth=<span class="hljs-number">1904</span>);
+      Check(VD.YearOfDeath=<span class="hljs-number">1989</span>);
+      VD.YearOfBirth := VD.YearOfBirth+i;
+      VD.YearOfDeath := VD.YearOfDeath+i;
+      Check(aClient.Update(VD),Msg);
+    <span class="hljs-keyword">end</span>;
+    <span class="hljs-comment">// check SQL requests</span>
+    <span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span> <span class="hljs-keyword">to</span> n <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+      Check(aClient.Retrieve(i,VD),Msg);
+      Check(VD.YearOfBirth=<span class="hljs-number">1904</span>+i);
+      Check(VD.YearOfDeath=<span class="hljs-number">1989</span>+i);
+    <span class="hljs-keyword">end</span>;
+    Check(aClient.TableRowCount(TSQLRecordDali1)=<span class="hljs-number">1001</span>);
+    aClient.Commit;
+  <span class="hljs-keyword">except</span>
+    aClient.RollBack;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  需要从客户端调用<code>Commit</code>来写入磁盘内容。在服务器端，为了创建磁盘内容，您必须显示地调用这些代码。</p>
+<p>  正如我们已经注意到的，默认情况下，将使用基于TSQLRestStorageInMemory的虚拟表在磁盘上写入数据。实际上，上面代码中的Commit方法将调用TSQLRestStorageInMemory.UpdateFile方法。</p>
+<p>  需要注意的是，SQlite3引擎将处理所有虚拟表，就像处理普通的SQlite3表一样，涉及到数据的原子性。也就是说，如果没有显式定义任何事务(通过TransactionBegin / Commit方法)，那么对于每个数据库的变更都将执行该事务（所有CRUD操作，如INSERT / UPDATE / DELETE）。TSQLRestStorageInMemory.UpdateToFile方法不是立即执行的，因为它会每次向磁盘写入所有缓存的表数据。因此，出于性能原因，为了获得更好的性能，必须在虚拟表中嵌套多个变更事务。在所有情况下，这都是使用ORM的标准方法。如果由于某些原因，您后来改变了主意，例如将表从TSQLVirtualTableJSON / TSQLVirtualTableBinary引擎移动到普通的SQlite3引擎，您的代码可以保持不变。</p>
+<p>  可以使用以下属性强制内存中的虚拟表数据留在内存中，而COMMIT语句在磁盘上什么也不写:</p>
+<pre><code class="lang-pascal hljs">Server.StaticVirtualTable[TSQLRecordDali1].CommitShouldNotUpdateFile := true;
+</code></pre>
+<p>  之后为了创建磁盘内容，必须显式地调用相应的方法：</p>
+<pre><code class="lang-pascal hljs"> Server.StaticVirtualTable[TSQLRecordDali1].UpdateToFile;
+</code></pre>
+<p>  由于StaticVirtualTable属性仅在服务器端可用，所以如果您的客户机更新了表数据，而这个更新根本没有磁盘，那么您需要重新检查代码！</p>
+<h4 id="toc_36">7.3.5.3. 内存和ACID特性<a class="vnote-anchor" href="#toc_36" data-anchor-icon="#"></a></h4>
+<p>  对于存储在内存中的数据，TSQLRestStorageInMemory表是满足ACID特性的。<br>
+  这意味着并发访问的一致性，可以实现期望的安全运行。</p>
+<p>  在磁盘上，这种表只有在其内容写入文件时才体现出ACID特性。<br>
+  意思是，整个文件写操作是满足ACID特性的，文件将始终保持一致。</p>
+<p>  这些内存表的确切处理过程是，每次向TSQLRestStorageInMemory表写入一些新数据时：</p>
+<ul>
+<li>它在内存中是满足ACID特性的（即在并发模式下安全工作）；</li>
+<li>单个记录的写操作（INSERT/UPDATE/DELETE）不会自动写入文件；</li>
+<li>COMMIT操作默认将整个表写入文件（以JSON或压缩二进制格式）；</li>
+<li>如果CommitShouldNotUpdateFile属性设置为TRUE，COMMIT操作将不会将数据写入文件中；</li>
+<li>ROLLBACK过程不会做任何事情，所以不需要考虑ACID特性，但是因为您的代码以后可能会使用真实的RDBMS，所以总是显式地书写该命令是一个好习惯，就像上面的示例代码一样，明确地书写except aClient.RollBack。</li>
+</ul>
+<p>  当您将数据写入文件时，将重写整个文件，在每次写入时都将数据写入磁盘可能不现实，在这种情况下，排它模式下的SQLite3将更快，因为它只写入新数据，而不是写入整个表内容。</p>
+<p>  这听起来像是一种局限，但在我们看来，它更像是一种特征。对于某些特定的表，我们不需要也不希望有一个完整的RDBMS/SQL引擎，只需直接快速地访问TObjectList。该特性是与我们的REST引擎集成，如果TSQLRestStorageInMemory存储对于您使用的进程来说太受限，那么以后仍然能将您的数据改为存储在通常的数据库中（SQLite3或外部）。</p>
+<h3 id="toc_37">7.3.6. 跳转外部TSQLRest<a class="vnote-anchor" href="#toc_37" data-anchor-icon="#"></a></h3>
+<p>  有时候，将所有数据库进程驻留在单个程序中可能还不够。您可以使用<code>TSQLRestServer.RemoteDataCreate()</code>方法实例化一个TSQLRestStorageRemote类，它将所有ORM操作跳转到指定的TSQLRest实例，可以是远程（通过TSQLRestClientHttp）或进程内（TSQLRestServer）。在简单的用例中，REST跳转可能就够用了，而完整的主/从复制可能太过复杂。</p>
+<p>  例如，在TTestExternalDatabase回归测试中，您将发现以下代码:</p>
+<pre><code class="lang-pascal hljs">  aExternalClient := TSQLRestClientDB.Create(fExternalModel,<span class="hljs-keyword">nil</span>,<span class="hljs-string">'testExternal.db3'</span>,TSQLRestServerDB);
+  historyDB := TSQLRestServerDB.Create(
+    TSQLModel.Create([TSQLRecordMyHistory],<span class="hljs-string">'history'</span>),
+    <span class="hljs-string">'history.db3'</span>,false);
+historyDB.Model.Owner := historyDB;
+  historyDB.DB.Synchronous := smOff;
+  historyDB.DB.LockingMode := lmExclusive;
+  historyDB.CreateMissingTables;
+    <span class="hljs-string">'history.db3'</span>,false);
+  aExternalClient.Server.RemoteDataCreate(TSQLRecordMyHistory,historyDB);
+  aExternalClient.Server.DB.Synchronous := smOff;
+  aExternalClient.Server.DB.LockingMode := lmExclusive;
+  aExternalClient.Server.CreateMissingTables;
+...
+</code></pre>
+<p>  这将创建两个SQLite3数据库，一个“testExternal.db3”主数据库，和一个分离的”history.db3”数据库。两者都将关闭同步和开启独占访问模式，参见前面的<a href="">ACID和速度</a>。</p>
+<p>  在“history.db3“文件，将有MyHistory表，而在“testExternal.db3“，不会有任何MyHistory表。所有TSQLRecordMyHistory CRUD进程将透明地重定向到historyDB。</p>
+<p>  然后，通过隐藏的TSQLRestStorageRemote实例将aExternalClient到TSQLRecordMyHistory表的任何ORM访问重定向到historyDB。不会有任何明显的性能损失，相反，独立的数据库会更好。</p>
+<p>  另一种选择可能是在SQLite3级别上使用ATTACH表语句，但它只能在本地使用，并且您无法切换到另一个数据库引擎。RemoteDataCreate()方法是通用的，并且将与外部数据库（见下文，甚至是NoSQL数据库）一起工作，或者通过TSQLRestClientHTTP实例访问远程mORMot服务器。唯一的先决条件是主模型中的所有TSQLRecord类都存在于重定向数据库模型中。</p>
+<p>  注意，重定向的TSQLRest实例可以拥有自己的模型、自己的身份验证和授权模式以及自己的缓存策略。在调优应用程序时，这可能会有很大的好处。<br>
+  请注意,如果您使用TRecordReference字段，模型更好的选择是在本地和跳转TSQLRest实例之间共享，或者至少TSQLRecord类应该有相同的顺序，否则运行侧对TRecordReference的查询值将指向错误的表。</p>
+<p>  有关这种重定向特性如何与框架的其他功能交互的一些解释，请参阅<a href="">mORMot基本体系结构—客户端服务端实现</a>和<a href="">客户端服务端实现</a>中关于服务端如何通过跳转特性与其它框架交互。</p>
+<p>  这种重定向模式的一个实际应用可能与典型的公司业务有关。<br>
+  在公司总部可能有一个mORMot主服务器，然后在每个分支机构有本地mORMot服务器，在本地网络为终端应用提供服务：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-6" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 1227.5 512" style="max-width:1227.5px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-6 .node&gt;rect { ; }
+#mermaid-diagram-6 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-6 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-6 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-6 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"><g class="cluster" id="subGraph2" transform="translate(129.75,162.5)" style="opacity: 1;"><rect width="219.5" height="285" x="-109.75" y="-142.5"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-128.5" fill="black" stroke="none" id="mermaid-diagram-6Text" style="text-anchor: middle;"> Main Office</text></g><g class="cluster" id="subGraph1" transform="translate(455.5,329.5)" style="opacity: 1;"><rect width="392" height="285" x="-196" y="-142.5"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-128.5" fill="black" stroke="none" id="mermaid-diagram-6Text" style="text-anchor: middle;"> Office A</text></g><g class="cluster" id="subGraph0" transform="translate(929.5,329.5)" style="opacity: 1;"><rect width="516" height="285" x="-258" y="-142.5"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-128.5" fill="black" stroke="none" id="mermaid-diagram-6Text" style="text-anchor: middle;"> Office B</text></g></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M144,113L144,150L144,187L416,238.51845906902088" marker-end="url(#arrowhead303)" style="fill:none"></path><defs><marker id="arrowhead303" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M171.29577464788733,113L201,150L201,187L890.5,242.84145504461222" marker-end="url(#arrowhead304)" style="fill:none"></path><defs><marker id="arrowhead304" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M890.5,258.3709677419355L743.5,305L743.5,354L743.5,403" marker-end="url(#arrowhead305)" style="fill:none"></path><defs><marker id="arrowhead305" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M893.771186440678,280L867.5,305L867.5,354L867.5,403" marker-end="url(#arrowhead306)" style="fill:none"></path><defs><marker id="arrowhead306" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M965.228813559322,280L991.5,305L991.5,354L991.5,403" marker-end="url(#arrowhead307)" style="fill:none"></path><defs><marker id="arrowhead307" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M968.5,258.3709677419355L1115.5,305L1115.5,354L1115.5,403" marker-end="url(#arrowhead308)" style="fill:none"></path><defs><marker id="arrowhead308" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M416,264.7943548387097L331.5,305L331.5,354L331.5,403" marker-end="url(#arrowhead309)" style="fill:none"></path><defs><marker id="arrowhead309" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M455.5,280L455.5,305L455.5,354L455.5,403" marker-end="url(#arrowhead310)" style="fill:none"></path><defs><marker id="arrowhead310" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M495,264.7943548387097L579.5,305L579.5,354L579.5,403" marker-end="url(#arrowhead311)" style="fill:none"></path><defs><marker id="arrowhead311" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M125.56338028169014,113L105.5,150L105.5,187L105.5,224" marker-end="url(#arrowhead312)" style="fill:none"></path><defs><marker id="arrowhead312" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(144,150)" style="opacity: 1;"><g transform="translate(-18.5,-12)" class="label"><foreignObject width="37" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">HTTP</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(201,150)" style="opacity: 1;"><g transform="translate(-18.5,-12)" class="label"><foreignObject width="37" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">HTTP</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(743.5,354)" style="opacity: 1;"><g transform="translate(-28.5,-24)" class="label"><foreignObject width="57" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">local<br>network</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(867.5,354)" style="opacity: 1;"><g transform="translate(-28.5,-24)" class="label"><foreignObject width="57" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">local<br>network</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(991.5,354)" style="opacity: 1;"><g transform="translate(-28.5,-24)" class="label"><foreignObject width="57" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">local<br>network</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1115.5,354)" style="opacity: 1;"><g transform="translate(-28.5,-24)" class="label"><foreignObject width="57" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">local<br>network</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(331.5,354)" style="opacity: 1;"><g transform="translate(-28.5,-24)" class="label"><foreignObject width="57" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">local<br>network</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(455.5,354)" style="opacity: 1;"><g transform="translate(-28.5,-24)" class="label"><foreignObject width="57" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">local<br>network</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(579.5,354)" style="opacity: 1;"><g transform="translate(-28.5,-24)" class="label"><foreignObject width="57" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">local<br>network</span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A1" transform="translate(144,79)" style="opacity: 1;"><rect rx="0" ry="0" x="-32" y="-34" width="64" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-22,-24)"><foreignObject width="44" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Main<br>Server</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(105.5,246)" style="opacity: 1;"><rect rx="0" ry="0" x="-50.5" y="-22" width="101" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40.5,-12)"><foreignObject width="81" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">External DB</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(455.5,246)" style="opacity: 1;"><rect rx="0" ry="0" x="-39.5" y="-34" width="79" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29.5,-24)"><foreignObject width="59" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Local<br>Server A</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(331.5,425)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 1</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(455.5,425)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 2</div></foreignObject></g></g></g><g class="node cyan" id="B4" transform="translate(579.5,425)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 3</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(929.5,246)" style="opacity: 1;"><rect rx="0" ry="0" x="-39" y="-34" width="78" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29,-24)"><foreignObject width="58" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Local<br>Server B</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(743.5,425)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 1</div></foreignObject></g></g></g><g class="node cyan" id="C3" transform="translate(867.5,425)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 2</div></foreignObject></g></g></g><g class="node cyan" id="C4" transform="translate(991.5,425)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 3</div></foreignObject></g></g></g><g class="node cyan" id="C5" transform="translate(1115.5,425)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Client 4</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  每个分支机构都可能有自己的TSQLRecord专用表和数据。其他一些表将在各本地办公室之间共享，比如全局配置。<br>
+  可以在Delphi代码中创建自己的类及专用表：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  TSQLRecordCustomerAbstract = <span class="hljs-keyword">class</span> <span class="hljs-comment">// never declared in Model</span>
+  .... <span class="hljs-comment">// here the fields used for Customer business</span>
+  <span class="hljs-keyword">end</span>;
+  <span class="hljs-title">TSQLRecordCustomerA</span> = <span class="hljs-keyword">class</span>(TSQLRecordCustomerAbstract); <span class="hljs-comment">// for office A</span>
+  <span class="hljs-title">TSQLRecordCustomerB</span> = <span class="hljs-keyword">class</span>(TSQLRecordCustomerAbstract); <span class="hljs-comment">// for office B</span>
+
+  TSQLRecordCustomerClass = <span class="hljs-keyword">class</span> <span class="hljs-keyword">of</span> TSQLRecordCustomerAbstract;
+</code></pre>
+<p>  在这里，TSQLRecordCustomerA可能只属于Office A服务器的TSQLModel，而TSQLRecordCustomerB可能只属于Office B服务器的TSQLModel。这能提高安全性，并且在中心主服务器中，TSQLRecordCustomerA和TSQLRecordCustomerB类都将是TSQLModel的一部分，专用的基于接口的服务将能够发布存储表的一些高级数据和统计信息。<br>
+  您可以在客户端代码中使用TSQLRecordCustomerClass变量，它将包含TSQLRecordCustomerA或TSQLRecordCustomerB，这取决于它运行的位置和它连接的服务器。<br>
+  在主服务器上存有每个远程办公室的数据库存储表，名为CustomerA或CustomerB。</p>
+<p>  您将受益于每个TSQLRest实例的缓存功能（见下文）。您可能在本地站点上对缓存进行了调优，而主数据库中的缓存将保持较少水平，但更安全。</p>
+<p>  此外，即使在单点服务器上，TSQLRecordHistory表或更通用的所有聚合数据都可以在本地或廉价存储上托管，而主数据库将保留在SSD或SAS上。由于有了这个重定向功能，您可以按照预期调整主机。</p>
+<p>  最后，如果您的目的是将给定TSQLRestServer的所有表重定向到另一个远程TSQLRestServer（出于安全或托管目的），您可以考虑使用TSQLRestServerRemoteDB。这个类将所有表重定向到一个外部实例。</p>
+<p>  TSQLRestStorageRemote和TSQLRestServerRemoteDB类都还不支持SQlite3的虚拟表机制。因此，如果使用这些特性，您可能无法从重定向实例运行联合查询，事实上，SQlite3主引擎将抱怨“testExternal.db3”中缺少MyHistory表。我们最终将定义所需的TSQLVirtualTableRemote和TSQLVirtualTableCursorRemote类来实现这个特性。</p>
+<p>  遗憾的是，如果连接丢失，这种重定向模式将无法工作。中心服务器需要始终可访问，以便远程办公室继续工作。您可以考虑使用主/从复制来允许本地办公室使用它们自己的主数据本地副本。实际上，听起来比起简单的跳转，复制才是首选，特别是在网络和资源使用方面。</p>
+<h3 id="toc_38">7.3.7. 虚拟表访问外部数据库<a class="vnote-anchor" href="#toc_38" data-anchor-icon="#"></a></h3>
+<p>  如下所述，我们的ORM可以访问一些外部数据库。</p>
+<p>  SQLite3的虚拟表特性支持对远程表的访问就像“本地”SQLite3表一样。事实上，你可以编写一个跨SQLite3、MS SQL Server、MySQL、FireBird、PostgreSQL、MySQL、DB2、Informix和Oracle数据库的SQL连接查询，包括在多个连接和多个远程服务器的情况下。可以将其视为基于orm的支持任意数据源的BI系统，将各种数据源添加到基于代码的报告引擎（能够生成pdf）中，这可能是一种非常强大的整合任何类型数据的方法。</p>
+<p>  为了定义这样的外部表，像往常一样先定义普通的TSQLRecord类，然后调用VirtualTableExternalRegister()或VirtualTableExternalMap()函数将将该类定义为由外部数据库引擎管理的虚拟表。使用专用的外部数据库服务器将支持更好的响应时间或其他特性（比如与其他应用程序或语言共享数据）。如果确实需要内部数据库，服务器端可能会忽略对VirtualTableExternalRegister()的调用，并将在运行时允许定制数据库配置，具体取决于客户的需要（或许可）。</p>
+<h3 id="toc_39">7.3.8. 客户端虚拟表<a class="vnote-anchor" href="#toc_39" data-anchor-icon="#"></a></h3>
+<p>  对于外部数据库（见下文），SQL转换将以一种更高级的方式进行，因此您能够在客户端使用这种虚拟表，而无需任何特定的模型通知。在这种情况下，您可以安全地将表定义为<code>TSQLValue1 = class(TSQLRecord)</code>，而无需在客户端进一步编写代码。</p>
+<p>  在使用静态（内存/ TObjectList）存储时，如果您希望所有ORM特性都能远程工作，那么您需要通知客户端模型有一个虚拟表。否则，在执行请求时可能会遇到一些SQL错误，比如“<em>no such column: ID</em>”。</p>
+<p>  例如，假设您在服务器端定义了两个JSON内存虚拟表：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TSQLServer</span> = <span class="hljs-keyword">class</span>(TSQLRestServerDB)
+  <span class="hljs-keyword">private</span>
+    FHttpServer: TSQLHttpServer;
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">Create</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">destructor</span> <span class="hljs-title">Destroy</span>;</span> <span class="hljs-keyword">override</span>;
+  <span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TSQLServer</span>.<span class="hljs-title">Create</span>;</span>
+<span class="hljs-keyword">var</span> aModel: TSQLModel;
+<span class="hljs-keyword">begin</span>
+  aModel := CreateModel;
+  aModel.VirtualTableRegister(TSQLValue1, TSQLVirtualTableJSON);
+  aModel.VirtualTableRegister(TSQLValue2, TSQLVirtualTableJSON);
+  aModel.Owner := self; <span class="hljs-comment">// model will be released with TSQLServer instance</span>
+  <span class="hljs-keyword">inherited</span> Create(aModel, ChangeFileExt(ParamStr(<span class="hljs-number">0</span>), <span class="hljs-string">'.db'</span>), True);
+  Self.CreateMissingTables(<span class="hljs-number">0</span>);
+  FHttpServer:= TSQLHttpServer.Create(<span class="hljs-string">'8080'</span>, Self);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">destructor</span> <span class="hljs-title">TSQLServer</span>.<span class="hljs-title">Destroy</span>;</span>
+<span class="hljs-keyword">begin</span>
+  FHttpServer.Free;
+  <span class="hljs-keyword">inherited</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  您需要告知客户端TSQLValue1和TSQLValue2是虚拟表。</p>
+<p>  你有几种选择：</p>
+<ul>
+<li>不要从TSQLRecord继承表，而是通过TSQLRecordVirtualTableAutoID继承表，如上所述，这是虚拟表的标准过程，参见<a href="">虚拟内存表</a>；</li>
+<li>如果将表定义为TSQLRecord，则确保客户端将其自身模型的表属性设置为rCustomAutoID;</li>
+<li>如果将表定义为TSQLRecord，请确保客户端、服务端都将其自身模型的表属性设置为rCustomAutoID。<br>
+第一种选择可以这样做：</li>
+</ul>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TSQLValue1</span> = <span class="hljs-keyword">class</span>(TSQLRecordVirtualTableAutoID)
+  (...)
+  <span class="hljs-title">TSQLValue2</span> = <span class="hljs-keyword">class</span>(TSQLRecordVirtualTableAutoID)
+  (...)
+</code></pre>
+<p>  如果表定义为TSQLValue1 = class(TSQLRecord)，则可以这样修改客户端模型：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TSQLClient</span> = <span class="hljs-keyword">class</span>(TSQLHttpClient)
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">Create</span>;</span>
+  <span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TSQLClient</span>.<span class="hljs-title">Create</span>;</span>
+<span class="hljs-keyword">var</span> aModel: TSQLModel;
+<span class="hljs-keyword">begin</span>
+  aModel:= CreateModel;
+  aModel.Props[TSQLValue1].Kind := rCustomAutoID;
+  aModel.Props[TSQLValue2].Kind := rCustomAutoID;
+  aModel.Owner := self; <span class="hljs-comment">// model will be released within TSQLServer instance</span>
+  <span class="hljs-keyword">inherited</span> Create(<span class="hljs-string">'127.0.0.1'</span>, <span class="hljs-string">'8080'</span>, aModel);
+  SetUser(<span class="hljs-string">'Admin'</span>, <span class="hljs-string">'synopse'</span>);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  如果表定义为TSQLValue1 = class(TSQLRecord)，那么最简单的方法就是在创建共享模型时设置属性：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CreateModel</span>:</span> TSQLModel;
+<span class="hljs-keyword">begin</span>
+  result:= TSQLModel.Create([TSQLAuthGroup, TSQLAuthUser, TSQLValue1, TSQLValue2]);
+  result.Props[TSQLValue1].Kind := rCustomAutoID;
+  result.Props[TSQLValue2].Kind := rCustomAutoID;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  最简单的方法是让静态内存表从TSQLRecordVirtualTableAutoID继承。只需按照本书所述来使用框架，参见<a href="">虚拟内存表</a>。</p>
+<p>  同样，此限制不适用于访问外部数据库的情况。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

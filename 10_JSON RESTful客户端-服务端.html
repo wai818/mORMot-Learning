@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>10_JSON RESTful客户端-服务端</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">10. JSON RESTful客户端-服务端<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src='data:image/png;base64,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' alt="" class="view-image"></p>
+<p>  在描述这个框架的客户端-服务端设计之前，我们可能需要详细说明它所基于的一些标准：</p>
+<ul>
+<li>JSON作为其内部数据存储和传输格式；</li>
+<li>REST作为其客户端-服务端架构。</li>
+</ul>
+<h2 id="toc_1">10.1. JSON<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<h3 id="toc_2">10.1.1. 为什么使用JSON ?<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h3>
+<p>  如前所述，框架内部使用JSON格式。根据定义，JavaScript对象表示法（JSON）是一种标准的、开放的轻量级计算机数据交换格式。</p>
+<p>  JSON的基本类型可从http://en.wikipedia.org/wiki/JSON检索到。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number</td>
+<td>JavaScript中的双精度浮点格式，一般取决于实现，没有特定的整数类型</td>
+</tr>
+<tr>
+<td>String</td>
+<td>加双引号的Unicode，支持反斜杠转义</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><code>true</code>或<code>false</code></td>
+</tr>
+<tr>
+<td>Array</td>
+<td>用逗号分隔并括在方括号内的有序序列值，这些值不需要是相同类型的</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>成对的<code>key:value</code>无序集合，键和值之间用<code>':'</code>字符分隔，键值对之间用逗号分隔，并用括号括起来；键必须是字符串，并且不应该重名</td>
+</tr>
+<tr>
+<td>null</td>
+<td>空的/未定义的值</td>
+</tr>
+</tbody>
+</table>
+<p>  可以在“结构字符”（即括号<code>“{ }[ ]”</code>、冒号<code>":"</code>和逗号<code>",”</code>）周围自由添加无意义的空格。</p>
+<p>  下面的示例显示了描述人员的对象的JSON表示。</p>
+<p>  该对象定义了用于名称和姓氏的字符串字段、用于年龄的数字字段、表示个人地址的对象和电话号码对象数组。</p>
+<pre><code class="lang-json hljs">{
+    <span class="hljs-attr">"firstName"</span>: <span class="hljs-string">"John"</span>,
+    <span class="hljs-attr">"lastName"</span>: <span class="hljs-string">"Smith"</span>,
+    <span class="hljs-attr">"age"</span>: <span class="hljs-number">25</span>,
+    <span class="hljs-attr">"address"</span>: {
+        <span class="hljs-attr">"streetAddress"</span>: <span class="hljs-string">"21 2nd Street"</span>,
+        <span class="hljs-attr">"city"</span>: <span class="hljs-string">"New York"</span>,
+        <span class="hljs-attr">"state"</span>: <span class="hljs-string">"NY"</span>,
+        <span class="hljs-attr">"postalCode"</span>: <span class="hljs-number">10021</span>
+    },
+    <span class="hljs-attr">"phoneNumbers"</span>: [
+        {
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"home"</span>,
+            <span class="hljs-attr">"number"</span>: <span class="hljs-string">"212 555-1234"</span>
+        },
+        {
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"fax"</span>,
+            <span class="hljs-attr">"number"</span>: <span class="hljs-string">"646 555-4567"</span>
+        };
+    ]
+}
+</code></pre>
+<p>  使用此方案而不是其他类似XML的专有格式，会产生以下几种特性：</p>
+<ul>
+<li>与XML一样，它是一种基于文本的、人类可读的格式，用于表示简单的数据结构和关联数组（称为对象）；</li>
+<li>它更易于阅读（同时适用于人类和机器），实现速度更快，而且比常用的XML小得多；</li>
+<li>这是一种非常有效的数据缓存格式；</li>
+<li>该方案允许将其重写为带零终止字符的UTF-8字符串，几乎没有浪费空间：该特性用于对表结果进行高速JSON文本转换，不需要分配内存或复制数据；</li>
+<li>JavaScript语言原生支持，在任何AJAX（即Web 2.0）或HTML5移动应用中都是一种完美的序列化格式；</li>
+<li>JSON格式很简单，用一个简短的RFC文档进行规范；</li>
+<li>JSON和SQLite3的默认文本编码都是UTF-8，它使用完整的Unicode字符集进行存储和通信；</li>
+<li><a href="http://xn--y9s41wrow.NET">它是自.NET</a> Framework 3.5以来在Windows Communication Foundation（WCF）<a href="http://xn--ASP-u68ds3p4mxhv1b.NET">中创建的ASP.NET</a> AJAX服务使用的默认数据格式， 所以这是微软官方支持的。</li>
+<li>对于二进制BLOB传输，我们简单地将二进制数据编码为Base64；请注意，默认情况下，BLOB字段不会通过REST与JSON对象中的其他字段一起传输（唯一的例外是动态数组字段，它们在其他字段中进行传输）。</li>
+</ul>
+<p>  REST JSON序列化在我们的ORM中用于处理任何发布的TSQLRecord属性，并在框架的基于接口的SOA架构中用于内容传输。</p>
+<p>  框架中实现了整个http://json.org标准，但有一些例外/扩展:</p>
+<ul>
+<li><code>#0</code>字符表示输入结束，与几乎所有JSON库一样，因此，如果您的文本输入包含<code>#0</code>字符，请将其作为二进制处理（注意，其他控制字符按要求转义）；</li>
+<li>您可以使用不加双引号的纯ASCII属性名来使用“扩展语法”（如MongoDB使用的）；</li>
+<li>浮点数有时被限制为货币（即4个小数），以确保序列化/反序列化不会损失精度；但在这种情况下，它可以通过一组选项扩展为双精度类型；</li>
+<li>与JavaScript一样，整数没有53位限制，框架处理64位的整数值，在使用JavaScript后端时，您可能必须将巨大的数值以文本形式传输。</li>
+</ul>
+<p>  在实践中，JSON已经被证明是易于使用和稳定的。二进制格式还没有用于传输，但是可以在框架的其他级别上使用，如作为内存中的TObjectList数据库引擎的一种可选的文件格式（使用我们的SynLZ压缩，参见<a href="">神奇的虚表</a>）。</p>
+<h3 id="toc_3">10.1.2. 值序列化<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  标准Delphi值类型在JSON内容中以文本形式直接序列化。如整数或Int64存储为数字，双精度值存储为对应的浮点表示。</p>
+<p>  所有字符串内容都序列化为标准JSON文本字段，即嵌入双引号中（"）。由于JSON使用UTF-8编码，这也是我们引入RawUTF8类型并在框架中到处使用它的原因之一。</p>
+<h3 id="toc_4">10.1.3. 记录序列化<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h3>
+<p>  在Delphi中，记录有一些很好的优点：</p>
+<ul>
+<li>记录是值对象，即通过值访问，而不是通过引用访问，这非常方便，如在定义领域驱动设计时；</li>
+<li>记录可以包含任何其他记录或动态数组，因此使用非常方便（不需要定义子类或列表）；</li>
+<li>记录变量可以在堆栈上分配，因此不会请求全局堆；</li>
+<li>编译器会自动释放超出作用域的记录实例，所以您不需要编写任何<code>try..finally Free; end</code>语句。</li>
+</ul>
+<p>  因此，对于像mORMot这样的框架来说，记录值的序列化是必须的。在实践中，应该将记录类型定义为<code>packed record</code>，以便序列化器更容易管理底层访问。</p>
+<h4 id="toc_5">10.1.3.1. 通过增强的RTTI实现自动序列化<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h4>
+<p>  Delphi 2010以后，编译器在编译时生成额外的RTTI，以便描述所有记录字段并用于运行时。</p>
+<p>  顺便说一下，这种增强的RTTI是可执行文件尺寸在新版本编译器中增长如此之快的原因之一。</p>
+<p>  我们的<code>SynCommons.pas</code>单元能够使用这些增强信息，通过<code>RecordLoad()</code>和<code>RecordSave()</code>函数以及所有内部JSON编码过程序列化任何记录。</p>
+<p>  简而言之，你无需做什么。只需将您的记录用作参数，在Delphi 2010之后版本中，它们将被序列化为有效的JSON对象，唯一的限制是记录应该定义为<code>packed record</code>。</p>
+<h4 id="toc_6">10.1.3.2. 用于Delphi旧版本的序列化<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h4>
+<p>  遗憾的是，序列化记录所需的信息只有在Delphi 2010之后才可用。</p>
+<p>  如果您的应用程序是在旧版本上开发的（如Delphi 7、Delphi 2007或Delphi 2009），您将无法直接将记录作为纯JSON对象自动序列化。</p>
+<p>  您有几个可用的路径：</p>
+<ul>
+<li>默认情况下，<code>record</code>被序列化为二进制，并编码为Base64文本;</li>
+<li>或者您可以定义回调函数，按照您的要求写入或读取数据；</li>
+<li>或者可以将<code>record</code>定义为纯文本。</li>
+</ul>
+<p>  请注意，任何自定义序列化（通过回调或文本定义）都将覆盖以前注册的所有方法，包括使用的RTTI增强机制。您可以更改默认的序列化，以便轻松满足您的需求。<code>SynCommons.pas</code>就是这样处理TGUID内容，TGUID被序列化为标准的JSON文本（如<code>“C9A646D3-9C61-4CB7-BFCD-EE2522C8F633”</code>），而不是遵循<code>TGUID record</code>所定义的 RTTI，即{<code>“D1”：12345678，“D2”：23023，“D3”：9323，“D4”：“0123456789ABCDEF”</code>} ，如果这样就很不方便。</p>
+<h5 id="toc_7">10.1.3.2.1. 默认的Binary/Base64序列化<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h5>
+<p>  Delphi 2010之前版本的编译器，默认情况下，任何记录值都将被序列化，使用专用的二进制（经过优化），即通过<code>RecordLoad</code>和<code>RecordSave</code>函数，然后编码为Base64，以纯文本的形式存储在JSON流中。</p>
+<p>  在生成的JSON字符串的开头添加了一个特殊的UTF-8前缀（不匹配任何现有的Unicode符号），以标识该内容为BLOB，如下所示：</p>
+<pre><code class="lang-json hljs"> { <span class="hljs-attr">"MyRecord"</span>: <span class="hljs-string">"ï¿°w6nDoMOnYQ=="</span> }
+</code></pre>
+<p>  你会在<code>SynCommons.pas</code>中找到<code>BinToBase64</code>和<code>Base64ToBin</code>两个功能，做了很多的速度优化。选择Base64编码是因为它是标准的，比十六进制高效得多，而且JSON仍然兼容，不需要转义它的内容。</p>
+<p>  在处理框架的许多内容时，您无需做更多的事：默认情况下，任何记录都遵循Base64序列化，因此您将能够发布或使用带有记录的基于接口的服务。</p>
+<h5 id="toc_8">10.1.3.2.2. 自定义序列化<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h5>
+<p>  Base64编码对于计算机来说非常方便（它是一种紧凑而高效的格式），但是它的互操作性很有限。我们的格式是专用的，并且将使用Delphi的内部序列化方案：这意味着它在您的mORMot应用范围之外是不可读写的。在RESTful/SOA世界中，这听起来不像是一个特性，而是一个限制。</p>
+<p>  因此，需要可以像定义任何类一样自定义<code>record</code>的JSON序列化。它将允许将<code>record</code>变量作为普通JSON对象写入和解析，以便任何客户端或服务端使用。在内部使用一些回调用于执行序列化。</p>
+<p>  实际上，有两个入口点可以为<code>record</code>指定自定义JSON序列化：</p>
+<ul>
+<li>在设置自定义动态数组JSON序列化器时（参见下面），相关记录使用相同的读取和写入回调；</li>
+<li>通过为记录的<code>TypeInfo()</code>显式设置序列化回调，对动态数组使用完全相同的<code>TTextWriter.RegisterCustomJSONSerializer</code>方法。</li>
+</ul>
+<p>  那么读写回调可以通过两种方式定义：</p>
+<ul>
+<li>编写代码，手工实现JSON文本编码与解析；</li>
+<li>通过一些基于文本的类型定义，遵循<code>record</code>布局，但自行完成所有编组（包括内存分配）。</li>
+</ul>
+<h5 id="toc_9">10.1.3.2.3. 定义回调函数<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h5>
+<p>  如果您想序列化以下记录：</p>
+<pre><code class="lang-pascal hljs">  TSQLRestCacheEntryValue = <span class="hljs-keyword">record</span>
+    ID: TID;
+    Timestamp: cardinal;
+    JSON: RawUTF8;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  使用以下代码：</p>
+<pre><code class="lang-pascal hljs">TTextWriter.RegisterCustomJSONSerializer(
+  TypeInfo(TSQLRestCacheEntryValue),
+  TTestServiceOrientedArchitecture.CustomReader,
+  TTestServiceOrientedArchitecture.CustomWriter
+);
+</code></pre>
+<p>  希望按如下格式输出：</p>
+<pre><code class="lang-json hljs">{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">1786554763</span>,<span class="hljs-attr">"Timestamp"</span>:<span class="hljs-number">323618765</span>,<span class="hljs-attr">"JSON"</span>:<span class="hljs-string">"D:\\TestSQL3.exe"</span>}
+</code></pre>
+<p>  因此，可以定义写回调函数：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestServiceOrientedArchitecture</span>.<span class="hljs-title">CustomWriter</span><span class="hljs-params">(
+  <span class="hljs-keyword">const</span> aWriter: TTextWriter; <span class="hljs-keyword">const</span> aValue)</span>;</span>
+<span class="hljs-keyword">var</span> V: TSQLRestCacheEntryValue <span class="hljs-keyword">absolute</span> aValue;
+<span class="hljs-keyword">begin</span>
+  aWriter.AddJSONEscape([<span class="hljs-string">'ID'</span>,V.ID,<span class="hljs-string">'Timestamp'</span>,Int64(V.Timestamp),<span class="hljs-string">'JSON'</span>,V.JSON]);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  在上面的代码中，名为<code>Timestamp</code>的<code>cardinal</code>字段类型被转换为<code>Int64</code>：正如<code>AddJSONEscape</code>方法的文档所述，<code>array of const</code>默认用整数值处理所有<code>cardinal</code>（这是Delphi编译器的一个限制）。通过<code>Int64</code>强制类型转换，<code>cardinal</code>值将按要求传送，而不是错误的负数<code>&gt; $7fffffff</code>版本。</p>
+<p>  另一方面，对应的读回调函数为：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TTestServiceOrientedArchitecture</span>.<span class="hljs-title">CustomReader</span><span class="hljs-params">(P: PUTF8Char;
+  <span class="hljs-keyword">var</span> aValue; <span class="hljs-keyword">out</span> aValid: Boolean)</span>:</span> PUTF8Char;
+<span class="hljs-keyword">var</span> V: TSQLRestCacheEntryValue <span class="hljs-keyword">absolute</span> aValue;
+    Values: <span class="hljs-keyword">array</span>[<span class="hljs-number">0</span>..<span class="hljs-number">2</span>] <span class="hljs-keyword">of</span> TValuePUTF8Char;
+<span class="hljs-keyword">begin</span>
+  result := JSONDecode(P,[<span class="hljs-string">'ID'</span>,<span class="hljs-string">'Timestamp'</span>,<span class="hljs-string">'JSON'</span>],@Values);
+  <span class="hljs-keyword">if</span> result=<span class="hljs-keyword">nil</span> <span class="hljs-keyword">then</span>
+    aValid := false <span class="hljs-keyword">else</span> <span class="hljs-keyword">begin</span>
+    V.ID := GetInt64(Values[<span class="hljs-number">0</span>].Value);
+    V.Timestamp := GetCardinal(Values[<span class="hljs-number">1</span>].Value);
+    Values[<span class="hljs-number">2</span>].ToUTF8(V.JSON);
+    aValid := true;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这里，<code>JSONDecode()</code>用于JSON对象的快速反序列化。</p>
+<h5 id="toc_10">10.1.3.2.4. 基于文本的定义<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h5>
+<p>  手工编写这些回调可能容易出错，特别是对于<code>Reader</code>事件。</p>
+<p>  您可以使用<code>TTextWriter.RegisterCustomJSONSerializerFromText</code>方法以基于文本的格式方便地定义<code>record</code>，同样，这些类型需要定义为<code>packed record</code>，以便文本定义不依赖于特定编译器的字段对齐特性。</p>
+<p>  同样，<code>TSQLRestCacheEntryValue</code>可以定义为典型的pascal<code>record</code>：</p>
+<pre><code class="lang-pascal hljs"> <span class="hljs-keyword">const</span>
+  __TSQLRestCacheEntryValue = <span class="hljs-string">'ID: Int64; Timestamp: cardinal; JSON: RawUTF8'</span>;
+</code></pre>
+<p>  或用更短的句法：</p>
+<pre><code class="lang-pascal hljs"> <span class="hljs-keyword">const</span>
+  __TSQLRestCacheEntryValue = <span class="hljs-string">'ID Int64 Timestamp cardinal JSON RawUTF8'</span>;
+</code></pre>
+<p>  这两个声明实现了相同的定义。注意，提供的文本应该与原始<code>record</code>类型定义完全匹配：不要交换顺序或遗漏属性！</p>
+<p>  按照惯例，我们在记录名称之前使用两个下划线字符(<code>__</code>)，以便容易地标识定义。将它作为一个常量来编写可能确实很方便，它接近于记录类型定义本身，而不是内嵌在<code>RegisterCustomJSONSerializerFromText()</code>中调用。</p>
+<p>  然后按如下方式注册您的类型：</p>
+<pre><code class="lang-pascal hljs">  TTextWriter.RegisterCustomJSONSerializerFromText(
+    TypeInfo(TSQLRestCacheEntryValue),__TSQLRestCacheEntryValue);
+</code></pre>
+<p>  现在您可以直接序列化任何记录值：</p>
+<pre><code class="lang-pascal hljs">  Cache.ID := <span class="hljs-number">10</span>;
+  Cache.Timestamp := <span class="hljs-number">200</span>;
+  Cache.JSON := <span class="hljs-string">'test'</span>;
+  U := RecordSaveJSON(Cache,TypeInfo(TSQLRestCacheEntryValue));
+  Check(U=<span class="hljs-string">'{"ID":10,"Timestamp":200,"JSON":"test"}'</span>);
+</code></pre>
+<p>  您还可以反序列化现有的JSON内容：</p>
+<pre><code class="lang-pascal hljs">  U := <span class="hljs-string">'{"ID":210,"Timestamp":2200,"JSON":"test2"}'</span>;
+  RecordLoadJSON(Cache,@U[<span class="hljs-number">1</span>],TypeInfo(TSQLRestCacheEntryValue));
+  Check(Cache.ID=<span class="hljs-number">210</span>);
+  Check(Cache.Timestamp=<span class="hljs-number">2200</span>);
+  Check(Cache.JSON=<span class="hljs-string">'test2'</span>);
+</code></pre>
+<p>  请注意，这个基于文本的定义非常强大，能够处理任何级别的嵌套记录或动态数组。</p>
+<p>  默认情况下，将以紧凑的形式编写JSON内容，并且只希望从JSON中传入需要的字段。您可以在注册时指定一些选项，以忽略所有未定义的字段。当您希望使用一些远程服务，并且只对几个字段感兴趣时，这非常有用。</p>
+<p>  例如，我们可以定义客户端对RESTful服务的访问，比如<code>api.github.com</code>：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  TTestCustomJSONGitHub = <span class="hljs-keyword">packed</span> <span class="hljs-keyword">record</span>
+    <span class="hljs-keyword">name</span>: RawUTF8;
+    id: cardinal;
+    description: RawUTF8;
+    fork: boolean;
+    owner: <span class="hljs-keyword">record</span>
+      login: RawUTF8;
+      id: cardinal;
+    <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">end</span>;
+  TTestCustomJSONGitHubs = <span class="hljs-keyword">array</span> <span class="hljs-keyword">of</span> TTestCustomJSONGitHub;
+
+<span class="hljs-keyword">const</span>
+  __TTestCustomJSONGitHub = <span class="hljs-string">'name RawUTF8 id cardinal description RawUTF8 '</span>+
+    <span class="hljs-string">'fork boolean owner{login RawUTF8 id cardinal}'</span>;
+</code></pre>
+<p>  注意<code>{ }</code>格式定义了一个嵌套的记录，作为嵌套<code>record .. end</code>的一个更短的替代语法。</p>
+<p>  您还必须声明<code>record packed</code>。否则，您可能会遇到意外的访问冲突问题，因为对齐可能不同，这取决于本地设置和编译器修订。</p>
+<p>  现在我们可以注册记录，并提供一些额外的选项：</p>
+<pre><code class="lang-pascal hljs">TTextWriter.RegisterCustomJSONSerializerFromText(TypeInfo(TTestCustomJSONGitHub),
+    __TTestCustomJSONGitHub).Options := [soReadIgnoreUnknownFields,soWriteHumanReadable];
+</code></pre>
+<p>  这里我们定义了：</p>
+<ul>
+<li>忽略JSON传入的任何未定义字段；</li>
+<li>让JSON输出更具可读性。</li>
+</ul>
+<p>  然后可以如下解析发送JSON：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span> git: TTestCustomJSONGitHubs;
+ ...
+  U := zendframeworkJson;
+  Check(DynArrayLoadJSON(git,@U[<span class="hljs-number">1</span>],TypeInfo(TTestCustomJSONGitHubs))&lt;&gt;<span class="hljs-keyword">nil</span>);
+  U := DynArraySaveJSON(git,TypeInfo(TTestCustomJSONGitHubs));
+</code></pre>
+<p>  您可以看到，<code>record</code>序列化在动态数组级别自动实现，这在我们的示例中非常方便，因为<code>api.github.com</code> RESTful服务返回JSON数组。</p>
+<p>  它将转换160kb的非常冗长的JSON信息：</p>
+<pre><code class="lang-json hljs">[{<span class="hljs-attr">"id"</span>:<span class="hljs-number">8079771</span>,<span class="hljs-attr">"name"</span>:<span class="hljs-string">"Component_ZendAuthentication"</span>,<span class="hljs-attr">"full_name"</span>:<span class="hljs-string">"zendframework/Component_ZendAuthentication"</span>,<span class="hljs-attr">"owner"</span>:{<span class="hljs-attr">"login"</span>:<span class="hljs-string">"zendframework"</span>,<span class="hljs-attr">"id"</span>:<span class="hljs-number">296074</span>,<span class="hljs-attr">"avatar_url"</span>:<span class="hljs-string">"https://1.gravatar.com/avatar/460576a0866d93fdacb597da4b90f233?d=https%3A%2F%2Fidenticons.github.com%2F292b7433472e2946c926bdca195cec8c.png&amp;r=x"</span>,<span class="hljs-attr">"gravatar_id"</span>:<span class="hljs-string">"460576a0866d93fdacb597da4b90f233"</span>,<span class="hljs-attr">"url"</span>:<span class="hljs-string">"https://api.github.com/users/zendframework"</span>,<span class="hljs-attr">"HTTP_url"</span>:<span class="hljs-string">"https://github.com/zendframework"</span>,<span class="hljs-attr">"followers_url"</span>:<span class="hljs-string">"https://api.github.com/users/zendframework/followers"</span>,<span class="hljs-attr">"following_url"</span>:<span class="hljs-string">"https://api.github.com/users/zendframework/following{/other_user}"</span>,<span class="hljs-attr">"gists_url"</span>:<span class="hljs-string">"https://api.github.com/users/zendframework/gists{/gist_id}"</span>,<span class="hljs-attr">"starred_url"</span>:<span class="hljs-string">"https://api.github.com/users/zendframework/starred{/owner}{/repo}"</span>,...
+</code></pre>
+<p>  成为更小的(6 KB)可读的JSON内容，只包含我们需要的信息：</p>
+<pre><code class="lang-json hljs">[
+ {
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Component_ZendAuthentication"</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">8079771</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"Authentication component from Zend Framework 2"</span>,
+  <span class="hljs-attr">"fork"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">"owner"</span>:
+  {
+   <span class="hljs-attr">"login"</span>: <span class="hljs-string">"zendframework"</span>,
+   <span class="hljs-attr">"id"</span>: <span class="hljs-number">296074</span>
+  }
+ },
+ {
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Component_ZendBarcode"</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">8079808</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"Barcode component from Zend Framework 2"</span>,
+  <span class="hljs-attr">"fork"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">"owner"</span>:
+  {
+   <span class="hljs-attr">"login"</span>: <span class="hljs-string">"zendframework"</span>,
+   <span class="hljs-attr">"id"</span>: <span class="hljs-number">296074</span>
+  }
+ },
+...
+</code></pre>
+<p>  在解析过程中，所有不需要的JSON成员都将被忽略。解析器将跳过数据复制，而不做任何临时内存分配。这与其他现有的Delphi JSON解析器有很大的不同，后者首先将所有JSON树的值创建到内存中，然后根据请求浏览所有分支。</p>
+<p>  还要注意，字段是按照<code>TTestCustomJSONGitHub</code>记录定义排序的，该记录定义可能与原始JSON布局不同（这里颠倒了<code>name/id</code>字段，并将<code>owner</code>字段放在了每个项目结尾）。</p>
+<p>  使用mORMot，您可以直接访问Delphi代码中的内容，如下所示:</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">if</span> git[<span class="hljs-number">0</span>].id=<span class="hljs-number">8079771</span> <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+    Check(git[<span class="hljs-number">0</span>].<span class="hljs-keyword">name</span>=<span class="hljs-string">'Component_ZendAuthentication'</span>);
+    Check(git[<span class="hljs-number">0</span>].description=<span class="hljs-string">'Authentication component from Zend Framework 2'</span>);
+    Check(git[<span class="hljs-number">0</span>].fork=true);
+    Check(git[<span class="hljs-number">0</span>].owner.login=<span class="hljs-string">'zendframework'</span>);
+    Check(git[<span class="hljs-number">0</span>].owner.id=<span class="hljs-number">296074</span>);
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  我们不需要使用中间对象（如<code>gitarray.Value[0].Value['owner'].Value['login']</code>等一些模糊的表达式）。您的代码将更具可读性，如果您错误拼写了字段名，编译时会报错，并且在IDE中很容易调试（因为<code>record</code>可以很容易检查）。</p>
+<p>  序列化可以处理任何类型的嵌套记录或动态数组，包括简单类型的动态数组（如<code>array of integer</code>或<code>array of RawUTF8</code>），或<code>record</code>的动态数组：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  TTestCustomJSONRecord = <span class="hljs-keyword">packed</span> <span class="hljs-keyword">record</span>
+    A,B,C: integer;
+    D: RawUTF8;
+    E: <span class="hljs-keyword">record</span> E1,E2: double; <span class="hljs-keyword">end</span>;
+    F: TDateTime;
+  <span class="hljs-keyword">end</span>;
+  TTestCustomJSONArray = <span class="hljs-keyword">packed</span> <span class="hljs-keyword">record</span>
+    A,B,C: integer;
+    D: RawByteString;
+    E: <span class="hljs-keyword">array</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">record</span> E1: double; E2: <span class="hljs-keyword">string</span>; <span class="hljs-keyword">end</span>;
+    F: TDateTime;
+  <span class="hljs-keyword">end</span>;
+  TTestCustomJSONArraySimple = <span class="hljs-keyword">packed</span> <span class="hljs-keyword">record</span>
+    A,B: Int64;
+    C: <span class="hljs-keyword">array</span> <span class="hljs-keyword">of</span> SynUnicode;
+    D: RawUTF8;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  对应的文本定义如下：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">const</span>
+  __TTestCustomJSONRecord = <span class="hljs-string">'A,B,C integer D RawUTF8 E{E1,E2 double} F TDateTime'</span>;
+  __TTestCustomJSONArray  = <span class="hljs-string">'A,B,C integer D RawByteString E[E1 double E2 string] F TDateTime'</span>;
+  __TTestCustomJSONArraySimple = <span class="hljs-string">'A,B Int64 C array of synunicode D RawUTF8'</span>;
+</code></pre>
+<p>  以下类型可通过这种特性来处理：</p>
+<table>
+<thead>
+<tr>
+<th>Delphi类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean</td>
+<td>序列化为JSON布尔值</td>
+</tr>
+<tr>
+<td>byte<br>word<br>integer<br>cardinal<br>Int64<br>single<br>double<br>currency<br>TUnixTime</td>
+<td>序列化为JSON数值</td>
+</tr>
+<tr>
+<td>string RawUTF8<br>SynUnicode<br>WideString</td>
+<td>序列化为JSON字符串</td>
+</tr>
+<tr>
+<td>DateTime<br>TTimeLog</td>
+<td>序列化为JSON文本，ISO 8601编码</td>
+</tr>
+<tr>
+<td>RawByteString</td>
+<td>序列化为JSON null或base64编码的JSON字符串</td>
+</tr>
+<tr>
+<td>RawJSON</td>
+<td>存储为未序列化的原始JSON内容<br>（如各种值、对象或数组）</td>
+</tr>
+<tr>
+<td>TGUID</td>
+<td>序列化为JSON文本的GUID</td>
+</tr>
+<tr>
+<td>nested <code>record</code></td>
+<td>序列化为JSON对象<br><code>record ... end;</code>或<code>{…}</code>标识中的嵌套定义</td>
+</tr>
+<tr>
+<td>nested registered record</td>
+<td>序列化为JSON，对应于定义的回调</td>
+</tr>
+<tr>
+<td><em>dynamic array</em> of <code>record</code></td>
+<td>序列化为JSON数组<br>标识为<code>array of ...</code> 或 <code>[ ... ]</code></td>
+</tr>
+<tr>
+<td><em>dynamic array</em> of simple types</td>
+<td>序列化为JSON数组<br>标识为<code>array of integer</code></td>
+</tr>
+<tr>
+<td>static array</td>
+<td>序列化为JSON数组<br>使用增强的RTTI处理，不使用文本定义</td>
+</tr>
+<tr>
+<td>variant</td>
+<td>序列化为JSON，完全支持<a href="">TDocVariant自定义变体类型</a></td>
+</tr>
+</tbody>
+</table>
+<p>  对于其他类型（如枚举或集合），您可以简单地使用对应于二进制值的无符号整数类型，例如<code>byte word cardinal Int64</code>（取决于初始值的<code>sizeof()</code>）。</p>
+<p>  例如，void <code>TTestCustomJSONRecord</code>可以序列化为：</p>
+<pre><code class="lang-json hljs"> {<span class="hljs-attr">"A"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"B"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"C"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"D"</span>:<span class="hljs-string">""</span>,<span class="hljs-attr">"E"</span>:{<span class="hljs-attr">"E1"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"E2"</span>:<span class="hljs-number">0</span>},<span class="hljs-attr">"F"</span>:<span class="hljs-string">""</span>}
+</code></pre>
+<p>  或者void <code>TTestCustomJSONArray</code>可以序列化为：</p>
+<pre><code class="lang-json hljs"> {<span class="hljs-attr">"A"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"B"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"C"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"D"</span>:<span class="hljs-literal">null</span>,<span class="hljs-attr">"E"</span>:[],<span class="hljs-attr">"F"</span>:<span class="hljs-string">""</span>}
+</code></pre>
+<p>  或者void <code>TTestCustomJSONArraySimple</code>可以序列化为：</p>
+<pre><code class="lang-json hljs"> {<span class="hljs-attr">"A"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"B"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"C"</span>:[],<span class="hljs-attr">"D"</span>:<span class="hljs-string">""</span>}
+</code></pre>
+<p>  您可以参考提供的回归测试（在<code>TTestLowLevelTypes.EncodeDecodeJSON</code>中）来获得更多定制JSON序列化的示例。</p>
+<h3 id="toc_11">10.1.4. 动态数组序列化<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h3>
+<h4 id="toc_12">10.1.4.1. 标准JSON数组<a class="vnote-anchor" href="#toc_12" data-anchor-icon="#"></a></h4>
+<p>  注意，动态数组是在两个独立的上下文中处理的:</p>
+<ul>
+<li>在框架的ORM部分，它们存储为BLOB，并且总是在Base64编码之后传输，请参见<a href="">TSQLRecord字段定义</a>；</li>
+<li>在基于接口的服务范围内，动态数组值和参数使用<code>TDynArray</code>包装器中提供的高级JSON序列化，即可以是一个真正的JSON数组，也可以在Delphi 2010之前版本使用通用二进制和Base64编码。</li>
+</ul>
+<p>  实际上，这个<code>TDynArray</code>包装器，参见<a href="">TDynArray动态数组包装器</a>，可以识别最常见的<code>array of byte, word, integer, cardinal, Int64, double, currency, RawUTF8, SynUnicode, WinAnsiString, string</code>。它们将被序列化为一个有效的JSON数组，即匹配类型（数字、浮点值或字符串）的有效JSON元素列表。</p>
+<p>  如果您有任何需要处理的关于标准动态数组的提议，请随时在论坛上发表您的建议！</p>
+<p>  对Delphi 2010及之后版本，框架将使用增强的RTTI创建一个JSON数组，该数组对应于每个动态数组项的数据，就像记录序列化一样。</p>
+<p>  对于Delphi 2009之前的编译器版本，动态数组（如<code>array of packed record</code>）将被默认序列化为二进制，然后进行Base64编码。这种方法总是有效的，但不利于AJAX客户端处理。</p>
+<p>  当然，您的应用程序可以通过<code>TTextWriter.RegisterCustomJSONSerializer()</code>类方法为任何其他动态数组提供自定义JSON序列化。为了正确地处理JSON数组的序列化和反序列化，需要与动态数组类型信息一起定义两个回调。</p>
+<p>  作为一种替代方法，您可以调用<code>RegisterCustomJSONSerializerFromText</code>方法，以一种方便的基于文本的格式定义记录，请参见前面。</p>
+<p>  事实上，如果您注册了一个动态数组自定义序列化器，它也将用于相关的内部<code>record</code>。</p>
+<h4 id="toc_13">10.1.4.2. 自定义序列化<a class="vnote-anchor" href="#toc_13" data-anchor-icon="#"></a></h4>
+<p>  正如我们已经指出的，更改缺省序列化很方便。</p>
+<p>  例如，我们想序列化以下记录的动态数组：</p>
+<pre><code class="lang-pascal hljs">  TFV = <span class="hljs-keyword">packed</span> <span class="hljs-keyword">record</span>
+    Major, Minor, Release, Build: integer;
+    Main, Detailed: <span class="hljs-keyword">string</span>;
+  <span class="hljs-keyword">end</span>;
+  TFVs = <span class="hljs-keyword">array</span> <span class="hljs-keyword">of</span> TFV;
+</code></pre>
+<p>  使用默认的序列化，这样的动态数组将被序列化：</p>
+<ul>
+<li>Delphi 2010之前版本序列化为Base64编码的二进制缓存，这对于AJAX客户端来说并不容易理解；</li>
+<li>Delphi 2010及之后版本的增强RTTI会将JSON对象序列化为JSON数组，列出对象的所有属性名。</li>
+</ul>
+<p>  通过定义回调，可以重载默认的序列化，这可能很方便，如果您不喜欢所有字段名都写在数据中，如下所示，这样浪费空间：</p>
+<pre><code class="lang-json hljs">{<span class="hljs-attr">"Major"</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">"Minor"</span>:<span class="hljs-number">2001</span>,<span class="hljs-attr">"Release"</span>:<span class="hljs-number">3001</span>,<span class="hljs-attr">"Build"</span>:<span class="hljs-number">4001</span>,<span class="hljs-attr">"Main"</span>:<span class="hljs-string">"1"</span>,<span class="hljs-attr">"Detailed"</span>:<span class="hljs-string">"1001"</span>}
+</code></pre>
+<p>  为了该记录添加自定义序列化，我们需要实现两个回调。</p>
+<p>  我们希望的格式是一个包含所有字段的JSON数组，即：</p>
+<pre><code class="lang-json hljs"> [<span class="hljs-number">1</span>,<span class="hljs-number">2001</span>,<span class="hljs-number">3001</span>,<span class="hljs-number">4001</span>,<span class="hljs-string">"1"</span>,<span class="hljs-string">"1001"</span>]
+</code></pre>
+<p>  这个方案比默认JSON对象格式短两倍多。</p>
+<p>  我们也可以使用其它方案，如使用<code>JSONEncode()</code>函数和JSON对象，或任何其他有效的JSON内容。</p>
+<p>  代码如下：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TCollTstDynArray</span>.<span class="hljs-title">FVWriter</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aWriter: TTextWriter; <span class="hljs-keyword">const</span> aValue)</span>;</span>
+<span class="hljs-keyword">var</span> V: TFV <span class="hljs-keyword">absolute</span> aValue;
+<span class="hljs-keyword">begin</span>
+  aWriter.Add(<span class="hljs-string">'[%,%,%,%,"%","%"]'</span>,
+    [V.Major,V.Minor,V.Release,V.Build,V.Main,V.Detailed],twJSONEscape);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  该事件将写入动态数组的一个条目，而不包含最后一个'，'（将由<code>TTextWriter.AddDynArrayJSON</code>)。在这个方法中，<code>twJSONEscape</code>用于将提供的字符串内容转义为有效的JSON字符串（带有双引号和正确的UTF-8编码）。</p>
+<p>  当然，写程序的人比读程序的人更容易理解代码：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TCollTstDynArray</span>.<span class="hljs-title">FVReader</span><span class="hljs-params">(P: PUTF8Char; <span class="hljs-keyword">var</span> aValue;
+  <span class="hljs-keyword">out</span> aValid: Boolean)</span>:</span> PUTF8Char;
+<span class="hljs-keyword">var</span> V: TFV <span class="hljs-keyword">absolute</span> aValue;
+<span class="hljs-keyword">begin</span> <span class="hljs-comment">// '[1,2001,3001,4001,"1","1001"],[2,2002,3002,4002,"2","1002"],...'</span>
+  aValid := false;
+  result := <span class="hljs-keyword">nil</span>;
+  <span class="hljs-keyword">if</span> (P=<span class="hljs-keyword">nil</span>) <span class="hljs-keyword">or</span> (P^&lt;&gt;<span class="hljs-string">'['</span>) <span class="hljs-keyword">then</span>
+    <span class="hljs-keyword">exit</span>;
+  inc(P);
+  V.Major := GetNextItemCardinal(P);
+  V.Minor := GetNextItemCardinal(P);
+  V.Release := GetNextItemCardinal(P);
+  V.Build := GetNextItemCardinal(P);
+  V.Main := UTF8ToString(GetJSONField(P,P));
+  V.Detailed := UTF8ToString(GetJSONField(P,P));
+  <span class="hljs-keyword">if</span> P=<span class="hljs-keyword">nil</span> <span class="hljs-keyword">then</span>
+    <span class="hljs-keyword">exit</span>;
+  aValid := true;
+  result := P; <span class="hljs-comment">// ',' or ']' for last item of array</span>
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  读方法应该返回一个指针，指向JSON输入缓冲区的下一个分隔符，该分隔符就在这个项目之后(<code>','</code> 或 <code>']'</code>)。</p>
+<p>  注册过程本身非常简单：</p>
+<pre><code class="lang-pascal hljs">TTextWriter.RegisterCustomJSONSerializer(TypeInfo(TFVs),
+    TCollTstDynArray.FVReader,TCollTstDynArray.FVWriter);
+</code></pre>
+<p>  然后，从用户代码的角度来看，这个动态数组处理不会改变：一旦注册，JSON序列化器就会在框架的任何地方使用，只要这个类型是全局注册的。</p>
+<p>  下面是一个使用JSON对象的写方法，该方法可用于Delphi 2009及之后，以获得类似于通过增强RTTI的序列化。</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TCollTstDynArray</span>.<span class="hljs-title">FVWriter2</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aWriter: TTextWriter; <span class="hljs-keyword">const</span> aValue)</span>;</span>
+<span class="hljs-keyword">var</span> V: TFV <span class="hljs-keyword">absolute</span> aValue;
+<span class="hljs-keyword">begin</span>
+  aWriter.AddJSONEscape([<span class="hljs-string">'Major'</span>,V.Major,<span class="hljs-string">'Minor'</span>,V.Minor,<span class="hljs-string">'Release'</span>,V.Release,
+    <span class="hljs-string">'Build'</span>,V.Build,<span class="hljs-string">'Main'</span>,V.Main,<span class="hljs-string">'Detailed'</span>,V.Detailed]);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这将创建如下JSON内容：</p>
+<pre><code class="lang-json hljs">{<span class="hljs-attr">"Major"</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">"Minor"</span>:<span class="hljs-number">2001</span>,<span class="hljs-attr">"Release"</span>:<span class="hljs-number">3001</span>,<span class="hljs-attr">"Build"</span>:<span class="hljs-number">4001</span>,<span class="hljs-attr">"Main"</span>:<span class="hljs-string">"1"</span>,<span class="hljs-attr">"Detailed"</span>:<span class="hljs-string">"1001"</span>}
+</code></pre>
+<p>  我们也可以使用类似的回调，如我们希望更改属性名，或者根据某些默认值忽略属性名。</p>
+<p>  那么对应的读回调可以写成：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TCollTstDynArray</span>.<span class="hljs-title">FVReader2</span><span class="hljs-params">(P: PUTF8Char; <span class="hljs-keyword">var</span> aValue;
+  <span class="hljs-keyword">out</span> aValid: Boolean)</span>:</span> PUTF8Char;
+<span class="hljs-keyword">var</span> V: TFV <span class="hljs-keyword">absolute</span> aValue;
+    Values: <span class="hljs-keyword">array</span>[<span class="hljs-number">0</span>..<span class="hljs-number">5</span>] <span class="hljs-keyword">of</span> TValuePUTF8Char;
+<span class="hljs-keyword">begin</span>
+  aValid := false;
+  result := JSONDecode(P,[<span class="hljs-string">'Major'</span>,<span class="hljs-string">'Minor'</span>,<span class="hljs-string">'Release'</span>,<span class="hljs-string">'Build'</span>,<span class="hljs-string">'Main'</span>,<span class="hljs-string">'Detailed'</span>],@Values);
+  <span class="hljs-keyword">if</span> result=<span class="hljs-keyword">nil</span> <span class="hljs-keyword">then</span>
+    <span class="hljs-keyword">exit</span>; <span class="hljs-comment">// result^ = ',' or ']' for last item of array</span>
+  V.Major := Values[<span class="hljs-number">0</span>].ToInteger;
+  V.Minor := Values[<span class="hljs-number">1</span>].ToInteger;
+  V.Release := Values[<span class="hljs-number">2</span>].ToInteger;
+  V.Build := Values[<span class="hljs-number">3</span>].ToInteger;
+  V.Main := Values[<span class="hljs-number">4</span>].ToString;
+  V.Detailed := Values[<span class="hljs-number">5</span>].ToString;
+  aValid := true;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  大部分JSON解码过程是在<code>JSONDecode()</code>函数中执行的，该函数将<code>Values[].Value/ValueLen</code>耦合指向<code>P ^</code>缓冲区内以空值终止的未转义内容。事实上，反序列化不会分配内存，因此会非常快。</p>
+<p>  如果您想回到默认的二进制+ Base64编码序列化，您可以如下运行注册方法：</p>
+<pre><code class="lang-pascal hljs">TTextWriter.RegisterCustomJSONSerializer(TypeInfo(TFVs),<span class="hljs-keyword">nil</span>,<span class="hljs-keyword">nil</span>);
+</code></pre>
+<p>  或者使用void定义调用基于文本的注册：</p>
+<pre><code class="lang-pascal hljs">TTextWriter.RegisterCustomJSONSerializerFromText(TypeInfo(TTestCustomJSONGitHub),<span class="hljs-string">''</span>);
+</code></pre>
+<p>  您现在可以定义自定义JSON序列化器，以上述代码开始作为参考，或者通过<code>RegisterCustomJSONSerializerFromText()</code>方法基于文本的定义。</p>
+<p>  请注意，如果与其项目动态数组相对应的记录具有一些关联的RTTI（即，如果它包含一些引用计数类型，如任何字符串），则在mORMot服务过程中它将被序列化为JSON，正如记录序列化所述。</p>
+<h3 id="toc_14">10.1.5. TSQLRecord TPersistent TStrings TRawUTF8List<a class="vnote-anchor" href="#toc_14" data-anchor-icon="#"></a></h3>
+<p>  具有已发布属性的类，即从<code>TPersistent</code>或我们的ORM专用<code>TSQLRecord</code>类继承的每个类将被序列化为真正的JSON对象，包含其所有发布属性值。 请参阅具有ORM数据库类型和JSON内容的相应表的<a href="">TSQLRecord字段定义</a>。</p>
+<p>  Delphi字符串列表，即<code>TStrings</code>类型的类将被序列化为JSON字符串数组。 这就是为什么我们还通过我们专用的<code>RawUTF8</code>类型引入了专用的<code>TRawUTF8List</code>类，用于直接UTF-8内容存储，减少了编码转换的需要，从而提高了处理速度。</p>
+<h3 id="toc_15">10.1.6. TObject序列化<a class="vnote-anchor" href="#toc_15" data-anchor-icon="#"></a></h3>
+<p>  事实上，任何<code>TObject</code>都可以在整个框架中被序列化为JSON：不仅用于ORM部分（用于已布属性），还用于SOA（用作基于接口的服务方法的参数）。 所有JSON序列化都集中在<code>ObjectToJSON()</code>和<code>JSONToObject()</code>（又名<code>TJSONSerializer.WriteObject</code>）函数中。</p>
+<h4 id="toc_16">10.1.6.1. 自定义类的序列化<a class="vnote-anchor" href="#toc_16" data-anchor-icon="#"></a></h4>
+<p>  在某些情况下，拥有自定义序列化可能很方便，例如，如果要管理某些第三方类，或者在运行时将序列化方案调整为特定用途。</p>
+<p>  您可以通过调用<code>TJSONSerializer.RegisterCustomSerializer</code>类方法来添加任何类的定制序列化。将为特定的类类型定义两个回调，并将用于序列化或反序列化对象实例。回调函数是对象的类方法（<code>procedure() of object</code>），而不是普通函数（对于一些经过演化的对象，在序列化期间使用上下文可能是有意义的）。</p>
+<p>  在这个特性的当前实现中，回调期望底层实现。也就是说，它们的实现代码应该遵循函数<code>JSONToObject()</code>模式，即调用底层<code>GetJSONField()</code>函数解码JSON内容，遵循函数<code>TJSONSerializer.WriteObject()</code>模式，即<code>aSerializer.Add/AddInstanceName/AddJSONEscapeString</code>将类实例编码为JSON。</p>
+<p>  注意，该进程在"{<code>...}</code>"JSON对象之外调用，允许任何序列化方案：甚至类内容也可以根据请求序列化为JSON字符串、JSON数组或JSON数字。</p>
+<p>  例如，我们想定制如下类的序列化（在<code>syncommon.pas</code>中定义）：</p>
+<pre><code class="lang-pascal hljs">  TFileVersion = <span class="hljs-keyword">class</span>
+  <span class="hljs-keyword">protected</span>
+    fDetailed: <span class="hljs-keyword">string</span>;
+    fBuildDateTime: TDateTime;
+  <span class="hljs-keyword">public</span>
+    Major: Integer;
+    Minor: Integer;
+    Release: Integer;
+    Build: Integer;
+    BuildYear: integer;
+    Main: <span class="hljs-keyword">string</span>;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Detailed: <span class="hljs-keyword">string</span> <span class="hljs-keyword">read</span> fDetailed <span class="hljs-keyword">write</span> fDetailed;
+    <span class="hljs-keyword">property</span> BuildDateTime: TDateTime <span class="hljs-keyword">read</span> fBuildDateTime <span class="hljs-keyword">write</span> fBuildDateTime;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  默认情况下，因为它是在{<code>$M+} ... {$M-}</code>条件中定义的，RTTI对于发布属性是可用的（就像它从TPersistent继承一样）。也就是说，默认的JSON序列化是：</p>
+<pre><code class="lang-json hljs"> {<span class="hljs-attr">"Detailed"</span>:<span class="hljs-string">"1.2.3.4"</span>,<span class="hljs-attr">"BuildDateTime"</span>:<span class="hljs-string">"1911-03-14T00:00:00"</span>}
+</code></pre>
+<p>  这是在TSynLog内容中序列化或当前AJAX使用时所期望的。</p>
+<p>  我们想把这个类序列化成：</p>
+<pre><code class="lang-json hljs">{<span class="hljs-attr">"Major"</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">"Minor"</span>:<span class="hljs-number">2001</span>,<span class="hljs-attr">"Release"</span>:<span class="hljs-number">3001</span>,<span class="hljs-attr">"Build"</span>:<span class="hljs-number">4001</span>,<span class="hljs-attr">"Main"</span>:<span class="hljs-string">"1"</span>,<span class="hljs-attr">"BuildDateTime"</span>:<span class="hljs-string">"1911-03-14"</span>}
+</code></pre>
+<p>  因此，我们将定义写入器回调，如下所示：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TCollTstDynArray</span>.<span class="hljs-title">FVClassWriter</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aSerializer: TJSONSerializer;
+  aValue: TObject; aOptions: TTextWriterWriteObjectOptions)</span>;</span>
+<span class="hljs-keyword">var</span> V: TFileVersion <span class="hljs-keyword">absolute</span> aValue;
+<span class="hljs-keyword">begin</span>
+  aSerializer.AddJSONEscape([<span class="hljs-string">'Major'</span>,V.Major,<span class="hljs-string">'Minor'</span>,V.Minor,<span class="hljs-string">'Release'</span>,V.Release,<span class="hljs-string">'Build'</span>,V.Build,<span class="hljs-string">'Main'</span>,V.Main,<span class="hljs-string">'BuildDateTime'</span>,DateTimeToIso8601Text(V.BuildDateTime)]);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  大部分JSON序列化工作将在<code>AddJSONEscape</code>方法中完成，期望JSON对象描述是一个名/值对数组。</p>
+<p>  那么关联的读回调可以是这样：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">class</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TCollTstDynArray</span>.<span class="hljs-title">FVClassReader</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aValue: TObject; aFrom: PUTF8Char;
+  <span class="hljs-keyword">var</span> aValid: Boolean; aOptions: TJSONToObjectOptions)</span>:</span> PUTF8Char;
+<span class="hljs-keyword">var</span> V: TFileVersion <span class="hljs-keyword">absolute</span> aValue;
+    Values: <span class="hljs-keyword">array</span>[<span class="hljs-number">0</span>..<span class="hljs-number">5</span>] <span class="hljs-keyword">of</span> TValuePUTF8Char;
+<span class="hljs-keyword">begin</span>
+  result := JSONDecode(aFrom,[<span class="hljs-string">'Major'</span>,<span class="hljs-string">'Minor'</span>,<span class="hljs-string">'Release'</span>,<span class="hljs-string">'Build'</span>,<span class="hljs-string">'Main'</span>,<span class="hljs-string">'BuildDateTime'</span>],@Values);
+  aValid := (result&lt;&gt;<span class="hljs-keyword">nil</span>);
+  <span class="hljs-keyword">if</span> aValid <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+    V.Major := Values[<span class="hljs-number">0</span>].ToInteger;
+    V.Minor := Values[<span class="hljs-number">1</span>].ToInteger;
+    V.Release := Values[<span class="hljs-number">2</span>].ToInteger;
+    V.Build := Values[<span class="hljs-number">3</span>].ToInteger;
+    V.Main := Values[<span class="hljs-number">4</span>].ToString;
+    V.BuildDateTime := Iso8601ToDateTimePUTF8Char(Values[<span class="hljs-number">5</span>].Value,Values[<span class="hljs-number">5</span>].ValueLen);
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这里，<code>JSONDecode</code>函数将JSON对象反序列化为一个<code>PUTF8Char</code>值数组，不需要任何内存分配，实际上是<code>Values[].Value</code>将指向<code>aFrom</code>内存缓冲区中的未转义和<code>#0</code>终止的内容，所以解码非常快。</p>
+<p>  然后，注册步骤定义为：</p>
+<pre><code class="lang-pascal hljs">TJSONSerializer.RegisterCustomSerializer(TFileVersion,
+    TCollTstDynArray.FVClassReader,TCollTstDynArray.FVClassWriter);
+</code></pre>
+<p>  如果您想禁用自定义序列化，可以调用与此相同的方法：</p>
+<pre><code class="lang-pascal hljs">TJSONSerializer.RegisterCustomSerializer(TFileVersion,<span class="hljs-keyword">nil</span>,<span class="hljs-keyword">nil</span>);
+</code></pre>
+<p>  这将把指定类的JSON序列化重置为默认序列化器（即写入发布属性）。</p>
+<p>  上述代码使用框架的一些底层函数（例如<code>AddJSONEscape</code>和<code>JSONDecode</code>）作为JSON对象实现序列化，但是您可以根据需要使用任何其他序列化方案。也就是说，您可以将整个类实例序列化为一个JSON字符串或数值，甚至一个JSON数组，这取决于读写器注册回调的实现。</p>
+<h4 id="toc_17">10.1.6.2. 自定义字段名序列化<a class="vnote-anchor" href="#toc_17" data-anchor-icon="#"></a></h4>
+<p>  如果您的定制只是希望更改一些属性名，那么您可以使用<code>TJSONSerializer.RegisterCustomSerializerFieldNames</code>类方法。</p>
+<p>  例如，给定以下类：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TMyClass</span> = <span class="hljs-keyword">class</span>(TSynPersistent)
+  <span class="hljs-keyword">private</span>
+    FLength: Integer;
+    FColor: Integer;
+    FName: RawUTF8;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Color: Integer <span class="hljs-keyword">read</span> FColor <span class="hljs-keyword">write</span> FColor;
+    <span class="hljs-keyword">property</span> Length: Integer <span class="hljs-keyword">read</span> FLength <span class="hljs-keyword">write</span> FLength;
+    <span class="hljs-keyword">property</span> <span class="hljs-keyword">Name</span>: RawUTF8 <span class="hljs-keyword">read</span> FName <span class="hljs-keyword">write</span> FName;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  您可以如下使用默认序列化：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span>
+  O: TMyClass;
+  json: RawUTF8;
+<span class="hljs-keyword">begin</span>
+  O := TMyClass.Create;
+  O.Color := <span class="hljs-number">10</span>;
+  O.Length := <span class="hljs-number">20</span>;
+  O.<span class="hljs-keyword">Name</span> := <span class="hljs-string">'one'</span>;
+  json := ObjectToJSON(O);
+  writeln(json); <span class="hljs-comment">// {"Color":10,"Length":20,"Name":"one"}</span>
+</code></pre>
+<p>  然后切换为定制序列化：</p>
+<pre><code class="lang-pascal hljs">TJSONSerializer.RegisterCustomSerializerFieldNames(TMyClass, [<span class="hljs-string">'name'</span>,<span class="hljs-string">'length'</span>], [<span class="hljs-string">'n'</span>,<span class="hljs-string">'len'</span>]);
+  json := ObjectToJSON(O);
+  writeln(json); <span class="hljs-comment">// {"Color":10,"len":20,"n":"one"}</span>
+</code></pre>
+<p>  并返回正常/默认序列化：</p>
+<pre><code class="lang-pascal hljs">TJSONSerializer.RegisterCustomSerializerFieldNames(TMyClass, [], []);
+  json := ObjectToJSON(O);
+  writeln(json); <span class="hljs-comment">// {"Color":10,"Length":20,"Name":"one"}</span>
+</code></pre>
+<p>  你可以忽略一些字段，通过设置目标名称为<code>''</code>：</p>
+<pre><code class="lang-pascal hljs">TJSONSerializer.RegisterCustomSerializerFieldNames(TMyClass, [<span class="hljs-string">'length'</span>], [<span class="hljs-string">''</span>]);
+  json := ObjectToJSON(O);
+  writeln(json); <span class="hljs-comment">// {"Color":10,"Name":"one"}</span>
+  O.Free;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  因此，此方法可能有助于处理已存在的JSON对象，例如从第三方REST服务器检索的JSON对象。</p>
+<p>  请注意<code>TJSONSerializer.RegisterCustomSerializerFieldNames</code>方法不接受<code>TSQLRecord</code>类，因为ORM序列化是在它自己的（优化的）集合中处理的，如果需要，您可以使用ORM级映射，请参阅<a href="">数据库优先的ORM</a>。</p>
+<h4 id="toc_18">10.1.6.3. TObjectList序列化<a class="vnote-anchor" href="#toc_18" data-anchor-icon="#"></a></h4>
+<p>  您甚至可以将<code>TObjectList</code>实例序列化为一个有效的JSON数组，并能够存储每个实例类名，从而允许存储不一致的对象列表。</p>
+<p>  调用<code>TJSONSerializer.RegisterClassForJSON()</code>只需要在其内部表中注册每个TObject类，并能够从每个JSON对象中序列化的类名创建实例。</p>
+<p>  实际上，如果<code>ObjectToJSON()</code>或<code>TJSONWriter.WriteObject()</code>定义了它们的<code>woStoreClassName</code>选项，那么一个新的<code>“ClassName”:</code>字段将被写入序列化JSON对象的第一个字段。</p>
+<p>  这个新的<code>“ClassName”</code>字段将被识别为：</p>
+<ul>
+<li>通过<code>JSONToObject()</code>用于 <code>TObjectList</code> 成员，</li>
+<li>并通过新的<code>JSONToNewObject()</code>方法。</li>
+</ul>
+<p>  请注意，模型的所有<code>TSQLRecord</code>类都是通过调用<code>TJSONSerializer.RegisterClassForJSON()</code>自动注册的：您不必注册它们，并且可以直接序列化<code>TSQLRecord</code>的<code>TObjectList</code>。</p>
+<p>  因此，这类代码现在可以工作：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-comment">// register the type (but Classes.RegisterClass list is also checked)</span>
+TJSONSerializer.RegisterClassForJSON([TComplexNumber]);
+<span class="hljs-comment">// create an instance by reading the textual class name field</span>
+J := <span class="hljs-string">'{"ClassName":"TComplexNumber", "Real": 10.3, "Imaginary": 7.92 }'</span>;
+P := @J[<span class="hljs-number">1</span>]; <span class="hljs-comment">// make local copy of constant</span>
+Comp := TComplexNumber(JSONToNewObject(P,Valid));
+<span class="hljs-comment">// here Comp is a valid unserialized object :)</span>
+Check(Valid);
+Check(Comp.ClassType=TComplexNumber);
+CheckSame(Comp.Real,<span class="hljs-number">10.3</span>);
+CheckSame(Comp.Imaginary,<span class="hljs-number">7.92</span>);
+<span class="hljs-comment">// do not forget to free the memory (Comp can be nill if JSON was not valid)</span>
+Comp.Free;
+</code></pre>
+<p>  因此，内部<code>TObjectList</code>进程将依赖于一个类似的进程，动态创建适当的类实例。您甚至可以让多个类出现在一个<code>TObjectList</code>中：唯一的先决条件是，通过调用<code>TJSONSerializer.RegisterClassForJSON()</code>，所有类类型都应该在双方之前注册。</p>
+<h2 id="toc_19">10.2. REST<a class="vnote-anchor" href="#toc_19" data-anchor-icon="#"></a></h2>
+<h3 id="toc_20">10.2.1. What is REST?<a class="vnote-anchor" href="#toc_20" data-anchor-icon="#"></a></h3>
+<p>  Representational state transfer（REST）是一种用于分布式超媒体系统（如万维网）的软件架构。 因此，它不仅仅是构建“Web服务”的方法。 “代表性状态转移”和“REST”这两个术语于2000年在超文本传输协议（HTTP）规范的主要作者之一Roy Fielding的博士论文中引入，整个互联网都依赖于该论文。</p>
+<p>  Web有5个基本原理，用于创建REST服务：</p>
+<ul>
+<li>一切都是资源；</li>
+<li>每个资源由唯一标识符标识；</li>
+<li>使用简单统一的接口；</li>
+<li>通信是通过资源表示来完成的；</li>
+<li>每个请求都是无状态的。</li>
+</ul>
+<h4 id="toc_21">10.2.1.1. 基于资源<a class="vnote-anchor" href="#toc_21" data-anchor-icon="#"></a></h4>
+<p>  互联网就是获取数据的地方。这些数据可以是网页、图像、视频、文件等格式，也可以是动态输出，如获取新订阅的客户。REST中的第一个要点是开始根据资源而不是物理文件进行思考。</p>
+<p>  您可以通过某个URI访问资源，例如。</p>
+<ul>
+<li><code>http://www.mysite.com/pictures/logo.png</code> - 图像资源；</li>
+<li><code>http://www.mysite.com/index.html</code> - 静态资源；</li>
+<li><code>http://www.mysite.com/Customer/1001</code> - 返回XML或JSON内容的动态资源；</li>
+<li><code>http://www.mysite.com/Customer/1001/Picture</code> - 动态资源返回图像。</li>
+</ul>
+<h4 id="toc_22">10.2.1.2. 唯一标识符<a class="vnote-anchor" href="#toc_22" data-anchor-icon="#"></a></h4>
+<p>  旧的web技术，例如aspx或ColdFusion，确实通过指定参数来请求资源。</p>
+<pre><code class="hljs"> http://www.mysite.com/Default.aspx?a=1;a=2&amp;b=1&amp;a=3
+</code></pre>
+<p>  在REST中，我们向当前URI添加了另一个约束：实际上，每个URI应该惟一地表示数据收集的每个项。</p>
+<p>  例如，对于获取的客户和订单，您可以看到以下独特的URI格式:</p>
+<table>
+<thead>
+<tr>
+<th>客户数据</th>
+<th>URI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>获取名为“杜邦”的客户详细信息</td>
+<td><a href="http://www.mysite.com/Customer/dupont">http://www.mysite.com/Customer/dupont</a></td>
+</tr>
+<tr>
+<td>获取名为“史密斯”的客户详细信息</td>
+<td><a href="http://www.mysite.com/Customer/smith">http://www.mysite.com/Customer/smith</a></td>
+</tr>
+<tr>
+<td>获得客户“杜邦”的订单</td>
+<td><a href="http://www.mysite.com/Customer/dupont/Orders">http://www.mysite.com/Customer/dupont/Orders</a></td>
+</tr>
+<tr>
+<td>获得客户“史密斯”的订单</td>
+<td><a href="http://www.mysite.com/Customer/smith/Orders">http://www.mysite.com/Customer/smith/Orders</a></td>
+</tr>
+</tbody>
+</table>
+<p>  在这里，“杜邦”和“史密斯”被用作指定客户的唯一标识符。在实践中，名称远非唯一的，因此大多数系统使用惟一的ID（比如整数、十六进制数字或GUID）。</p>
+<h4 id="toc_23">10.2.1.3. 接口<a class="vnote-anchor" href="#toc_23" data-anchor-icon="#"></a></h4>
+<p>  要访问这些标识的资源，基本的CRUD活动由一组HTTP谓词标识:</p>
+<table>
+<thead>
+<tr>
+<th>HTTP方法</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>列出集合的成员（一个或多个）</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>更新集合的成员</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>在集合中创建一个新条目</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>删除集合中的一个成员</td>
+</tr>
+</tbody>
+</table>
+<p>  然后，在URI级别，您可以定义集合的类型，例如<code>http://www.mysite.com/Customer</code>来标识客户，或者<code>http://www.mysite.com/Customer/1234/Orders</code>来获取给定的订单。</p>
+<p>  这个HTTP方法和URI的组合替换了一个基于英语的方法列表，比如<code>GetCustomer / InsertCustomer / UpdateOrder / RemoveOrder</code>。</p>
+<h4 id="toc_24">10.2.1.4. 通过资源表示<a class="vnote-anchor" href="#toc_24" data-anchor-icon="#"></a></h4>
+<p>  您通过网络发送的是实际资源数据的表示。</p>
+<p>  主要的表示方案是XML和JSON。</p>
+<p>  例如，以下是如何从GET方法检索客户数据：</p>
+<pre><code class="lang-xml hljs"> <span class="hljs-tag">&lt;<span class="hljs-name">Customer</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">ID</span>&gt;</span>1234<span class="hljs-tag">&lt;/<span class="hljs-name">ID</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">Name</span>&gt;</span>Dupond<span class="hljs-tag">&lt;/<span class="hljs-name">Name</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">Address</span>&gt;</span>Tree street<span class="hljs-tag">&lt;/<span class="hljs-name">Address</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">Customer</span>&gt;</span>
+</code></pre>
+<p>  下面是一个简单的JSON片段，用于创建一个带有名称和地址的新客户记录（由于我们创建了一个新记录，这里我们将他命名为“Dupond”——以D结尾——而不是“Dupont”）：</p>
+<pre><code class="lang-json hljs"> {<span class="hljs-attr">"Customer"</span>: {<span class="hljs-attr">"Name"</span>:<span class="hljs-string">"Dupond"</span>, <span class="hljs-attr">"Address"</span>:<span class="hljs-string">"Tree street"</span>}}
+</code></pre>
+<p>  因此，对于使用POST命令传输的数据，RESTful服务器将返回刚刚创建的ID。</p>
+<p>  请参阅JSON，原因是在mORMot中，我们更喜欢使用JSON格式。</p>
+<h4 id="toc_25">10.2.1.5. 无状态<a class="vnote-anchor" href="#toc_25" data-anchor-icon="#"></a></h4>
+<p>  每个请求都应该是一个独立的请求，这样我们就可以使用负载平衡技术进行扩展。</p>
+<p>  独立请求意味着数据也发送请求的状态，以便服务器可以将该请求从该级别转发到下一级别。</p>
+<p>  更多细节请看下面。</p>
+<h3 id="toc_26">10.2.2. RESTful mORMot<a class="vnote-anchor" href="#toc_26" data-anchor-icon="#"></a></h3>
+<p>  Synopse mORMot框架是按照Fielding的REST架构风格设计的，没有使用HTTP，也没有与万维网交互。这种遵循REST原则的系统通常被称为“RESTful”。此外，框架还可以通过Internet（通过使用<code>mORMotHttpClient</code>/ <code>mORMotHttpServer</code>单元以及<code>TSQLHttpServer</code>和<code>TSQLHttpClient</code>类）在嵌入式低资源和快速HTTP服务器上提供标准的HTTP/1.1页面。</p>
+<p>  实现了标准的RESTful方法，即<code>GET/PUT/POST/DELETE</code>。</p>
+<p>  在标准REST定义中添加了以下方法，用于锁定单个记录和处理数据库事务（这会加快数据库进程）：</p>
+<ul>
+<li><code>LOCK</code>锁定集合中的某个成员;</li>
+<li><code>UNLOCK</code>解锁以解锁集合中的一个成员;</li>
+<li><code>BEGIN</code>开始发起交易;</li>
+<li><code>END</code>结束提交事务;</li>
+<li><code>ABORT</code>中止以回滚事务。</li>
+</ul>
+<p>  <code>GET</code>方法具有可选的分页特性，与用于数据分页的YUI数据源请求语法兼容，请参阅<code>TSQLRestServer.URI</code>方法和http://developer.yahoo.com/yui/datatable/#data。当然，这打破了“每个资源都由惟一标识符标识”RESTful原则，但是使用它要容易得多，例如实现分页或自定义过滤。</p>
+<p>  从Delphi代码的角度来看，RESTful客户端-服务端架构是通过从一个主类继承一些通用的方法和属性来实现的。</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 378.5 292" style="max-width:378.5px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M263,64L263,89L263,114" marker-end="url(#arrowhead13)" style="fill:none"></path><defs><marker id="arrowhead13" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M85,158L85,183L132.3404255319149,208" marker-end="url(#arrowhead14)" style="fill:none"></path><defs><marker id="arrowhead14" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M263,158L263,183L215.6595744680851,208" marker-end="url(#arrowhead15)" style="fill:none"></path><defs><marker id="arrowhead15" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(263,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-75.5" y="-22" width="151" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-65.5,-12)"><foreignObject width="131" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClientURI</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(263,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-63" y="-22" width="126" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-53,-12)"><foreignObject width="106" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClient</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(85,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-65" y="-22" width="130" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-55,-12)"><foreignObject width="110" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServer</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(174,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-43" y="-22" width="86" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33,-12)"><foreignObject width="66" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRest</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  这个图说明了<code>TSQLRest</code>类如何实现为客户端类和服务端类共同的祖先。</p>
+<h4 id="toc_27">10.2.2.1. BLOB字段<a class="vnote-anchor" href="#toc_27" data-anchor-icon="#"></a></h4>
+<p>  BLOB字段在类定义中被定义为<code>TSQLRawBlob</code>发布属性，它是<code>RawByteString</code>类型的别名（在SynCommons.pas中为Delphi 2007以上版本定义，因为它仅出现在Delphi 2009中）。 但是它们的内容不包含在框架的标准RESTful方法中，以节省网络带宽。</p>
+<p>  RESTful协议允许通过特定的URL检索（GET）或保存（PUT)）BLOB，比如：</p>
+<pre><code class="lang-http hljs"> <span class="hljs-attribute">ModelRoot/TableName/TableID/BlobFieldName
+</span></code></pre>
+<p>  这甚至比标准JSON编码更好，后者运行良好但是需要将BLOB与十六进制值相互转换，因此需要两倍于它的正常大小。 通过使用这种专用URL，数据可以作为完整二进制文件传输。</p>
+<p>  通过<code>TSQLRest</code>类的一些专用方法处理BLOB字段：<code>RetrieveBlob</code>和<code>UpdateBlob</code>。</p>
+<h4 id="toc_28">10.2.2.2. JSON表示<a class="vnote-anchor" href="#toc_28" data-anchor-icon="#"></a></h4>
+<p>  框架源代码树中提供的"<em>04 - HTTP Client-Server</em>"示例程序可以用来展示框架是如何支持AJAX的，并且可以与其他任何基于JSON的REST服务器（如CouchDB）进行比较。</p>
+<p>  首先，通过将<code>Unit2.pas</code>中的参数从<code>true</code>更改为<code>false</code>来取消身份验证：</p>
+<pre><code class="lang-pascal hljs"> DB := TSQLRestServerDB.Create(Model,ChangeFileExt(paramstr(<span class="hljs-number">0</span>),<span class="hljs-string">'.db3'</span>),
+ false);
+</code></pre>
+<p>  并在<code>Project04Client.dpr</code>中注释以下行：</p>
+<pre><code class="lang-pascal hljs">  Form1.Database := TSQLHttpClient.Create(Server,<span class="hljs-string">'8080'</span>,Form1.Model);
+  <span class="hljs-comment">// TSQLHttpClient(Form1.Database).SetUser('User','synopse');</span>
+  Application.Run;
+</code></pre>
+<p>  然后您可以使用浏览器测试JSON内容：</p>
+<ul>
+<li>启动<code>Project04Server.exe</code>程序：后台HTTP服务器及其SQLite3数据库引擎；</li>
+<li>启动<code>Project04Client.exe</code>实例，并添加/查找任何条目，以稍微填充数据库；</li>
+<li>关闭<code>Project04Client.exe</code>程序；</li>
+<li>打开浏览器，在地址栏输入:</li>
+</ul>
+<pre><code class="lang-http hljs"> <span class="hljs-attribute">http://localhost:8080/root
+</span></code></pre>
+<ul>
+<li>您将看到一条错误消息：</li>
+</ul>
+<pre><code class="hljs">TSQLHttpServer Server Error 400
+</code></pre>
+<ul>
+<li>输入地址栏：</li>
+</ul>
+<pre><code class="lang-http hljs">  <span class="hljs-attribute">http://localhost:8080/root/SampleRecord
+</span></code></pre>
+<ul>
+<li>您将看到所有<code>SampleRecord</code> 的ID结果，这些id编码为JSON列表，例如。</li>
+</ul>
+<pre><code class="lang-json hljs"> [{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">1</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">2</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">3</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">4</span>}]
+</code></pre>
+<ul>
+<li>输入地址栏:</li>
+</ul>
+<pre><code class="lang-http hljs">  <span class="hljs-attribute">http://localhost:8080/root/SampleRecord/1
+</span></code></pre>
+<ul>
+<li>您将看到ID=1的<code>SampleRecord</code>的内容，编码为JSON，例如。</li>
+</ul>
+<pre><code class="lang-json hljs">{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">"Time"</span>:<span class="hljs-string">"2010-02-08T11:07:09"</span>,<span class="hljs-attr">"Name"</span>:<span class="hljs-string">"AB"</span>,<span class="hljs-attr">"Question"</span>:<span class="hljs-string">"To be or not to be"</span>}
+</code></pre>
+<ul>
+<li>在地址栏输入任何其他REST命令，数据库都会响应您的请求……</li>
+</ul>
+<p>  您在不到400 KB的尺寸获得了一个完整的HTTP/SQLite3 RESTful JSON服务器。</p>
+<p>  注意，Internet Explorer或旧版本的FireFox不识别<code>application/json; charset=UTF-8</code>内容类型，这是这些软件的一个限制，因此上述请求将下载内容作为.json文件，但不会阻止AJAX请求按预期工作。</p>
+<h4 id="toc_29">10.2.2.3. 无状态的ORM<a class="vnote-anchor" href="#toc_29" data-anchor-icon="#"></a></h4>
+<p>  我们的框架将REST实现为无状态协议，将HTTP/1.1协议用作它的通信层。</p>
+<p>  无状态服务是将每个请求视为独立事务的服务，与之前的任何请求无关。</p>
+<p>  一开始，您可能会发现传统的客户端-服务端方法有点令人失望。在无状态的世界中，您永远不能确保您的客户端数据是最新的。数据唯一安全的地方是服务器。在网络世界中，这并不令人困惑。但是如果您来自富客户端背景，这可能会让您担心：是否应该从服务端编写一些同步代码，以便将所有更改复制到所有客户端。在无状态体系结构中，这不再是必需的。</p>
+<p>  这种架构的主要规则是确保服务器是唯一引用，并且客户端能够从服务端检索任何挂起的更新。也就是说，总是修改服务器端上的记录内容，然后刷新客户机以检索修改后的值。不要直接修改客户端，而是始终通过服务器。框架的UI组件遵循这些原则。客户端修改可以执行，但必须在独立的自主表/数据库中进行。这将避免在并发客户端修改时出现任何同步问题。</p>
+<h2 id="toc_30">10.3. REST和JSON<a class="vnote-anchor" href="#toc_30" data-anchor-icon="#"></a></h2>
+<h3 id="toc_31">10.3.1. JSON格式密度<a class="vnote-anchor" href="#toc_31" data-anchor-icon="#"></a></h3>
+<p>  最常见的RESTful JSON对JSON内容使用了一种冗长的格式：如http://bitworking.org/news/restful_json建议将整个URI放入JSON内容；</p>
+<pre><code class="lang-json hljs">[
+  <span class="hljs-string">"http://example.org/coll/1"</span>,
+  <span class="hljs-string">"http://example.org/coll/2"</span>,
+  <span class="hljs-string">"http://example.org/coll/3"</span>,
+  ...
+  <span class="hljs-string">"http://example.org/coll/N"</span>,
+]
+</code></pre>
+<p>  框架的其余实现将返回最简洁的JSON内容，其中包含一个对象数组：</p>
+<pre><code class="lang-json hljs"> [{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">1</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">2</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">3</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">4</span>}]
+</code></pre>
+<p>  根据设置的不同，mORMot服务器实际上可能返回另一种格式（见下面的非展开格式），它可以更短，因为它不复制字段名:</p>
+<pre><code class="lang-json hljs"> {<span class="hljs-attr">"fieldCount"</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">"values"</span>:[<span class="hljs-string">"ID"</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]}
+</code></pre>
+<p>  它节约了带宽和保留可读性：如果您能够将GET请求发送到URI <a href="http://example.org/coll%EF%BC%8C%E9%82%A3%E4%B9%88%E6%82%A8%E5%B0%86%E8%83%BD%E5%A4%9F%E5%9C%A8%E6%AF%8F%E4%B8%AA%E8%AF%B7%E6%B1%82%E7%9A%84%E5%BC%80%E5%A4%B4%E8%BF%BD%E5%8A%A0%E8%BF%99%E4%B8%AAURI%EF%BC%8C%E8%BF%99%E9%9A%BE%E9%81%93%E6%B2%A1%E6%9C%89%E6%84%8F%E4%B9%89%E5%90%97">http://example.org/coll，那么您将能够在每个请求的开头追加这个URI，这难道没有意义吗</a>?</p>
+<p>  在所有情况下，Synopse mORMot框架总是返回JSON内容，就像SQL查询的纯响应一样，带有数组和字段名。</p>
+<h3 id="toc_32">10.3.2. JSON(未)展开模式<a class="vnote-anchor" href="#toc_32" data-anchor-icon="#"></a></h3>
+<p>  注意，JSON内容的生成根据 <code>TSQLRestServer.NoAJAXJSON</code> 属性有两种模式：</p>
+<ol>
+<li>“展开”或标准/AJAX模式，允许您从JSON内容创建纯JavaScript对象，因为每个值都提供字段名/ JavaScript对象属性名：</li>
+</ol>
+<pre><code class="lang-json hljs">[{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"Int"</span>:<span class="hljs-number">0</span>,<span class="hljs-attr">"Test"</span>:<span class="hljs-string">"abcde+¬ef+á+¬"</span>,<span class="hljs-attr">"Unicode"</span>:<span class="hljs-string">"abcde+¬ef+á+¬"</span>,<span class="hljs-attr">"Ansi"</span>:<span class="hljs-string">"abcde+¬ef+á+¬"</span>,<span class="hljs-attr">"ValFloat"</span>:<span class="hljs-number">3.14159265300000E+0000</span>,<span class="hljs-attr">"ValWord"</span>:<span class="hljs-number">1203</span>,<span class="hljs-attr">"ValDate"</span>:<span class="hljs-string">"2009-03-10T21:19:36"</span>,<span class="hljs-attr">"Next"</span>:<span class="hljs-number">0</span>},{..}]
+</code></pre>
+<ol start="2">
+<li>“未展开”模式准确地反映了SQL请求：第一行是字段名，然后是所有字段内容：</li>
+</ol>
+<pre><code class="lang-json hljs"> {<span class="hljs-attr">"fieldCount"</span>:<span class="hljs-number">9</span>,<span class="hljs-attr">"values"</span>:[<span class="hljs-string">"ID"</span>,<span class="hljs-string">"Int"</span>,<span class="hljs-string">"Test"</span>,<span class="hljs-string">"Unicode"</span>,<span class="hljs-string">"Ansi"</span>,<span class="hljs-string">"ValFloat"</span>,<span class="hljs-string">"ValWord"</span>,<span class="hljs-string">"ValDate"</span>,<span class="hljs-string">"Next"</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-string">"abcde+¬ef+á+¬"</span>,<span class="hljs-string">"abcde+¬ef+á+¬"</span>,<span class="hljs-string">"abcde+¬ef+á+¬"</span>,<span class="hljs-number">3.14159265300000E+0000</span>,<span class="hljs-number">1203</span>,<span class="hljs-string">"2009-03-10T21:19:36"</span>,<span class="hljs-number">0</span>,..]}
+</code></pre>
+<p>  默认情况下，<code>NoAJAXJSON</code>属性在<code>TSQLRestServer.ExportServerNamedPipe</code>调用时设置为<code>true</code>：如果您使用命名管道进行通信，您可能不会使用JavaScript客户端，因为所有浏览器都只通过HTTP进行通信！</p>
+<p>  否则，<code>NoAJAXJSON</code>属性将设置为<code>false</code>。如果从不执行JavaScript，您可以强制将其值设置为<code>true</code>，将节省一些带宽，如果不展开JSON内容，即使使用Delphi解析JSON内容也会更快。</p>
+<p>  在“未展开”的模式中，如下JSON内容：</p>
+<pre><code class="lang-json hljs"> [{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">1</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">2</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">3</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">4</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">5</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">6</span>},{<span class="hljs-attr">"ID"</span>:<span class="hljs-number">7</span>}]
+</code></pre>
+<p>  将以更短的形式传送：</p>
+<pre><code class="lang-json hljs"> {<span class="hljs-attr">"fieldCount"</span>:<span class="hljs-number">1</span>,<span class="hljs-attr">"values"</span>:[<span class="hljs-string">"ID"</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]}
+</code></pre>
+<h3 id="toc_33">10.3.3. JSON全局缓存<a class="vnote-anchor" href="#toc_33" data-anchor-icon="#"></a></h3>
+<p>  SQlite3级的全局缓存用于增强框架的可伸缩性，其结果编码采用JSON存储。</p>
+<p>  为了加快服务器响应时间，特别是在并发客户端访问中，不需要对每个请求都调用内部数据库引擎。事实上，已经引入了一个全局缓存来存储最新的SQL SELECT语句结果，直接以JSON格式存储在内存中。</p>
+<p>  SQLite3引擎访问在SQL/JSON缓存级别受到保护，通过大多数<code>TSQLRestServerDB</code>方法中的<code>DB.LockJSON()</code>调用。</p>
+<p>  <code>TSynCache</code>实例在<code>TSQLDataBase</code>内部全局实例中实例化，如下所示：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TSQLRestServerDB</span>.<span class="hljs-title">Create</span><span class="hljs-params">(aModel: TSQLModel; aDB: TSQLDataBase;
+  aHandleUserAuthentication: boolean)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  fStatementCache.Init(aDB.DB);
+  aDB.UseCache := true; <span class="hljs-comment">// we better use caching in this JSON oriented use</span>
+  (...)
+</code></pre>
+<p>  这将在SQL级别启用全局JSON缓存。这个缓存将在每个<code>INSERT</code>、<code>UPDATE</code>或<code>DELETE</code> SQL语句（无论对应的表是什么）上重置。</p>
+<p>  如果您需要为特定的请求禁用JSON缓存，请在SQL语句的任何地方，例如ORM WHERE子句中，添加<code>SQLDATABASE_NOCACHE</code>文本，即<code>'/*nocache*/'</code>文本注释。它将指示TSQLDataBase不缓存返回的JSON内容。它可能有用，例如，如果您传递一个指针作为<code>PtrInt(aVariable)</code>绑定参数，它可能具有相同的整数值，但内容不同。</p>
+<p>  在实践中，这种全局缓存被发现是有效的，即使它的实现有些“幼稚”。它实际上更优于其它很多客户端-服务端解决方案HTTP级缓存机制（如<em>Squid</em> proxy），因为我们的缓存是在SQL级，在所有CRUD/Restful查询之间共享，独立于身份验证方案，否则会污染URI。与其他级别的缓存相关联，所以框架的可伸缩性非常好。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>15_接口</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-2 .node > rect { }
+#mermaid-diagram-2 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-3 .node > rect { }
+#mermaid-diagram-3 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">15. 接口<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src="https://github.com/wai818/mORMot-Learning/blob/master/mORMot_Picture/cartoon05.png?raw=true" alt="" class="view-image"></p>
+<h2 id="toc_1">15.1. Delphi和接口<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<h3 id="toc_2">15.1.1. 接口声明<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h3>
+<p>  在Delphi OOP模型中，<code>interface</code>定义了包含抽象虚拟方法的类型。 简明的定义就是接口是功能声明而没有功能实现。 它定义了“什么”可用，而不是“如何”可用，这就是接口所谓“抽象”的好处（还有另外一个好处，比如类接口的正交性，但我们稍后会看到它）。</p>
+<p>  在Delphi中，我们可以声明一个这样的接口：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  ICalculator = <span class="hljs-keyword">interface</span>(IInvokable)
+    [<span class="hljs-string">'{9A60C8ED-CEB2-4E09-87D4-4A16F496E5FE}'</span>]
+    <span class="hljs-comment">/// add two signed 32-bit integers</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Add</span><span class="hljs-params">(n1,n2: integer)</span>:</span> integer;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  它看起来像是一个类定义，但正如你所看到的：</p>
+<ul>
+<li>它被命名为<code>ICalculator</code>，而不是<code>TCalculator</code>：使用<code>I</code>开头的接口名称是一种常见的约定，以便与<code>T</code>打头的类或其他实现级类型定义相区别；</li>
+<li>没有显式定义属性（无<code>private / protected / public / published</code>关键字），事实上，发布所有方法；</li>
+<li>没有字段，只有方法（字段是实现的一部分，而不是接口的一部分），事实上，您可以在接口定义中拥有属性，但这些属性应通过<code>read</code>、<code>write</code>关键字重定向到现有的getter和setter方法；</li>
+<li>接口名称下面有一个奇怪的数字，称为GUID，这是接口的唯一标识符，您可以通过在Delphi IDE中按Ctrl + Shift + G在编辑器光标位置创建这样一个常量；</li>
+<li>按通常的方式定义这些方法。</li>
+</ul>
+<h3 id="toc_3">15.1.2. 使用类实现接口<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  现在我们有了一个接口，我们需要创建一个实现。</p>
+<p>  我们的接口非常基础，所以我们可以这样实现：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TServiceCalculator</span> = <span class="hljs-keyword">class</span>(TInterfacedObject, ICalculator)
+  <span class="hljs-keyword">protected</span>
+    fBulk: <span class="hljs-keyword">string</span>;
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Add</span><span class="hljs-params">(n1,n2: integer)</span>:</span> integer;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">SetBulk</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aValue: <span class="hljs-keyword">string</span>)</span>;</span>
+  <span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TServiceCalculator</span>.<span class="hljs-title">Add</span><span class="hljs-params">(n1, n2: integer)</span>:</span> integer;
+<span class="hljs-keyword">begin</span>
+  result := n1+n2;
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TServiceCalculator</span>.<span class="hljs-title">SetBulk</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aValue: <span class="hljs-keyword">string</span>)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  fBulk := aValue;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  您需要注意以下事项：</p>
+<ul>
+<li>我们将<code>ICalculator</code>名称添加到<code>class()</code>定义中，该类继承自<code>TInterfacedObject</code>，并实现<code>ICalculator</code>接口；</li>
+<li>这里有<code>protected</code>和<code>public</code>关键字，但从接口的角度来看，<code>Add</code>方法可以使用任何可见性，它将用作接口的实现，即使该方法在实现类中被声明为<code>private</code>；</li>
+<li>有一个<code>SetBulk</code>方法，它不是<code>ICalculator</code>定义的一部分，所以我们可以在实现类中添加其他方法，我们甚至可以在同一个方法中实现几个接口（只需在类之后添加其他接口名称<code>(TInterfacedObject，ICalculator， IAnotherInterface)</code>；</li>
+<li>在该类定义中有一个<code>fBulk</code>的保护字段成员，它没有使用，但可以用于类实现。</li>
+<li>这里我们必须为<code>TServiceCalculator.Add()</code>方法编写一个实现（否则编译器会报缺少方法错误），而<code>ICalculator.Add</code>方法没有预期的实现，它完全是“抽象的”。</li>
+</ul>
+<h3 id="toc_4">15.1.3. 使用接口<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h3>
+<p>  现在我们有两种使用<code>TServiceCalculator</code>类的方法：</p>
+<ul>
+<li>经典的方式；</li>
+<li>抽象方式（使用接口）。</li>
+</ul>
+<p>  “经典”方式，使用显式类实例：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyAdd</span><span class="hljs-params">(a,b: integer)</span>:</span> integer;
+<span class="hljs-keyword">var</span> Calculator: TServiceCalculator;
+<span class="hljs-keyword">begin</span>
+  Calculator := TServiceCalculator.Create;
+  <span class="hljs-keyword">try</span>
+    result := Calculator.Add(a,b);
+  <span class="hljs-keyword">finally</span>
+    Calculator.Free;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  请注意，我们使用<code>try..finally</code>块来保护实例内存资源。</p>
+<p>  我们也可以使用接口：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyAdd</span><span class="hljs-params">(a,b: integer)</span>:</span> integer;
+<span class="hljs-keyword">var</span> Calculator: ICalculator;
+<span class="hljs-keyword">begin</span>
+  Calculator := TServiceCalculator.Create;
+  result := Calculator.Add(a,b);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这是怎么回事？</p>
+<ul>
+<li>我们将局部变量定义为ICalculator，因此它将是一个接口，而不是一个常规的类实例；</li>
+<li>我们为这个接口变量分配了一个<code>TServiceCalculator</code>实例：该变量现在将处理实例的生命周期；</li>
+<li>我们像通常一样调用方法，实际上，计算是使用完全相同的表达式执行的：<code>result := Calculator.Add(a,b)</code>；</li>
+<li>我们不需要任何<code>try...finally</code>语句，在Delphi中，接口变量是引用计数的，编译器会跟踪接口的实例和使用，实例一旦创建，当给定接口变量的引用计数为零时将自动释放；</li>
+<li>并且性能成本可以忽略不计，这与调用虚拟方法（仅一个重定向级别）大致相同。</li>
+</ul>
+<p>  实际上，编译器在<code>MyAdd</code>函数中创建了一个隐藏的<code>try...finally</code>块，并且只要<code>Calculator</code>变量超出范围，实例就会被释放。实际产生的代码大致如下所示：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyAdd</span><span class="hljs-params">(a,b: integer)</span>:</span> integer;
+<span class="hljs-keyword">var</span> Calculator: TServiceCalculator;
+<span class="hljs-keyword">begin</span>
+  Calculator := TServiceCalculator.Create;
+  <span class="hljs-keyword">try</span>
+    Calculator.FRefCount := <span class="hljs-number">1</span>;
+    result := Calculator.Add(a,b);
+  <span class="hljs-keyword">finally</span>
+    dec(Calculator.FRefCount);
+    <span class="hljs-keyword">if</span> Calculator.FRefCount=<span class="hljs-number">0</span> <span class="hljs-keyword">then</span>
+      Calculator.Free;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  当然，这是一个小的优化（和线程安全），但你明白接口的使用了吧。</p>
+<h3 id="toc_5">15.1.4. 多种实现途径<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h3>
+<p>  我们已经讲过的接口的一个好处是它与实现“正交”。</p>
+<p>  实际上，我们可以创建另一个实现类，并使用相同的接口：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TOtherServiceCalculator</span> = <span class="hljs-keyword">class</span>(TInterfacedObject, ICalculator)
+  <span class="hljs-keyword">protected</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Add</span><span class="hljs-params">(n1,n2: integer)</span>:</span> integer;
+  <span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TOtherServiceCalculator</span>.<span class="hljs-title">Add</span><span class="hljs-params">(n1, n2: integer)</span>:</span> integer;
+<span class="hljs-keyword">begin</span>
+  result := n2+n1;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这里的计算方法不一样：我们使用<code>n2+n1</code>而不是<code>n1+n2</code>...当然，这会产生相同的值，我们可以通过使用<code>TOtherServiceCalculator</code>类名将另一种方法用于我们相同的接口：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyOtherAdd</span><span class="hljs-params">(a,b: integer)</span>:</span> integer;
+<span class="hljs-keyword">var</span> Calculator: ICalculator;
+<span class="hljs-keyword">begin</span>
+  Calculator := TOtherServiceCalculator.Create;
+  result := Calculator.Add(a,b);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<h3 id="toc_6">15.1.5. 这就是魔力<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h3>
+<p>  现在，您可能开始理解像我们这样的客户端-服务端框架使用接口的意义。</p>
+<p>  我们的mORMot能够在客户端和服务端使用相同的接口定义，在双方调用所有预期的方法，在服务端具有所有实现逻辑，客户端应用程序向服务端传递方法调用（使用JSON而不是更复杂的XML/SOAP）（使用框架动态创建的“假”实现类），然后在服务器上执行（使用显而易见的好处），将结果以JSON形式发送回客户端。也可以在服务端调用相同的接口，在这种情况下，执行将是就地的，因此非常快。</p>
+<p>  通过创建一大堆用于实现项目业务逻辑的接口，您将受益于开放且强大的实现模式。</p>
+<p>  稍后将详细介绍...首先，我们将介绍使用接口的良好原则。</p>
+<h2 id="toc_7">15.2. SOLID设计原则<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h2>
+<p>  首字母缩略词SOLID源自以下OOP原则（引自相应的维基百科文章）：</p>
+<ul>
+<li>单一责任原则：一个对象应该只有一个责任的概念；</li>
+<li>开放/封闭原则：“软件实体......应该开放以进行扩展，但封闭以进行修改”的理念；</li>
+<li>替换原则：“程序中的对象应该可以替换为其子类型的实例而不改变程序的正确性”的概念，也称为“按契约设计”；</li>
+<li>接口隔离原则：“许多客户端特定接口优于一个通用接口”的理念；</li>
+<li>依赖反转原则：应该“依赖于抽象，不要依赖于具体结果”概念，依赖注入是遵循这一原则的一种方法，也称为控制反转（又名IoC）。</li>
+</ul>
+<p>  如果你有一些编程技巧，这些一般性陈述的原则你可能已经自己发现了。如果您开始进行严肃的面向对象编码，那么这些原则就是您最终获得的最佳实践指南。</p>
+<p>  他们肯定有助于对抗三个主要的代码弱点：</p>
+<ul>
+<li>刚性：难以改变某些东西，因为每次改变都会影响系统的其他部分；</li>
+<li>脆弱性：当您进行更改时，系统出现意外部分的中断；</li>
+<li>固化性：难以在另一个应用程序中重用，因为它无法从当前应用程序中剥离。</li>
+</ul>
+<h3 id="toc_8">15.2.1. 单一责任原则<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h3>
+<p>  定义类时，它应设计为仅实现一个功能特性。所谓的特性可以视为“变化的轴心”或“变化的原因”，因此：</p>
+<ul>
+<li>一个类只有一个理由可以改变其实施；</li>
+<li>类对其他类的依赖性很小；</li>
+<li>类应该从它们运行的特定层抽象出来 ，请参阅<a href="">多层体系架构</a>。</li>
+</ul>
+<p>  例如，<code>TRectangle</code>对象不应同时定义<code>ComputeArea</code>和<code>Draw</code>方法，它们定义了两个职责，导致轴心改变：第一个职责提供了矩形的数学模型，第二个是在GUI上渲染它。</p>
+<h4 id="toc_9">15.2.1.1. 拆分类<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h4>
+<p>  举一个真实编码的例子，假设您定义了一个通信组件，如您想与条码扫描外围设备进行通信。您可以定义一个类，例如<code>TBarcodeScanner</code>，支持通过串行端口连接的此类设备。后来，制造商不再使用串口支持，因为没有计算机仍然拥有它，并在其产品目录中仅提供USB型号。您可以继承<code>TBarcodeScanner</code>，并添加USB支持。</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 232 198" style="max-width:232px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M106,64L106,89L106,114" marker-end="url(#arrowhead7)" style="fill:none"></path><defs><marker id="arrowhead7" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(106,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-71" y="-22" width="142" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-61,-12)"><foreignObject width="122" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TBarcodeScanner</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(106,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-86" y="-22" width="172" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-76,-12)"><foreignObject width="152" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TUsbBarCodeScanner</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  但实际上，这个新的<code>TUsbBarCodeScanner</code>类很难维护，因为它将继承相关的串行通信。</p>
+<p>  因此，您可以通过抽象父类来拆分类层次结构：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-2" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 464 198" style="max-width:464px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-2 .node&gt;rect { ; }
+#mermaid-diagram-2 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M171.37234042553192,64L111,89L111,114" marker-end="url(#arrowhead15)" style="fill:none"></path><defs><marker id="arrowhead15" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M277.6276595744681,64L338,89L338,114" marker-end="url(#arrowhead16)" style="fill:none"></path><defs><marker id="arrowhead16" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(224.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-99.5" y="-22" width="199" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-89.5,-12)"><foreignObject width="179" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TAbstractBarcodeScanner</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(111,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-91" y="-22" width="182" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-81,-12)"><foreignObject width="162" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSerialBarCodeScanner</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(338,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-86" y="-22" width="172" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-76,-12)"><foreignObject width="152" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TUsbBarCodeScanner</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  我们可以定义一些<code>virtual abstract</code>方法，这些方法将在继承的类中重写：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TAbstractBarcodeScanner</span> = <span class="hljs-keyword">class</span>(TComponent)
+  <span class="hljs-keyword">protected</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ReadChar</span>:</span> byte; <span class="hljs-keyword">virtual</span>; <span class="hljs-keyword">abstract</span>;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ReadFrame</span>:</span> TProtocolFrame; <span class="hljs-keyword">virtual</span>; <span class="hljs-keyword">abstract</span>;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">WriteChar</span><span class="hljs-params">(aChar: byte)</span>;</span> <span class="hljs-keyword">virtual</span>; <span class="hljs-keyword">abstract</span>;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">WriteFrame</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aFrame: TProtocolFrame)</span>;</span> <span class="hljs-keyword">virtual</span>; <span class="hljs-keyword">abstract</span>;
+    ...
+</code></pre>
+<p>  之后，根据最终实现，<code>TSerialBarCodeScanner</code>和<code>TUsbBarCodeScanner</code>类将覆盖这些类。</p>
+<p>  事实上，这种方法更简洁。但它也不完美，因为它可能很难维护和扩展。想象一下，制造商都使用标准协议进行通信，无论是USB或串行连接。您需要把这个通信协议（例如它的状态机、它的流计算、它的延迟设置）放在<code>TAbstractBarcodeScanner</code>类中。但也许它们在<code>TSerialBarCodeScanner</code>或<code>TUsbBarCodeScanner</code>中会有多种风格，甚至由于各种模型和功能特性（如它可能支持2D或3D条形码）。</p>
+<p>  似乎将所有内容放在一个单独的类中并不是一个好主意。分裂协议和通信似乎是首选。每个“变化轴”，即可能需要修改的每个方面， 都需要自己的类。然而<code>T*BarcodeScanner</code>类将在单个组件中组成协议和通信类。</p>
+<p>  设想，我们有两个协议（名为BCP1和BCP2），以及两种通信方式（串行和USB），所以我们将定义以下类：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-3" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 973 198" style="max-width:973px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-3 .node&gt;rect { ; }
+#mermaid-diagram-3 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M172.70212765957447,64L111,89L111,114" marker-end="url(#arrowhead26)" style="fill:none"></path><defs><marker id="arrowhead26" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M281.29787234042556,64L343,89L343,114" marker-end="url(#arrowhead27)" style="fill:none"></path><defs><marker id="arrowhead27" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M652.8563829787234,64L586.5,89L586.5,114" marker-end="url(#arrowhead28)" style="fill:none"></path><defs><marker id="arrowhead28" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M769.6436170212766,64L836,89L836,114" marker-end="url(#arrowhead29)" style="fill:none"></path><defs><marker id="arrowhead29" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A1" transform="translate(227,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-101.5" y="-22" width="203" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-91.5,-12)"><foreignObject width="183" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TAbstractBarcodeProtocol</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(111,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-91" y="-22" width="182" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-81,-12)"><foreignObject width="162" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TBCP1BarcodeProtocol</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(343,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-91" y="-22" width="182" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-81,-12)"><foreignObject width="162" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TBCP2BarcodeProtocol</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(711.25,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-112" y="-22" width="224" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-102,-12)"><foreignObject width="204" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TAbstractBarcodeConnection</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(586.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-102.5" y="-22" width="205" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-92.5,-12)"><foreignObject width="185" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSerialBarcodeConnection</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(836,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-97" y="-22" width="194" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-87,-12)"><foreignObject width="174" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TUsbBarcodeConnection</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  由此，我们可以定义最终的类和组件：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  TAbstractBarcodeConnection = <span class="hljs-keyword">class</span>
+  <span class="hljs-keyword">protected</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ReadChar</span>:</span> byte; <span class="hljs-keyword">override</span>;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">WriteChar</span><span class="hljs-params">(aChar: byte)</span>;</span> <span class="hljs-keyword">override</span>;
+    ...
+  TAbstractBarcodeProtocol = <span class="hljs-keyword">class</span>
+  <span class="hljs-keyword">protected</span>
+    fConnection: TAbstractBarcodeConnection;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ReadFrame</span>:</span> TProtocolFrame; <span class="hljs-keyword">override</span>;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">WriteFrame</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aFrame: TProtocolFrame)</span>;</span> <span class="hljs-keyword">override</span>;
+    ...
+  <span class="hljs-title">TAbstractBarcodeScanner</span> = <span class="hljs-keyword">class</span>(TComponent)
+  <span class="hljs-keyword">protected</span>
+    fProtocol: TAbstractBarcodeProtocol;
+    fConnection: AbstractBarcodeConnection;
+  ...
+</code></pre>
+<p>  每个实际的继承类将根据模型需要初始化协议和连接：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TSerialBarCodeScanner</span>.<span class="hljs-title">Create</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aComPort: <span class="hljs-keyword">string</span>; aBitRate: integer)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  fConnection := TSerialBarcodeConnection(aComPort,aBitRate);
+  fProtocol := TBCP1BarcodeProtocol.Create(fConnection);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  在这里，我们将连接实例注入协议，因为后者可能需要在线路上读取或写入一些字节。</p>
+<p>  另一个例子是如何在<code>SynDB.pas</code>中定义我们的数据库类，请参阅<a href="">外部SQL数据库访问</a>：</p>
+<ul>
+<li>连接属性功能由<code>TSQLDBConnectionProperties</code>类处理；</li>
+<li>实际活动连接功能由<code>TSQLDBConnection</code>类处理；</li>
+<li>数据库请求功能由<code>TSQLDBStatement</code>实例使用专用的<code>NewConnection/ThreadSafeConnection/NewStatement</code>方法处理。</li>
+</ul>
+<p>  因此，您可以更改数据库连接的定义方式（如将属性添加到<code>TSQLDBConnectionProperties</code>子类），而不必更改语句实现本身。</p>
+<h4 id="toc_10">15.2.1.2. 不要混用UI和逻辑<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h4>
+<p>  您的<code>uses</code>子句中可能会出现另一种实际的“单一责任原则”问题。</p>
+<p>  如果您的数据或外围设备单元如下所示：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">unit</span> MyDataModel;
+
+<span class="hljs-keyword">uses</span>
+  Winapi.Windows,
+  mORMot,
+  ...
+</code></pre>
+<p>  它将导致对Windows操作系统的依赖，而您的数据肯定会受益于与操作系统的无关性。 我们今天的编译器（Delphi或FPC）针对多个操作系统，因此将我们的数据耦合到实际的Windows单元确实是糟糕的设计。</p>
+<p>  同样，您可能通过引用Forms单元添加VCL依赖项。</p>
+<p>  如果您的数据或外围设备的单元是这样开头的，注意了！</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">unit</span> MyDataModel;
+
+<span class="hljs-keyword">uses</span>
+  Winapi.Messages,
+  Vcl.Forms,
+  mORMot,
+  ...
+</code></pre>
+<p>  如果您以后想在应用程序中使用<code>FMX</code>或<code>LCL</code>（来自Lazarus），或者想要在没有任何GUI的纯服务器应用程序上使用<code>MyDataModel</code>单元，那么您就会陷入困境。新的Windows Nano Server体系结构以云为目标，不会向服务端应用程序提供任何GUI，甚至对可执行文件的依赖链非常敏感。</p>
+<p>  请注意，如果您习惯于在RAD模式下开发，则IDE向导生成的单元会在生成的.pas文件的uses子句中附带一些默认引用，因此，请注意不要在您自己的业务代码中引入任何耦合！</p>
+<p>  作为一般规则，我们的ORM/SOA框架源代码试图避免这种依赖。所有操作系统特性都集中在我们的SynCommons.pas单元中，其它的非必须的的，都不依赖于VCL，如在<code>mORMot.pas</code>中。</p>
+<p>  遵循RAD方法，您可能从UI开始，即在您定义可视化窗体（可能是VCL或FMX）的单元中定义所需的类，不要追随这个诱人但危险的道路！</p>
+<p>  对于一个小例子（例如我们的存储库源代码树的<code>SQlite3\Samples</code>子文件夹中提供的代码），以下代码可以接受，但对于任何基于mORMot的生产应用程序，绝对要避免使用以下代码：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">interface</span>
+
+<span class="hljs-keyword">uses</span>
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, mORMot, mORMotSQLite3;
+
+<span class="hljs-keyword">type</span>
+  <span class="hljs-title">TForm1</span> = <span class="hljs-keyword">class</span>(TForm)
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">FormCreate</span><span class="hljs-params">(Sender: TObject)</span>;</span>
+  <span class="hljs-keyword">private</span>
+    fModel: TSQLModel;
+    fDatabase: TSQLRestServerDB;
+  <span class="hljs-keyword">public</span>
+  <span class="hljs-keyword">end</span>;
+
+ <span class="hljs-keyword">implementation</span>
+
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TForm1</span>.<span class="hljs-title">FormCreate</span><span class="hljs-params">(Sender: TObject)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  fModel := TSQLModel.Create([TSQLMyOwnRecord],<span class="hljs-string">'root'</span>);
+  fDatabase := TSQLRestServerDB.Create(fModel,ChangeFileExt(paramstr(<span class="hljs-number">0</span>),<span class="hljs-string">'.db'</span>));
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  在实际的项目单元中，当您定义ORM或SOA类时，永远不要在其中包含GUI方法。实际上，我们的<code>TSQLRecord</code>类定义对于客户端和服务端都是通用的这一事实使得该原则是强制性的。您不应该在服务端拥有任何GUI相关方法，并且客户端可以使用具有多个GUI实现的对象实例（Delphi Client，AJAX Client ...）。</p>
+<p>  因此，如果要更改GUI，则不必重新编译<code>TSQLRecord</code>类和关联的数据库模型。如果要在Linux机器上部署服务器（使用例如CrossKylix或FPC作为编译器），则可以重用相同的代码，因为您没有在业务代码中引用VCL。</p>
+<p>  这种单一责任原则可能听起来简单易懂（甚至是显而易见的），但事实上，这是最难实现的原则之一。当然，我们倾向于在我们的类定义中加入责任。我们的框架架构将通过其客户端-服务端性质及其涉及接口的所有高级方法强制执行，以遵循此原则，但最终仍是由程序员来正确设计他（她）的类型。</p>
+<h3 id="toc_11">15.2.2. 开放/封闭原则<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h3>
+<p>  在定义类或单元的同时：</p>
+<ul>
+<li>他们还应该开放扩展；</li>
+<li>但封闭修改。</li>
+</ul>
+<p>  这意味着您可以扩展现有代码，而不会破坏其初始行为。</p>
+<p>  可能会添加其他一些指导原则，但这些为您提供了主要思路。</p>
+<p>  符合这一开放/封闭原则是OOP产生最大收益的原因，即：</p>
+<ul>
+<li>代码可重用性；</li>
+<li>代码可维护性；</li>
+<li>代码可扩展性。</li>
+</ul>
+<p>  遵循这一原则将使您的代码远离平常的RAD风格，好处将是巨大的。</p>
+<h4 id="toc_12">15.2.2.1. 用于我们的框架单元<a class="vnote-anchor" href="#toc_12" data-anchor-icon="#"></a></h4>
+<p>  在设计我们的ORM/SOA单元时，我们努力遵循这个原则。实际上，您不必修改其实现，您应该定义自己的单元和类，而无需侵入框架源代码。</p>
+<p>  即使开源范例允许您修改提供的代码，除非您修复错误或添加新的常用功能，否则都不应该这样做，而修改源代码实际上是我们http://synopse.info网站的目的，大多数框架增强都来自用户请求。</p>
+<p>  框架开源许可证 ，可能鼓励用户贡献以实现开放/封闭设计原则：</p>
+<ul>
+<li>您的应用程序代码通过定义您自己的类或事件处理程序来扩展Synopse mORMot Framework，这就是它对扩展的开放性；</li>
+<li>主要框架单元应保持不受侵犯，并且对所有用户都是通用的，这说明了封闭修改设计。</li>
+</ul>
+<p>  作为一个有益的附加作用，这个原则将确保您的代码遵循框架更新（这是定期的）。当新版本的mORMot可用时，您应该能够从我们的网站免费获取它，在本地替换您的文件，然后构建一个新的应用程序增强版本，并利用所有包含的修复和优化。甚至源代码存储库都可以在http://synopse.info/fossil或https://github.com/synopse/mORMot上获得，以支持您追随当前的框架改进步伐。</p>
+<p>  简而言之，抽象是让人安心的关键，您的所有代码都不依赖于特定的实现。</p>
+<h4 id="toc_13">15.2.2.2. 实践中的开放/封闭<a class="vnote-anchor" href="#toc_13" data-anchor-icon="#"></a></h4>
+<p>  为了实施这一原则，可以设想若干公约：</p>
+<ul>
+<li>您应该更好地定义一些抽象类，然后为每个实现使用特定的重载类：例如，如何实现客户端-服务端类，请参阅<a href="">客户端-服务器进程</a>；</li>
+<li>所有对象成员都应声明为<code>private</code>或<code>protected</code>，这是一个好主意，使用<a href="">面向服务的体系结构(SOA)</a>来定义服务端进程，使<code>TSQLRecord</code>发布的属性为只读并使用一些带参数的客户端<code>constructor</code>；</li>
+<li>永远没有单例模式或全局变量；</li>
+<li>RTTI是危险的，也就是说，让我们的框架使用RTTI函数进行自己的设计，不要在你的代码中使用它。</li>
+</ul>
+<p>  <strong><em>译者注：singleton pattern，单例模式，顾名思义，就是只能有一个实例，那么我们就必须保证：</em></strong></p>
+<ul>
+<li><strong><em>该类不能被复制。</em></strong></li>
+<li><strong><em>该类不能被公开的创造。</em></strong></li>
+</ul>
+<p>  <strong><em>那么对于C++来说，他的构造函数，拷贝构造函数和他的赋值函数都不能被公开调用。</em></strong></p>
+<p>  <strong><em>但对于该私有的构造函数的构造时机上来说也可以分两种情况来构造：</em></strong></p>
+<ul>
+<li><strong><em>只有当需要改类的时候去构造（即为懒汉模式）</em></strong></li>
+<li><strong><em>在程序开始之前我就先构造好，你到时候直接用就可（即为饿汉模式）</em></strong></li>
+</ul>
+<p>  在我们之前的条形码扫描器类层次结构中，我们将定义：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TAbstractBarcodeScanner</span> = <span class="hljs-keyword">class</span>(TComponent)
+  <span class="hljs-keyword">protected</span>
+    fProtocol: TAbstractBarcodeProtocol;
+    fConnection: AbstractBarcodeConnection;
+  ...
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-keyword">property</span> Protocol: TAbstractBarcodeProtocol <span class="hljs-keyword">read</span> fProtocol;
+    <span class="hljs-keyword">property</span> Connection: AbstractBarcodeConnection <span class="hljs-keyword">read</span> fConnection;
+  ...
+</code></pre>
+<p>  在此代码中，实际变量存储为<code>protected</code>字段，在公共部分中只有getter（即<code>read</code>），没有setter（即<code>write</code>）属性，因为setter允许在用户代码中更改<code>fProtocol/fConnection</code>实例。您仍然可以访问这些字段（在继承的构造函数中是必需的），但用户代码不应使用它。</p>
+<p>  参见如上所述<a href="">SOLID原则</a>，单一责任，拆分协议和通信，拥有用于定义协议和连接的专用类也将有助于实现开放/封闭原则。您将能够定义一个新类，结合自己的协议和连接类实例，因此它将是开放以扩展的。但是你不会通过继承它来改变类的行为，由于协议和连接是非耦合的，并且通过专用类中的组合使用，它将被封闭修改。</p>
+<p>  对类使用最新的<code>sealed</code>指令可以确保您的类定义遵循此原则。如果类方法或属性是<code>sealed</code>的，那么即使您经不住心动，也无法在其继承的类型中更改其行为。</p>
+<h4 id="toc_14">15.2.2.3. 没有单例模式也没有全局变量<a class="vnote-anchor" href="#toc_14" data-anchor-icon="#"></a></h4>
+<p>  关于单例模式，最好总是在代码中避免使用它。事实上，单例是一个C++（和Java）黑客，它是为了实现隐藏在静态类定义背后的某种全局变量而发明的。它们在历史上被引入以支持应用程序范围初始化的混合模式（主要分配管理控制台所需的stdio对象），并且在业务逻辑中被滥用。</p>
+<p>  一旦使用单例或全局变量，您将错过OOP的大部分优势。单例的典型用法是为应用程序全局注册一些类实例。您可能会看到一些框架，或RTL的某些部分，允许此类全局注册。但它最终会使适当依赖注入的大部分好处失效，因为你将无法拥有同一类的不同解决方案。</p>
+<p>  例如，如果您的数据库属性或应用程序配置存储在单例或全局变量中，您肯定无法一次使用多个数据库，或者将您的单用户应用程序与其GUI转换为现代的多用户AJAX应用程序：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span>
+  DBServer: <span class="hljs-keyword">string</span> = <span class="hljs-string">'localhost'</span>;
+  DBPort: integer = <span class="hljs-number">1426</span>;
+
+  UITextColor: TColor = clNavy;
+  UITextSize: integer = <span class="hljs-number">12</span>;
+</code></pre>
+<p>  这样的全局变量是一个破坏了开放/封闭原则，因为你的项目最终将不支持开放进行扩展。使用静态类变量（在较新版本的Delphi中允许）只是定义全局变量的另一种方法，只需添加类类型的命名范围即可。</p>
+<p>  即使您没有在代码中定义某个全局变量，也可以将代码与现有的全局变量结合起来。例如，使用IDE中定义的<code>TMainForm = class(TForm)</code>类定义一些变量，然后在代码中使用其全局<code>MainForm: TMainForm</code>变量或<code>Application.MainForm</code>属性。当定义了<code>TMainForm</code>的单元开始出现在您的业务代码<code>uses</code>子句中时，您将开始感觉不对...只是伪装的另一个全局变量！</p>
+<p>  在我们的框架中，我们努力不使用全局注册，但是对于已经发现可以安全实施的情况，如缓存RTTI时，或者为给定类型自定义JSON序列化。所有这些信息都将使用它们与正确的类正交，因此您可以在框架单元中找到一些全局变量，只有在它值得的时候。如我们将<code>TSQLRecord</code>的信息拆分为<code>TSQLRecordProperties</code>以获取共享的无形RTTI值，并将<code>TSQLModelRecordProperties</code>实例（每个<code>TSQLModel</code>一个）拆分为所有<code>TSQLModel/TSQLRest</code>特定设置 - 请参阅<a href="">多个模型</a>。</p>
+<h3 id="toc_15">15.2.3. 利斯科夫替换原则<a class="vnote-anchor" href="#toc_15" data-anchor-icon="#"></a></h3>
+<p>  即使他的名字很难记住，Barbara Liskov也是一位伟大的计算机科学家，我们应该更好地学习。值得一看的是他在https://www.youtube.com/watch?v=GDVAHA0oyJU上的演讲。</p>
+<p>  “Liskov替换原则”指出，如果<code>TChild</code>是<code>TParent</code>的子类型，则<code>TParent</code>类型的对象可以替换<code>TChild</code>类型的对象（即<code>TChild</code>类型的对象可以替代为<code>TParent</code>类型的对象）而不改变该程序的所有理想属性（正确性，任务执行等）。</p>
+<p>  Barbara Liskov给出的例子是关于堆栈和队列：即使两者都共享<code>Push</code>和<code>Pop</code>方法，它们也不应该从单个父类型继承，因为堆栈的存储行为与队列完全相反。在你的程序中，如果你用队列替换堆栈，你肯定会遇到奇怪的行为。根据自上而下设计流程，两种类型应该是解耦的。您可以使用内存列表实现<code>TFastStack</code>类，或使用远程SQL引擎实现另一个<code>TPersistedStack</code>类，但两者都必须像<code>TStack一</code>样，即根据后进先出（LIFO）原则。另一方面，任何实现队列类型的类都应遵循先进先出（FIFO）顺序，无论使用何种存储。</p>
+<p>  在实际的Delphi代码中，依赖抽象可以通过两种方式实现：</p>
+<ul>
+<li>在使用对象时仅使用抽象父类变量；</li>
+<li>使用接口变量而不是类实现。</li>
+</ul>
+<p>  在这里，我们不使用继承来共享实现代码，而是使用继承来定义预期的行为。有时，您可能会破坏实现方法中的Liskov替换原则，这些原理将被编码以收集一些可重用的代码片段（实现模式的继承），准备一些可能仅由某些子类型使用的行为。为了效率和可维护性，子类型的这种“内部”虚拟方法可以改变其继承方法的行为。但是这种实现继承比设计更接近管道，方法应该被声明为受保护，而不是作为类型定义的一部分发布。</p>
+<p>  顺便说一句，这正是接口类型定义必须提供的。您可以从另一个接口继承，这种多态性应严格遵循利斯科夫替换原则。而实现接口的类类型可能会使用一些违反原则的受保护方法，以提高代码效率。</p>
+<p>  为了实现这一原则，您应该：</p>
+<ul>
+<li>正确地命名（和注释）您的类或接口定义：使用<code>Push</code>和<code>Pop</code>方法可能不足以定义合同，因此在这种情况下，类型继承将定义预期的期望 - 因此，您应该更好地远离"duck typing"模式和动态语言，而依赖强类型；</li>
+<li>在定义对象层次结构时使用“行为”设计模式，例如，如果正方形可能是矩形，则<code>TSquare</code>对象最终不是<code>TRectangle</code>对象，因为<code>TSquare</code>对象的行为与<code>TRectangle</code>对象的行为不一致（方形宽度总是等于它的高度，而大多数矩形不是这种情况）；</li>
+<li>使用抽象局部变量编写测试（这将允许所有子类的测试代码重用）；</li>
+<li>遵循契约式设计的概念，即Meyer的规则被定义为“当重新定义一个例程（派生）时，你只能用较弱的一个替换它的前提条件，而用更强的一个替换它的后置条件” - 使用前提条件和后置条件还强制执行测试模型；</li>
+<li>分离类层次结构：通常，您可以考虑使用分离的对象类型来实现持久性和对象创建（这是常见的<code>Factory</code>和<code>Repository</code>模式分离）。</li>
+</ul>
+<p>  <strong><em>译者注：Duck typing，在计算机科学中，duck typing是动态类型的一种形式：变量的值自身隐含地决定了变量的行为。这暗示了某个对象与其它实现了相同接口的对象之间是可交换的，不管对象之间是否具有继承关系。duck typing是对鸭子测试（duck test）的一个引用——“如果它走路像鸭子，那么也一定像鸭子一样呷呷地叫，那么它必定是一只鸭子”。</em></strong></p>
+<h4 id="toc_16">15.2.3.1. 使用父类<a class="vnote-anchor" href="#toc_16" data-anchor-icon="#"></a></h4>
+<p>  在我们的框架中，这表示<code>TSQLRestServer</code>或<code>TSQLRestClient</code>实例可以替换为<code>TSQLRest</code>对象。大多数ORM方法，特别是在<code>TSQLRecord</code>级别，期望提供抽象的<code>TSQLRest</code>参数，请参阅<a href="">使用对象</a>。</p>
+<p>  例如，你可以写：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span> anyRest: TSQLRest;
+    ID: TID;
+    rec1,rec2: TSQLMyRecord;
+...
+  ID := anyRest.Add(rec1,true);
+  rec2 := TSQLMyRecord.Create(anyRest,ID);
+...
+</code></pre>
+<p>  您可以将任何类型的实际类实例设置为<code>anyRest</code>，可以是本地存储数据库引擎，也可以是HTTP远程访问：</p>
+<pre><code class="lang-pascal hljs">  anyRest := TSQLRestServerDB.Create(aModel,<span class="hljs-string">'mydatabase.db'</span>);
+  anyRest := TSQLHttpClient.Create(<span class="hljs-string">'1.2.3.4'</span>,<span class="hljs-string">'8888'</span>,aModel,false);
+</code></pre>
+<p>  你甚至可以在<code>dddInfraSettings.pas</code>单元中找到一个强大的<code>TRestSettings.NewRestInstance()</code>方法，该方法能够从一组JSON设置实例化所需的<code>TSQLRest</code>继承类，即<code>TSQLHttpClient</code>，或本地<code>TSQLRestServerFullMemory</code>，或<code>TSQLRestServerDB</code>，稍后既可使用本地SQlite3数据库，也可使用外部SQL引擎或外部NoSQL/MongoDB数据库。</p>
+<p>  您的代码应引用抽象，而不是实现。通过仅使用父类可用的方法和属性，您的代码将不需要因特定实现而更改。</p>
+<h4 id="toc_17">15.2.3.2. 我是你的父亲，卢克<a class="vnote-anchor" href="#toc_17" data-anchor-icon="#"></a></h4>
+<p>  您应该注意到，在Liskov替换原则定义中，“父”和“子”并不是绝对的，哪个类实际被视为“父”可能取决于上下文使用。</p>
+<p>  大多数情况下，父级可能是层次结构中最高的层级。例如，在GUI应用程序的上下文中，您可以使用最抽象的类来访问应用程序数据，可以使用本地存储，或通过HTTP远程访问。</p>
+<p>  但是，当您初始化本地存储服务器的类实例时，您可能需要设置实际的数据存储，例如，文件名或远程SQL/NoSQL设置。在此上下文中，您将需要访问“子”属性，而不管“父”抽象如何使用，之后可在应用程序的GUI部分进行处理。</p>
+<p>  此外，在数据复制的上下文中，服务端或客户端将具有不同的行为。实际上，它们可以用作主数据库或从数据库，在这种情况下，您可以在代码中明确定义服务端或客户端类。这就是我们的ORM为其主/从复制所做的事情，请参阅<a href="">主/从复制</a>。</p>
+<p>  如果我们回到我们的条形码扫描器示例，您的大多数GUI代码可能依赖于<code>TAbstractBarcodeScanner</code>组件。但是在应用程序选项的上下文中，您可以定义每个“子”类的内部属性，例如串行或USB端口名称，在这种情况下，新的“父”类可以是<code>TSerialBarCodeScanner</code>或<code>TUsbCodeScanner</code>，甚至更好的<code>TSerialBarcodeConnection</code>或<code>TUsbBarcodeConnection</code>属性，以实现单一责任原则。</p>
+<h4 id="toc_18">15.2.3.3. 不要在运行时检查类型<a class="vnote-anchor" href="#toc_18" data-anchor-icon="#"></a></h4>
+<p>  某些模式永远不要出现在您的代码中，否则，应尽快完成代码重构，以利于将来的项目维护。</p>
+<p>  无论是“父类”还是“子类”的方法，都应避免以下语句：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TAbstractBarcodeScanner</span>.<span class="hljs-title">SomeMethod</span>;</span>
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> self <span class="hljs-keyword">is</span> TSerialBarcodeScanner <span class="hljs-keyword">then</span>
+  <span class="hljs-keyword">begin</span>
+  ....
+  <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">else</span>
+  <span class="hljs-keyword">if</span> self <span class="hljs-keyword">is</span> TUsbBarcodeScanner <span class="hljs-keyword">then</span>
+...
+</code></pre>
+<p>  或者，使用枚举项的伪装变体：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">case</span> fProtocol.MeanOfCommunication <span class="hljs-keyword">of</span>
+meanSerial: <span class="hljs-keyword">begin</span>
+  ...
+<span class="hljs-keyword">end</span>;
+meantUsb:
+  ...
+</code></pre>
+<p>  后面这段代码不检查self，而是检查<code>fProtocol</code>保护字段。因此，即使您尝试实施单一责任原则，您仍然可能打破Liskov替换原则！</p>
+<p>  请注意，这两种模式最终都会破坏单一责任原则：每种行为都应在其自己的子类方法中定义。不直接修改父类嵌套的<code>if self is T* then ...</code> 或<code>case fProtocol.* of ...</code>表达式，就无法开放扩展，开放/封闭原则也就被打破。</p>
+<h4 id="toc_19">15.2.3.4. 部分抽象类<a class="vnote-anchor" href="#toc_19" data-anchor-icon="#"></a></h4>
+<p>  当您为项目中实例化的某些子项定义保留抽象的方法时，可能会出现另一种问题代码苗头。这将暗示某些父类行为未在此特定层次结构级别实现，所以你将无法使用所有父方法，正如Liskov替换原则所希望的那样。</p>
+<p>  请注意，编译器会抱错，暗示您正在使用抽象方法创建一个类。永远不要忽略这样的提示，这可能有利于在编译时进行错误处理。可能出现在运行时的著名的“抽象错误”对话框将反映这种错误的代码实现。当它出现在没有GUI的服务端应用程序上时...你会得到恐怖的场景，我猜......</p>
+<p>  如果您打破父类的要求，可能会出现更微妙的违反Liskov的行为。下面的代码通过电子邮件发送框架来模拟条形码阅读器外围设备以进行调试（为什么不呢？），显然违反了契约式设计方法：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TEMailEmulatedBarcodeProtocol</span> = <span class="hljs-keyword">class</span>(TAbstractBarcodeProtocol)
+  <span class="hljs-keyword">protected</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ReadFrame</span>:</span> TProtocolFrame; <span class="hljs-keyword">override</span>;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">WriteFrame</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aFrame: TProtocolFrame)</span>;</span> <span class="hljs-keyword">override</span>;
+    ...
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TEMailEmulatedBarcodeProtocol</span>.<span class="hljs-title">ReadFrame</span>:</span> TProtocolFrame;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">raise</span> EBarcodeException.CreateUTF8(<span class="hljs-string">'%.ReadFrame is not implemented!'</span>,[self]);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TEMailEmulatedBarcodeProtocol</span>.<span class="hljs-title">WriteFrame</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aFrame: TProtocolFrame)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  SendEmail(fEmailNotificationAddress,aFrame.AsString);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  我们希望这个类完全实现<code>TAbstractBarcodeProtocol</code>契约，而调用<code>TEMailEmulatedBarcodeProtocol.ReadFrame</code>将无法读取任何数据框，会引发异常。 因此，我们不能将此<code>TEMailEmulatedBarcodeProtocol</code>类用作任何其他<code>TAbstractBarcodeProtocol</code>类的替代，否则它将在运行时失败。</p>
+<p>  一个正确的实现可能是定义一个<code>TFakeBarcodeProtocol</code>类，通过一组事件或一些基于文本的场景实现所有父方法，这样它的行为就像一个正确的<code>TAbstractBarcodeProtocol</code>类，在其期望的全部范围内。</p>
+<h4 id="toc_20">15.2.3.5. 混乱单元依赖<a class="vnote-anchor" href="#toc_20" data-anchor-icon="#"></a></h4>
+<p>  最后但最重要的是，如果您需要将子类单元显式添加到父类单元的<code>uses子</code>句，看起来您正好违反了Liskov替换原则。</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">unit</span> AbstractBarcodeScanner;
+
+<span class="hljs-keyword">uses</span>
+  SysUtils,
+  Classes,
+  SerialBarcodeScanner; <span class="hljs-comment">// Barbara complains: "it smells"!</span>
+  UsbBarcodeScanner;    <span class="hljs-comment">// Barbara complains: "it smells"!</span>
+ ...
+</code></pre>
+<p>  如果您的代码是这样的，那么您肯定必须删除对继承类的引用。</p>
+<p>  甚至要避免依赖于其中一个低级实现细节：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">unit</span> AbstractBarcodeScanner;
+
+<span class="hljs-keyword">uses</span>
+  Windows,
+  SysUtils,
+  Classes,
+  ComPort;
+ ...
+</code></pre>
+<p>  您的抽象父类不应该耦合到特定的操作系统，或者可能不需要的通信方式。为什么要添加对原始RS-232通信协议的依赖，这很可能会被弃用？</p>
+<p>  摆脱这种依赖关系的一种方法是定义一些抽象类型（例如枚举或简单结构，如记录），然后将其转换为<code>ComPort.pas</code>或<code>Windows.pas</code>单元所期望的最终类型。考虑将所有子类依赖项放在构造函数级别，通过单一责任原则使用类组合，以便父类定义不会被其子类的实现细节污染。</p>
+<p>  您还可以使用由父单元维护的注册列表，该列表可能能够在运行时注册实现特定行为的类。感谢Liskov，您将能够通过其任何继承的实现替换任何父类，因此仅在运行时定义类型不应该是一个问题。</p>
+<h4 id="toc_21">15.2.3.6. 实际优势<a class="vnote-anchor" href="#toc_21" data-anchor-icon="#"></a></h4>
+<p>  这种编码模式的主要优点如下：</p>
+<ul>
+<li>由于这个原则，您将能够Stock或Mock界面或类，如将对象持久性与其运行的实际数据库分开，因此，这个原则对于对项目实施统一测试是必需的；</li>
+<li>此外，测试不仅可以在隔离级别（测试每个子类），而且还可以在抽象级别上获得，即从客户端的角度来看，您可以在单独测试时验证实现行为的正确性，但在更高级别测试时验证失败，是否存在利斯科夫原则被打破；</li>
+<li>正如我们所看到的，如果违反这一原则，其他原则很可能也会被打破，例如只要定义了基类的新派生（违反开放/封闭原则），或者您的类类型可能一次实现多个行为（违反单一责任原则），就需要修改父类；</li>
+<li>方法可重用性增强了代码可重用性：在父级别定义的方法不需要为每个子级实现。</li>
+</ul>
+<p>  由我们的框架实现的SOA和ORM概念试努力满足Liskov替换原则，在ORM的类级别上也是如此，但是也可以使用更直接的契约设计实现模式，因为整个SOA堆栈涉及项目中更广泛的接口使用。</p>
+<h3 id="toc_22">15.2.4. 接口隔离原理<a class="vnote-anchor" href="#toc_22" data-anchor-icon="#"></a></h3>
+<p>  该原则指出，一旦接口变得太“胖”，它需要被分成更小和更具体的接口，以便接口的任何客户端只知道与它们相关的方法。简而言之，任何客户都不应该被迫依赖它不使用的方法。</p>
+<p>  因此，它将有助于系统保持解耦，从而更容易重新分解、更改和部署。</p>
+<h4 id="toc_23">15.2.4.1. 其他原则的后果<a class="vnote-anchor" href="#toc_23" data-anchor-icon="#"></a></h4>
+<p>  接口隔离应首先出现在类级别。遵循单一责任原则，您很可能使用少量方法定义几个较小的类。然后使用专用类，依靠组合来公开自己的更高级别的方法集。</p>
+<p>  条形码类层次结构说明了这一概念。每个<code>T*BarcodeProtocol</code>和<code>T*BarcodeConnection</code>类都有自己的一套方法，专用于协议处理或数据传输。然后，<code>T*BarCodeScanner</code>类将这些较小的类组成一个新类，具有单个事件处理程序：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  TOnBarcodeScanned = <span class="hljs-function"><span class="hljs-keyword">procedure</span><span class="hljs-params">(Sender: TAbstractBarcodeScanner; <span class="hljs-keyword">const</span> Barcode: <span class="hljs-keyword">string</span>)</span> <span class="hljs-title">of</span> <span class="hljs-title">object</span>;</span>
+
+  <span class="hljs-title">TAbstractBarcodeScanner</span> = <span class="hljs-keyword">class</span>(TComponent)
+  ...
+  <span class="hljs-keyword">property</span> OnBarcodeScanned: TOnBarcodeScanned <span class="hljs-keyword">read</span> fOnBarcodeScanned <span class="hljs-keyword">write</span> fOnBarcodeScanned;
+  ...
+</code></pre>
+<p>  此单个OnBarcodeScanned事件将是组件的发布属性。协议和连接详细信息都将隐藏在内部类中。最终的应用程序将使用此事件，并按预期做出响应，而实际上并不需要了解任何有关实现细节的信息。</p>
+<h4 id="toc_24">15.2.4.2. 使用接口<a class="vnote-anchor" href="#toc_24" data-anchor-icon="#"></a></h4>
+<p>  框架的SOA部分允许直接使用接口类型来实现服务。这种出色的客户端-服务端SOA实现模式，请参阅<a href="">服务器端服务</a>，有助于将所有服务解耦为各个小方法。在这种情况下，使用无状态设计也将减少“胖”会话相关进程的使用：对象生命周期可以由接口范围安全地驱动。</p>
+<p>  通过定义Delphi接口而不是普通类，有助于创建小型和特定于业务的契约，这些契约可以在客户端和服务端执行，具有相同的代码。</p>
+<p>  由于框架使得接口使用和发布变得非常容易，因此您不必担心将实现类暴露为小的相关接口。</p>
+<p>  例如，如果要发布第三方API，可以考虑发布专用接口，每个接口都取决于每个API消费者的期望。因此，您的主要实现逻辑不会被API的使用方式所污染，并且，相关的已发布的API可能更接近每个特定的客户端需求，而不会受到其他客户端需求的污染。 DDD将最终有利于接口隔离，因为这个原则是避免领域泄漏的黄金路径。</p>
+<h3 id="toc_25">15.2.5. 依赖反转原则<a class="vnote-anchor" href="#toc_25" data-anchor-icon="#"></a></h3>
+<p>  另一种解耦形式是软件设计反转高级和低级之间的依赖关系：</p>
+<ul>
+<li>高级模块不应该依赖于底层模块，两者都应该依赖于抽象；</li>
+<li>抽象不应该依赖于细节，细节应依赖于抽象。</li>
+</ul>
+<p>  依赖性反转原则的目标是将高级组件与底层组件分离，以便可以实现底层组件重用。一个简单的实现模式可能只使用由高级组件包拥有的接口，并且仅存在于高级组件包中。</p>
+<p>  这个原则导致控制反转（又名IoC）：因为你依赖于抽象，并且尽量不依赖于具体结果（即实现细节），所以应该首先使用接口定义。</p>
+<h4 id="toc_26">15.2.5.1. 自上而下的开发<a class="vnote-anchor" href="#toc_26" data-anchor-icon="#"></a></h4>
+<p>  在传统的应用程序体系结构中，较低级别的组件被设计为由更高级别的组件使用，这使得能够构建越来越复杂的系统。这种设计限制了更高级别组件的重用机会，并且肯定打破了Liskov替换原则。</p>
+<p>  对于我们的条形码阅读器示例，我们很可能会从我们的应用程序中最终需要的<code>TSerialBarcodeScanner</code>开始。我们的项目负责人要求在我们的旗舰应用程序中进行条形码扫描，并且开发的扩展已经减少，以支持单一型号的设备，采用RS-232模式，这可能是我们的客户已经拥有的设备。</p>
+<p>  这个特定的客户可能已经在其壁橱中找到了90年代的一些RS-232条形码文物，但作为一名体验程序员，您知道下一步将是在不久的将来支持USB。所有这些条形码阅读设备都需要您的公司满足市场，因此很可能另一位客户很快就会要求使用自己的全新条形码扫描仪......它只支持USB。</p>
+<p>  因此，您将使用SOLID的单一责任原则，抽象父类，拆分协议和通信来模型化您的类。即使<code>TUsbBarCodeScanner</code>及其相关的<code>TUsbBarcodeConnection</code>类没有被编写，也没有经过测试（你甚至没有真正的USB条形码扫描器来进行适当的测试！），但你已经为此做好了准备。</p>
+<p>  当您最终添加USB支持时，不必触及应用程序的UI部分。只需实现新的继承类，利用之前的所有编码。从一开始就依赖反转将最终节省您的时间。即使在敏捷的过程中，“响应变化”也是最有价值的，首先在初始实现的抽象中实现少量的工作将是非常有益的。</p>
+<p>  实际上，这种依赖性反转原则是正确的测试驱动设计的先决条件。遵循此TDD模式，首先编写测试，然后测试失败，然后再次编写实现。为了编写测试，您需要该功能的抽象接口可用，所以你将从抽象开始，最后写出结果。</p>
+<h4 id="toc_27">15.2.5.2. 注入模式<a class="vnote-anchor" href="#toc_27" data-anchor-icon="#"></a></h4>
+<p>  在其他语言（<a href="http://xn--Java-f96gk35b.Net">如Java或.Net</a>）中，随后采用各种模式（如插件，服务定位器或依赖注入）来促使所选底层组件实现在运行时配置到高级组件。</p>
+<p>  我们的客户端-服务端架构促进了其ORM部分的这种解耦模式，并允许使用Delphi原生接口调用来自抽象工厂的服务，用于其SOA部分。</p>
+<p>  在<code>mORMot.pas</code>中定义的一组专用类允许利用IoC，如<code>TInjectableObject</code>、 <code>TInterfaceResolver</code>、 <code>TInterfaceResolverForSingleInterface</code>和<code>TInterfaceResolverInjected</code>，它们可以与<code>TInterfaceStub</code>或<code>TServiceContainer</code>高级Mocking和框架的SOA特性结合使用。</p>
+<h2 id="toc_28">15.3. 循环引用和（归零）弱指针<a class="vnote-anchor" href="#toc_28" data-anchor-icon="#"></a></h2>
+<h3 id="toc_29">15.3.1. 弱指针<a class="vnote-anchor" href="#toc_29" data-anchor-icon="#"></a></h3>
+<p>  Delphi接口类型的内存分配模型使用某种自动引用计数（ARC）。为了避免在使用接口时应用程序中的内存和资源泄漏以及潜在的随机错误（也就是客户端可怕的EAccessViolation异常），像mORMot这样的SOA框架必须提供所谓的弱指针和归零弱指针功能。</p>
+<p>  默认情况下，Delphi中定义了所有引用：</p>
+<ul>
+<li>作为指针和类实例的弱引用；</li>
+<li>具有底层值类型的显式副本，如<code>integer, Int64, currency, double or record</code>（以及弃用的旧<code>object</code>或<code>shortstring</code>）;</li>
+<li>通过写入复制的高级值类型的引用计数（如<code>string, widestring, variant</code>或动态数组，除了TDocVariant自定义变体类型的内存优化处理）;</li>
+<li>作为接口实例的引用计数的强引用。</li>
+</ul>
+<p>  强引用计数的主要问题是潜在的循环引用问题。</p>
+<p>  当接口具有指向另一个接口的强指针，但目标接口拥有指向原接口的强指针时，会发生这种情况。即使删除了所有其他引用，它们仍将保持并且不会被释放。这也可以通过一系列对象间接发生，这些对象链中最后一个引用对象又指回前面的对象。</p>
+<p>  例如，请参考以下接口定义：</p>
+<pre><code class="lang-pascal hljs">  IParent = <span class="hljs-keyword">interface</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">SetChild</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: IChild)</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetChild</span>:</span> IChild;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HasChild</span>:</span> boolean;
+    <span class="hljs-keyword">property</span> Child: IChild <span class="hljs-keyword">read</span> GetChild <span class="hljs-keyword">write</span> SetChild;
+  <span class="hljs-keyword">end</span>;
+
+  IChild = <span class="hljs-keyword">interface</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">SetParent</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: IParent)</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetParent</span>:</span> IParent;
+    <span class="hljs-keyword">property</span> Parent: IParent <span class="hljs-keyword">read</span> GetParent <span class="hljs-keyword">write</span> SetParent;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  以下实现最终将泄漏内存：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TParent</span>.<span class="hljs-title">SetChild</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: IChild)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  FChild := Value;
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TChild</span>.<span class="hljs-title">SetParent</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: IParent)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  FParent := Value;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  在Delphi中，最常见的一种引用复制变量（如<code>variant</code>、动态数组或字符串）通过实现写复制来解决这个问题。不幸的是，这种模式不适用于接口，它不是值对象，而是绑定到实现类的引用对象，它们无法复制。</p>
+<p>  一种常见的解决方案是使用弱指针，通过该指针将接口分配给属性而不增加引用计数。</p>
+<p>  请注意，基于垃圾收集器的语言（如Java或C＃）不会遇到此问题，因为循环引用由其内存模型处理：对象生存期由内存管理器全局维护。当然，它会增加内存使用，由于分配和分配期间的其他操作而导致进程变慢（所有对象及其引用必须在内部列表中维护），并且当垃圾收集器进入处理时可能会降低应用程序的速度。为了避免在性能问题时出现这些问题，专家倾向于预分配和重用对象：这是该内存模型的一个常见限制，以及为什么Delphi在涉及性能和稳定性时仍然是一个很好的候选（诸如非托管C、C ++ - 以及Objective C）。在某些情况下（如使用对象缓存时），这些语言必须引入某种“弱指针”，以允许一些引用的对象被垃圾收集回收：但它是一种多样化的机制，在相同的命名下。</p>
+<h3 id="toc_30">15.3.2. 处理弱指针<a class="vnote-anchor" href="#toc_30" data-anchor-icon="#"></a></h3>
+<p>  为了轻松创建弱指针，<code>mORMot.pas</code>中添加了以下函数：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">SetWeak</span><span class="hljs-params">(aInterfaceField: PIInterface; <span class="hljs-keyword">const</span> aValue: IInterface)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  PPointer(aInterfaceField)^ := Pointer(aValue);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  它通过将此实例的指针分配给内部字段来为该字段分配接口引用，将绕过引用计数，因此内存不会再泄漏。</p>
+<p>  因此，它可以这样使用：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TParent</span>.<span class="hljs-title">SetChild</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: IChild)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  SetWeak(@FChild,Value);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TChild</span>.<span class="hljs-title">SetParent</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: IParent)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  SetWeak(@FParent,Value);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<h3 id="toc_31">15.3.3. 归零弱指针<a class="vnote-anchor" href="#toc_31" data-anchor-icon="#"></a></h3>
+<p>  但仍有一些情况还不够，在正常情况下，如果仍有未完成的引用，则不应释放类实例。但是由于弱引用不会对接口引用计数产生影响，因此当存在未完成的弱引用时，可能会释放类实例，就会发生内存泄漏，甚至随机访问冲突，这是调试噩梦......</p>
+<p>  为了解决这个问题，我想到了ARC的归零弱指针。</p>
+<p>  这意味着当引用的对象被释放时，弱引用将被设置为<code>nil</code>。当发生这种情况时，弱引用会自动归零并防止它们成为空悬指针。瞧！不再违反访问权限！</p>
+<p>  这种归零ARC模型已经在Apple的Objective C中实现，从Mac OS X 10.7 Lion开始，替换（添加）到之前的手动内存处理实现模式：在Apple的风格中，ARC不仅可用于接口，也用于对象，并且比Delphi编译器中可用的基本实现更复杂：它宣称（至少从营销论文的角度来看）使用了一些深入的软件体系架构知识对所有实例提供精确访问，而Delphi编译器只依赖于超范围模式。相对于典型的垃圾收集器内存模型，由于其确定性，ARC被告知效率更高：Apple的专家确保它在内存使用和程序延迟方面确实有所作为，两者都非常适用于移动设备。简而言之，多亏了ARC，您的手机UI在后台垃圾回收过程中不会出现故障。因此，即使Delphi编译器尚未实现它，mORMot也会尝试提供类似的功能。</p>
+<p>  为了轻松创建所谓的归零弱指针，<code>mORMot.pas</code>中定义了以下函数：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">SetWeakZero</span><span class="hljs-params">(aObject: TObject; aObjectInterfaceField: PIInterface;
+  <span class="hljs-keyword">const</span> aValue: IInterface)</span>;</span>
+</code></pre>
+<p>  一个潜在的用例可能是：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TParent</span>.<span class="hljs-title">SetChild</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: IChild)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  SetWeakZero(self,@FChild,Value);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TChild</span>.<span class="hljs-title">SetParent</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: IParent)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  SetWeakZero(self,@FParent,Value);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  我们还在<code>TObject</code>类周围定义了一个<code>class helper</code>，以避免需要提供<code>self</code>参数，但不幸的是，<code>class helper</code>实现有很大的缺陷，无法在Delphi XE之前的版本编译。它允许编写如下代码：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TParent</span>.<span class="hljs-title">SetChild</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Value: IChild)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  SetWeak0(@FChild,Value);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  例如，在回归测试中提供以下代码，并且将确保在使用<code>SetWeakZero()</code>时弱指针被有效归零：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TParent</span>.<span class="hljs-title">HasChild</span>:</span> boolean;
+<span class="hljs-keyword">begin</span>
+  result := FChild&lt;&gt;<span class="hljs-keyword">nil</span>;
+<span class="hljs-keyword">end</span>;
+
+  Child := <span class="hljs-keyword">nil</span>; <span class="hljs-comment">// here Child is destroyed</span>
+  Check(Parent.HasChild=(aWeakRef=weakref),<span class="hljs-string">'ZEROed Weak'</span>);
+</code></pre>
+<p>  这里，当调用<code>SetWeak()</code>时，<code>aWeakRef=weakref</code>为<code>true</code>；当使用<code>SetWeakZero()</code>将<code>Child</code>元素分配给其<code>Parent</code>接口时，等于<code>false</code>。</p>
+<h3 id="toc_32">15.3.4. 弱指针功能实现细节<a class="vnote-anchor" href="#toc_32" data-anchor-icon="#"></a></h3>
+<p>  <code>SetWeak()</code>函数本身非常简单。 Delphi RTL/VCL本身在需要时使用类似的代码。</p>
+<p>  但是<code>SetWeakZero()</code>函数具有更复杂的实现，因为每个类实例必须维护所有弱引用的列表，并且在释放该引用实例时将其设置为<code>nil</code>。</p>
+<p>  mORMot实现努力完成：</p>
+<ul>
+<li>处理归零功能时获得最佳性能；</li>
+<li>对于弱参考中没有涉及的其他类，没有性能损失；</li>
+<li>当引用开始定义巨大的图形时，内存使用率低，可扩展性好；</li>
+<li>线程安全，至少在我们框架的服务端是必需的；</li>
+<li>兼容Delphi 6及更高版本（避免像<code>generic</code>这样的语法技巧）。</li>
+</ul>
+<p>  可以在Internet上找到一些好的现有实现：</p>
+<ul>
+<li>ndreas Hausladen在http://andy.jgknet.de/blog/2009/06/weak-interface-references提供了一个经典而完整的实现，使用一些不错的技巧（比如每个实例可选加速使用void IWeakInterface接口，其VMT插槽将参考引用列表），是线程安全的并且与大多数Delphi版本兼容，但它会减慢所有<code>TObject.FreeInstance调</code>用（如在Free/Destroy中）并且不允许任何重写的<code>FreeInstance</code>方法实现；</li>
+<li>Vincent Parrett在http://www.finalbuilder.com/Resources/Blogs/PostId/410/WeakRefence-in-Delphi-solving-circular-interfac.aspx提出了一个基于泛型的解决方案（不是线程安全的，也没有针对速度进行优化） ，但是要求从任何可以具有指向它的弱引用的基类继承；</li>
+<li>最近，Stefan Glienke在http://delphisorcery.blogspot.fr/2012/06/weak-interface-references.html发布了另一个基于泛型的解决方案，不需要从基类继承，但不是线程安全并存在与<code>TObject.FreeInstance</code>相关的相同限制。</li>
+</ul>
+<p>  与现有解决方案相比，mORMot中包含的实现使用了几种真正的模式：</p>
+<ul>
+<li>它会侵入VMT类级别的<code>TObject.FreeInstance</code>，因此只会减慢用作弱引用的确切类，而不会减慢其他类（也不会覆盖其继承的类），并且它允许自定义覆盖虚拟<code>FreeInstance</code>方法；</li>
+<li>它利用我们的<code>TDynArrayHashed</code>包装器提供非常快速的实例和引用查找，而不使用通用定义，哈希仅在需要的时候才用，如任何存储超过32个项目的列表；</li>
+<li>未使用的<code>vmtAutoTable</code> VMT插槽用于处理面向类的功能（类似于为DI＃2.1.3实现的<code>TSQLRecordProperties</code>查找），以获得最佳速度和内存使用。</li>
+</ul>
+<p>  有关详细信息，请参阅mORMot.pas中的<code>TSetWeakZeroClass</code>和<code>TSetWeakZeroInstance</code>实现。</p>
+<h2 id="toc_33">15.4. 实践中的接口：依赖注入、stubs和mocks<a class="vnote-anchor" href="#toc_33" data-anchor-icon="#"></a></h2>
+<p>  为了实现SOLID设计原则，在处理接口时可以使用两个功能：</p>
+<ul>
+<li>依赖注入或控制反转（又名IoC） - 参见<a href="">依赖性反转原理</a>；</li>
+<li>对接口进行预埋和模拟以进行适当的测试。</li>
+</ul>
+<p>  我们现在将展示mORMot如何为这些模式提供所有需要的功能，测试一个简单的“忘记我的密码”场景：为给定的用户名计算密码，然后通过SMS传输，并更新其数据库记录。</p>
+<h3 id="toc_34">15.4.1. 构造函数的依赖注入<a class="vnote-anchor" href="#toc_34" data-anchor-icon="#"></a></h3>
+<p>  可以在Delphi类级别直接实现依赖注入：</p>
+<ul>
+<li>所有外部依赖都应定义为抽象接口；</li>
+<li>可以使用外部工厂来检索接口实例，或者类构造函数应该接收作为参数的依赖项。</li>
+</ul>
+<p>  可以通过<code>TServiceFactory</code>在mORMot中使用外部工厂。自动依赖注入也可以通过一组类来实现，这些类与框架的SOA特性（主要是<code>TInjectableObject</code>和<code>TInterfaceResolver</code>类型）以及它们的继承类分开。</p>
+<p>  在这里，我们将使用更直接的基于构造函数的模式来实现简单的“忘记密码”方案。</p>
+<p>  这是我们要测试的类：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TLoginController</span> = <span class="hljs-keyword">class</span>(TInterfacedObject,ILoginController)
+  <span class="hljs-keyword">protected</span>
+    fUserRepository: IUserRepository;
+    fSmsSender: ISmsSender;
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">Create</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aUserRepository: IUserRepository;
+      <span class="hljs-keyword">const</span> aSmsSender: ISmsSender)</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">ForgotMyPassword</span><span class="hljs-params">(<span class="hljs-keyword">const</span> UserName: RawUTF8)</span>;</span>
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  构造函数会将其依赖项注入到自己的实例中：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TLoginController</span>.<span class="hljs-title">Create</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aUserRepository: IUserRepository;
+  <span class="hljs-keyword">const</span> aSmsSender: ISmsSender)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  fUserRepository := aUserRepository;
+  fSmsSender := aSmsSender;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  使用以下两个接口定义依赖（此处仅列出了所需的方法，但实际接口可能包含更多成员，但不能太多，以遵循接口隔离SOLID原则）：</p>
+<pre><code class="lang-pascal hljs">  IUserRepository = <span class="hljs-keyword">interface</span>(IInvokable)
+    [<span class="hljs-string">'{B21E5B21-28F4-4874-8446-BD0B06DAA07F}'</span>]
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetUserByName</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">Name</span>: RawUTF8)</span>:</span> TUser;
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">Save</span><span class="hljs-params">(<span class="hljs-keyword">const</span> User: TUser)</span>;</span>
+  <span class="hljs-keyword">end</span>;
+  ISmsSender = <span class="hljs-keyword">interface</span>(IInvokable)
+    [<span class="hljs-string">'{8F87CB56-5E2F-437E-B2E6-B3020835DC61}'</span>]
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Send</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Text, Number: RawUTF8)</span>:</span> boolean;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  另请注意，所有这些代码都将使用普通记录作为数据传输对象（DTO）：</p>
+<pre><code class="lang-pascal hljs">  TUser = <span class="hljs-keyword">record</span>
+    <span class="hljs-keyword">Name</span>: RawUTF8;
+    Password: RawUTF8;
+    MobilePhoneNumber: RawUTF8;
+    ID: TID;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  在这里，我们不会使用<code>TSQLRecord</code>或任何其他类，只是简单的记录，它将被用作中立的传输方式。 数据传输对象和业务对象或数据访问对象（DAO）之间的区别就像我们的<code>TSQLRecord</code>一样，DTO除了存储和检索自己的数据外没有任何行为。 它也可以独立于持久层，就像在我们的业务领域中实现的那样。 在Delphi中使用记录确保它不会成为复杂业务逻辑的一部分，而仅用作值对象。</p>
+<p>  现在，让我们回到TLoginController类。</p>
+<p>  这是我们要测试的方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TLoginController</span>.<span class="hljs-title">ForgotMyPassword</span><span class="hljs-params">(<span class="hljs-keyword">const</span> UserName: RawUTF8)</span>;</span>
+<span class="hljs-keyword">var</span> U: TUser;
+<span class="hljs-keyword">begin</span>
+  U := fUserRepository.GetUserByName(UserName);
+  U.Password := Int32ToUtf8(Random(MaxInt));
+  <span class="hljs-keyword">if</span> fSmsSender.Send(<span class="hljs-string">'Your new password is '</span>+U.Password,U.MobilePhoneNumber) <span class="hljs-keyword">then</span>
+    fUserRepository.Save(U);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  它将从其存储库中检索TUser实例，然后计算新密码，并通过SMS将其发送到用户的移动电话。成功时，应该将新用户信息持久化（保存）到数据库。</p>
+<h3 id="toc_35">15.4.2. 为什么要使用伪仿真测试接口？<a class="vnote-anchor" href="#toc_35" data-anchor-icon="#"></a></h3>
+<p>  实际使用<code>IUserRepository</code>实现需要数据库真正可用，但现有数据可能还存在一些潜在问题。类似地，在最终项目中实现<code>ISmsSender</code>的类最好不要在测试阶段调用，因为发送SMS需要花钱，我们需要一个真正的移动电话或Internet网关来发送密码。</p>
+<p>  出于测试目的，我们只想确保在执行“忘记密码”方案时，将用户记录修改保留到数据库中。</p>
+<p>  一种可能性是定义两个新的专用类，实现<code>IUserRepository</code>和<code>ISmsSender</code>接口。但这显然是耗时且容易出错的。这可能是典型的编写测试比编写待测试的方法更复杂的情况。</p>
+<p>  为了最大限度地提高投资回报率，并让您专注于业务逻辑，mORMot框架提出了一种简单有效的方法来创建各种“假”接口实现，这样就只需定义运行测试所需的最小行为即可。</p>
+<h4 id="toc_36">15.4.2.1. <code>Stubs</code>和<code>mocks</code><a class="vnote-anchor" href="#toc_36" data-anchor-icon="#"></a></h4>
+<p>  <strong><em>译者注：Gerard Meszaros在XunitPatterns中对测试对象统一称呼为：<code>Test Double</code>，包含：<code>Dummy</code>、<code>Fake</code>、<code>Spy</code>、<code>Mock</code>和<code>Stub</code>。</em></strong></p>
+<ul>
+<li><strong><em>测试哑元(Dummy) - 只是帮助测试项目编译通过,不在具体测试里面起任何作用。</em></strong></li>
+<li><strong><em>测试桩(Stub) - 只是能返回帮助测试的值，倾向于校验状态；</em></strong></li>
+<li><strong><em>测试间谍(Spy) - 目的是测试被测单元接收到的值,也能返回值。Test Spy里肯定是要增加取参数的函数,用于测试</em></strong></li>
+<li><strong><em>仿冒对象(Fake): 用能更简单的实现,部分实行测试替代。</em></strong></li>
+<li><strong><em>仿制对象(Mock object) - 主要目的是测试函数调用，调用顺序，倾向于校验行为，即某个方法是否被执行。同时具备Stub, Spy功能。Mock不是仿真器，但是一个Mock Case的确可以仿真在某一个特定场景下被测模块与其他模块的交互。</em></strong></li>
+</ul>
+<p>  在“单元测试的艺术”一书中（Osherove，Roy - 2009），<code>stub</code>和<code>mock</code>对象之间存在区别：</p>
+<ul>
+<li><code>Stubs</code>是两个伪测试对象中较简单的，只是实现与它所代表的对象相同的接口并返回预先设置的响应。因此，伪对象仅提供一组<code>stubs</code>方法。在mORMot中，它是通过<code>TInterfaceStub</code>生成器创建的；</li>
+<li>Mocks被描述为一个伪对象，通过验证是否发生了对象上的交互来帮助确定测试是失败还是通过，其他所有内容都还是定义为<code>stub</code>。在mORMot中，它是通过<code>TInterfaceMock</code>生成器创建的，它将伪对象链接到现有的<code>TSynTestCase</code>实例 。</li>
+</ul>
+<p>  在实践中，每次测试应该只有一个<code>mock</code>，并且需要尽可能多的<code>stubs</code>来确保通过测试。使用<code>mocking/stubbing</code>框架可以快速动态生成具有专用于特定测试的独特行为的接口。简而言之，您定义了<code>stubs</code>以确保通过测试，并根据您要测试的特性定义一个<code>mock</code>以验证测试是否应该通过。</p>
+<p>  我们的mORmot框架遵循这种区别，通过定义两个名为<code>TInterfaceStub</code>和<code>TInterfaceMock</code>的专用类，能够轻松定义这些类的行为。</p>
+<h4 id="toc_37">15.4.2.2. 定义<code>stubs</code><a class="vnote-anchor" href="#toc_37" data-anchor-icon="#"></a></h4>
+<p>  让我们实现“忘记密码”场景测试。</p>
+<p>  <code>TSynTestCase</code>子方法可以这样开始：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyTest</span>.<span class="hljs-title">ForgetThePassword</span>;</span>
+<span class="hljs-keyword">var</span> SmsSender: ISmsSender;
+    UserRepository: IUserRepository;
+</code></pre>
+<p>  这就是我们所需要的：一个专用的测试用例方法，以及我们的两个局部变量，可以使用我们的<code>stubbed/mocked</code>实现类进行设置。</p>
+<p>  首先，我们需要实现ISmsSender.Send方法。 我们应该确保它返回true，表示发送成功。</p>
+<p>  使用mORMot，它很简单：</p>
+<pre><code class="lang-pascal hljs">TInterfaceStub.Create(TypeInfo(ISmsSender),SmsSender).
+    Returns(<span class="hljs-string">'Send'</span>,[true]);
+</code></pre>
+<p>  它将创建一个伪类（此处称为“stub”），模拟整个<code>ISmsSender</code>接口，将其存储在本地<code>SmsSender</code>变量中，并让其<code>Send</code>方法返回<code>true</code>。</p>
+<p>  这个<code>subbing/mocking</code>实现的好处是：</p>
+<ul>
+<li>“流畅”的编码风格使得编写和阅读类行为变得容易，但在Delphi中没有任何实际编码，也没有类定义；</li>
+<li>虽然<code>ISmsSender</code>有很多方法，但我们只需要<code>Send</code>：<code>TInterfaceStub</code>可创建所有这些方法，并让它们返回默认值，使用额外的代码行;</li>
+<li>内存分配将由框架处理：当<code>SmsSender</code>实例被释放时，相关的<code>TInterfaceStub</code>数据也将被释放（如果是<code>mock</code>，则将验证各种预期）。</li>
+</ul>
+<h4 id="toc_38">15.4.2.3. 定义一个<code>mock</code><a class="vnote-anchor" href="#toc_38" data-anchor-icon="#"></a></h4>
+<p>  现在我们将定义另一个假类，可能无法通过测试，因此它被称为“mock”，而mORMot生成器类将是<code>TInterfaceMock</code>：</p>
+<pre><code class="lang-pascal hljs">TInterfaceMock.Create(TypeInfo(IUserRepository),UserRepository,self).
+    ExpectsCount(<span class="hljs-string">'Save'</span>,qoEqualTo,<span class="hljs-number">1</span>);
+</code></pre>
+<p>  我们将<code>TMyTest</code>实例作为<code>self</code>提供给<code>TInterfaceMock</code>构造函数，以将<code>mocking</code>与此测试用例相关联。 也就是说，任何已注册的<code>Expects*()</code>规则都将调用<code>TMyTest.Check()</code>，其布尔条件反映每个规则的测试验证状态。</p>
+<p>  <code>ExpectsCount()</code>方法确实定义了<code>mocking</code>。 当释放<code>UserRepository</code>实例时，<code>TInterfaceMock</code>将检查所有<code>Expects*()</code>规则，在本例中，将检查<code>Save</code>方法是否已被调用一次（<code>qoEqualTo,1</code>）。</p>
+<h4 id="toc_39">15.4.2.4. 运行测试<a class="vnote-anchor" href="#toc_39" data-anchor-icon="#"></a></h4>
+<p>  由于我们手头有所有预期的stub和mock，让我们自己运行测试：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">with</span> TLoginController.Create(UserRepository,SmsSender) <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">try</span>
+    ForgotMyPassword(<span class="hljs-string">'toto'</span>);
+  <span class="hljs-keyword">finally</span>
+    Free;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  也就是说，我们运行实际的实现方法，它将调用我们的假方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TLoginController</span>.<span class="hljs-title">ForgotMyPassword</span><span class="hljs-params">(<span class="hljs-keyword">const</span> UserName: RawUTF8)</span>;</span>
+<span class="hljs-keyword">var</span> U: TUser;
+<span class="hljs-keyword">begin</span>
+  U := fUserRepository.GetUserByName(UserName);
+  U.Password := Int32ToUtf8(Random(MaxInt));
+  <span class="hljs-keyword">if</span> fSmsSender.Send(<span class="hljs-string">'Your new password is '</span>+U.Password,U.MobilePhoneNumber) <span class="hljs-keyword">then</span>
+    fUserRepository.Save(U);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  让我们把所有这些放在一起。</p>
+<h2 id="toc_40">15.5. mORMot的<code>Stubs</code>和<code>Mocks</code><a class="vnote-anchor" href="#toc_40" data-anchor-icon="#"></a></h2>
+<p>  我们的mORMot框架能够stub或mock任何Delphi接口。</p>
+<p>  我们现在将详细说明它的工作方式。</p>
+<h3 id="toc_41">15.5.1. 直接使用没有TypeInfo()的接口类型<a class="vnote-anchor" href="#toc_41" data-anchor-icon="#"></a></h3>
+<p>  首先，坚持在单元类型定义中注册服务接口是一种很好的做法，如下所示：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">unit</span> MyServiceInterfaces;
+...
+<span class="hljs-keyword">type</span>
+  ISmsSender = <span class="hljs-keyword">interface</span>(IInvokable)
+  ...
+  IUserRepository = <span class="hljs-keyword">interface</span>(IInvokable)
+  ...
+
+<span class="hljs-keyword">initialization</span>
+  TInterfaceFactory.RegisterInterfaces(
+    [TypeInfo(ISmsSender),TypeInfo(IUserRepository)]);
+<span class="hljs-keyword">end</span>.
+</code></pre>
+<p>  然后可以直接使用接口名称创建<code>stub</code>或<code>mock</code>，并将使用<code>TGUID</code>传播，而无需再使用<code>TypeInfo()</code>伪函数：</p>
+<pre><code class="lang-pascal hljs">  TInterfaceStub.Create(ISmsSender,SmsSender);
+  TInterfaceMock.Create(IUserRepository,UserRepository,self);
+</code></pre>
+<p>  在下面的代码中，我们假设接口类型信息已经注册，因此我们可以直接使用<code>I*</code>而不使用<code>TypeInfo(I*)</code>语法</p>
+<h3 id="toc_42">15.5.2. 手动依赖注入<a class="vnote-anchor" href="#toc_42" data-anchor-icon="#"></a></h3>
+<p>  像往常一样，说明库的用途的最好方法是查看它的代码。</p>
+<p>  下面是一个示例（类似于<code>RhinoMocks</code>附带的示例），验证由<code>TLoginController</code>类实现的“忘记密码”场景，我们确实调用了<code>Save()</code>方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyTest</span>.<span class="hljs-title">ForgotMyPassword</span>;</span>
+<span class="hljs-keyword">var</span> SmsSender: ISmsSender;
+    UserRepository: IUserRepository;
+<span class="hljs-keyword">begin</span>
+  TInterfaceStub.Create(ISmsSender,SmsSender).
+    Returns(<span class="hljs-string">'Send'</span>,[true]);
+  TInterfaceMock.Create(IUserRepository,UserRepository,self).
+    ExpectsCount(<span class="hljs-string">'Save'</span>,qoEqualTo,<span class="hljs-number">1</span>);
+  <span class="hljs-keyword">with</span> TLoginController.Create(UserRepository,SmsSender) <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">try</span>
+    ForgotMyPassword(<span class="hljs-string">'toto'</span>);
+  <span class="hljs-keyword">finally</span>
+    Free;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  就是这样，验证将在释放<code>IUserRepository</code>实例时进行。</p>
+<p>  如果你想遵循“spy”测试模式（即没有定义先验，但在执行后手动检查），你可以使用：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyTest</span>.<span class="hljs-title">ForgotMyPassword</span>;</span>
+<span class="hljs-keyword">var</span> SmsSender: ISmsSender;
+    UserRepository: IUserRepository;
+    Spy: TInterfaceMockSpy;
+<span class="hljs-keyword">begin</span>
+  TInterfaceStub.Create(ISmsSender,SmsSender).
+    Returns(<span class="hljs-string">'Send'</span>,[true]);
+  Spy := TInterfaceMockSpy.Create(IUserRepository,UserRepository,self);
+  <span class="hljs-keyword">with</span> TLoginController.Create(UserRepository,SmsSender) <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">try</span>
+    ForgotMyPassword(<span class="hljs-string">'toto'</span>);
+  <span class="hljs-keyword">finally</span>
+    Free;
+  <span class="hljs-keyword">end</span>;
+  Spy.Verify(<span class="hljs-string">'Save'</span>);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这是我们库的独特之处：您可以决定是否要使用经典的“expect-run-verify”模式，或者更直接的“run-verify”/“test spy”模式。 使用mORMot，您可以选择mocking类（<code>TInterfaceMock</code>或<code>TInterfaceMockSpy</code>），然后按预期使用它。 您甚至可以在同一个实例中混合使用这两个方面！ 使用正确的模式只是品味和时机的问题。</p>
+<p>  对于另一个更简单的模式，如Mockito主页中的模式：</p>
+<pre><code class="lang-pascal hljs">  TInterfaceMock.Create(ICalculator,ICalc,self).
+    ExpectsCount(<span class="hljs-string">'Multiply'</span>,qoEqualTo,<span class="hljs-number">1</span>).
+    ExpectsCount(<span class="hljs-string">'Add'</span>,[<span class="hljs-number">10</span>,<span class="hljs-number">20</span>],qoEqualTo,<span class="hljs-number">1</span>);
+  ICalc.Add(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>);
+  ICalc.Multiply(<span class="hljs-number">10</span>,<span class="hljs-number">30</span>)
+</code></pre>
+<p>  如果你想遵循“spy”测试模式，你可以使用：</p>
+<pre><code class="lang-pascal hljs">  Mock := TInterfaceMockSpy.Create(ICalculator,ICalc,self);
+  ICalc.Add(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>);
+  ICalc.Multiply(<span class="hljs-number">10</span>,<span class="hljs-number">30</span>)
+  Mock.Verify(<span class="hljs-string">'Add'</span>);
+  Mock.Verify(<span class="hljs-string">'Multiply'</span>,[<span class="hljs-number">10</span>,<span class="hljs-number">30</span>]);
+</code></pre>
+<p>  如果与现有的mocking框架进行比较，即使如上述两种其它语言/平台中，您也会发现mORMot中包含的功能非常完整：</p>
+<ul>
+<li>对任何方法进行<code>Stubbing</code>，返回结果的默认值；</li>
+<li>通过简单流畅的接口定义<code>stubbed</code>行为，使用<code>TInterfaceStub.Returns()</code>，包括对返回结果值的简单定义，对于整个方法或后面的参数匹配器；</li>
+<li>处理具有<code>var,out</code>的方法或函数结果返回值，即不仅是函数结果（正如其他Delphi实现所做的那样，由于<code>TVirtualInterface</code>标准实现的限制，而mORMot不依赖它），而是所有输出值，包括值数组；</li>
+<li>对于整个方法或后面的参数匹配器，<code>Stubbed</code>方法可以使用<code>TInterfaceStub.Executes()</code>规则定义的委托或事件回调来运行更复杂的过程；</li>
+<li>对于整个方法或后面的参数匹配器，如果这是要测试的行为，则<code>Stubbed</code>方法也可以使用<code>TInterfaceStub.Raises()</code>规则定义引发异常；</li>
+<li>明确区分<code>mocks</code>和<code>stubs</code>，有两个专用类，名为<code>TInterfaceStub</code>和<code>TInterfaceMock</code>；</li>
+<li><code>Mocks</code>直接关联到mORMot的统一测试/测试驱动类；</li>
+<li><code>Mocked</code>方法可以使用<code>TInterfaceMock.Fails()</code>定义触发测试用例失败，包括整个方法或后面的参数匹配器；</li>
+<li>根据您的测试需求，可通过"expect-run-verify"或"run-verify"（又称"spy"）选择测试模式；</li>
+<li><code>Mocking</code>方法或带参数匹配的方法验证有效执行次数或执行全局跟踪，在这种情况下，可以将输出计数与<code>&lt; &lt;= = &lt;&gt; &gt; &gt;=</code>运算符进行比较，而不仅仅是经典的精确次数和至少一次验证;</li>
+<li>最常见的参数和结果可以在Delphi代码中定义为简单的常量数组，或者通过提供JSON数组（如需要更复杂的记录值等结构）；</li>
+<li>以易于阅读或书写的文本格式执行跟踪检索（而不是通过复杂的“流畅”接口，例如使用<code>When</code>子句）；</li>
+<li>当不再需要接口时，自动释放<code>TInterfaceStub TInterfaceMock TInterfaceMockSpy</code>生成的实例，以最小化需要键入的代码，并避免潜在的内存泄漏；</li>
+<li>支持Delphi 6到Delphi 10.3 Rio工，因为没有使用类似泛型的语法糖，也没有使用<code>RTTI.pas</code>功能；</li>
+<li>非常好的性能（更快的Delphi模拟框架），由于非常低的开销和使用JSON序列化重用mORMot的基于底层接口的服务内核，它不依赖于缓慢且有限的<code>TVirtualInterface</code>。</li>
+</ul>
+<h3 id="toc_43">15.5.3. <code>Stubbing</code>复杂的返回值<a class="vnote-anchor" href="#toc_43" data-anchor-icon="#"></a></h3>
+<p>  假设<code>ForgotMyPassword</code>方法执行内部测试：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TLoginController</span>.<span class="hljs-title">ForgotMyPassword</span><span class="hljs-params">(<span class="hljs-keyword">const</span> UserName: RawUTF8)</span>;</span>
+<span class="hljs-keyword">var</span> U: TUser;
+<span class="hljs-keyword">begin</span>
+  U := fUserRepository.GetUserByName(UserName);
+  Assert(U.<span class="hljs-keyword">Name</span>=UserName);
+  U.Password := Int32ToUtf8(Random(MaxInt));
+  <span class="hljs-keyword">if</span> fSmsSender.Send(<span class="hljs-string">'Your new password is '</span>+U.Password,U.MobilePhoneNumber) <span class="hljs-keyword">then</span>
+    fUserRepository.Save(U);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这肯定会使测试失败，因为默认情况下，<code>GetUserByName</code> <code>stubbed</code>方法将返回有效的void记录。 这意味着<code>U.Name</code>将等于<code>''</code>，因此突出显示的行将引发<code>EAssertionFailed</code>异常。</p>
+<p>  以下是我们如何增强stub，<a href="http://xn--U-so6au0a93afzv29gh0ad67nn93b.Name">以确保它将返回与U.Name</a> ='toto'匹配的TUser值：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span> UserRepository: IUserRepository;
+    U: TUser;
+  (...)
+  U.<span class="hljs-keyword">Name</span> := <span class="hljs-string">'toto'</span>;
+  TInterfaceMock.Create(IUserRepository,UserRepository,self).
+    Returns(<span class="hljs-string">'GetUserByName'</span>,<span class="hljs-string">'"toto"'</span>,RecordSaveJSON(U,TypeInfo(TUser))).
+    ExpectsCount(<span class="hljs-string">'Save'</span>,qoEqualTo,<span class="hljs-number">1</span>);
+</code></pre>
+<p>  上面代码中唯一的技巧是我们使用<code>RecordSaveJSON()</code>函数来计算记录的内部JSON表示，正如mORMot的数据编码所预期的那样。</p>
+<h3 id="toc_44">15.5.4. 通过自定义委托或回调进行<code>Stubbing</code><a class="vnote-anchor" href="#toc_44" data-anchor-icon="#"></a></h3>
+<p>  在某些情况下，为给定方法定义复杂流程可能非常方便，而无需编写整个实现类。</p>
+<p>  可以指定委托或事件回调来实现此过程，具有三个参数编组模式：</p>
+<ul>
+<li>通过一些<code>Named[]</code>变体属性（这是Ctxt回调参数的默认属性），简单、安全的工作；</li>
+<li>通过一些<code>Input[]</code>和<code>Output[]</code>变体属性；</li>
+<li>直接作为JSON文本数组（最快，因为mORMot核心原生支持）。</li>
+</ul>
+<p>  让我们模仿以下行为：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TServiceCalculator</span>.<span class="hljs-title">Subtract</span><span class="hljs-params">(n1, n2: double)</span>:</span> double;
+<span class="hljs-keyword">begin</span>
+  result := n1-n2;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<h4 id="toc_45">15.5.4.1. 委派命名变体参数<a class="vnote-anchor" href="#toc_45" data-anchor-icon="#"></a></h4>
+<p>  您可以使用<code>Named[]</code>变体数组来stub方法，如下所示：</p>
+<pre><code class="lang-pascal hljs">  TInterfaceStub.Create(ICalculator,ICalc).
+    Executes(<span class="hljs-string">'Subtract'</span>,IntSubtractVariant);
+  (...)
+  Check(ICalc.Substract(<span class="hljs-number">10.5</span>,<span class="hljs-number">1.5</span>)=<span class="hljs-number">9</span>);
+</code></pre>
+<p>  回调函数可以这样定义：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestServiceOrientedArchitecture</span>.<span class="hljs-title">IntSubtractVariant</span><span class="hljs-params">(
+  Ctxt: TOnInterfaceStubExecuteParamsVariant)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  Ctxt[<span class="hljs-string">'result'</span>] := Ctxt[<span class="hljs-string">'n1'</span>]-Ctxt[<span class="hljs-string">'n2'</span>];
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  也就是说，回调应使用<code>Ctxt['']</code>属性来访问参数，并将结果作为变量值。</p>
+<p>  实际上，使用<code>Ctxt.Named[]</code>默认属性，因此它与如下行完全相同：</p>
+<pre><code class="lang-pascal hljs">  Ctxt.Named[<span class="hljs-string">'result'</span>] := Ctxt.Named[<span class="hljs-string">'n1'</span>]-Ctxt.Named[<span class="hljs-string">'n2'</span>];
+</code></pre>
+<p>  如果执行失败，它将执行带有相关错误消息的<code>Ctxt.Error()</code>方法，以通知<code>stubbing</code>过程失败原因。</p>
+<p>  使用命名参数的优点是，在更改方法签名的情况下更明确（如添加或重命名参数）。 在大多数情况下，它应该是实现这种回调的首选方式。</p>
+<h4 id="toc_46">15.5.4.2. 变体参数索引委派<a class="vnote-anchor" href="#toc_46" data-anchor-icon="#"></a></h4>
+<p>  还有另一种方法可以直接使用<code>Input[]</code>和<code>Output[]</code>索引属性来实现这种回调方法。 它应该执行速度更快：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestServiceOrientedArchitecture</span>.<span class="hljs-title">IntSubtractVariant</span><span class="hljs-params">(
+  Ctxt: TOnInterfaceStubExecuteParamsVariant)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">with</span> Ctxt <span class="hljs-keyword">do</span>
+    Output[<span class="hljs-number">0</span>] := Input[<span class="hljs-number">0</span>]-Input[<span class="hljs-number">1</span>]; <span class="hljs-comment">// result := n1-n2</span>
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  与<code>TOnInterfaceStubExecuteParamsJSON</code>实现一样，<code>Input[]</code>索引遵循方法调用时<code>const</code>和<code>var</code>参数的正确顺序，而<code>Output[]</code>索引遵循<code>var</code>和<code>out</code>参数以及任何函数结果的正确顺序。</p>
+<p>  也就是说，如果你调用：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Subtract</span><span class="hljs-params">(n1,n2: double)</span>:</span> double;
+ ...
+  MyStub.Substract(<span class="hljs-number">100</span>,<span class="hljs-number">20.5</span>);
+</code></pre>
+<p>  在<code>TOnInterfaceStubExecuteParamsJSON</code>中：</p>
+<pre><code class="lang-pascal hljs"> Ctxt.Params = <span class="hljs-string">'100,20.5'</span>; <span class="hljs-comment">// at method call</span>
+ Ctxt.Result = <span class="hljs-string">'[79.5]'</span>;   <span class="hljs-comment">// after Ctxt.Returns([..])</span>
+</code></pre>
+<p>  并在变体数组中：</p>
+<pre><code class="lang-pascal hljs"> Ctxt.Input[<span class="hljs-number">0</span>] = <span class="hljs-number">100</span>;      <span class="hljs-comment">// =n1 at method call</span>
+ Ctxt.Input[<span class="hljs-number">1</span>] = <span class="hljs-number">20.5</span>;     <span class="hljs-comment">// =n2 at method call</span>
+ Ctxt.Output[<span class="hljs-number">0</span>] = <span class="hljs-number">79.5</span>;    <span class="hljs-comment">// =result after method call</span>
+</code></pre>
+<p>  如果有额外的<code>var</code>或<code>out</code>参数，那些应该在最后一个之前添加到<code>Output[]</code>数组中，因为最后一个始终为函数结果。</p>
+<p>  如果该方法被定义为一个过程而不是一个函数，当然没有最后的<code>Output[]</code>项，只有<code>var</code>或<code>out</code>参数。</p>
+<h4 id="toc_47">15.5.4.3. JSON参数委派<a class="vnote-anchor" href="#toc_47" data-anchor-icon="#"></a></h4>
+<p>  您可以使用JSON数组<code>stub</code>方法，如下所示：</p>
+<pre><code class="lang-pascal hljs">  TInterfaceStub.Create(ICalculator,ICalc).
+    Executes(<span class="hljs-string">'Subtract'</span>,IntSubtractJSON);
+  (...)
+  Check(ICalc.Substract(<span class="hljs-number">10.5</span>,<span class="hljs-number">1.5</span>)=<span class="hljs-number">9</span>);
+</code></pre>
+<p>  回调应定义如下：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestServiceOrientedArchitecture</span>.<span class="hljs-title">IntSubtractJSON</span><span class="hljs-params">(
+  Ctxt: TOnInterfaceStubExecuteParamsJSON)</span>;</span>
+<span class="hljs-keyword">var</span> P: PUTF8Char;
+<span class="hljs-keyword">begin</span> <span class="hljs-comment">// result := n1-n2</span>
+  P := pointer(Ctxt.Params);
+  Ctxt.Returns([GetNextItemDouble(P)-GetNextItemDouble(P)]);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  也就是说，它将解析来自<code>Ctxt.Params</code>的传入参数，并将结果值存储为<code>Ctxt.Result</code>JSON数组。</p>
+<p>  <code>Ctxt.Params</code>中的输入参数顺序遵循方法调用时<code>const</code>和<code>var</code>参数的确切顺序，并且<code>Ctxt.Returns([])</code>或<code>Ctxt.Result</code>中的输出参数顺序遵循<code>var</code>和<code>out</code>参数以及任何函数结果的确切顺序。</p>
+<p>  如果您希望直接返回JSON数组，则此方法可以这样编写：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestServiceOrientedArchitecture</span>.<span class="hljs-title">IntSubtractJSON</span><span class="hljs-params">(
+  Ctxt: TOnInterfaceStubExecuteParamsJSON)</span>;</span>
+<span class="hljs-keyword">var</span> P: PUTF8Char;
+<span class="hljs-keyword">begin</span> <span class="hljs-comment">// result := n1-n2</span>
+  P := pointer(Ctxt.Params);
+  Ctxt.Result := <span class="hljs-string">'['</span>+DoubleToStr(GetNextItemDouble(P)-GetNextItemDouble(P))+<span class="hljs-string">']'</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  在双值的情况下，这看起来有点方便，但如果类型更复杂，则会出错。 在所有情况下，首选使用<code>Ctxt.Returns([])</code>方法。</p>
+<h4 id="toc_48">15.5.4.4. <code>mocking</code>时访问测试用例<a class="vnote-anchor" href="#toc_48" data-anchor-icon="#"></a></h4>
+<p>  在<code>mocking</code>时，您可以在回调实现中添加其他验证，如下所示：</p>
+<pre><code class="lang-pascal hljs">  TInterfaceMock.Create(ICalculator,ICalc,self).
+    Executes(<span class="hljs-string">'Subtract'</span>,IntSubtractVariant,<span class="hljs-string">'toto'</span>);
+ (...)
+<span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestServiceOrientedArchitecture</span>.<span class="hljs-title">IntSubtractVariant</span><span class="hljs-params">(
+  Ctxt: TOnInterfaceStubExecuteParamsVariant)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  Ctxt.TestCase.Check(Ctxt.EventParams=<span class="hljs-string">'toto'</span>);
+  Ctxt[<span class="hljs-string">'result'</span>] := Ctxt[<span class="hljs-string">'n1'</span>]-Ctxt[<span class="hljs-string">'n2'</span>];
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这里，在<code>TInterfaceMock</code>定义中添加了<code>'toto'</code>私有回调参数。 然后通过<code>Ctxt.Sender</code>实例在相关的测试用例中检查其内容。 如果调用者不是<code>TInterfaceMock</code>，则在访问<code>Ctxt.TestCase</code>属性时会引发异常。</p>
+<h3 id="toc_49">15.5.5. 调用追踪<a class="vnote-anchor" href="#toc_49" data-anchor-icon="#"></a></h3>
+<p>  如上所述，mORMot能够将所有接口调用记录到<code>TInterfaceStub</code>的内部结构中。 这确实是<code>TInterfaceMockSpy.Verify()</code>"spy"测试方法的根本特征。</p>
+<pre><code class="lang-pascal hljs">  Stub := TInterfaceStub.Create(ICalculator,I).
+    SetOptions([imoLogMethodCallsAndResults]);
+  Check(I.Add(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>)=<span class="hljs-number">0</span>,<span class="hljs-string">'Default result'</span>);
+  Check(Stub.LogAsText=<span class="hljs-string">'Add(10,20)=[0]'</span>);
+</code></pre>
+<p>  在上面，我们将整个调用堆栈，包括输入参数和返回结果，检索为易于阅读的JSON内容。 我们发现JSON是一种非常方便的跟踪方法调用的方法，在艰难的代码测试中，对计算机和人类都更有效。</p>
+<p>  例如，可以在接口模拟的上下文中定义更复杂的跟踪验证：</p>
+<pre><code class="lang-pascal hljs">  TInterfaceMock.Create(ICalculator,I,self).
+    Returns(<span class="hljs-string">'Add'</span>,<span class="hljs-string">'30'</span>).
+    Returns(<span class="hljs-string">'Multiply'</span>,[<span class="hljs-number">60</span>]).
+    Returns(<span class="hljs-string">'Multiply'</span>,[<span class="hljs-number">2</span>,<span class="hljs-number">35</span>],[<span class="hljs-number">70</span>]).
+    ExpectsCount(<span class="hljs-string">'Multiply'</span>,qoEqualTo,<span class="hljs-number">2</span>).
+    ExpectsCount(<span class="hljs-string">'Subtract'</span>,qoGreaterThan,<span class="hljs-number">0</span>).
+    ExpectsCount(<span class="hljs-string">'ToTextFunc'</span>,qoLessThan,<span class="hljs-number">2</span>).
+    <span class="hljs-comment">// check trace for a whole method execution</span>
+    ExpectsTrace(<span class="hljs-string">'Add'</span>,<span class="hljs-string">'Add(10,30)=[30]'</span>).
+    ExpectsTrace(<span class="hljs-string">'Multiply'</span>,<span class="hljs-string">'Multiply(10,30)=[60],Multiply(2,35)=[70]'</span>).
+    <span class="hljs-comment">// check trace for a whole method execution, filtering with given parameters</span>
+    ExpectsTrace(<span class="hljs-string">'Multiply'</span>,[<span class="hljs-number">10</span>,<span class="hljs-number">30</span>],<span class="hljs-string">'Multiply(10,30)=[60]'</span>).
+    <span class="hljs-comment">// check trace for the whole interface execution</span>
+    ExpectsTrace(<span class="hljs-string">'Add(10,30)=[30],Multiply(10,30)=[60],'</span>+
+      <span class="hljs-string">'Multiply(2,35)=[70],Subtract(2.3,1.2)=[0],ToTextFunc(2.3)=["default"]'</span>).
+    Returns(<span class="hljs-string">'ToTextFunc'</span>,[<span class="hljs-string">'default'</span>]);
+  Check(I.Add(<span class="hljs-number">10</span>,<span class="hljs-number">30</span>)=<span class="hljs-number">30</span>);
+  Check(I.Multiply(<span class="hljs-number">10</span>,<span class="hljs-number">30</span>)=<span class="hljs-number">60</span>);
+  Check(I.Multiply(<span class="hljs-number">2</span>,<span class="hljs-number">35</span>)=<span class="hljs-number">70</span>);
+  Check(I.Subtract(<span class="hljs-number">2.3</span>,<span class="hljs-number">1.2</span>)=<span class="hljs-number">0</span>,<span class="hljs-string">'Default result'</span>);
+  Check(I.ToTextFunc(<span class="hljs-number">2.3</span>)=<span class="hljs-string">'default'</span>);
+</code></pre>
+<p>  重载的<code>ExpectsTrace()</code>方法不仅可以对一些检查给定方法添加调用次数检查，还可以添加执行命令的正确顺序验证，以及相关参数和所有获取的结果值检查。它们可以有效跟踪一个特定方法（可选地使用针对传入参数的过滤器），或者对整个模拟接口进行全局验证。</p>
+<p>  请注意，在内部，这些方法将计算预期跟踪的<code>Hash32()</code>哈希值，这是最小化内存数据或在执行时复用检索值以进一步进行回归测试的好方法。在回归量巨大的情况下，一些重载特性确实可用于直接指定预期的<code>Hash32()</code>值：运行测试一次，手动调试所有预期行为，然后存储哈希值以确保将来不会破坏预期的步骤。</p>
+<p>  您甚至可以通过<code>TInterfaceStub.Log</code>和<code>LogCount</code>这两个属性完全获取内部执行跟踪。这将允许<code>mocked</code>接口调用逻辑的任何验证，超出<code>ExpectsTrace()</code>的可能性。</p>
+<p>  您可以查看<code>TTestServiceOrientedArchitecture.MocksAndStubs</code>回归测试，了解所有内部功能的全部内容。</p>
+<h2 id="toc_50">15.6. 依赖注入和接口解析<a class="vnote-anchor" href="#toc_50" data-anchor-icon="#"></a></h2>
+<p>  在我们的示例中，我们将依赖项显式地作为参数注入到类构造函数中，请参阅<a href="">构造函数的依赖注入</a>。我们将在下面的专门章节中介绍SOA功能框架如何将服务解析为接口。</p>
+<p>  但实际应用程序可能非常复杂，并且已经实现了解决依赖关系的通用方法和控制反转（也称为IoC）。</p>
+<p>  首先，如果从<code>TInjectableObject</code>继承，您将能够以两种方式解析依赖关系：</p>
+<ul>
+<li>显式地通过其<code>Resolve()</code>重载方法，用于任何已注册接口的延迟初始化；</li>
+<li>在实例创建时自动为其使用接口类型声明的所有发布属性。</li>
+</ul>
+<p>  <code>TInjectableObject</code>类级别还提供了一组专用的重载构造函数，因此您可以轻松地stub/mock或注入任何实例，例如：用于测试目的：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyTestCase</span>.<span class="hljs-title">OneTestCaseMethod</span>;</span>
+ <span class="hljs-keyword">var</span> Test: IServiceToBeTested;
+ <span class="hljs-keyword">begin</span>
+   Test := TServiceToBeTested.CreateInjected(
+     [ICalculator],
+     [TInterfaceMock.Create(IPersistence,self).
+       ExpectsCount(<span class="hljs-string">'SaveItem'</span>,qoEqualTo,<span class="hljs-number">1</span>),
+      RestInstance.Services],
+     [AnyInterfacedObject]);
+   ...
+</code></pre>
+<p>  在此代码中，我们直接使用没有<code>TypeInfo()</code>的接口类型。 所以我们可以直接写<code>ICalculator</code>或<code>IPersistence</code>来显式引用接口类型。</p>
+<p>  此测试用例（<code>TMyTestCase</code>继承自<code>TSynTestCase</code>）将创建一个<code>TServiceToBeTested</code>实例，创建一个<code>TInterfaceStub</code>及其<code>ICalculator</code>依赖，然后创建一个<code>TInterfaceMock</code>并期望<code>IPersistence.SaveItem</code>方法只被调用一次，允许从<code>TSQLRest.Services</code> SOA解析器解析，并注入预先存在的<code>AnyInterfacedObject TInterfacedObject</code>实例。</p>
+<p>  然后，将依赖项解析定义为发布属性：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TServiceToBeTested</span> = <span class="hljs-keyword">class</span>(TInjectableObject)
+  <span class="hljs-keyword">protected</span>
+    fCalculator: ICalculator;
+  ...
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Calculator: ICalculator <span class="hljs-keyword">read</span> fCalculator;
+    ...
+  <span class="hljs-keyword">end</span>;
+
+ ...
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TServiceToBeTested</span>.<span class="hljs-title">DoCalculation</span><span class="hljs-params">(a,b: integer)</span>:</span> integer;
+<span class="hljs-keyword">begin</span>
+  result := Calculator.Add(a,b);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  此<code>fCalculator</code>实例将由<code>TInjectableObject.Create</code>解析和实例化，然后作为普通接口字段在类析构函数中释放。 您不必重载<code>TServiceToBeTested</code>构造函数，也不必管理此<code>fCalculator</code>生命周期。 它的自动创建的实例将由整个<code>TServiceToBeTested</code>上下文共享，因此它应该是无状态的（如两个数字之和），或者期望每次使用时进行演变。</p>
+<p>  有时，每次创建<code>TServiceToBeTested</code>类实例时，初始化此类属性可能会有过高的成本， 或者接口实现可能不是无状态的，并且应该在每次使用之前获取新实例。 作为替代方案，任何接口都可以根据需要以延迟的方式解决：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TServiceToBeTested</span>.<span class="hljs-title">DoSomething</span>;</span>
+<span class="hljs-keyword">var</span> persist: IPersistence;
+<span class="hljs-keyword">begin</span>
+  Resolve(IPersistence,persist);
+  persist.SaveItem(<span class="hljs-string">'John'</span>,<span class="hljs-string">'Doe'</span>);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  <code>TInjectableObject.Resolve()</code>重载方法将获取所请求接口的一个实例。 如果先前未向<code>TInjectableObject</code>类注册所提供的<code>IPersistence</code>，则上述代码将引发异常。</p>
+<p>  当在mORMot的SOA方法（即<code>TSQLRest.Services</code>属性）中创建这样的<code>TInjectableObject</code>实例时，注入将透明地涉及所有已注册的类。 另请参阅<code>TInterfaceResolverInjected.RegisterGlobal()</code>重载方法，这些方法能够为整个可执行文件上下文全局注册一些类类型或实例。 只需确保您不会违反开放/封闭原则，通过定义这样的全局注册，该注册应仅针对特定需求，真正与整个应用程序正交，或特定于测试用例。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>24_领域驱动设计</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-2 .node > rect { }
+#mermaid-diagram-2 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-3 .node > rect { }
+#mermaid-diagram-3 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-4 .node > rect { }
+#mermaid-diagram-4 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-4 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-4 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-4 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-5 .node > rect { }
+#mermaid-diagram-5 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-5 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-5 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-5 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-6 .node > rect { }
+#mermaid-diagram-6 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-6 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-6 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-6 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-7 .node > rect { }
+#mermaid-diagram-7 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-7 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-7 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-7 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">24. 领域驱动设计<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src="https://github.com/wai818/mORMot-Learning/blob/master/mORMot_Picture/cartoon06.png?raw=true" alt="" class="view-image"></p>
+<p>  我们现在已经看到mORMot如何为您提供一些技术砖块，根据您的客户需求，您就可以自己建造房屋、城堡了。</p>
+<p>  这就是领域驱动设计模式，缩写为DDD，值得一读。</p>
+<h2 id="toc_1">24.1. 领域<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<p>  我们这里所指的领域是什么？领域代表知识、影响或活动的范围。</p>
+<p>  正如我们上面已经说过的，必须清楚地识别领域，并且您的软件应该解决与该领域相关的一堆问题。</p>
+<p>  DDD是模型驱动设计的一种特例，其目的是创建特定领域的模型，代码本身用于表达模型：因此，任何代码重构都意味着更改模型，反之亦然。</p>
+<h2 id="toc_2">24.2. 模型<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h2>
+<p>  即使是最聪明的程序员也永远无法将现实生活中的领域转换为软件代码。我们所能做的就是创建一个抽象系统来描述领域的选定方面。</p>
+<p>  对于特定的使用环境，模型是对现实的过滤：“所有模型都是错误的，有些是有用的“（G. Box，统计学家）</p>
+<h3 id="toc_3">24.2.1. 几个模型统治全部<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  作为第一个结果，几个模型可以共存于特定的现实，根据所涉及的知识水平，我们称之为有界上下文。如果在您的领域代码中多次定义相同的现实，请不用担心：您应该在给定的上下文中仅使用一个类，但您可以在另一个上下文中定义另一个类，具有不同的属性或方法。</p>
+<p>  如打开谷歌地图，并考虑如何根据缩放级别或当前视图选项来对相同的现实建模。另请参阅<a href="">元对象工具</a>中定义的M1、M2、M3模型。定义多个模型时，只需要清楚地标明当前使用的模型。</p>
+<p>  甚至模型也可以抽象化。这就是DDD所做的：代码本身是某种元模型，使特定的概念模型符合特定编程语言的语法。</p>
+<h3 id="toc_4">24.2.2. 模型的状态<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h3>
+<p>  大多数模型从两个维度表达现实：</p>
+<ul>
+<li>静态：抽象现实的特定状态；</li>
+<li>动态：抽象现实如何演变（即行为）。</li>
+</ul>
+<p>  在这两个维度中，我们可以清楚地理解抽象的目的。</p>
+<p>  由于无法对现实的所有细节进行建模（如将物质现实描述到原子、亚原子这种级别），因此静态建模将忽略不重要的细节，并关注特定知识水平的基本要素，是给定的上下文的特性。</p>
+<p>  同样，大多数变化在世界上是连续的，动态建模将创建现实的静态快照（称为状态转换），以满足计算机的确定性。</p>
+<p>  状态总是给模型带来复杂性，因此，我们的代码应该尽可能无状态。由此：</p>
+<ul>
+<li>尽量在状态中分离值和时间；</li>
+<li>将状态减少到仅必要的；</li>
+<li>将您的逻辑实现为状态机，而不是阻塞代码或会话；</li>
+<li>持久性应该处理单向事务。</li>
+</ul>
+<p>  在DDD中，值对象和实体对象是表达特定系统状态的手段。不可变值对象定义静态值。实体是指特定身份（或现实）的特定状态。</p>
+<p>  例如，在特定状态下，相同的身份（名为“John Doe”）可以是单身和未成年，之后在另一个状态，是已婚并成人。模型将有助于表达特定的状态，以及它们之间的状态转换（如John的婚姻状态）。</p>
+<p>  在DDD中，工厂/仓库/工作单元模式将以无状态方式引入事务支持。</p>
+<p>  现实情境确实经常改变其状态，对其他组件产生复杂的影响，DDD会将这种状态更改建模为事件。它可能导致在全局模型中引入一些事件驱动设计，甚至是事件朔源。</p>
+<h3 id="toc_5">24.2.3. 组合<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h3>
+<p>  为了优化您的模型，您有两个主要工具来表达模型的模块化：</p>
+<ul>
+<li>分区：元素之间的关注点越分散越好；</li>
+<li>分组：为了表达约束，元素可以被分组，通常，您不应该在同一个图表中放置超过6到8个元素，否则您的模型需要进行优化。</li>
+</ul>
+<p>  在DDD中，必须定义许多小对象，以便正确地对逻辑进行分区。当我们开始面向对象编程时，我们试图用很多方法和参数创建庞大的类，这是弱模型的症状。我们应该总是偏向小型简单对象的组合，就像Unix工具哲学或<em>单一责任原则</em>一样，参见<a href="">SOLID设计原则</a>。</p>
+<p>  一些DDD专家也不赞成继承。事实上，继承也可能是某些上下文耦合的症状。两个不同的现实共享属性可能是一个糟糕的设计：如果两个或多个类继承自同一个父类，父类的状态和行为可能会限制其任何子级的各种未来发展。在实践中，试图遵循开放、封闭原则，参见<a href="">开放/封闭原则</a>，在类级别可能会导致意外的复杂性，从而降低代码的可维护性。</p>
+<p>  在DDD中，聚合根是您对对象进行分组的方式，以便对约束（如业务规则）进行建模。聚合是领域的主要入口点，因为它们按设计应该包含给定进程的整个执行上下文。它们的范围可能在开发期间变化，如当业务规则进化时，请记住，同一个现实可以在同一个领域中多次出现，但每个有界上下文只出现一次。换句话说，聚合可以被视为表达给定模型上下文所需的最小和最大范围。</p>
+<h2 id="toc_6">24.3. DDD模型<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h2>
+<p>  现在是时候定义哪种模型驱动设计是DDD：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 1121.75 458" style="max-width:1121.75px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M476.25,61.457953936797L68.5,113L68.5,150" marker-end="url(#arrowhead35)" style="fill:none"></path><defs><marker id="arrowhead35" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M476.25,64.66973180076629L209,113L209,150" marker-end="url(#arrowhead36)" style="fill:none"></path><defs><marker id="arrowhead36" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M476.25,71.78288633461048L339.5,113L339.5,162" marker-end="url(#arrowhead37)" style="fill:none"></path><defs><marker id="arrowhead37" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M493.9025423728814,88L463.5,113L463.5,162" marker-end="url(#arrowhead38)" style="fill:none"></path><defs><marker id="arrowhead38" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M590.2838983050848,88L630.75,113L630.75,162" marker-end="url(#arrowhead39)" style="fill:none"></path><defs><marker id="arrowhead39" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M594.25,67.0374531835206L802.25,113L802.25,138" marker-end="url(#arrowhead40)" style="fill:none"></path><defs><marker id="arrowhead40" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M594.25,62.42857142857143L948.25,113L948.25,162" marker-end="url(#arrowhead41)" style="fill:none"></path><defs><marker id="arrowhead41" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M594.25,60.68138195777351L1056.25,113L1056.25,162" marker-end="url(#arrowhead42)" style="fill:none"></path><defs><marker id="arrowhead42" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M446.84507042253523,206L409.75,255L465.8670212765957,280" marker-end="url(#arrowhead43)" style="fill:none"></path><defs><marker id="arrowhead43" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M627.6514084507043,206L620.75,255L564.6329787234042,280" marker-end="url(#arrowhead44)" style="fill:none"></path><defs><marker id="arrowhead44" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M499.92021276595744,324L482.5,349L459.76063829787233,374" marker-end="url(#arrowhead45)" style="fill:none"></path><defs><marker id="arrowhead45" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M530.5797872340426,324L548,349L581.3776595744681,374" marker-end="url(#arrowhead46)" style="fill:none"></path><defs><marker id="arrowhead46" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M453.0422535211268,206L429.75,255L429.75,302L429.75,349L435.0691489361702,374" marker-end="url(#arrowhead47)" style="fill:none"></path><defs><marker id="arrowhead47" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M499,202.36429872495447L600.75,255L600.75,302L600.75,349L606.0691489361702,374" marker-end="url(#arrowhead48)" style="fill:none"></path><defs><marker id="arrowhead48" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M633.8485915492957,206L640.75,255L640.75,302L640.75,349L624.7925531914893,374" marker-end="url(#arrowhead49)" style="fill:none"></path><defs><marker id="arrowhead49" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(535.25,54)" style="opacity: 1;"><rect rx="0" ry="0" x="-59" y="-34" width="118" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-49,-24)"><foreignObject width="98" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Model-Driven<br>Design</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(68.5,184)" style="opacity: 1;"><rect rx="0" ry="0" x="-48.5" y="-34" width="97" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-38.5,-24)"><foreignObject width="77" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Ubiquitous<br>Language</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(209,184)" style="opacity: 1;"><rect rx="0" ry="0" x="-42" y="-34" width="84" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-32,-24)"><foreignObject width="64" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Bounded<br>Contexts</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(339.5,184)" style="opacity: 1;"><rect rx="0" ry="0" x="-38.5" y="-22" width="77" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-28.5,-12)"><foreignObject width="57" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Services</div></foreignObject></g></g></g><g class="node cyan" id="B4" transform="translate(463.5,184)" style="opacity: 1;"><rect rx="0" ry="0" x="-35.5" y="-22" width="71" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-25.5,-12)"><foreignObject width="51" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Entities</div></foreignObject></g></g></g><g class="node cyan" id="B5" transform="translate(630.75,184)" style="opacity: 1;"><rect rx="0" ry="0" x="-58" y="-22" width="116" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-48,-12)"><foreignObject width="96" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Value Objects</div></foreignObject></g></g></g><g class="node cyan" id="B6" transform="translate(802.25,184)" style="opacity: 1;"><rect rx="0" ry="0" x="-63.5" y="-46" width="127" height="92"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-53.5,-36)"><foreignObject width="107" height="72"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Clean/Layered/<br>Hexagonal<br>Architecture</div></foreignObject></g></g></g><g class="node cyan" id="B7" transform="translate(948.25,184)" style="opacity: 1;"><rect rx="0" ry="0" x="-32.5" y="-22" width="65" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-22.5,-12)"><foreignObject width="45" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Events</div></foreignObject></g></g></g><g class="node cyan" id="B8" transform="translate(1056.25,184)" style="opacity: 1;"><rect rx="0" ry="0" x="-25.5" y="-22" width="51" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-15.5,-12)"><foreignObject width="31" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">RAD</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(515.25,302)" style="opacity: 1;"><rect rx="0" ry="0" x="-50.5" y="-22" width="101" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40.5,-12)"><foreignObject width="81" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Aggregates</div></foreignObject></g></g></g><g class="node cyan" id="D1" transform="translate(439.75,396)" style="opacity: 1;"><rect rx="0" ry="0" x="-53" y="-22" width="106" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-43,-12)"><foreignObject width="86" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Repositories</div></foreignObject></g></g></g><g class="node cyan" id="D2" transform="translate(610.75,396)" style="opacity: 1;"><rect rx="0" ry="0" x="-41" y="-22" width="82" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-31,-12)"><foreignObject width="62" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Factories</div></foreignObject></g></g></g></g></g></g></svg></div>
+<h3 id="toc_7">24.3.1. 通用语言<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h3>
+<p>  通用语言是DDD的源头。</p>
+<p>  DDD希望领域模型通过一种共享语言来表达，并且所有团队成员都使用它来连接他们的软件活动。这些术语应该用于演讲、写作和各种演示或图表。</p>
+<p>  在真实的外部世界中，对于其他第十种人怎么不知道二进制，领域专家使用公司或行业标准术语。</p>
+<p>  作为开发人员，我们必须理解这个词汇表，不仅要在与领域专家交谈时使用它，还要在我们的代码中用相同的术语思考。如果在交谈中经常使用“类代码”、“速率集”、“暴露”等术语，则需要在代码中找到对应的类名。在DDD中，开发人员在代码中有意识地使用业务语言并将其作为一种规则是非常重要的。这样，浏览代码就应该能够清楚地理解业务模型。</p>
+<p>  领域专家将守护这种语言的一致性及其适当的定义。即使希望条款是一致的，它们也不是一成不变的，特别是在软件开发的初始阶段。一旦一个领域活动不能使用现有的概念集来表示，模型就需要扩展。消除含糊不清和不一致是一种需要，并且通常会经常性的解决一些尚未确定的软件问题。</p>
+<h3 id="toc_8">24.3.2. 值对象和实体<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h3>
+<p>  对于对象或内部数据结构的定义（优秀程序员所关心的），我们鼓励您在几种对象之间做出区别。对于DDD，模型级别的表示，一般来说，在行为上是丰富的，因此也会有几个系列/种类的对象。</p>
+<p>  让我们列出定义DDD模型所涉及的对象的最高级定义：</p>
+<ul>
+<li>值对象包含属性（值，大小）但不包含身份概念，如账单金额或摇滚音乐会的座位号，它们是可以替换的；</li>
+<li>实体对象不是由它们的属性（值）定义的，而是由它们路线的连续性定义的，由身份指定，如人、飞机上的座位，每一个都是独一无二的。</li>
+</ul>
+<p>  值对象和实体之间的主要区别在于，第二种类型的实例与一个现实相关联，后者随着时间的推移而发展，因此创建了一个连续性的路线。</p>
+<p>  根据定义，值对象是不可变的，因此应该以只读方式处理。换句话说，一旦创建它们就无法改变。</p>
+<p>  为什么重要的是它们是不可变的？对于值对象，你正在寻找无副作用的函数，这是DDD向函数式语言借用的另一个概念（在大多数OOP语言中是不可用的，直到最新的并发对象定义，如Rust或C#/.Net 4.5引入的不可变集合）。当你加10美元到20美元时，你改变20美元？不，您创建了一个30美元的新货币描述符。在代码级别应该可以看到类似的行为。</p>
+<p>  实体很可能具有<code>ID</code>字段，能够标识给定的现实，模拟该身份所谓的连续性路线。但是这个<code>ID</code>是一个实现细节，仅用于持久层级别：在领域层级别，您不应单独访问实体，而是通过特定的实体绑定到特定的上下文，称为聚合根。</p>
+<p>  当我们定义一些对象时，我们应该专注于使隐式变为显式。例如，如果我们必须存储一个电话号码，我们将不会使用普通的字符串类型，而是创建一个专用的值对象类型，明确其相关现实的所有行为，然后，我们将根据需要自由地将所有类型组合成显式分组类型。</p>
+<h3 id="toc_9">24.3.3. 聚合<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h3>
+<p>  聚合是实体的特例，定义为由根实体（也称为聚合根）组合在一起的对象集合（嵌套值、实体），其范围由给定的执行上下文定义 。</p>
+<p>  通常，聚合持久存储在数据库中，并通过将其成员与外部对象隔离来保证更改的一致性（如您可以通过其ID连接到聚合，但不能直接访问其内部对象）。请参阅<a href="">无共享架构（或分片）</a>，听起来像<code>http://martinfowler.com/bliki/AggregateOrientedDatabase.html</code></p>
+<p>  在实践中，聚合可能是在调用领域方法之前将在应用层持久化的唯一类型的对象：即使每个嵌套实体可能拥有自己的持久化方法（如每个实体一个RDBMS表），聚合也可能是用于检索或更新给定状态的唯一访问点。它将确保所谓的持久性无知，这意味着领域应保持与任何低级存储实现细节的解耦。</p>
+<p>  DDD服务可能只允许远程访问聚合方法，其中领域逻辑将被定义和隔离。</p>
+<h3 id="toc_10">24.3.4. 工厂和仓库模式<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h3>
+<p>  DDD偏向于某些模式以有效地使用这些对象。</p>
+<p>  <strong>工厂模式用于创建对象实例</strong>。在强类型OOP中（如Delphi、Java或C#），这种模式实际上是它的构造方法和相关的类的类型定义，它将在编译时定义一组固定的属性和方法（不是如JavaScript或弱类型脚本语言，可以在运行时添加方法和属性）。</p>
+<p>  事实上，Delphi领先于Java或C#，因为它允许定义虚拟构造函数。这些虚拟构造函数实际上是实现工厂的一种简洁而有效的方式，并且还满足SOLID原则，尤其是<a href="">Liskov替换原则</a>：父类定义了您依赖的抽象构造函数，但实现将在构造函数重载中进行。</p>
+<p>  <strong>工厂模式也可用于创建接口实例</strong>，参见<a href="">接口</a>。主要好处是替代实现可以容易地互换。这种抽象有助于测试，参见<a href="">实践中的接口：依赖注入，Stub和Mock</a>，还引入了基于接口的服务，参见<a href="">基于接口的客户端-服务端服务</a>。</p>
+<p>  <strong>仓库模式用于分发和保存每个聚合根</strong>。</p>
+<p>  它匹配超类层模式，如通过mORMot的 <code>TSQLRecord</code>和<code>TSQLRest</code>类及其客户端-服务端ORM功能，或通过专用的仓库类，数据存储与模型本身确实是正交关注点。 DDD架构师声称持久性是基础架构，而不是领域。如果标准的ORM/CRUD操作不满足，您可以受益于定义自己的仓库接口。</p>
+<h3 id="toc_11">24.3.5. 使用DTO和事件避免领域泄露<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h3>
+<p>  主要的DDD架构原则和好处是隔离领域代码。正如六角形架构所定义的那样，所有努力都是为了确保领域不会在其核心之外“泄漏”。领域对象和服务是任何DDD项目中最宝贵的部分，特别是从长远来看，因此必须进行适当的隔离和解耦。</p>
+<p>  聚合应该始终被隔离并保留在应用层，通过适当的高级远程服务访问其方法和嵌套对象，也不应直接发布到外部世界。</p>
+<p>  实际上，如果您的领域已正确定义，那么您的大部分值对象都可能会被发送到外部世界，而无需进行明确的转换。甚至实体也可以直接传输，因为它们的方法不应该只引用它们的内部属性，因此在领域本身之外可能有一些用处。</p>
+<p>  但现实世界可能是粗暴和残酷的，乐观主义最好用实用主义取代，少一些玩世不恭。 DDD经验告诉其开拓者（有时是一种痛苦的方式），应该更好地定义适配器类型，特别是在应用层和表示层。</p>
+<p>  因此，一个新的对象家族将保护所有DDD实现：</p>
+<ul>
+<li>数据传输对象（DTO）是传输对象，其目的不是通过网络发送您的领域（即按照反贪层模式隔离您的层）。它鼓励您创建看门人（如在应用程序层中），以防止非领域概念泄漏到您的模型中。</li>
+<li>命令和事件是某种DTO，因为它们传递有关事件的数据，它们自己不封装任何行为。</li>
+</ul>
+<p>  使用这些专用类型最终将有助于解耦领域，原因如下：</p>
+<ul>
+<li>您可以重构您的领域，而无需修改发布的接口，只需要稍微修改反贪层：您的客户无需因为您的领域变更，而花钱升级其客户端应用程序；这样就无需担心，由于改进您珍贵的领域代码，你把所有的钱和希望都投入其中，而可能会让您的客户感到不愉快。</li>
+<li>希望最终用户应用程序不会污染您的领域。例如，您最好为每个客户单独定义公共的API集，而不是公开您的领域服务。在实践中，一个“统治全部”的公共API起初可能听起来像个好主意，但它最终会成为一个怪异、扁平、难以理解和贫血的界面，远离了SOLID设计原则。</li>
+<li>由于领域往往尽可能通用，其对象有时可能对最终用户应用程序过度杀伤：如果某些属性永远不会被使用，或者永远无效，为什么要污染最终用户代码，浪费带宽或资源？仅坚持所需要的东西。</li>
+<li>专用类型将有助于专注于所需的用例，因此将简化文档、可维护性、测试和与客户端应用程序的集成：对将通用语言对象转换为表示层中更常见或期望的术语也将是有益的。</li>
+<li>考虑到在您的公司中，领域和基础架构层可能由您最有价值的团队维护，而一些不太熟练的开发人员（甚至离岸团队）可能只参与应用层和表示层。编写适配器、转换类并不困难，这将有助于您的公司集中注意力并投资于更有可能出现长期投资回报率的地方。因此，某些访问限制可能会出现在源代码级别：可能更安全的是，只允许贤能的程序员修改领域代码，甚至仅通过发布其接口来隐藏领域实现，从而保护您最有价值的知识产权不被复制和盗取。</li>
+</ul>
+<p>  在mORMot中，我们努力让框架实现所有构件，让这些类型可以使用简单的专用类型（如记录或动态数组）通过接口实现，请参阅<a href="">服务方法参数</a>和<a href="">异步回调</a>。因此，在专用的反腐层中定义DTO、命令和事件将非常快速、简单和安全。</p>
+<h3 id="toc_12">24.3.6. 服务<a class="vnote-anchor" href="#toc_12" data-anchor-icon="#"></a></h3>
+<p>  聚合根（有时是实体）及其所有方法通常最终成为状态机，并且匹配相应的行为。</p>
+<p>  在领域中，由于聚合根是您的软件可以引用的唯一实体类型，因此它们往往是各种进程的主要访问点。将它们的方法发布为无状态服务（在应用层隔离）可能很方便。</p>
+<p>  <strong>领域服务模式用于为主要操作建模</strong>。</p>
+<p>  领域服务为您提供了一个流程建模的工具，这些流程在您的领域中没有标识或生命周期，也就是说，它们没有链接到一个聚合根，可能没有，也可能多个。也就是说，在我们的应用中，服务并不绑定到特定的人、位置或事物，而是倾向于包含流程。它们往往以领域专家引入的所谓通用语言中的动词或业务活动来命名。如果您遵循接口隔离原则，请参阅<a href="">接口隔离原则</a>，那么您的领域服务应该作为专用的面向客户的方法公开。不要泄漏您的领域！在DDD中，您可以直接跟俊客户端应用需求来开发应用层服务，让领域层关注于业务逻辑。</p>
+<p>  工作单元可用于维护受业务事务影响的对象列表，并协调写入更改和并发问题的解决方案。简而言之，它<strong>实现领域事务处理</strong>，并且可以在服务或ORM中实现，它具有所谓的持久性无知特性，这意味着您的领域代码可能不会绑定到特定的持久性实现，而是尽可能地抽象聚合根类实例。</p>
+<p>  可以定义双阶段提交方法，其中一些方法用于准备和验证数据，然后在第二步中通过专用的<code>Commit</code>命令应用它。在此模式中，存储库只是一些简单的存储，数据一致性将在领域级别进行：例如，您不会定义任何SQL约束，而是在存储信息之前验证数据，您的业​务规则应该使用高级领域代码编写，您可能会忘记<code>FOREIGN KEY</code>或<code>CHECK</code> SQL语法风格。因此，您可以安全地从SQL数据库更改为NoSQL引擎，甚至是<code>TObjectList</code>。您可以使用领域的通用语言来定义和维护任何复杂的业务规则。并且业务逻辑的更改不会影响数据库元数据，而这种修改可能会很痛苦。</p>
+<p>  因此，DDD服务在大多数情况下可能是无状态的，但在需要时允许某些交易过程。顶层或外围架构层，即应用或表示层，将确保这些服务得到精心安排。应用程序工作流程不会在领域核心本身中定义，而是在这些外层中定义，从而形成更简洁、无耦合架构。</p>
+<h3 id="toc_13">24.3.7. 简洁的解耦合架构<a class="vnote-anchor" href="#toc_13" data-anchor-icon="#"></a></h3>
+<p>  如果您正确地遵循DDD模式，您的经典多层架构将演变为所谓的简洁架构或六边形架构。</p>
+<p>  即使在物理上，这种架构仍然看起来像一个经典的分层设计（顶部是表现层，中间是业务逻辑，底层是数据库，在这里我们说的是N层面向领域的架构），DDD试图将领域模型与任何依赖关系隔离开来，包括技术细节。</p>
+<p>  因此，任何DDD解决方案的逻辑架构都应该是如下所示：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-2" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 1135.75 916" style="max-width:1135.75px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-2 .node&gt;rect { ; }
+#mermaid-diagram-2 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"><g class="cluster" id="subGraph3" transform="translate(557.875,448)" style="opacity: 1;"><rect width="1075.75" height="856" x="-537.875" y="-428"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-414" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> Technical Implementations</text></g><g class="cluster" id="subGraph2" transform="translate(519.5,554)" style="opacity: 1;"><rect width="959" height="594" x="-479.5" y="-297"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-283" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> Application Services</text></g><g class="cluster" id="subGraph1" transform="translate(464.5,601)" style="opacity: 1;"><rect width="809" height="450" x="-404.5" y="-225"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-211" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> Domain Services</text></g><g class="cluster" id="subGraph0" transform="translate(250,601)" style="opacity: 1;"><rect width="340" height="400" x="-170" y="-200"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-186" fill="black" stroke="none" id="mermaid-diagram-2Text" style="text-anchor: middle;"> Domain Model</text></g></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M154.15254237288136,482L146,519L224,547.5291828793775" marker-end="url(#arrowhead257)" style="fill:none"></path><defs><marker id="arrowhead257" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M274.5,588L274.5,613L274.5,638" marker-end="url(#arrowhead258)" style="fill:none"></path><defs><marker id="arrowhead258" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M274.5,682L274.5,707L251.76063829787233,732" marker-end="url(#arrowhead259)" style="fill:none"></path><defs><marker id="arrowhead259" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M162.72881355932202,482L169,519L169,566L169,613L225.11702127659575,638" marker-end="url(#arrowhead260)" style="fill:none"></path><defs><marker id="arrowhead260" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M170.1864406779661,482L189,519L189,566L189,613L189,660L189,707L211.73936170212767,732" marker-end="url(#arrowhead261)" style="fill:none"></path><defs><marker id="arrowhead261" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M314.52127659574467,588L360,613L360,660L360,707L289.75,732.7446393762183" marker-end="url(#arrowhead262)" style="fill:none"></path><defs><marker id="arrowhead262" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M601,467.18129404228057L258.25,519L266.8936170212766,544" marker-end="url(#arrowhead263)" style="fill:none"></path><defs><marker id="arrowhead263" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M746,466.0372093023256L360,519L314.52127659574467,544" marker-end="url(#arrowhead264)" style="fill:none"></path><defs><marker id="arrowhead264" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M746,466.33170731707315L380,519L380,566L380,613L323.8829787234043,638" marker-end="url(#arrowhead265)" style="fill:none"></path><defs><marker id="arrowhead265" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M746,466.65641025641025L400,519L400,566L400,613L400,660L400,707L289.75,737.7979197622585" marker-end="url(#arrowhead266)" style="fill:none"></path><defs><marker id="arrowhead266" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M585,321.1240310077519L503,351L503,376L503,401L503,426" marker-end="url(#arrowhead267)" style="fill:none"></path><defs><marker id="arrowhead267" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M639.7234042553191,326L648.5,351L648.5,376L648.5,401L648.5,426" marker-end="url(#arrowhead268)" style="fill:none"></path><defs><marker id="arrowhead268" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M679,317.9810126582278L790,351L790,376L790,401L790,426" marker-end="url(#arrowhead269)" style="fill:none"></path><defs><marker id="arrowhead269" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M237.75,207L237.75,232L237.75,257L585,298.3969562460368" marker-end="url(#arrowhead270)" style="fill:none"></path><defs><marker id="arrowhead270" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M569.25,207L569.25,232L569.25,257L602.6276595744681,282" marker-end="url(#arrowhead271)" style="fill:none"></path><defs><marker id="arrowhead271" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M902.25,207L902.25,232L902.25,257L679,295.82608695652175" marker-end="url(#arrowhead272)" style="fill:none"></path><defs><marker id="arrowhead272" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M183.5,113L183.5,138L212.3563829787234,163" marker-end="url(#arrowhead273)" style="fill:none"></path><defs><marker id="arrowhead273" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M292,113L292,138L263.1436170212766,163" marker-end="url(#arrowhead274)" style="fill:none"></path><defs><marker id="arrowhead274" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M412.5,113L412.5,138L509.25,167.00956937799043" marker-end="url(#arrowhead275)" style="fill:none"></path><defs><marker id="arrowhead275" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M630.75,113L630.75,138L598.0372340425532,163" marker-end="url(#arrowhead276)" style="fill:none"></path><defs><marker id="arrowhead276" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M763.75,113L763.75,138L844.75,165.48736462093862" marker-end="url(#arrowhead277)" style="fill:none"></path><defs><marker id="arrowhead277" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M902.25,113L902.25,138L902.25,163" marker-end="url(#arrowhead278)" style="fill:none"></path><defs><marker id="arrowhead278" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M1025.75,113L1025.75,138L959.75,163.1174089068826" marker-end="url(#arrowhead279)" style="fill:none"></path><defs><marker id="arrowhead279" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A1" transform="translate(183.5,79)" style="opacity: 1;"><rect rx="0" ry="0" x="-28" y="-34" width="56" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-18,-24)"><foreignObject width="36" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Web<br>AJAX</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(292,79)" style="opacity: 1;"><rect rx="0" ry="0" x="-30.5" y="-34" width="61" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-20.5,-24)"><foreignObject width="41" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Rich<br>Client</div></foreignObject></g></g></g><g class="node cyan" id="A3" transform="translate(412.5,79)" style="opacity: 1;"><rect rx="0" ry="0" x="-40" y="-34" width="80" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-30,-24)"><foreignObject width="60" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Fake<br>Datasets</div></foreignObject></g></g></g><g class="node cyan" id="A4" transform="translate(630.75,79)" style="opacity: 1;"><rect rx="0" ry="0" x="-33" y="-34" width="66" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-23,-24)"><foreignObject width="46" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Mocks<br>Stubs</div></foreignObject></g></g></g><g class="node cyan" id="A5" transform="translate(763.75,79)" style="opacity: 1;"><rect rx="0" ry="0" x="-50" y="-34" width="100" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40,-24)"><foreignObject width="80" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Database<br>ORM/ODM</div></foreignObject></g></g></g><g class="node cyan" id="A6" transform="translate(902.25,79)" style="opacity: 1;"><rect rx="0" ry="0" x="-38.5" y="-34" width="77" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-28.5,-24)"><foreignObject width="57" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Web<br>Services</div></foreignObject></g></g></g><g class="node cyan" id="A7" transform="translate(1025.75,79)" style="opacity: 1;"><rect rx="0" ry="0" x="-35" y="-34" width="70" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-25,-24)"><foreignObject width="50" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">File<br>System</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(237.75,185)" style="opacity: 1;"><rect rx="0" ry="0" x="-59" y="-22" width="118" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-49,-12)"><foreignObject width="98" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">User Interface</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(569.25,185)" style="opacity: 1;"><rect rx="0" ry="0" x="-60" y="-22" width="120" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-50,-12)"><foreignObject width="100" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Behavior Tests</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(902.25,185)" style="opacity: 1;"><rect rx="0" ry="0" x="-57.5" y="-22" width="115" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-47.5,-12)"><foreignObject width="95" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Infrastructure</div></foreignObject></g></g></g><g class="node cyan" id="BB" transform="translate(632,304)" style="opacity: 1;"><rect rx="0" ry="0" x="-47" y="-22" width="94" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-37,-12)"><foreignObject width="74" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Workflows</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(503,460)" style="opacity: 1;"><rect rx="0" ry="0" x="-48" y="-34" width="96" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-38,-24)"><foreignObject width="76" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Third Party<br>Interfaces</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(648.5,460)" style="opacity: 1;"><rect rx="0" ry="0" x="-47.5" y="-34" width="95" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-37.5,-24)"><foreignObject width="75" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Repository<br>Interfaces</div></foreignObject></g></g></g><g class="node cyan" id="C3" transform="translate(790,460)" style="opacity: 1;"><rect rx="0" ry="0" x="-44" y="-34" width="88" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-34,-24)"><foreignObject width="68" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Domain<br>Interfaces</div></foreignObject></g></g></g><g class="node cyan" id="D1" transform="translate(159,460)" style="opacity: 1;"><rect rx="0" ry="0" x="-44" y="-22" width="88" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-34,-12)"><foreignObject width="68" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Unit Tests</div></foreignObject></g></g></g><g class="node cyan" id="D2" transform="translate(274.5,566)" style="opacity: 1;"><rect rx="0" ry="0" x="-50.5" y="-22" width="101" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40.5,-12)"><foreignObject width="81" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Aggregates</div></foreignObject></g></g></g><g class="node cyan" id="D3" transform="translate(274.5,660)" style="opacity: 1;"><rect rx="0" ry="0" x="-50.5" y="-22" width="101" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40.5,-12)"><foreignObject width="81" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Aggregates</div></foreignObject></g></g></g><g class="node cyan" id="D4" transform="translate(231.75,754)" style="opacity: 1;"><rect rx="0" ry="0" x="-58" y="-22" width="116" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-48,-12)"><foreignObject width="96" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Value Objects</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  这种架构不再是分层设计，而是更像洋葱。</p>
+<p>  系统的核心是领域模型。</p>
+<p>  它实现了所有值对象和实体对象，包括它们的状态和行为，以及相关的单元测试。</p>
+<p>  围绕这个核心，您会发现<strong>领域服务会为内部模型添加更多行为</strong>。</p>
+<p>  通常，您可以在这里找到提供持久性的抽象接口（通过仓库模式聚合存储和检索），定义领域对象属性和方法（通过工厂模式），或访问第三方服务（用于在SOA的世界组合服务 ，如发送电子邮件通知）。</p>
+<p>  然后，<strong>应用层服务将定义所有最终用户应用程序的工作流程</strong>。</p>
+<p>  即使核心领域非常稳定，外层也会更频繁地改变，具体取决于使用领域服务的应用。通常，工作流将包括通过仓库接口对一些聚合进行脱水，然后调用领域逻辑（通过其对象方法，或使用更广泛的领域服务进行主要操作），调用各种外部服务，并验证（“commit”，在工作单元或事物条件之后）对象修改。一些非以数据为中心的过程也将受益于双阶段提交模式，以支持安全解耦合领域和第三方服务。</p>
+<p>  在最外层，您可以看到用户界面、基础设施（包括数据库持久性）和测试。该外层与其他三个内层分开，有时称为应用核心。这是所有技术特性集中的地方，如其中将定义RDBMS/SQL/ORM映射，或者将驻留特定于平台的代码。这是测试最终用户工作流程的最佳层级，如在您的领域专家的帮助下，使用行为驱动开发（简称BDD）。</p>
+<p>  这种架构的前提是它控制耦合。主要规则是所有耦合都朝向中心：所有代码都可以依赖于更中心的层，代码不能依赖于其核心之外的层。这在<a href="">简洁解耦合面向领域的架构</a>图中清楚地说明了：只需按照箭头，您将找到耦合顺序。这种架构毫不掩饰地偏向于面向对象的编程，它将对象放在所有其他事物之前。</p>
+<p>  这种简洁架构在很大程度上依赖于依赖倒置原则，请参阅<a href="">SOLID设计原则</a>。它强调接口的行为契约使用，并强制将基础设施外部化为专用实现类。 应用核心需要实现核心接口，如果那些实现类位于应用程序的边缘，我们需要一些机制来在运行时注入该代码，以便应用程序可以做一些有用的事情。 mORMot以抽象的方式，通过<a href="">基于接口的客户端-服务端服务</a>提供了访问所需的所有过程，甚至远程访问，如持久性或各种第三方服务。</p>
+<p>  使用简洁架构，数据库不是您逻辑的中心，也不是物理设计的底层，它是外部的。对于一些习惯将应用程序视为“数据库应用”的人来说，外部化数据库可能是一个挑战，特别是对于具有RAD/<code>TDataSet</code>背景的Delphi程序员。使用简洁架构，没有数据库应用程序。应用程序可能使用数据库作为存储服务，但仅使用一些外部基础设施代码来实现对应用程序核心有意义的接口。如果需要，领域甚至可以与各种ORM模式分离。将应用与数据库、文件系统、第三方服务和所有技术细节分离，可以降低应用程序生命周期的维护成本，并允许对代码进行正确测试，因为所有领域接口类型都可以mock，请参阅<a href="">Stubs和mocks</a>。</p>
+<h2 id="toc_14">24.4. mORMot的DDD<a class="vnote-anchor" href="#toc_14" data-anchor-icon="#"></a></h2>
+<h3 id="toc_15">24.4.1. 设计师的承诺<a class="vnote-anchor" href="#toc_15" data-anchor-icon="#"></a></h3>
+<p>  在深入研究底层之前，这里有一些关键语，我们最好能经常参照：</p>
+<ul>
+<li>我将与领域专家合作；</li>
+<li>我将专注于通用语言；</li>
+<li>我不会关心技术内容或框架，而是关心领域建模；</li>
+<li>我将使隐式的显式化；</li>
+<li>我将使用最终用户场景来获得真实和具体的；</li>
+<li>我不会害怕为每个上下文定义一个模型；</li>
+<li>我将专注于我的核心领域；</li>
+<li>我会让我的领域代码与各种外部影响解耦；</li>
+<li>我将隔离状态的值和时间；</li>
+<li>我将把有状态减少到唯有必要；</li>
+<li>一旦看起来不合适，我将尽快调整我的模型。</li>
+</ul>
+<p>  因此，你会发现在mORMot中没有神奇的粉末可以构建你的DDD，你需要将所有工具专注于你的业务，而不必浪费时间重复发明轮子，或修复技术细节。</p>
+<h3 id="toc_16">24.4.2. 使用Delphi定义对象<a class="vnote-anchor" href="#toc_16" data-anchor-icon="#"></a></h3>
+<p>  如何使用诸如Delphi面向对象的语言实现所有这些DDD概念？让我们回到基础。对象由状态、行为和身份定义，工厂帮助创建具有相同状态和行为的对象。</p>
+<p>  对于Delphi和大多数面向对象（OOP）的语言，包括C#或Java，每个类实例都具有以下行为：</p>
+<ul>
+<li>状态由其所有属性、成员值定义；</li>
+<li>行为由其所有方法定义；</li>
+<li>一致性是通过引用定义的，即只有当<code>a</code>和<code>b</code>指的是同一个对象时，<code>a=b</code>才为真；</li>
+<li>工厂实际上是类的类型定义本身，它将强制每个实例具有相同的成员和方法。</li>
+</ul>
+<p>  在Delphi中，<code>record</code>类型（旧版本编译器弃用的<code>object</code>类型）有另一种行为：</p>
+<ul>
+<li>状态也由其所有属性、成员值定义；</li>
+<li>行为也由其所有方法定义；</li>
+<li>但一致性是由内容定义的，即只有当<code>a</code>和<code>b</code>具有相同的确切属性值时，<code>RecordEquals(a,b)</code>才为真；</li>
+<li>工厂实际上是<code>record</code>/<code>object</code>类型定义本身，它强制每个实例具有相同的成员和方法。</li>
+</ul>
+<p>  实际上，您可以使用两种对象类型中的任何一种（<code>class</code>或<code>record</code>），具体取决于DDD模式所希望的行为：</p>
+<ul>
+<li>DDD的DTO可以定义为<code>record</code>，并通过基于文本的<a href="">记录序列化</a>直接序列化为JSON，作为替代，您可以考虑使用<code>TDocVariant</code>自定义变体类型；</li>
+<li>其他类型的DDD对象，即值对象、实体对象和聚合，最好定义为专用类，因为类的类型定义提供了比普通<code>record</code>结构更多的可能性。框架定义了一些父类（如<code>TSynPersistent</code>和<code>TSynAutoCreateFields</code>），这使得使用类实例几乎与堆栈分配的<code>record</code>值一样容易。</li>
+</ul>
+<h3 id="toc_17">24.4.3. 使用mORMot定义DDD对象<a class="vnote-anchor" href="#toc_17" data-anchor-icon="#"></a></h3>
+<p>  在定义领域对象时，我们应该始终在每个有界上下文中对隐式进行显式化，即在模型中为每个现实编写一个类类型。感谢Delphi的强类型，您将确保通用领域语言出现在代码中，并且您的模型将以简洁、解耦合的方式表达。</p>
+<p>  如果这些类类型被定义为普通PODO，那么您的领域专家，可能对编写代码一无所知，也可能是类定义的一份子：我们通常和领域专家一起编写领域对象和服务，在会议期间实时编写代码。因此，领域表示为普通代码，专家能够尽快验证模型的工作流程和属性。这样的编码对话确实有利于团队工作的协作，而不仅仅是编程人员。</p>
+<p>  一旦领域模型稳定下来，我们就可以开始使用这个基础工作作为契约来实现接口。在此实现过程中，mORMot框架提供了许多工具，可以快速有效地实现。</p>
+<p>  实际上在mORMot中有两种方法可以将DDD对象实现为类类型：</p>
+<ul>
+<li>直接使用框架类型，如<code>TSQLRecord</code>实体或聚合的专用类；</li>
+<li>或者不依赖于框架结构，而是简洁的PODO（Plain Old Delphi Object，参见所谓的POJO、Java的POCO或C#）类类型，然后使用<code>mORMotDDD.pas</code>单元进行自动化编码。</li>
+</ul>
+<p>  当然，第二种选择可能是首选，因为它听起来像是一种更好的实现路径，与框架本身解耦。请记住，DDD主要是将领域代码与各种外部依赖解耦，即使是mORMot本身。例如，如果您有一些现有的遗留SQL语句，最好不要强制使用框架ORM。</p>
+<h4 id="toc_18">24.4.3.1. 使用框架类型的DDD对象<a class="vnote-anchor" href="#toc_18" data-anchor-icon="#"></a></h4>
+<p>  如果你想直接使用框架结构，DDD的值对象可能意味着定义带方法的<code>record</code>（在这种情况下作为旧版本Delphi的<code>object</code>）。您还可以使用<code>TComponent</code>或<code>TSQLRecord</code>类，确保发布属性没有<code>setter</code>，只需<code>read F...</code>定义，使它们成为只读，同时可以直接序列化。</p>
+<p>  如果使用<code>record</code>/<code>object</code>类型，则可能需要自定义JSON序列化，请参阅<a href="">记录序列化</a>，针对AJAX客户端时，尤其是对于Delphi 2010之前的各种版本（默认情况下，<code>record</code>由于缺少增强型RTTI而被序列化为二进制+ Base64编码，但您可以轻松定义记录序列化，如从文本）。请注意，由于<code>record</code>/<code>object</code>在Delphi中按值类型定义（而类定义按引用类型），因此它们可能是定义值对象的最简洁方法。</p>
+<p>  在此上下文中，DDD的实体对象可以继承自<code>TSQLRecord</code>。mORMot将为其提供一整套的访问方法，实现某种超类层，正如Martin Fowler所解释的那样。</p>
+<p>  最后，DDD的聚合将受益于使用mORMot的<a href="">对象关系映射</a>。实体将被存储为普通<code>TSQLRecord</code>，如使用<a href="">“一对一”或“一对多”</a>基数，可从框架中获得。</p>
+<p>  对于大多数简单的情况，这个解决方案可能足够了。但它可能具有将领域逻辑与mORMot内部耦合的缺点。您的领域最终将受到框架实现细节的污染，最好避免使用。</p>
+<h4 id="toc_19">24.4.3.2. 定义解耦的DDD对象<a class="vnote-anchor" href="#toc_19" data-anchor-icon="#"></a></h4>
+<p>  为了将我们的领域代码与其持久层分离，mORMot提供了一些专用类型和单元，以便在DDD核心中使用PODO类定义。</p>
+<p>  您可以使用普通<code>TPersistent</code>作为父类，但您更应考虑使用<code>TSynPersistent</code>和<code>TSynAutoCreateFields</code>字段，我们很快就会看到它们的好处。</p>
+<p>  让我们从已有代码开始，可以在框架源代码存储库的<code>SQLite3\DDD\dom</code>子文件夹找到<code>dddDomUserTypes.pas</code>单元，该单元定义了一些可重用的类类型，能够以简洁的DDD方式存储用户信息。</p>
+<h4 id="toc_20">24.4.3.3. 特殊化简单类型<a class="vnote-anchor" href="#toc_20" data-anchor-icon="#"></a></h4>
+<p>  使用扩展的pascal语法，此单元中的每个现实都将拥有自己的类型定义，即使对于字符串或整数等简单类型也是如此：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  TSpecifiedType = <span class="hljs-keyword">type</span> TParentType;
+</code></pre>
+<p>  您可能不熟悉此语法。 但是用普通的pascal语法定义你的DDD模型是一个非常强大的方式。 这里<code>TSpecifiedType</code>被定义为特定类型，其行为类似于<code>TParentType</code>，但强类型将应用于您的代码，因此如果您将<code>TParentType</code>而不是<code>TSpecifiedType</code>作为一个<code>var</code>参数传递，编译器将会报错。在传输信息时，它将有助于解决一些含糊之处。</p>
+<p>  如在<code>dddDomUserTypes.pas</code>单元中，您会看到：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  TLastName = <span class="hljs-keyword">type</span> RawUTF8;
+  TFirstName = <span class="hljs-keyword">type</span> RawUTF8;
+  TMiddleName = <span class="hljs-keyword">type</span> RawUTF8;
+</code></pre>
+<p>  由于这些类型定义，您将能够区分姓氏、名字和中间名。 我们使用<code>RawUTF8</code>作为父类型，我们也可以使用字符串。 由于我们希望代码能够与所有版本的Delphi和FPC无缝协作，因此我们更愿意依赖于RawUTF8，请参阅<a href="">Unicode和UTF-8</a>。</p>
+<p>  编译完成后，这三种类型之间没有任何区别，它们的行为类似于RawUTF8。 但是在编译时，在您的领域源代码中，您将能够准确地知道给定变量中存储的实际情况。</p>
+<p>  所以不要使用这个方法定义：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">UserExists</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aUserName: RawUTF8)</span>:</span> boolean;
+</code></pre>
+<p>  你应写成：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">UserExists</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aUserName: TLastName)</span>:</span> boolean;
+</code></pre>
+<p>  使用这样的方法签名，我们将确保我们不会错误地提供<code>TFirstName</code>或<code>TPetName</code>。</p>
+<p>  这可能听起来像是一个小小的增强，但使用它会增强您的代码安全性和表现力。美国宇航局历史上最大的失败之一是火星气候轨道器，一个可变类型错误在几分钟内烧毁了一个3.276亿美元的项目，当时一个工程组在推进器上使用英制计量单位磅/秒，而其他工程组使用公制牛顿/秒。这种疏忽的结果导致消失在太空，可能是碎片了。</p>
+<p>  请记住，当我们的物理老师遇到所有数字组成的答案时，如果答案是2.5，他们会拿红笔写“2.5是什么？周？小狗？缺点？”并将答案标记为错误。在我们的DDD代码中，我们应该遵循这个规则，尝试将隐式显式化。</p>
+<h4 id="toc_21">24.4.3.4. 定义您的PODO类<a class="vnote-anchor" href="#toc_21" data-anchor-icon="#"></a></h4>
+<p>  要点是首先将DDD对象定义为普通的Delphi类类型，著名的PODO，遵循通用语言。实际上，我们将定义值对象类类型，它们将被分组和嵌套为实体对象或聚合。</p>
+<p>  定义<code>TPerson</code>对象，以模型化人的特性，我们可以编写以下类：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-comment">/// Person full name</span>
+  <span class="hljs-title">TPersonFullName</span> = <span class="hljs-keyword">class</span>(TSynPersistent)
+  <span class="hljs-keyword">protected</span>
+    fFirst: TFirstName;
+    fMiddle: TMiddleName;
+    fLast: TLastName;
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Equals</span><span class="hljs-params">(another: TPersonFullName)</span>:</span> boolean; <span class="hljs-keyword">reintroduce</span>;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">FullName</span><span class="hljs-params">(country: TCountryIdentifier=ccUndefined)</span>:</span> TFullName; <span class="hljs-keyword">virtual</span>;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> First: TFirstName <span class="hljs-keyword">read</span> fFirst <span class="hljs-keyword">write</span> fFirst;
+    <span class="hljs-keyword">property</span> Middle: TMiddleName <span class="hljs-keyword">read</span> fMiddle <span class="hljs-keyword">write</span> fMiddle;
+    <span class="hljs-keyword">property</span> Last: TLastName <span class="hljs-keyword">read</span> fLast <span class="hljs-keyword">write</span> fLast;
+  <span class="hljs-keyword">end</span>;
+
+  <span class="hljs-comment">/// Person birth date</span>
+  <span class="hljs-title">TPersonBirthDate</span> = <span class="hljs-keyword">class</span>(TSynPersistent)
+  <span class="hljs-keyword">protected</span>
+    fDate: TDateTime;
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Equals</span><span class="hljs-params">(another: TPersonBirthDate)</span>:</span> boolean; <span class="hljs-keyword">reintroduce</span>;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Age</span>:</span> integer; <span class="hljs-keyword">overload</span>;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Age</span><span class="hljs-params">(FromDate: TDateTime)</span>:</span> integer; <span class="hljs-keyword">overload</span>;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Date: TDateTime <span class="hljs-keyword">read</span> fDate <span class="hljs-keyword">write</span> fDate;
+  <span class="hljs-keyword">end</span>;
+
+  <span class="hljs-comment">/// Person object</span>
+  <span class="hljs-title">TPerson</span> = <span class="hljs-keyword">class</span>(TSynAutoCreateFields)
+  <span class="hljs-keyword">protected</span>
+    fBirthDate: TPersonBirthDate;
+    fName: TPersonFullName;
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Equals</span><span class="hljs-params">(another: TPerson)</span>:</span> boolean; <span class="hljs-keyword">reintroduce</span>;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> <span class="hljs-keyword">Name</span>: TPersonFullName <span class="hljs-keyword">read</span> fName;
+    <span class="hljs-keyword">property</span> Birth: TPersonBirthDate <span class="hljs-keyword">read</span> fBirthDate;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  首先，您将看到我们继承自<code>TSynPersistent</code>和<code>TSynAutoCreateFields</code>，这些类的好处是：</p>
+<ul>
+<li><code>TSynPersistent</code>有一个虚拟构造函数，并且开销比<code>TPersistent</code>少一点，因此可能是首选，尤其是当我们使用依赖注入和接口解析时；</li>
+<li><code>TSynAutoCreateFields</code>继承自<code>TSynPersistent</code>，其重载的<code>Create</code>将自动神奇地分配所有类发布属性，而其重载的<code>Destroy</code>将为您释放这些实例。因此，继承自<code>TSynAutoCreateFields</code>使其非常适合值对象，将子对象嵌套为属性；</li>
+<li>两者都启用了RTTI，因此当连接为聚合根时，所有的发布属性都可以轻松地序列化为JSON（用作DTO时），或稍后在数据库上持久化。</li>
+</ul>
+<p>  在上面的代码中，我们将<code>TPerson.Name</code>定义为<code>TPersonFullName</code>类。因此，我们可以使用<code>aPerson.Name.First</code>或<code>aPerson.Name.Last</code>，甚至是运行时计算的<code>aPerson.Name.FullName</code>方法，该方法能够显示全名，具体取决于每个国家/地区的文化。我们还重新引入了<code>Equals()</code>方法，它允许比较每个对象的值，而不是每个引用。</p>
+<p>  即使出生日期只是一个日期，我们也引入了专门的<code>TPersonBirthDate</code>类，好处是拥有重载的<code>Age()</code>方法，这在实践中非常方便。</p>
+<p>  一旦序列化为JSON，<code>TPerson</code>内容可能是：</p>
+<pre><code class="lang-json hljs">{
+ <span class="hljs-attr">"Name"</span>: {
+  <span class="hljs-attr">"First"</span>: <span class="hljs-string">"John"</span>,
+  <span class="hljs-attr">"Middle"</span>: <span class="hljs-string">""</span>,
+  <span class="hljs-attr">"Last"</span>: <span class="hljs-string">"Smith"</span>
+ },
+ <span class="hljs-attr">"Birth"</span>: {
+  <span class="hljs-attr">"Date"</span>: <span class="hljs-string">"1972-10-29"</span>
+ }
+}
+</code></pre>
+<p>  在模型化阶段，您将只定义此类类型，尝试将DDD通用语言反映到普通Delphi类中。</p>
+<p>  查看<code>dddDomUserTypes.pas</code>单元，识别这些模式，以及我们如何定义应用程序的<code>user</code>，聚合了我们的<code>TPerson</code>类和<code>TAddress</code>，其中<code>TCountry</code>类用于存储对应的国家：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-comment">/// a Person object, with some contact information</span>
+  <span class="hljs-comment">// - an User is a person, in the context of an application</span>
+  <span class="hljs-title">TPersonContactable</span> = <span class="hljs-keyword">class</span>(TPerson)
+  <span class="hljs-keyword">protected</span>
+    fAddress: TAddress;
+    fPhone1: TPhoneNumber;
+    fPhone2: TPhoneNumber;
+    fEmail: TEmailAddress;
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Equals</span><span class="hljs-params">(another: TPersonContactable)</span>:</span> boolean; <span class="hljs-keyword">reintroduce</span>;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Address: TAddress <span class="hljs-keyword">read</span> fAddress;
+    <span class="hljs-keyword">property</span> Phone1: TPhoneNumber <span class="hljs-keyword">read</span> fPhone1 <span class="hljs-keyword">write</span> fPhone1;
+    <span class="hljs-keyword">property</span> Phone2: TPhoneNumber <span class="hljs-keyword">read</span> fPhone2 <span class="hljs-keyword">write</span> fPhone2;
+    <span class="hljs-keyword">property</span> Email: TEmailAddress <span class="hljs-keyword">read</span> fEmail <span class="hljs-keyword">write</span> fEmail;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  您可以看到我们没有使用任何有关持久性的详细信息来污染类定义。 我们现在所做的是定义一个普通的值对象。 我们甚至没有指定此类的任何实体，也没有引入主键来标识单点访问。 我们发现这种方法比大多数其他Java或C# DDD框架的方法更清晰，这些框架通常需要从父实体类继承，或者使用属性来定义持久性要求（如主键）。 我们认为领域类型不应该被这些实现细节污染，而是专注于表达模型。</p>
+<p>  我们将最终定义一个继承自<code>TPersonContactable</code>的<code>TUser</code>实体（或聚合根），即使用其所有个人信息对各种应用程序用户帐户进行建模，并带有一个标志，以证明其电子邮件已经过验证：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-title">TUser</span> = <span class="hljs-keyword">class</span>(TPersonContactable)
+  <span class="hljs-keyword">private</span>
+    fLogonName: TLogonName;
+    fEmailValidated: TDomUserEmailValidation;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> LogonName: TLogonName <span class="hljs-keyword">read</span> fLogonName <span class="hljs-keyword">write</span> fLogonName;
+    <span class="hljs-keyword">property</span> EmailValidated: TDomUserEmailValidation <span class="hljs-keyword">read</span> fEmailValidated <span class="hljs-keyword">write</span> fEmailValidated;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这样的<code>TPersistent</code>派生类可以用作值对象（甚至是DTO），并在用户帐户个人信息的有界上下文中成为实体或聚合。为了存储这些数据，我们现在将定义一个接口，实现一个持久性服务。</p>
+<h4 id="toc_22">24.4.3.5. 在CQRS仓库中存储实体<a class="vnote-anchor" href="#toc_22" data-anchor-icon="#"></a></h4>
+<p>  当持久化我们珍贵的DDD对象时，框架会尝试遵循一些DDD模式：</p>
+<ul>
+<li>使用值对象定义聚合根（或实体），作为存储信息的实际数据上下文；</li>
+<li>使用仓库服务存储这些聚合实例；</li>
+<li>使用专用的双接口CQRS（Command Query Responsibility Segregation），将仓库契约拆分为读取（查询）和写入（命令）；</li>
+<li>根据需要，使用工厂实例化CQRS仓库契约。</li>
+</ul>
+<p>  在实践中，我们将使用工厂创建仓库类实例，该实例实现CQRS服务方法，为给定聚合根定义层级化的接口类型。</p>
+<p>  让我们从一个例子开始，即为我们的<code>TUser</code>类实现CQRS仓库服务。</p>
+<h5 id="toc_23">24.4.3.5.1. CQRS接口<a class="vnote-anchor" href="#toc_23" data-anchor-icon="#"></a></h5>
+<p>  <code>mORMotDDD.pas</code>单元定义了以下接口，它将作为所有仓库服务的根接口：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  ICQRSService = <span class="hljs-keyword">interface</span>(IInvokable)
+    [<span class="hljs-string">'{923614C8-A639-45AD-A3A3-4548337923C9}'</span>]
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetLastError</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetLastErrorInfo</span>:</span> variant;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  此接口除了允许通用访问最新发生的错误外，什么都不做。这将通过<code>TCQRSResult</code>枚举代替<code>Exception</code>，作为远程服务中处理错误的安全方法。</p>
+<p>  异常对处理进程中运行的代码很方便，但由于执行上下文分散在客户端和服务端，因此很难通过远程连接进行处理。在不泄漏服务端实现，将服务端引发的异常传播到客户端非常困难。如SOAP标准提供了一种将执行错误作为专用XML消息传输的方法，但事实证明它是一种非常冗长和复杂的路径。</p>
+<p>  在mORMot中，我们为CQRS服务定义了向客户端发送错误的通用方法。按照惯例，任何方法都将被定义为一个函数，将其执行状态作为<code>TCQRSResult</code>枚举返回。如果返回<code>cqrsSuccess</code>，则服务端没有发生错误，客户端可以继续执行。否则，在<code>TCQRSResult</code>传输值中指定<code>"kind"</code>错误，并且在<code>ICQRSService.GetLastErrorInfo</code>方法中可以获得字符串或<a href="">TDocVariant自定义变体类型</a>的更多信息。这允许在客户端安全地处理任何类型的执行错误，而无需定义专用异常。正如我们在<a href="">错误处理</a>中已经谈到的，异常应该是例外，请参阅该部分以获得更多详细信息，包括默认情况下任何stubbed或mocked接口将返回<code>cqrsSuccess</code>（如0）的好处，以通过测试。</p>
+<p>  因此，对于我们的<code>TUser</code> CQRS仓储服务，我们将定义两个接口类型，一个继承自<code>ICQRSService</code>用于查询方法，另一个继承自该新查询接口以定义命令方法：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-3" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 415 292" style="max-width:415px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-3 .node&gt;rect { ; }
+#mermaid-diagram-3 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M102,64L102,89L102,114" marker-end="url(#arrowhead293)" style="fill:none"></path><defs><marker id="arrowhead293" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M102,158L102,183L102,208" marker-end="url(#arrowhead294)" style="fill:none"></path><defs><marker id="arrowhead294" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M304.5,64L304.5,89L304.5,114" marker-end="url(#arrowhead295)" style="fill:none"></path><defs><marker id="arrowhead295" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M304.5,158L304.5,183L304.5,208" marker-end="url(#arrowhead296)" style="fill:none"></path><defs><marker id="arrowhead296" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(102,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-82" y="-22" width="164" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-72,-12)"><foreignObject width="144" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">IDomUserCommand</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(102,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-66.5" y="-22" width="133" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-56.5,-12)"><foreignObject width="113" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">IDomUserQuery</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(102,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-57" y="-22" width="114" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-47,-12)"><foreignObject width="94" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">ICQRSService</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(304.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-70.5" y="-22" width="141" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-60.5,-12)"><foreignObject width="121" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Write Operations</div></foreignObject></g></g></g><g class="node cyan" id="E" transform="translate(304.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-68.5" y="-22" width="137" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-58.5,-12)"><foreignObject width="117" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Read Operations</div></foreignObject></g></g></g><g class="node cyan" id="F" transform="translate(304.5,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-61.5" y="-22" width="123" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-51.5,-12)"><foreignObject width="103" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Error Handling</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  因此，在<code>dddDomUserCQRS.pas</code>中，我们定义了两个接口类型，一个用于<code>TUser</code>聚合的读取操作（即查询）的<code>IDomUserQuery</code>，一个用于<code>TUser</code>聚合的写入操作（即命令）的派生<code>IDomUserCommand</code>。</p>
+<p>  从<code>IDomUserQuery</code>派生<code>IDomUserCommand</code>实际上违反了命令查询责任分离原则。在这里，命令与查询绑定在一起。当然，我们可以定义两个不同的接口，它们都继承自<code>ICQRSService</code>父类：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-4" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 785 198" style="max-width:785px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-4 .node&gt;rect { ; }
+#mermaid-diagram-4 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-4 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-4 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-4 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M102,64L102,89L154.79255319148936,114" marker-end="url(#arrowhead306)" style="fill:none"></path><defs><marker id="arrowhead306" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M300.5,64L300.5,89L247.70744680851064,114" marker-end="url(#arrowhead307)" style="fill:none"></path><defs><marker id="arrowhead307" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M487.5,64L487.5,89L537.7659574468086,114" marker-end="url(#arrowhead308)" style="fill:none"></path><defs><marker id="arrowhead308" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M676.5,64L676.5,89L626.2340425531914,114" marker-end="url(#arrowhead309)" style="fill:none"></path><defs><marker id="arrowhead309" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(102,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-82" y="-22" width="164" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-72,-12)"><foreignObject width="144" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">IDomUserCommand</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(201.25,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-57" y="-22" width="114" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-47,-12)"><foreignObject width="94" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">ICQRSService</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(300.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-66.5" y="-22" width="133" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-56.5,-12)"><foreignObject width="113" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">IDomUserQuery</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(487.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-70.5" y="-22" width="141" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-60.5,-12)"><foreignObject width="121" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Write Operations</div></foreignObject></g></g></g><g class="node cyan" id="F" transform="translate(582,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-61.5" y="-22" width="123" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-51.5,-12)"><foreignObject width="103" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Error Handling</div></foreignObject></g></g></g><g class="node cyan" id="E" transform="translate(676.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-68.5" y="-22" width="137" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-58.5,-12)"><foreignObject width="117" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Read Operations</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  没有什么可以阻止你这样做。但在我们的案例中，特别是对于mORMot的ORM或RDBMS数据库，其好处并不明显，听起来更像是教条式的方法。要更新资源，您需要两个接口：一个<code>IDomUserQuery</code>实例用于检索现有值对象，然后一个<code>IDomUserCommand</code>用于修改它。从我们务实的角度来看，这不是强制性的。另请注意，接口继承可能与类继承的实际实现不同。 <code>IDomUserCommand</code>可以从<code>IDomUserQuery</code>继承，但是，如果性能很重要，您仍然可以在分离的数据库上为专用类实现普通的<code>IDomUserQuery</code>服务。在我们的例子中，接口继承是增加代码重用的常用方法。所以如果你想对CQRS说教，你可以，但是否值得付出努力。</p>
+<h5 id="toc_24">24.4.3.5.2. 查询接口<a class="vnote-anchor" href="#toc_24" data-anchor-icon="#"></a></h5>
+<p>  由于我们将分离查询和命令，因此我们将首先定义实际读取<code>TUser</code>信息的接口：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  IDomUserQuery = <span class="hljs-keyword">interface</span>(ICQRSService)
+    [<span class="hljs-string">'{198C01D6-5189-4B74-AAF4-C322237D7D53}'</span>]
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SelectByLogonName</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aLogonName: RawUTF8)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SelectByEmailValidation</span><span class="hljs-params">(aValidationState: TDomUserEmailValidation)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SelectByLastName</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aName: TLastName; aStartWith: boolean)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Get</span><span class="hljs-params">(<span class="hljs-keyword">out</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetAll</span><span class="hljs-params">(<span class="hljs-keyword">out</span> aAggregates: TUserObjArray)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetNext</span><span class="hljs-params">(<span class="hljs-keyword">out</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetCount</span>:</span> integer;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HowManyValidatedEmail</span>:</span> integer;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  如前所述，所有这些方法都会返回<code>TCQRSResult</code>枚举，该枚举用于通知服务使用者端的各种执行错误。</p>
+<p>  这些接口实例实际上拥有有限的生命周期。要访问<code>TUser</code>持久层，将注入CQRS接口，通过<a href="">依赖注入和接口解析</a>，允许处理一个或多个<code>TUser</code>实例。</p>
+<p>  对于查询，您可以使用<code>IDomUserQuery.SelectByLogonName</code>、<code>IDomUserQuery.SelectByLastName</code>或<code>IDomUserQuery.SelectByEmailValidation</code>方法初始化请求。如您所见，此接口定义中未提及主键或<code>ID</code>。即使在底层，实现可能通过我们的ORM使用<code>TSQLRecord</code>及<code>TSQLRecord.ID: TID</code>属性，CQRS接口本身也不会显示那些实现细节，除非有必要。在我们针对单个用户的应用程序的用例中，通过登录名或其姓氏足以检索到用户。</p>
+<p>  如果<code>Select *</code>方法执行没有错误（即返回<code>cqrsSuccess</code>），我们稍后可以通过调用以下方法检索内容：</p>
+<ul>
+<li><code>IDomUserQuery.Get</code>用于填充单个已存在的<code>TUser</code>对象属性；</li>
+<li><code>IDomUserQuery.GetAll</code>返回一个<code>TUser</code>实例列表，为了存储，我们将使用一个<code>TUserObjArray</code>动态数组，调用者应该在返回结果变量时使用<code>ObjArrayClear()</code>释放它；</li>
+<li><code>IDomUserQuery.GetNext</code>按照数据库游标的原则逐个检索实际匹配的<code>TUser</code>；</li>
+<li><code>IDomUserQuery.GetCount</code>将返回与<code>Select *</code>匹配的项目数。</li>
+</ul>
+<p>  由于<code>IDomUserQuery</code>接口拥有生命周期，因此您可以在单个<code>Select *</code>之后多次调用<code>IDomUserQuery.Get</code>或<code>IDomUserQuery.GetAll</code>。请注意，在基于ORM的通用实现中，实际上通过<code>Select *</code>方法检索<code>TUser</code>信息并将其存储在内存中。</p>
+<p>  请注意，在<code>IDomUserQuery</code>契约中，<code>IDomUserQuery.HowManyValidatedEmail</code>方法是无状态的，并且可以在不先调用<code>Select *</code>的情况下使用。根据领域的需要，这些方法可能会出现。</p>
+<p>  这里的要点是，在定义CQRS接口时，您应该关注于以最方便的方式访问需要的数据，而忽略真正的持久性实现，即数据的存储方式。在DDD方法中，这称为持久性无知，是将业务逻辑与实际技术细节分离的一种非常方便的方法。如果您的商业公司从未要求您支持新的数据库引擎，或者从SQL切换到NoSQL存储，或者某个客户使用了现有遗留专有模糊数据库......您是一名幸运的程序员；但是，你要知道，这发生在现实生活中！</p>
+<p>  使用接口类型的契约，从领域需要的内容入手的另一个优点是，您可以将重点放在领域上，并避免出现贫血的领域模型症状的风险，当持久性服务只是模拟的CRUD操作时，就会出现这种症状。如果我们只需要CRUD操作，ORM甚至纯SQL就足够了。但是如果我们想让我们的领域代码遵循通用语言，并坚持使用我们的业务模型的用例，我们应该以这种方式更好地设计持久性。</p>
+<p>  最后但最重要的是，您将能够mock或stub持久性服务，请参阅<a href="">Stubs和mocks</a>，以便轻松地对您的领域代码进行单元测试，而不依赖于任何实际的数据库层。按照测试驱动设计，您甚至可以首先编写领域核心测试，验证所有接口，编写应用层并从最终用户应用程序顶层进行mock测试，最后完成SQL或NoSQL存储优化，使整个工作流稳定。它将有助于更快地进行测试，因此尽快修复，并且......希望能够尽快发布。</p>
+<h5 id="toc_25">24.4.3.5.3. 命令接口<a class="vnote-anchor" href="#toc_25" data-anchor-icon="#"></a></h5>
+<p>  遵循CQRS（命令查询责任分离）原则，我们在单独的接口中定义了写操作（即命令）。 此类型将继承自<code>IDomUserQuery</code>，因此可以方便地先读取<code>TUser</code>，再完成对存储信息的修改，如更新现有数据，或添加一些缺失的条目。</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  IDomUserCommand = <span class="hljs-keyword">interface</span>(IDomUserQuery)
+    [<span class="hljs-string">'{D345854F-7337-4006-B324-5D635FBED312}'</span>]
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Update</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aUpdatedAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Delete</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DeleteAll</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Commit</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Rollback</span>:</span> TCQRSResult;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  此命令接口的主要方法是<code>Commit</code>。对于双阶段提交模式，除非实际调用<code>IDomUserCommand.Commit</code>方法，否则不会将任何内容实际写入持久性存储。</p>
+<p>  简而言之，您查询然后使用<code>Add</code>/<code>Update</code>/<code>Delete</code>/... 方法更新数据，然后运行<code>Commit</code>。</p>
+<p>  例如，要修改现有记录，您将调用：</p>
+<ul>
+<li><code>IDomUserQuery.SelectByLogonName</code>；</li>
+<li><code>IDomUserCommand.Update</code>；</li>
+<li><code>IDomUserCommand.Commit</code>。</li>
+</ul>
+<p>  如果登录名称未知，则第一步将出现错误。如果第二步发送的更新修改无效（如您忘记填写必填字段，或者应该是唯一的值，如序列号，但似乎已经存在），则将报告另一个错误。但即使在成功更新后，数据库中也不会存储任何内容。为什么？因为在大多数用例中，您可能需要同步多个操作：例如，您可能必须发送电子邮件或调用第三方服务，并且只有在一切正常时才写入新数据。因此，您需要一个两阶段的写操作：首先，您准备并验证每个服务涉及的数据，然后，一旦每一步都是绿灯，您最终启动持久层的<code>Commit</code>调用。在实际应用中，在提交阶段可能会发生意外的低级错误，例如网络故障、并发问题或椅子和键盘之间的问题，但它不太可能经常发生。双阶段提交将确保在第一阶段使用ORM的过滤和验证功能识别大多数错误。</p>
+<p>  当然，如果要运行<code>IDomUserCommand.Add</code>方法，则不需要先前的<code>IDomUserQuery.Select *</code>调用。但是对于<code>Update</code>和<code>Delete</code>或<code>DeleteAll</code>命令，您需要首先通过调用<code>Select *</code>来定义您将要处理的数据范围。</p>
+<p>  要使用这些CQRS接口，您可以像往常一样使用IoC：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span> cmd: IDomUserCommand;
+    user: TUser;
+    itext: RawUTF8;
+...
+  aServer.Services.Resolve(IDomUserCommand,cmd);
+  user := TUser.Create;
+  <span class="hljs-keyword">try</span>
+    <span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span> <span class="hljs-keyword">to</span> MAX <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+      UInt32ToUtf8(i,itext);
+      user.LogonName := <span class="hljs-string">'  '</span>+itext;
+      user.EmailValidated := evValidated;
+      user.<span class="hljs-keyword">Name</span>.Last := <span class="hljs-string">'Last'</span>+itext;
+      user.<span class="hljs-keyword">Name</span>.First := <span class="hljs-string">'First'</span>+itext;
+      user.Address.Street1 := <span class="hljs-string">'Street '</span>+itext;
+      user.Address.Country.Alpha2 := <span class="hljs-string">'fr'</span>;
+      user.Phone1 := itext;
+      <span class="hljs-keyword">if</span> cmd.Add(user)&lt;&gt;cqrsSuccess <span class="hljs-keyword">then</span>
+          <span class="hljs-keyword">raise</span> EMyApplicationException.CreateFmt(<span class="hljs-string">'Invalid data: %s'</span>,[cmd.GetLastErrorInfo]);
+    <span class="hljs-keyword">end</span>;
+    <span class="hljs-comment">// here nothing is actually written to the database</span>
+    <span class="hljs-keyword">if</span> cmd.Commit&lt;&gt;cqrsSuccess <span class="hljs-keyword">then</span>
+        <span class="hljs-keyword">raise</span> EMyApplicationException.CreateFmt(<span class="hljs-string">'Commit error: %s'</span>,[cmd.GetLastErrorInfo]);
+    <span class="hljs-comment">// here everything has been written to the database</span>
+  <span class="hljs-keyword">finally</span>
+    user.Free;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这种双阶段提交似乎是实现<a href="">工作单元模式</a>的一种简洁方式。 在使用我们的ORM时，正如我们现在将要解释的那样，<strong>工作单元将表示为<code>I*Command</code>服务</strong>，与运行的持久层分开。</p>
+<h5 id="toc_26">24.4.3.5.4. 使用ORM自动化仓库<a class="vnote-anchor" href="#toc_26" data-anchor-icon="#"></a></h5>
+<p>  您可能已经注意到，我们刚刚定义了所需的接口类型。 也就是说，我们拥有持久性服务契约，但没有实际的实现。 因此，那些接口定义是无用的。 对我们来说幸运的是，<code>mORMotDDD.pas</code>单元提供了一种使用<a href="">对象关系映射</a>实现它们的简单方法，只需最少的编码。</p>
+<h6 id="toc_27">24.4.3.5.4.1. DDD/ORM映射<a class="vnote-anchor" href="#toc_27" data-anchor-icon="#"></a></h6>
+<p>  首先，我们需要将我们的领域对象（即我们的<code>TUser</code>实例及其属性）映射到<code>TSQLRecord</code>。 我们可以手工完成，但您可能会找到一种方便的方法。 只需在您的应用程序上下文中运行以下命令：</p>
+<pre><code class="lang-pascal hljs">TDDDRepositoryRestFactory.ComputeSQLRecord(TUser);
+</code></pre>
+<p>  此类过程将在可执行文件夹中创建一个<code>ddsqlrecord.inc</code>文件，其中包含所需的字段定义，每个<code>TSQLRecord</code>类型对应各个层级的<code>TPersistent</code>源定义，嵌套字段将被定义为<code>TSQLRecord</code>中的单个列，如<code>Address.Country.Iso</code>将被展平为<code>Address_Country</code>属性。</p>
+<p>  因此，如果我们遵循类层次结构，我们将得到：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-5" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 507 292" style="max-width:507px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-5 .node&gt;rect { ; }
+#mermaid-diagram-5 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-5 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-5 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-5 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M100,64L100,89L100,114" marker-end="url(#arrowhead323)" style="fill:none"></path><defs><marker id="arrowhead323" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M100,158L100,183L100,208" marker-end="url(#arrowhead324)" style="fill:none"></path><defs><marker id="arrowhead324" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M348.5,64L348.5,89L348.5,114" marker-end="url(#arrowhead325)" style="fill:none"></path><defs><marker id="arrowhead325" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M348.5,158L348.5,183L348.5,208" marker-end="url(#arrowhead326)" style="fill:none"></path><defs><marker id="arrowhead326" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(100,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-38" y="-22" width="76" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-28,-12)"><foreignObject width="56" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TPerson</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(100,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-80" y="-22" width="160" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-70,-12)"><foreignObject width="140" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TPersonContactable</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(100,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-30" y="-22" width="60" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-20,-12)"><foreignObject width="40" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TUser</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(348.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-76.5" y="-22" width="153" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-66.5,-12)"><foreignObject width="133" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordPerson</div></foreignObject></g></g></g><g class="node cyan" id="E" transform="translate(348.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-118.5" y="-22" width="237" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-108.5,-12)"><foreignObject width="217" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordPersonContactable</div></foreignObject></g></g></g><g class="node cyan" id="F" transform="translate(348.5,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-68.5" y="-22" width="137" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-58.5,-12)"><foreignObject width="117" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRecordUser</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  在<code>ddsqlrecord.inc</code>中生成的内容定义如下：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TSQLRecordPerson</span> = <span class="hljs-keyword">class</span>(TSQLRecord)
+  ...
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Name_First: RawUTF8 <span class="hljs-keyword">read</span> fFirst <span class="hljs-keyword">write</span> fFirst;
+    <span class="hljs-keyword">property</span> Name_Middle: RawUTF8 <span class="hljs-keyword">read</span> fMiddle <span class="hljs-keyword">write</span> fMiddle;
+    <span class="hljs-keyword">property</span> Name_Last: RawUTF8 <span class="hljs-keyword">read</span> fLast <span class="hljs-keyword">write</span> fLast;
+    <span class="hljs-keyword">property</span> Birth: TDateTime <span class="hljs-keyword">read</span> fBirthDate;
+  <span class="hljs-keyword">end</span>;
+
+  <span class="hljs-title">TSQLRecordPersonContactable</span> = <span class="hljs-keyword">class</span>(TSQLRecordPerson)
+  ...
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> Address_Street1: RawUTF8 <span class="hljs-keyword">read</span> fStreet1 <span class="hljs-keyword">write</span> fStreet1;
+    <span class="hljs-keyword">property</span> Address_Street2: RawUTF8 <span class="hljs-keyword">read</span> fStreet2 <span class="hljs-keyword">write</span> fStreet2;
+    <span class="hljs-keyword">property</span> Address_CityArea: RawUTF8 <span class="hljs-keyword">read</span> fCityArea <span class="hljs-keyword">write</span> fCityArea;
+    <span class="hljs-keyword">property</span> Address_City: RawUTF8 <span class="hljs-keyword">read</span> fCity <span class="hljs-keyword">write</span> fCity;
+    <span class="hljs-keyword">property</span> Address_Region: RawUTF8 <span class="hljs-keyword">read</span> fRegion <span class="hljs-keyword">write</span> fRegion;
+    <span class="hljs-keyword">property</span> Address_Code: RawUTF8 <span class="hljs-keyword">read</span> fCode <span class="hljs-keyword">write</span> fCode;
+    <span class="hljs-keyword">property</span> Address_Country: integer <span class="hljs-keyword">read</span> fCountry;
+    <span class="hljs-keyword">property</span> Phone1: RawUTF8 <span class="hljs-keyword">read</span> fPhone1 <span class="hljs-keyword">write</span> fPhone1;
+    <span class="hljs-keyword">property</span> Phone2: RawUTF8 <span class="hljs-keyword">read</span> fPhone2 <span class="hljs-keyword">write</span> fPhone2;
+    <span class="hljs-keyword">property</span> Email: RawUTF8 <span class="hljs-keyword">read</span> fEmail <span class="hljs-keyword">write</span> fEmail;
+  <span class="hljs-keyword">end</span>;
+
+  <span class="hljs-title">TSQLRecordUser</span> = <span class="hljs-keyword">class</span>(TSQLRecordPersonContactable)
+  ...
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> LogonName: RawUTF8 <span class="hljs-keyword">read</span> fLogonName <span class="hljs-keyword">write</span> fLogonName;
+    <span class="hljs-keyword">property</span> EmailValidated: TDomUserEmailValidation <span class="hljs-keyword">read</span> fEmailValidated <span class="hljs-keyword">write</span> fEmailValidated;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  在实践中，需要调整以下属性：</p>
+<pre><code class="lang-pascal hljs">    <span class="hljs-keyword">property</span> LogonName: RawUTF8 <span class="hljs-keyword">read</span> fLogonName <span class="hljs-keyword">write</span> fLogonName
+      <span class="hljs-keyword">stored</span> AS_UNIQUE;
+</code></pre>
+<p>  查看<code>dddInfraRepoUser.pas</code>和<code>dddDomUserTypes.pas</code>单元，以便在DDD对象及其对应的<code>TSQLRecord *</code>类型之间进行比较。</p>
+<p>  您可能想知道为什么我们将在DDD聚合和数据库引擎之间引入单独级别的类。为什么不直接持久化领域对象（就像大多数DDD实现那样）？</p>
+<p>  事实上，我们的方法有几个好处：</p>
+<ul>
+<li>大多数情况下，简单映射将自动完成：一旦调用了<code>TDDDRepositoryRestFactory.ComputeSQLRecord</code>，就只有很少的额外编码要做；</li>
+<li>但您仍然可以访问完整的映射过程，不使用属性（这听起来很方便，但是会污染DDD类定义），在持久性服务方法级别；</li>
+<li>您可以根据使用上下文，通过专用持久性服务的自定义映射为同样的DDD类持久化值对象、实体或聚合，您的领域对象与其使用上下文分离，请记住，根据上下文，相同的值对象可能变为聚合或实体：为什么要一次又一次地定义相同的类？只需通过<a href="">组合</a>重用调整相同的类型；</li>
+<li>无需从实体父类继承您的DDD类，或使用ID字段污染它（就像大多数DDD实现一样）；</li>
+<li><code>TSQLRecord</code>允许真正持久不可知：您可以在运行时在常规RDBMS引擎、NoSQL数据库或内存中进行存储，而无需触及DDD对象；</li>
+<li>实践表明在DDD类级别引入ORM概念：只考虑ID字段如何破坏模型化，因为同一个对象可能是上下文中的值对象（因此没有任何ID），但实体或聚合在另一个上下文（因此可能需要ID），它确实打破了持久性无知模式，并且倾向于产生贫血领域模型，如模拟CRUD操作；</li>
+<li><code>TSQLRecord</code>类使您可以直接访问数据的实际存储方式：大多数ORM在处理复杂类（如我们的领域对象）时，往往会隐藏映射复杂性，因此很难调试和调整存储本身：哪个对象字段映射到哪个列？哪些表涉及并加入查询？而<code>TSQLRecord</code>明确了如何实际存储数据：您可以将<code>TSQLRecord</code>属性视为SQL存储列的映射，或者将数据视为存储在NoSQL引擎中的文档，当<code>TSQLRecord</code>类型定义显示，如应该创建索引的位置，数据库重用和调优肯定会更容易；</li>
+<li>您不是必须使用<code>TSQLRecord</code>：您可以轻松定义完全抽象的<code>mORMotDDD.pas</code> CQRS仓库服务，不使用mORMot的ORM，如使用现有的优化的SQL语句或任何其他存储方式；</li>
+<li>还要考虑您能够轻松地<a href="">Stubs和mocks</a>CQRS持久性服务，而直接面向ORM的实现将迫使您创建模拟数据库。</li>
+</ul>
+<p>  如果您担心添加此层后的性能，您需要确信它不会成为瓶颈：CQRS映射与框架ORM共享相同的代码。映射过程只是对属性的快速循环，使用缓存的RTTI，并通过引用分配所有内容，避免大多数内存分配或内容转换。</p>
+<h6 id="toc_28">24.4.3.5.4.2. 定义工厂<a class="vnote-anchor" href="#toc_28" data-anchor-icon="#"></a></h6>
+<p>  由于生成的<code>TSQLRecordUser</code>类型遵循已知约定，通过继承两个类，<code>mORMotDDD.pas</code>单元能够以自动化的方式执行几乎所有持久性工作：</p>
+<ul>
+<li>通过继承自<code>TDDDRepositoryRestFactory</code>来定义仓库工厂（即能够根据要求生成<code>IDomUserQuery</code>或<code>IDomUserCommand</code>实例的类）</li>
+<li>通过继承<code>TDDDRepositoryRestCommand</code>并使用高级保护方法从内部<code>TSQLRecordUser</code> ORM值访问<code>TUser</code>来定义实际的<code>IDomUserCommand</code>方法。</li>
+</ul>
+<p>  首先，我们定义工厂：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TInfraRepoUserFactory</span> = <span class="hljs-keyword">class</span>(TDDDRepositoryRestFactory)
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">Create</span><span class="hljs-params">(aRest: TSQLRest; aOwner: TDDDRepositoryRestManager=<span class="hljs-keyword">nil</span>)</span>;</span> <span class="hljs-keyword">reintroduce</span>;
+  <span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TInfraRepoUserFactory</span>.<span class="hljs-title">Create</span><span class="hljs-params">(aRest: TSQLRest;
+  aOwner: TDDDRepositoryRestManager)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">inherited</span> Create(IDomUserCommand,TInfraRepoUser,TUser,aRest,TSQLRecordUser,aOwner);
+  AddFilterOrValidate([<span class="hljs-string">'*'</span>],TSynFilterTrim.Create);
+  AddFilterOrValidate([<span class="hljs-string">'LogonName'</span>],TSynValidateNonVoidText.Create);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  如您所见，此构造函数的要点是为继承的<code>TDDDRepositoryRestFactory.Create</code>提供正确的参数：</p>
+<ul>
+<li>我们想实现一个<code>IDomUserCommand</code>契约，顺便说一下，它还实现了<code>IDomUserQuery</code>父接口；</li>
+<li>实际的实现类将是<code>TInfraRepoUser</code>，它将在之后定义；</li>
+<li>聚合/实体类是TUser类型的对象；</li>
+<li>关联的<code>TSQLRest</code>服务器将提供给该类；</li>
+<li>定义实际存储数据的SQL表或NoSQL集合的ORM类是<code>TSQLRecordUser</code>；</li>
+<li>可选的<code>TDDDRepositoryRestManager</code>实例可以作为此工厂的所有者提供，但在大多数情况下不使用它。</li>
+</ul>
+<p>  <code>AddFilterOrValidate()</code>方法允许在DDD级别设置一些过滤和验证要求。这些规则将在<code>Commit</code>之前应用，而不使用ORM规则。在上面的代码中，<code>TSynFilterTrim</code>将从<code>TUser</code>实例的所有文本字段中删除任何空格，并且<code>TSynValidateNonVoidText</code>将确保在清理空格后<code>TUser.LogonName</code>字段不会是<code>''</code>。您可以将这些规则视为您已经习惯的SQL约束。但由于它们在DDD级别定义，因此它们将适用于任何数据库后端，即使它不支持任何约束，如如果它是NoSQL引擎，或者是第三方持久性服务，那么你就无需再手工处理了。</p>
+<p>  您可能希望通过通常的IoC在<code>TSQLRest</code>级别使用这些CQRS接口，就像<a href="">基于接口客户端-服务端服务</a>一样：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span> cmd: IDomUserCommand;
+...
+  aServer.Services.Resolve(IDomUserCommand,cmd);
+</code></pre>
+<p>  或者，对于查询：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span> qry: IDomUserQuery;
+...
+  aServer.Services.Resolve(IDomUserQuery,qry);
+</code></pre>
+<p>  为了能够从<code>aServer.Services.Resolve()</code>获取<code>IDomUserCommand</code>或<code>IDomUserQuery</code>实例，您需要首先注册<code>TInfraRepoUserFactory</code>：</p>
+<pre><code class="lang-pascal hljs">aServer.ServiceContainer.InjectResolver([TInfraRepoUserFactory.Create(aServer)],true);
+</code></pre>
+<p>  或者如果您想维护工厂实例的生命周期（如与其他接口解析器共享）：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">var</span> factory: TInfraRepoUserFactory;
+ ...
+  factory := TInfraRepoUserFactory.Create(aServer);
+  <span class="hljs-keyword">try</span>
+    aServer.ServiceContainer.InjectResolver([factory]);
+  ...
+  <span class="hljs-keyword">finally</span>
+    factory.Free;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这一个<code>TInfraRepoUserFactory</code>将允许实现<code>IDomUserCommand</code>和<code>IDomUserQuery</code>契约。</p>
+<p>  当然，能够通过<code>InjectResolver([...],true)</code>参数让<code>aServer</code>拥有工厂，听起来更容易使用。</p>
+<p>  实际上，对于客户端-服务端环境，您可以编写：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-comment">// Server side</span>
+  RestServer := TSQLRestServerFullMemory.CreateWithOwnModel([TSQLRecordUser]);
+  ...
+  RestServer.ServiceContainer.InjectResolver([TInfraRepoUserFactory.Create(RestServer)],true);
+  RestServer.ServiceDefine(TInfraRepoUser,[IDomUserCommand,IDomUserQuery],sicClientDriven);
+  <span class="hljs-comment">// now you can use the services on the Server side</span>
+  <span class="hljs-keyword">if</span> RestServer.Services.Resolve(IDomUserCommand,cmd) <span class="hljs-keyword">then</span>
+    ... use cmd
+  <span class="hljs-keyword">if</span> RestServer.Services.Resolve(IDomUserQuery,qry) <span class="hljs-keyword">then</span>
+    ... use qry
+  ...
+  <span class="hljs-comment">// Client side</span>
+  RestClient := TSQLRestClientURIDll.Create(TSQLModel.Create(...),@URIRequest);
+  ...
+  RestClient.ServiceDefine([IDomUserCommand],sicClientDriven);
+  <span class="hljs-comment">// now you can use the services on the Client side</span>
+  <span class="hljs-keyword">if</span> RestServer.Services.Resolve(IDomUserCommand,cmd) <span class="hljs-keyword">then</span>
+    ... use cmd
+  <span class="hljs-keyword">if</span> RestServer.Services.Resolve(IDomUserQuery,qry) <span class="hljs-keyword">then</span>
+    ... use qry
+</code></pre>
+<p>  注意，应该在<code>ServiceDefine()</code>之前调用<code>InjectResolver()</code>，否则IoC将不会按预期发生，并且<code>TInfraRepoUserFactory</code>类将为nil。</p>
+<p>  CQRS服务应该被定义为<code>sicClientDriven</code>，而不是<code>sicSingle或sicShared</code>，因为它们的生命期希望由消费侧同步，即在客户端侧使用接口变量。</p>
+<p>  在客户端，定义<code>IDomUserCommand</code>足以使用<code>IDomUserCommand</code>和<code>IDomUserQuery</code>服务，但在服务器端，您必须显式定义两个接口，否则客户端-服务器契约将不匹配，您将无法从客户端使用<code>IDomUserQuery</code>。</p>
+<p>  您可以检查<code>dddInfraRepoUser.pas</code>中定义的<code>TInfraRepoUserFactory.RegressionTests</code>方法，以了解如何定义和使用此类服务​。</p>
+<h6 id="toc_29">24.4.3.5.4.3. 实现CQRS方法<a class="vnote-anchor" href="#toc_29" data-anchor-icon="#"></a></h6>
+<p>  我们已经定义了工厂，并注册了服务。</p>
+<p>  现在我们在自定义类中定义所需的<code>IDomUserCommand</code>和<code>IDomUserQuery</code>方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TInfraRepoUser</span> = <span class="hljs-keyword">class</span>(TDDDRepositoryRestCommand,IDomUserCommand,IDomUserQuery)
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SelectByLogonName</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aLogonName: RawUTF8)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SelectByEmailValidation</span><span class="hljs-params">(aValidationState: TDomUserEmailValidation)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SelectByLastName</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aName: TLastName; aStartWith: boolean)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Get</span><span class="hljs-params">(<span class="hljs-keyword">out</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetAll</span><span class="hljs-params">(<span class="hljs-keyword">out</span> aAggregates: TUserObjArray)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetNext</span><span class="hljs-params">(<span class="hljs-keyword">out</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Update</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aUpdatedAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HowManyValidatedEmail</span>:</span> integer;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  请注意，我们将<code>TInfraRepoUser</code>类通过<code>= class(...,IDomUserCommand,IDomUserQuery)</code>定义为实现我们需要的两个接口。 我们需要两个类型显式定义在类类型中，否则，IoC，即<code>aServer.Services.Resolve()</code>调用，对两者都不起作用。</p>
+<p>  如你所见，感觉有些方法似乎不见了， 没有<code>Commit</code>，也没有<code>Delete</code>，这些都是<code>IDomUserCommand</code>所需要的。 但事实上，这些命令是通用的，它们已经在<code>TDDDRepositoryRestCommand</code>中为您实现了！</p>
+<p>  我们真正需要明白的是使用此父类继承的内部受保护的<code>ORM*()</code>方法来实现这些方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TInfraRepoUser</span>.<span class="hljs-title">SelectByLogonName</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aLogonName: RawUTF8)</span>:</span> TCQRSResult;
+<span class="hljs-keyword">begin</span>
+  result := ORMSelectOne(<span class="hljs-string">'LogonName=?'</span>,[aLogonName],(aLogonName=<span class="hljs-string">''</span>));
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TInfraRepoUser</span>.<span class="hljs-title">SelectByEmailValidation</span><span class="hljs-params">(aValidationState: TDomUserEmailValidation)</span>:</span> TCQRSResult;
+<span class="hljs-keyword">begin</span>
+  result := ORMSelectAll(<span class="hljs-string">'EmailValidated=?'</span>,[ord(aValidationState)]);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TInfraRepoUser</span>.<span class="hljs-title">SelectByLastName</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aName: TLastName; aStartWith: boolean)</span>:</span> TCQRSResult;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> aStartWith <span class="hljs-keyword">then</span>
+    result := ORMSelectAll(<span class="hljs-string">'Name_Last LIKE ?'</span>,[aName+<span class="hljs-string">'%'</span>],(aName=<span class="hljs-string">''</span>)) <span class="hljs-keyword">else</span>
+    result := ORMSelectAll(<span class="hljs-string">'Name_Last=?'</span>,[aName],(aName=<span class="hljs-string">''</span>));
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TInfraRepoUser</span>.<span class="hljs-title">Get</span><span class="hljs-params">(<span class="hljs-keyword">out</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+<span class="hljs-keyword">begin</span>
+  result := ORMGetAggregate(aAggregate);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TInfraRepoUser</span>.<span class="hljs-title">GetAll</span><span class="hljs-params">(<span class="hljs-keyword">out</span> aAggregates: TUserObjArray)</span>:</span> TCQRSResult;
+<span class="hljs-keyword">begin</span>
+  result := ORMGetAllAggregates(aAggregates);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TInfraRepoUser</span>.<span class="hljs-title">GetNext</span><span class="hljs-params">(<span class="hljs-keyword">out</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+<span class="hljs-keyword">begin</span>
+  result := ORMGetNextAggregate(aAggregate);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TInfraRepoUser</span>.<span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+<span class="hljs-keyword">begin</span>
+  result := ORMAdd(aAggregate);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TInfraRepoUser</span>.<span class="hljs-title">Update</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aUpdatedAggregate: TUser)</span>:</span> TCQRSResult;
+<span class="hljs-keyword">begin</span>
+  result := ORMUpdate(aUpdatedAggregate);
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TInfraRepoUser</span>.<span class="hljs-title">HowManyValidatedEmail</span>:</span> integer;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> ORMSelectCount(<span class="hljs-string">'EmailValidated=%'</span>,[ord(evValidated)],[],result)&lt;&gt;cqrsSuccess <span class="hljs-keyword">then</span>
+    result := <span class="hljs-number">0</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  几乎所有内容都已在<code>TDDDRepositoryRestCommand</code>级别定义。我们的<code>TInfraRepoUser</code>类实现了完全从ORM中抽象出来的完整CQRS服务，它由一些内部<code>ORM*()</code>方法调用实现。</p>
+<p>  所有错误处理（包括服务端异常捕获以及转换为<code>TCQRSResult</code> / <code>ICQRSService.GetLastErrorInfo</code>内容）都已在<code>TDDDRepositoryRestCommand</code>中实现。</p>
+<p>  通过<code>TSQLRecordUser</code> REST持久层访问的所有数据，以及任何过滤和定义的规则规则，也包含在<code>TDDDRepositoryRestCommand</code>中。已优化与<code>TUser</code>属性的转换，以便通过引用移动字段，无需内存分配或内容修改，以获得最佳性能和数据安全性。由<code>TInfraRepoUserFactory.Create</code>指定的类型映射足以使整个过程尽可能自动化。</p>
+<p>  事实上，我们的<code>TInfraRepoUser</code>类只是一个薄的包装器，强制在其方法参数中使用强类型（即使用<code>TUser</code> / <code>TUserObjArray</code>，而<code>ORM*()</code>方法对实际类型则更宽松），并确保ORM功能满足要求，如对<code>TUser.Name.Last</code> DDD字段的搜索将使用<code>TSQLRecordUser.Name_Last</code> ORM列和正确的<code>LIKE</code>运算符。</p>
+<p>  在内部，<code>TDDDRepositoryRestCommand.ORMPrepareForCommit</code>将调用所有DDD和ORM <code>TSynFilter</code>和<code>TSynValidate</code>规则，如前所述。这看起来确实是一个真正的优势，不要等到达到数据库层，才验证这些约束。通知错误越早越好，特别是在复杂的SOA系统中。</p>
+<p>  在引擎盖下，<code>TDDDRepositoryRestCommand</code>将定义<code>TSqlRestBatch</code>，参见用于<a href="">添加/更新/删除记录的批次序列</a>，用于将所有写入命令存储在内存中（作为JSON），如<code>cmd.Add</code>，只有在执行<code>cmd.Commit</code>时才会使用优化的SQL或NoSQL语句将它们发送到数据库引擎。</p>
+<h4 id="toc_30">24.4.3.6. 使用DTO隔离您的域<a class="vnote-anchor" href="#toc_30" data-anchor-icon="#"></a></h4>
+<p>  DDD的DTO也可以定义为<code>record</code>，并通过基于文本的序列化直接序列化为JSON。不要害怕在<code>TSQLRecord</code>和DTO记录之间编写一些翻译层，或者更一般地，在应用层和表现层之间编写一些翻译层。在服务端它会非常快。如果您的服务接口更简洁，请不要犹豫。</p>
+<p>  但是，仅仅为了解耦而定义DTO类型可能会变得非常耗时。如果您开始编写大量包装代码，请忘记它，并公开您的领域值对象甚至您的实体，如上所述。或者使用RTTI和代码生成器自动化包装器编码。你必须像往常一样对PRO和CON进行加权......并且永远不要忘记对这种编码代码进行适当的单元测试，因为它可能会引发一些意想不到的问题。</p>
+<p>  如果您希望您的DDD对象无模式或具有不断发展的结构（例如对于DTO），则根据每个上下文，您可能不会使用类似于类或记录的固定类型，而是使用<a href=""><code>TDocVariant</code>自定义变体类型</a>。这种变体将序列化为JSON，并允许对其属性（对象文档）或项（对于数组文档）进行后期绑定访问。在基于接口的服务的上下文中，在创建时使用引用选项（如<code>_ObjFast() _ArrFast() _JsonFast() _JsonFmtFast()</code>确实有意义，以便节省服务器资源。</p>
+<h3 id="toc_31">24.4.4. 定义服务<a class="vnote-anchor" href="#toc_31" data-anchor-icon="#"></a></h3>
+<p>  在实践中，mORMot的客户端-服务端架构可以这样使用：</p>
+<ul>
+<li>通过方法提供的服务，查看<a href="">基于方法的客户端-服务端服务</a>，可用于发布定义为<code>TSQLRecord</code>的聚合根相对应的方法。<br>
+这将使它非常兼容RESTful。</li>
+<li>通过接口提供的服务，查看<a href="">基于接口的客户端-服务端服务</a>，可用于发布所有进程。<br>
+可以在客户端和服务器端使用专用工厂来定义存储库、领域操作。</li>
+</ul>
+<p>  如果您希望以真正的REST方式使用您的服务，那么<a href="">基于方法的客户端-服务端服务</a>可能是首选。但是因为在DDD中你应该通过专用的适配器层更好地保护你的领域，这种兼容性应该是一种实现氛围。实际上，<a href="">基于接口的客户端-服务端服务</a>将提供其过程的更好的集成和自动化，如参数类型验证（使用JSON编组）、会话处理、接口级多线程和安全功能、日志记录、通过<a href="">Stub和Mock</a>模拟的能力，以及最后但最重要的，<a href="">发布订阅事件</a>。</p>
+<h3 id="toc_32">24.4.5. 事件驱动设计<a class="vnote-anchor" href="#toc_32" data-anchor-icon="#"></a></h3>
+<p>  事件驱动可以通过至少两种方式在mORMot中实现：</p>
+<ul>
+<li>通过框架<a href="">基于接口的客户端-服务端服务</a>使用接口回调；</li>
+<li>将系统状态存储在表中，并<a href="">实时同步</a>生成事件。</li>
+</ul>
+<p>  两种方式都有各自的优点和缺点，您可以选择符合您特定用例的方法。第一个可能更容易实现和在使用上的通用性，但第二个将适用于离线时段和事件回调。</p>
+<h4 id="toc_33">24.4.5.1. 回调事件<a class="vnote-anchor" href="#toc_33" data-anchor-icon="#"></a></h4>
+<p>  当接口回调定义为服务方法参数时，DDD的事件可以很容易地实现为异步回调。在这种情况下，接口类型将定义各种DDD事件，准备在整个系统中实时通知和传播。</p>
+<p>  应用程序层可以提供对领域的特定回调，它将通知作为常规Delphi调用推送，但实际上通过<code>WebSockets</code>从相应的领域服务传输到正确的应用层。当前实现依赖于<code>WebSockets</code>进行远程访问，但是将来可能有其他协议可用，因为接口参数回调可以由任何实际传输类实现。</p>
+<p>  无需将您的事件封装在专用消息类中（如大多数事件驱动的实现所需），或者污染您的域代码以遵循固定的协议期望：只需运行与事件对应的通知方法，您就完成了，所有订阅者将被通知。</p>
+<p>  无需投入生产消息总线或集中式系统。使用回调，您可以通过领域服务清晰地通知您的外层（例如应用程序或表示层），而不会浪费任何资源，并且没有潜在的瓶颈。系统的每个节点都将从纯接口方法调用直接与其订户通信，就好像它是本地进程一样。有关实现的详细信息，请参阅发布-订阅事件。</p>
+<p>  实际上，回调可以从领域层传播到应用层或表现层，它们也可以使用自己的回调定义，而不是使用领域对象，而是使用它们自己的DTO。编组事件就像编写实现域中定义的<code>I*Callback</code>接口的类一样简单，将其参数转换为DTO类型是为外部应用层或表现层服务定义的。</p>
+<p>  在服务端，您甚至可以在完全相同的进程中定义回调，而无需<code>WebSockets</code>开销，但直接调用领域服务，其接口类型将在领域级别定义，但在基础结构级别实现的类类型：</p>
+<ul>
+<li>应用程序层可以直接在其自己的服务/守护程序中运行领域代码，通过单个直接的<code>WebSockets</code>传输调用基础结构级别的实际实现，DDD的适配器类型是纯Delphi类，在进程中运行，没有开销。</li>
+<li>或者，您可以在某些特定的独立守护程序中收集域服务，这些守护程序可能能够缓存事件，集中某些进程，作为一项好处，它可以帮助这些服务真正成为无状态，因此应用程序层可能会变为冗余以便更好地扩展。</li>
+</ul>
+<p>  使用接口值并调用它们的方法是在Delphi代码中编写回调的一种自然方式，非常接近您可能习惯的VCL/RAD事件，但有利于接口的抽象，特别是SOLID设计原则。如果您需要实时对系统的某些更改做出反应，那么它们可能是首选方式。</p>
+<h4 id="toc_34">24.4.5.2. 面向事件的数据库的事件溯源<a class="vnote-anchor" href="#toc_34" data-anchor-icon="#"></a></h4>
+<p>  另一个新的，流行的DDD事件实现模式是定义某种事件持久性，它将用作事件溯源。在这里，我们不会依赖显式消息来传输事件（正如我们刚刚通过异步接口回调提出的那样），但我们将在面向事件的持久性中使用一些状态存储，然后让订阅者通知每个状态的变化。</p>
+<p>  在这种模式中，没有直接定义任何类型的事件。领域的状态存储在某个地方，然后应该通知任何对状态有任何改变的状态。显然，一个可能的简单实现可能是通过框架提出的实时同步。</p>
+<p>  领域服务，请参阅例<a href="">服务</a>或<a href="">将实体存储在CQRS仓储中</a>，可以修改专用的<code>TSQLRecord</code>表，该表仅包含模型状态的一小部分。例如，其<code>TSQLRecord</code>字段定义可能只存储一些不断变化的值，例如最新的订单，或项目的价格，或外围设备的连接状态。重点是将存储的数据限制在最小，例如这个不断发展的价值和对象的名称（或ID）。</p>
+<p>  由于框架实时同步，任何客户端进程或服务，将通过其自己的此<code>TSQLRecord</code>状态存储的从属副本，将异步通知。此通知将反映每个状态的变化，并将让消费者按预期做出反应。一个<code>OnNotify</code>事件可用于跟踪每个单独的状态更改，如<code>TSQLRestServer.RecordVersionSynchronizeSlaveStart</code>的参数所指定。</p>
+<p>  使用事件作为回调时，您可能会错过一些事件：如果消费者服务处于脱机状态，则不会通知任何事件。它可能是预期的，但在某些情况下可能是一个巨大的问题。另一方面，面向事件的持久性模型将允许消费者在某个时间安全地脱机。每个ORM从站都有自己的数据副本，然后当它上线时，将能够检索所有错过的状态变化。</p>
+<p>  事实上，这种实施模式是任何真正的事件采购流程的基础。遵循此DDD模式，系统的每个节点都应存储所需的数据。系统节点不会要求给定的信息（例如“当前温度是多少？”），但会通知每个温度变化，然后存储该值，并且能够传播几乎没有依赖性的任何传入事件。主要好处是您可以在系统中添加一些节点，而不需要事先了解已有的节点。一旦达到给定大小，这种事件驱动架构（EDA）或领域事件驱动的面向服务架构（D-EDA）可能很难维护和调试。例如，当您获得触发其他事件的一系列事件时，可能会发生一些意外的事件级联：您可能会在整个系统中引发无限反弹。因此，“纯粹的事件驱动”系统可能是一个错误的想法。事件采购可能会针对您的领域的某些部分引入，它确实更有意义。有关更多资料，请访问<code>http://martinfowler.com/eaaDev/EventCollaboration.html</code>。</p>
+<p>  作为附带好处，可以通过这种模式增加整个系统的缩放。在给定值集的有界上下文中，每个事件状态存储可被视为系统状态的安全高速缓存。当您的业务逻辑对此特定状态感到疑惑时，它可能会利用主数据库来询问此专用服务。您甚至可以考虑将整个状态历史存储在专用的审计跟踪中，以便更改跟踪存储，而不会影响整个系统。</p>
+<h3 id="toc_35">24.4.6. 创建一个简洁的架构<a class="vnote-anchor" href="#toc_35" data-anchor-icon="#"></a></h3>
+<p>  常见的DDD体系结构表示为以下模型，它最初可能看起来像常规的多层体系结构设计，但应该实现为简洁通用面向领域的体系结构：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表现层</td>
+<td>MVC UI生成和报表</td>
+</tr>
+<tr>
+<td>应用层</td>
+<td>服务和高级适配器</td>
+</tr>
+<tr>
+<td>领域模型</td>
+<td>业务逻辑存在的地方</td>
+</tr>
+<tr>
+<td>数据持久化</td>
+<td>ORM和外部服务</td>
+</tr>
+<tr>
+<td>公共基础层</td>
+<td>由其他层共享的水平层</td>
+</tr>
+</tbody>
+</table>
+<p>  在物理上，它涉及将常规逻辑层分成两层的公共n层表示，即应用层和域模型层。 在逻辑层面，DDD将尝试将域模型层与其他层解耦，因此代码本身将依赖于接口和依赖注入，以使核心域专注于业务逻辑，而不是实现细节（例如持久性或通信）。</p>
+<p>  因此，我们的Synopse mORMot框架的RESTful SOA组件可以定义这样的架构：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-6" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 1280.5 1084" style="max-width:1280.5px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-6 .node&gt;rect { ; }
+#mermaid-diagram-6 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-6 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-6 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-6 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"><g class="cluster" id="subGraph4" transform="translate(773.625,114)" style="opacity: 1;"><rect width="590.25" height="188" x="-295.125" y="-94"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-80" fill="black" stroke="none" id="mermaid-diagram-6Text" style="text-anchor: middle;"> Presentation</text></g><g class="cluster" id="subGraph3" transform="translate(486.25,329)" style="opacity: 1;"><rect width="797.5" height="94" x="-398.75" y="-47"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-33" fill="black" stroke="none" id="mermaid-diagram-6Text" style="text-anchor: middle;"> Application</text></g><g class="cluster" id="subGraph2" transform="translate(470.125,532)" style="opacity: 1;"><rect width="644.25" height="212" x="-322.125" y="-106"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-92" fill="black" stroke="none" id="mermaid-diagram-6Text" style="text-anchor: middle;"> Domain Model</text></g><g class="cluster" id="subGraph1" transform="translate(216.375,866)" style="opacity: 1;"><rect width="392.75" height="356" x="-196.375" y="-178"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-164" fill="black" stroke="none" id="mermaid-diagram-6Text" style="text-anchor: middle;"> Data persistence</text></g><g class="cluster" id="subGraph0" transform="translate(862,866)" style="opacity: 1;"><rect width="757" height="118" x="-378.5" y="-59"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-45" fill="black" stroke="none" id="mermaid-diagram-6Text" style="text-anchor: middle;"> Cross-Cutting</text></g></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M546.7074468085107,89L530.75,114L584.7393617021277,139" marker-end="url(#arrowhead547)" style="fill:none"></path><defs><marker id="arrowhead547" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M579.3563829787234,89L600.5,114L903.5,157.41768292682926" marker-end="url(#arrowhead548)" style="fill:none"></path><defs><marker id="arrowhead548" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M723.5,89L723.5,114L674.9627659574468,139" marker-end="url(#arrowhead549)" style="fill:none"></path><defs><marker id="arrowhead549" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M998.75,75.9159891598916L924,114L681.75,153.02570694087404" marker-end="url(#arrowhead550)" style="fill:none"></path><defs><marker id="arrowhead550" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M1002.2074468085107,89L986.25,114L953.5,140.65367965367966" marker-end="url(#arrowhead551)" style="fill:none"></path><defs><marker id="arrowhead551" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M466.25,498.5665839536807L233.5,544L233.5,569" marker-end="url(#arrowhead552)" style="fill:none"></path><defs><marker id="arrowhead552" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M466.25,509.66466165413533L369.5,544L369.5,569" marker-end="url(#arrowhead553)" style="fill:none"></path><defs><marker id="arrowhead553" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M522.6398305084746,519L513,544L513,569" marker-end="url(#arrowhead554)" style="fill:none"></path><defs><marker id="arrowhead554" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M211.25,744.3665480427046L98.75,782L98.75,807L98.75,844" marker-end="url(#arrowhead555)" style="fill:none"></path><defs><marker id="arrowhead555" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M98.75,888L98.75,925L98.75,950L154.33510638297872,975" marker-end="url(#arrowhead556)" style="fill:none"></path><defs><marker id="arrowhead556" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M239.25,757L239.25,782L239.25,807L239.25,866L239.25,925L239.25,950L220.10106382978722,975" marker-end="url(#arrowhead557)" style="fill:none"></path><defs><marker id="arrowhead557" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M593.75,183L550,208L550,245L550,282L550,307" marker-end="url(#arrowhead558)" style="fill:none"></path><defs><marker id="arrowhead558" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M681.75,168.80704697986576L930.25,208L930.25,245L930.25,282L930.25,329L930.25,376L930.25,401L930.25,426L930.25,485L930.25,544L930.25,591L930.25,638L930.25,663L930.25,688L930.25,735L930.25,782L930.25,807L650.5,860.0289156626505" marker-end="url(#arrowhead559)" style="fill:none"></path><defs><marker id="arrowhead559" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M1023.8563829787234,89L1032.5,114L1032.5,161L1032.5,208L1032.5,245L1032.5,282L1032.5,329L1032.5,376L1032.5,401L1032.5,426L1032.5,485L1032.5,544L1032.5,591L1032.5,638L1032.5,663L1032.5,688L1032.5,735L1032.5,782L1032.5,807L1032.5,832" marker-end="url(#arrowhead560)" style="fill:none"></path><defs><marker id="arrowhead560" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M498.5,334.73578199052133L128,376L128,401L128,426L128,485L128,544L128,591L128,638L128,663L128,688L211.25,723.1707865168539" marker-end="url(#arrowhead561)" style="fill:none"></path><defs><marker id="arrowhead561" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M543.3297872340426,351L535.75,376L535.75,401L535.75,426L535.75,451" marker-end="url(#arrowhead562)" style="fill:none"></path><defs><marker id="arrowhead562" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M601.5,337.59094942324754L831.75,376L831.75,401L831.75,426L831.75,485L831.75,544L831.75,591L831.75,638L831.75,663L831.75,688L831.75,735L831.75,782L831.75,807L776.5,841.9571045576407" marker-end="url(#arrowhead563)" style="fill:none"></path><defs><marker id="arrowhead563" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M233.5,613L233.5,638L233.5,663L233.5,688L236.55851063829786,713" marker-end="url(#arrowhead564)" style="fill:none"></path><defs><marker id="arrowhead564" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M369.5,613L369.5,638L369.5,663L369.5,688L267.25,724.8963531669866" marker-end="url(#arrowhead565)" style="fill:none"></path><defs><marker id="arrowhead565" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M576.2330508474577,519L606,544L606,591L606,638L606,663L606,688L606,735L606,782L606,807L700.5,849.0792452830188" marker-end="url(#arrowhead566)" style="fill:none"></path><defs><marker id="arrowhead566" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M605.25,518.4734693877551L658.25,544L658.25,591L658.25,638L658.25,663L658.25,688L658.25,735L658.25,782L658.25,807L633.6355932203389,844" marker-end="url(#arrowhead567)" style="fill:none"></path><defs><marker id="arrowhead567" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M605.25,506.1093951093951L730,544L730,591L730,638L730,663L730,688L730,735L730,782L730,807L826.5,844.4572368421053" marker-end="url(#arrowhead568)" style="fill:none"></path><defs><marker id="arrowhead568" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M267.25,745.0650095602294L370,782L370,807L587.5,858.5361445783133" marker-end="url(#arrowhead569)" style="fill:none"></path><defs><marker id="arrowhead569" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(550,245)" style="opacity: 1;"><g transform="translate(-31.5,-12)" class="label"><foreignObject width="63" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">HTTP 1.1</span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A1" transform="translate(560.75,67)" style="opacity: 1;"><rect rx="0" ry="0" x="-45" y="-22" width="90" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-35,-12)"><foreignObject width="70" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Reporting</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(723.5,67)" style="opacity: 1;"><rect rx="0" ry="0" x="-28" y="-22" width="56" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-18,-12)"><foreignObject width="36" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">AJAX</div></foreignObject></g></g></g><g class="node cyan" id="A3" transform="translate(1016.25,67)" style="opacity: 1;"><rect rx="0" ry="0" x="-17.5" y="-22" width="35" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-7.5,-12)"><foreignObject width="15" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">UI</div></foreignObject></g></g></g><g class="node cyan" id="A4" transform="translate(632.25,161)" style="opacity: 1;"><rect rx="0" ry="0" x="-49.5" y="-22" width="99" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-39.5,-12)"><foreignObject width="79" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">REST Client</div></foreignObject></g></g></g><g class="node cyan" id="A5" transform="translate(928.5,161)" style="opacity: 1;"><rect rx="0" ry="0" x="-25" y="-22" width="50" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-15,-12)"><foreignObject width="30" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">i18n</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(550,329)" style="opacity: 1;"><rect rx="0" ry="0" x="-51.5" y="-22" width="103" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-41.5,-12)"><foreignObject width="83" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">REST Server</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(535.75,485)" style="opacity: 1;"><rect rx="0" ry="0" x="-69.5" y="-34" width="139" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-59.5,-24)"><foreignObject width="119" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Services<br>(interface-based)</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(233.5,591)" style="opacity: 1;"><rect rx="0" ry="0" x="-50.5" y="-22" width="101" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40.5,-12)"><foreignObject width="81" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Aggregates</div></foreignObject></g></g></g><g class="node cyan" id="C3" transform="translate(369.5,591)" style="opacity: 1;"><rect rx="0" ry="0" x="-35.5" y="-22" width="71" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-25.5,-12)"><foreignObject width="51" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Entities</div></foreignObject></g></g></g><g class="node cyan" id="C4" transform="translate(513,591)" style="opacity: 1;"><rect rx="0" ry="0" x="-58" y="-22" width="116" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-48,-12)"><foreignObject width="96" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Value Objects</div></foreignObject></g></g></g><g class="node cyan" id="D1" transform="translate(239.25,735)" style="opacity: 1;"><rect rx="0" ry="0" x="-28" y="-22" width="56" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-18,-12)"><foreignObject width="36" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">ORM</div></foreignObject></g></g></g><g class="node cyan" id="D2" transform="translate(98.75,866)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">SQLite3</div></foreignObject></g></g></g><g class="node cyan" id="D3" transform="translate(203.25,997)" style="opacity: 1;"><rect rx="0" ry="0" x="-50.5" y="-22" width="101" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40.5,-12)"><foreignObject width="81" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">External DB</div></foreignObject></g></g></g><g class="node cyan" id="E1" transform="translate(738.5,866)" style="opacity: 1;"><rect rx="0" ry="0" x="-38" y="-34" width="76" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-28,-24)"><foreignObject width="56" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Security<br>Session</div></foreignObject></g></g></g><g class="node cyan" id="E2" transform="translate(619,866)" style="opacity: 1;"><rect rx="0" ry="0" x="-31.5" y="-22" width="63" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-21.5,-12)"><foreignObject width="43" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Cache</div></foreignObject></g></g></g><g class="node cyan" id="E3" transform="translate(882,866)" style="opacity: 1;"><rect rx="0" ry="0" x="-55.5" y="-34" width="111" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-45.5,-24)"><foreignObject width="91" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Tests<br>Mocks/Stubs</div></foreignObject></g></g></g><g class="node cyan" id="E4" transform="translate(1032.5,866)" style="opacity: 1;"><rect rx="0" ry="0" x="-45" y="-34" width="90" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-35,-24)"><foreignObject width="70" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Filtering<br>Validation</div></foreignObject></g></g></g><g class="node cyan" id="E5" transform="translate(1166.5,866)" style="opacity: 1;"><rect rx="0" ry="0" x="-39" y="-22" width="78" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29,-12)"><foreignObject width="58" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Logging</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  正如我们已经说过的，这个简洁架构的要点是控制耦合，并将领域核心与外层隔离开来。在Delphi中，单元依赖关系（例如我们的<code>SynProject</code>工具显示）将是正确对象解耦的一个很好的证据：在定义域的单元中，您可以在领域模型和领域服务之间拆分（第二个使用第一个，而不是反之），你永远不应该依赖于特定的数据库单元，只需要框架的核心单元，即<code>SynCommons.pas</code>和<code>mORMot.pas</code>。实践中的接口：依赖注入，stub和mock，通过接口或ORM初始化级别的客户端-服务端服务，将确保您的代码与任何低级技术依赖关系脱钩。它还允许正确测试您的应用程序工作流程，例如：必要时stub数据库。</p>
+<p>  实际上，由于面向服务的体系结构（SOA）倾向于确保服务包含无关联，松散耦合的功能单元，这些功能单元中没有相互嵌入的调用，我们可以定义两个级别的服务，由两个接口工厂实现，使用自己的托管和沟通：</p>
+<ul>
+<li>应用层的一组服务，用于定义客户端应用程序可用的非耦合合同;</li>
+<li>领域模型层的一组服务，允许所有涉及的域相互通信，而不会将其暴露给远程客户端。</li>
+</ul>
+<p>  因此，这些层也可以这样实现：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-7" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 1151 224.5" style="max-width:1151px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-7 .node&gt;rect { ; }
+#mermaid-diagram-7 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-7 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-7 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-7 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"><g class="cluster" id="subGraph1" transform="translate(396,111.5)" style="opacity: 1;"><rect width="452" height="138" x="-226" y="-69"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-55" fill="black" stroke="none" id="mermaid-diagram-7Text" style="text-anchor: middle;"> Application</text></g><g class="cluster" id="subGraph0" transform="translate(838.5,102.25)" style="opacity: 1;"><rect width="333" height="164.5" x="-166.5" y="-82.25"></rect><g class="label"><g transform="translate(0,0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"></div></foreignObject></g></g><text x="0" y="-68.25" fill="black" stroke="none" id="mermaid-diagram-7Text" style="text-anchor: middle;"> Domain Model</text></g></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M120,111.5L145,111.5L170,111.5L195,111.5" marker-end="url(#arrowhead645)" style="fill:none"></path><defs><marker id="arrowhead645" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M298,111.5L323,111.5L348,111.5" marker-end="url(#arrowhead646)" style="fill:none"></path><defs><marker id="arrowhead646" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M448,111.5L473,111.5L498,111.5" marker-end="url(#arrowhead647)" style="fill:none"></path><defs><marker id="arrowhead647" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M597,111.5L622,111.5L647,111.5L672,111.5L697,111.5" marker-end="url(#arrowhead648)" style="fill:none"></path><defs><marker id="arrowhead648" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M800,92.31372549019608L825,83L850,83" marker-end="url(#arrowhead649)" style="fill:none"></path><defs><marker id="arrowhead649" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M980,83L1005,83L1030,83L1055,96.44339622641509" marker-end="url(#arrowhead650)" style="fill:none"></path><defs><marker id="arrowhead650" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M800,130.68627450980392L825,140L915,140L1005,140L1030,140L1055,126.55660377358491" marker-end="url(#arrowhead651)" style="fill:none"></path><defs><marker id="arrowhead651" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="B1" transform="translate(246.5,111.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-51.5" y="-34" width="103" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-41.5,-24)"><foreignObject width="83" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Application<br>REST Server</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(398,111.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-50" y="-34" width="100" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40,-24)"><foreignObject width="80" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Application<br>Services</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(547.5,111.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-49.5" y="-34" width="99" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-39.5,-24)"><foreignObject width="79" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Domain<br>REST Client</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(748.5,111.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-51.5" y="-34" width="103" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-41.5,-24)"><foreignObject width="83" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Domain<br>REST Server</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(915,83)" style="opacity: 1;"><rect rx="0" ry="0" x="-65" y="-22" width="130" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-55,-12)"><foreignObject width="110" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Domain Service</div></foreignObject></g></g></g><g class="node cyan" id="A" transform="translate(70,111.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-50" y="-34" width="100" height="68"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40,-24)"><foreignObject width="80" height="48"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">Application<br>REST Client</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(1083,111.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-28" y="-22" width="56" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-18,-12)"><foreignObject width="36" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">ORM</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  为了更好地扩展服务器端，可以在每个级别轻松实现缓存，并且可以调整托管以提供尽可能最佳的响应时间：一个中央服务器，几个专用服务器，用于应用程序、领域和持久层...</p>
+<p>  由于mORMot的SOLID设计 - 请参阅SOLID设计原则 - 您可以在同一架构中使用尽可能多的客户端-服务端服务层（即服务器可以是其他进程的客户端），以满足您的项目需求， 让它从最简单的架构发展到完全可扩展的域驱动设计。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

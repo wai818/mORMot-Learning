@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>13_服务器端SQL_ORM进程</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">13. 服务器端SQL/ORM进程<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src='data:image/png;base64,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' alt="" class="view-image"></p>
+<p>  在您的开发背景和历史经验中，您可能已经习惯将业务代码编写为存储过程，以便在服务端执行。</p>
+<p>  简而言之，存储过程是在数据库端移动一些密集型数据的SQL处理方法。客户端将要求在服务器上检索或处理一些数据，并且将在服务器上执行所有操作：由于客户端和服务器之间不需要交换数据，因此这种功能通常比纯粹客户端解决方案快得多。</p>
+<p>  由于mORMot是从头开始设计的客户端/服务器，因此它具有一些独特的方法来改进客户端或服务端的数据密集型进程，而无需依赖专用存储过程。</p>
+<p>  如果您启动了一个新的mORMot项目，并且想知道未来的应用程序架构，或者您正在将mORMot服务集成到您或前辈开发的使用了存储过程的现有应用程序中，那么本章值得一读。</p>
+<p>  现在是时候坐下来，对您的项目应该如何尽可能地优化以保证扩展性和收益听取一些建议。</p>
+<h2 id="toc_1">13.1. 优化性能<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<p>  那么，让我们按照mORMot的方式来实现。</p>
+<p>  正如我们所讨论的，关于存储过程的要点是性能。但它们也不是魔术子弹：我们都在存储过程中看到了缓慢而无休止的处理过程，几乎在生产中杀死了数据库服务器，就像常规的客户端流程一样。</p>
+<p>  不要被表现所欺骗：做正确的事，然后加快速度。</p>
+<p>  我们可以把马丁福勒这句话作为自己的座右铭：</p>
+<p>  人们在这些事情中首先考虑的问题之一就是性能。我个人认为性能不应该是第一个问题。我的观点是，大多数时候你应该专注于编写可维护的代码。然后使用分析器识别热点，然后用更快但不太清晰的代码替换那些热点。我这样做的主要原因是因为在大多数系统中，实际上只有很小一部分代码对性能至关重要，并且更容易提高易于分解的可维护代码的性能。</p>
+<p>  顺便提一下，如果您想了解一些关于对我们的业务代码实现持久层的最佳实践，请参阅http://www.martinfowler.com/articles/dblogic.html。</p>
+<p>  如果您是第一次使用mORMot服务器，你可能会惊讶于最常见的过程听起来是多么的直接。您可以利用框架进行优化，这些优化能够释放硬件的计算能力，然后仅对关键性能进行代码优化。</p>
+<p>  为了加速我们的数据处理，我们首先要考虑mORMot应用程序的典型架构，请参阅<a href="">mORMot通用架构-客户端服务端实现</a>。</p>
+<p>  mORMot客户端有两种访问其数据的方法：</p>
+<ul>
+<li>使用CRUD / ORM方法;</li>
+<li>或者通过服务，很可能是基于接口的服务。</li>
+</ul>
+<p>  因此，我们的优化目标将引入这两个方向。</p>
+<h3 id="toc_2">13.1.1. 应用分析<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h3>
+<p>  如果您担心性能，首先的反应可能是启用框架的日志记录，包括客户端。</p>
+<p>  在我们的框架中随处可见的TSynLog类的分析功能将允许您识别客户端应用的潜在瓶颈。有关此功能，请参见<a href="">增强型日志</a>。</p>
+<p>  从我们的经验来看，我们可以向您保证，当您第一次在实际应用程序上设置mORMot高级日志记录和分析时，您可能会发现一些您自己从未想过的问题。</p>
+<p>  消除任何重复的查询，不必要的返回信息（不要忘记在<code>CreateAndFillPrepare()</code>中指定需要检索的请求字段），由用户界面触发的自动化请求（通常，<code>TEdit</code>的<code>OnChange</code>事件可能有益于在请求之前使用<code>TTimer</code>自动完成）...</p>
+<p>  一旦您完成了这项清理工作，您可能会为自己感到自豪，这足以让您的客户享受您的应用程序。你可以喝杯咖啡或饮料了。</p>
+<h3 id="toc_3">13.1.2. 客户端缓存<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  您可能已经在客户端编写了大量业务逻辑，并使用CRUD/ORM方法从mORMot服务器检索信息。</p>
+<p>  这是完全有效的，但可能很慢，特别是如果通过网络执行许多单独的请求，这可能产生了高延迟（如通过因特网）。</p>
+<p>  一旦通过性能分析确定了应用瓶颈，新的优化步骤可能是调整ORM客户端缓存。事实上，mORMot应用程序中有几层缓存可用。有关这些功能的详细信息，请参阅<a href="">CRUD缓存</a>。</p>
+<p>  将某些表加入到客户端缓存后可能会显著提升性能，而无需更改客户端代码。</p>
+<h3 id="toc_4">13.1.3. 业务逻辑服务化<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h3>
+<p>  进一步的优化应该是业务逻辑处理在服务端服务化。</p>
+<p>  实际上，您将从典型的多层架构变为面向服务的架构（SOA）。</p>
+<p>  因此，您的流程可能会花费更少的时间，您也可以受益于其他一些优化技巧，如服务专用缓存。</p>
+<p>  例如，考虑以<code>sicShared</code>模式而不是默认的<code>sicSingle</code>模式编写服务，并将一些无形对象存储为实现类字段：客户端的下一次请求就不再需要从数据库加载该数据，而是直接从内存中检索信息，没有延迟。</p>
+<p>  您还可以考虑使用<code>sicClientDriven</code>模式，并将一些特定于客户端的信息缓存为实现类字段。</p>
+<p>  除了优化之外，在作为服务运行时，您的代码会变得更容易维护和扩展。 SOA确实是一种非常方便的模式，并且会产生很好的附加作用，例如客户端跨平台（包括移动或AJAX）的能力，因为您的业务逻辑将保留在应用服务器上。</p>
+<h3 id="toc_5">13.1.4. ORM的完整赋能<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h3>
+<p>  在服务端，可以使用CRUD/ORM方法编写优化的业务代码。</p>
+<p>  首先，也可以使用ORM缓存。任何不必要的数据库往返，包括过多的外部SQL数据库访问，都可能影响您的应用程序响应。我们将受益于以服务方式编写的业务逻辑。</p>
+<p>  其次，您可以重新组合所有数据库修改，<a href="">通过批次序列添加/更新/删除记录</a>。</p>
+<p>  这将提供以下好处：</p>
+<ul>
+<li>类似于工作单元模式的事务支持（在执行<code>BatchSend</code>方法之前没有写入数据库）；</li>
+<li>更快地插入、更新或删除 ，通过数组绑定和<a href="">使用批量插入优化SQL</a>；</li>
+<li>与ORM完美集成。</li>
+</ul>
+<p>  事实上，通过在循环中执行单个的SQL语句，我们发现<code>Array DML</code>或优化的<code>INSERT</code>可能比普通的存储过程快得多。</p>
+<h2 id="toc_6">13.2. 存储过程<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h2>
+<h3 id="toc_7">13.2.1. 为什么要避免存储过程<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h3>
+<p>  在实践中，存储过程有一些巨大的缺点：</p>
+<ul>
+<li>您的业务逻辑与用于存储的数据方案相关联，而关系模型与自然语言相去甚远；</li>
+<li>调试有点困难，因为存储过程是在数据库服务器上执行，远离您的应用程序；</li>
+<li>每个开发人员可能都需要根据自己的数据库实例来调试自己的一套存储过程；</li>
+<li>项目部署变得复杂，因为您必须同步应用程序和数据库服务器；</li>
+<li>存储过程中常用的游标和临时表可能会有损于性能；</li>
+<li>他们将您与特定的数据库引擎结合在一起：您必须使用Java，C＃或P/SQL变体来编写业务代码，然后从Oracle切换到PostgreSQL或MS SQL将容易出错（也不是不可能）;</li>
+<li>它们可能会占用数据库服务器上的一些宝贵的硬件资源，而资源是有限的（例如Oracle或MS SQL等专有引擎会强制您只使用一个CPU或有限数量的RAM，除非您花费大量资金来提高你的许可能力）;</li>
+<li>您可能在虚拟环境中运行数据库引擎存在限制：不推荐使用VM或库，由于安全性要求而限制访问文件或网络，会缺失库；</li>
+<li>参数传递效率低下，特别是与类OOP编程相比时，你又回到了80年代的程序模式；</li>
+<li>传递的参数可能会产生次优的SQL语句，即使无用也会处理所有传递的值；</li>
+<li>存储过程接口的扁平化设计，违背接口隔离原理 ；</li>
+<li>让几个版本的业务逻辑在同一台服务器上共存是一个难以维护的噩梦；</li>
+<li>单元测试很困难，因为您无法对您的存储过程或数据进行模拟或埋点测试；</li>
+<li>主流的SQL引擎还没有支持在Delphi中编写存储过程的，因此您将无法与其他项目共享代码；</li>
+<li>如果在主应用程序中使用ORM，则需要手动维护存储过程中使用的表模式与对象模型同步，因此您将失去大部分ORM好处；</li>
+<li>如果要切换到NoSQL存储或简单的独立应用版本，该怎么办？</li>
+</ul>
+<p>  我们不想教条地说存储过程绝对是邪恶的。因为即使使用mORMot，您也可以自由使用它们。</p>
+<p>  我们想要指出的是，它们可能不是我们想要遵循的最佳设计的选择。</p>
+<h3 id="toc_8">13.2.2. "存储过程"，anyway<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h3>
+<p>  在某些情况下，我们的ORM对您的项目来说可能还不够。</p>
+<p>  别担心，像往常一样，mORMot只会让你做你需要做的。</p>
+<p>  在我们的框架中，服务端服务似乎是实现存储过程机制并与RESTful更兼容的方式，之后可以从mORMot客户端使用它们。</p>
+<p>  根据我们框架的当前状态，有几种方法可以处理这样的服务端SQL/ORM进程：</p>
+<ul>
+<li>编写自己的可以在SQLite3 WHERE子句中使用的SQL函数；</li>
+<li>底层专用的Delphi存储过程；</li>
+<li>外部数据库存储过程。</li>
+</ul>
+<p>  我们将讨论这些选项。</p>
+<p>  事实上，前两个将用纯粹的Delphi代码中在SQL级别实现两种类型的“存储过程”，这使得我们的SQlite3内核与其他<code>Client-Server RDBMS</code>解决方案一样强大。也可以考虑最新的选项，特别是迁移遗留应用程序时，可能其业务逻辑仍然依赖于存储过程。</p>
+<h4 id="toc_9">13.2.2.1. 自定义SQL函数<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h4>
+<p>  SQLite3引擎定义了一些标准的SQL函数，比如<code>abs() min() max() or upper()</code>。完整列表可在http://www.sqlite.org/lang_corefunc.html上找到</p>
+<p>  SQLite3最强大的功能之一是能够使用高级语言定义自定义SQL函数。实际上，它的C API允许实现可以在SQL查询中调用的新函数。在其他数据库引擎中，此类函数通常命名为UDF（用户定义函数）。</p>
+<p>  框架已定义了一些自定义SQL函数。</p>
+<p>  您必须在服务器端使用：</p>
+<ul>
+<li><code>Rank</code>用于FTS搜索页面排名；</li>
+<li><code>Concat</code>处理快速字符串连接；</li>
+<li><code>Soundex SoundexFR SoundexES</code>用于计算任何文本的英语/法语/西班牙语语音（soundex）值；</li>
+<li><code>IntegerDynArrayContains，ByteDynArrayContains，WordDynArrayContains，CardinalDynArrayContains，Int64DynArrayContains，CurrencyDynArrayContains，RawUTF8DynArrayContainsCase，RawDynArrayContainsNoCase</code>用于在BLOB列中直接搜索某些二进制内容的动态数组（整数或文本搜索值作为第个参数）。</li>
+</ul>
+<p>  这些函数不是SQlite3引擎的一部分，但可以在我们的ORM中使用，以处理包含动态数组属性的BLOB，如SQL代码中的动态数组中所述。</p>
+<p>  由于您可以在<code>UPDATE</code>或<code>INSERT</code> SQL语句中使用此类SQL函数，因此您可以轻松地实现复杂数据的服务器端进程，如下所示：</p>
+<pre><code class="lang-sql hljs"> <span class="hljs-keyword">UPDATE</span> MyTable <span class="hljs-keyword">SET</span> SomeField=<span class="hljs-number">0</span> <span class="hljs-keyword">WHERE</span> IntegerDynArrayContains(IntArrayField,:(<span class="hljs-number">10</span>):)
+</code></pre>
+<h5 id="toc_10">13.2.2.1.1. 函数实现<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h5>
+<p>让我们实现一个<code>CharIndex()</code>SQL函数，定义如下：</p>
+<pre><code class="lang-pascal hljs"> CharIndex ( SubText, Text [ , StartPos ] )
+</code></pre>
+<p>  在这里，<code>SubText</code>是要在<code>Text</code>中查找的字符串。 <code>StartPos</code>表示<code>CharIndex()</code>在Text中查找SubText的起始索引。 函数应返回匹配发生的位置，不匹配时返回0。 字符从1开始计数，就像Delphi的<code>PosEx()</code>函数中一样。</p>
+<p>  SQL函数实现模式本身在<code>sqlite3.create_function_v2()</code>和<code>TSQLFunctionFunc</code>中进行了解释：</p>
+<ul>
+<li>argc是提供的参数数量，实际参数在argv []数组中（如果出现意外的参数数量，可以调用<code>ErrorWrongNumberOfArgs(Context)</code>）；</li>
+<li>使用<code>sqlite3.value_*(argv[*])</code>函数检索参数值；</li>
+<li>然后使用<code>sqlite3.result_*(Context,*)</code>函数设置结果值。</li>
+</ul>
+<p>  下面是<code>CharIndex()</code>SQL函数的典型实现代码，调用底层SQLite3 API（注意<code>cdecl</code>调用约定，它是SQLite3/C回调函数）：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">InternalSQLFunctionCharIndex</span><span class="hljs-params">(Context: TSQLite3FunctionContext;
+  argc: integer; <span class="hljs-keyword">var</span> argv: TSQLite3ValueArray)</span>;</span> <span class="hljs-keyword">cdecl</span>;
+<span class="hljs-keyword">var</span> StartPos: integer;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">case</span> argc <span class="hljs-keyword">of</span>
+  <span class="hljs-number">2</span>: StartPos := <span class="hljs-number">1</span>;
+  <span class="hljs-number">3</span>: <span class="hljs-keyword">begin</span>
+    StartPos := sqlite3.value_int64(argv[<span class="hljs-number">2</span>]);
+    <span class="hljs-keyword">if</span> StartPos&lt;=<span class="hljs-number">0</span> <span class="hljs-keyword">then</span>
+      StartPos := <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">begin</span>
+    ErrorWrongNumberOfArgs(Context);
+    <span class="hljs-keyword">exit</span>;
+  <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">if</span> (sqlite3.value_type(argv[<span class="hljs-number">0</span>])=SQLITE_NULL) <span class="hljs-keyword">or</span>
+     (sqlite3.value_type(argv[<span class="hljs-number">1</span>])=SQLITE_NULL) <span class="hljs-keyword">then</span>
+    sqlite3.result_int64(Context,<span class="hljs-number">0</span>) <span class="hljs-keyword">else</span>
+    sqlite3.result_int64(Context,SynCommons.PosEx(
+      sqlite3.value_text(argv[<span class="hljs-number">0</span>]),sqlite3.value_text(argv[<span class="hljs-number">1</span>]),StartPos));
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  此代码只使用<code>sqlite3.value_*()</code>函数获取参数值，然后使用<code>sqlite3.result_int64()</code>调用<code>PosEx()</code>函数以INTEGER的形式返回所提供文本的位置。</p>
+<p>  <code>StartPos</code>局部变量用于检查SQL函数的可选第三个参数，以指定开始搜索的字符索引。</p>
+<p>  调用<code>sqlite3.value_type(argv[])</code>来检查传入的参数类型，并处理NULL参数的特殊情况。</p>
+<h5 id="toc_11">13.2.2.1.2. 函数注册<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h5>
+<h6 id="toc_12">13.2.2.1.2.1. 底层SQLite3注册<a class="vnote-anchor" href="#toc_12" data-anchor-icon="#"></a></h6>
+<p>  我们定义了一个<code>InternalSQLFunctionCharIndex()</code>函数，我们可以直接使用SQLite3 API调用注册它，如下所示：</p>
+<pre><code class="lang-pascal hljs">  sqlite3.create_function_v2(Demo.DB,
+    <span class="hljs-string">'CharIndex'</span>,<span class="hljs-number">2</span>,SQLITE_ANY,<span class="hljs-keyword">nil</span>,InternalSQLFunctionCharIndex,<span class="hljs-keyword">nil</span>,<span class="hljs-keyword">nil</span>,<span class="hljs-keyword">nil</span>);
+  sqlite3.create_function_v2(Demo.DB,
+    <span class="hljs-string">'CharIndex'</span>,<span class="hljs-number">3</span>,SQLITE_ANY,<span class="hljs-keyword">nil</span>,InternalSQLFunctionCharIndex,<span class="hljs-keyword">nil</span>,<span class="hljs-keyword">nil</span>,<span class="hljs-keyword">nil</span>);
+</code></pre>
+<p>  该函数注册了两次，第一次使用2个参数，第二次使用3个参数，为可选的StartPos参数添加重载版本。</p>
+<h6 id="toc_13">13.2.2.1.2.2. 类驱动注册<a class="vnote-anchor" href="#toc_13" data-anchor-icon="#"></a></h6>
+<p>  通过创建<code>TSQLDataBaseSQLFunction</code>自定义类并调用<code>TSQLDataBase.RegisterSQLFunction</code>方法，可以向SQlite3引擎添加一些自定义SQL函数。</p>
+<p>  使用它的标准方法是重载<code>TSQLRestServerDB.InitializeEngine virtual</code>方法，在<code>DB.RegisterSQLFunction()</code>调用中使用<code>TSQLDataBaseSQLFunction</code>自定义类来定义。</p>
+<p>  因此，您可以如下声明<code>CharIndex</code> SQL函数，而不必调用<code>sqlite3.create_function_v2()</code>底层API：</p>
+<pre><code class="lang-pascal hljs">Demo.RegisterSQLFunction(InternalSQLFunctionCharIndex,<span class="hljs-number">2</span>,<span class="hljs-string">'CharIndex'</span>);
+Demo.RegisterSQLFunction(InternalSQLFunctionCharIndex,<span class="hljs-number">3</span>,<span class="hljs-string">'CharIndex'</span>);
+</code></pre>
+<p>  上面的两行其实是以下代码的包装：</p>
+<pre><code class="lang-pascal hljs">Demo.RegisterSQLFunction(TSQLDataBaseSQLFunction.Create(InternalSQLFunctionCharIndex,<span class="hljs-number">2</span>,<span class="hljs-string">'CharIndex'</span>));
+  Demo.RegisterSQLFunction(TSQLDataBaseSQLFunction.Create(InternalSQLFunctionCharIndex,<span class="hljs-number">3</span>,<span class="hljs-string">'CharIndex'</span>));
+</code></pre>
+<p>  <code>RegisterSQLFunction()</code>方法被调用两次，第一次带有2个参数，第二次带有3个参数，为可选的StartPos参数添加重载版本。</p>
+<h6 id="toc_14">13.2.2.1.2.3. 客户化类定义<a class="vnote-anchor" href="#toc_14" data-anchor-icon="#"></a></h6>
+<p>  在我们的框架中，泛型函数定义可以使用客户化类定义来完成，该定义很容易具有某些特定的上下文，不仅相对于当前的SQL函数上下文，而且是整个应用程序进程的全局和静态。</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 336 292" style="max-width:336px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M158,64L158,89L158,114" marker-end="url(#arrowhead12)" style="fill:none"></path><defs><marker id="arrowhead12" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M158,158L158,183L158,208" marker-end="url(#arrowhead13)" style="fill:none"></path><defs><marker id="arrowhead13" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(158,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-138" y="-22" width="276" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-128,-12)"><foreignObject width="256" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLDataBaseSQLFunctionDynArray</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(158,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-105.5" y="-22" width="211" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-95.5,-12)"><foreignObject width="191" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLDataBaseSQLFunction</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(158,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-37" y="-22" width="74" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-27,-12)"><foreignObject width="54" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TObject</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  例如，以下方法将注册一个能够搜索BLOB存储的客户化动态数组类型的SQL函数：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TSQLDataBase</span>.<span class="hljs-title">RegisterSQLFunction</span><span class="hljs-params">(aDynArrayTypeInfo: pointer;
+  aCompare: TDynArraySortCompare; <span class="hljs-keyword">const</span> aFunctionName: RawUTF8)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  RegisterSQLFunction(
+    TSQLDataBaseSQLFunctionDynArray.Create(aDynArrayTypeInfo,aCompare,aFunctionName));
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  我们直接指定要使用的<code>TSQLDataBaseSQLFunctionDynArray</code>类实例，它将两个必需的受保护字段添加到<code>TSQLDataBaseSQLFunction</code>根类：</p>
+<p>一个<code>fDummyDynArray TDynArray</code>实例，它将用于动态数组RTTI处理；<br>
+一个<code>fDummyDynArrayValue</code>指针，用于存储动态数组进程中要使用的动态数组引用值。</p>
+<p>  这是相应的类定义：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-comment">/// to be used to define custom SQL functions for dynamic arrays BLOB search</span>
+  <span class="hljs-title">TSQLDataBaseSQLFunctionDynArray</span> = <span class="hljs-keyword">class</span>(TSQLDataBaseSQLFunction)
+  <span class="hljs-keyword">protected</span>
+    fDummyDynArray: TDynArray;
+    fDummyDynArrayValue: pointer;
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-comment">/// initialize the corresponding SQL function</span>
+    <span class="hljs-comment">// - if the function name is not specified, it will be retrieved from the type</span>
+    <span class="hljs-comment">// information (e.g. TReferenceDynArray will declare 'ReferenceDynArray')</span>
+    <span class="hljs-comment">// - the SQL function will expect two parameters: the first is the BLOB</span>
+    <span class="hljs-comment">// field content, and the 2nd is the array element to search (set with</span>
+    <span class="hljs-comment">// TDynArray.ElemSave() or with BinToBase64WithMagic(aDynArray.ElemSave())</span>
+    <span class="hljs-comment">// if called via a Client and a JSON prepared parameter)</span>
+    <span class="hljs-comment">// - you should better use the already existing faster SQL functions</span>
+    <span class="hljs-comment">// Byte/Word/Integer/Cardinal/Int64/CurrencyDynArrayContains() if possible</span>
+    <span class="hljs-comment">// (this implementation will allocate each dynamic array into memory before</span>
+    <span class="hljs-comment">// comparison, and will be therefore slower than those optimized versions)</span>
+    <span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">Create</span><span class="hljs-params">(aTypeInfo: pointer; aCompare: TDynArraySortCompare;
+      <span class="hljs-keyword">const</span> aFunctionName: RawUTF8=<span class="hljs-string">''</span>)</span>;</span> <span class="hljs-keyword">override</span>;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  和构造函数实现：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TSQLDataBaseSQLFunctionDynArray</span>.<span class="hljs-title">Create</span><span class="hljs-params">(aTypeInfo: pointer;
+  aCompare: TDynArraySortCompare; <span class="hljs-keyword">const</span> aFunctionName: RawUTF8)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  fDummyDynArray.Init(aTypeInfo,fDummyDynArrayValue);
+  fDummyDynArray.Compare := aCompare;
+  <span class="hljs-keyword">inherited</span> Create(InternalSQLFunctionDynArrayBlob,<span class="hljs-number">2</span>,aFunctionName);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  <code>InternalSQLFunctionDynArrayBlob</code>函数是一个SQlite3引擎底层SQL函数原型，它将检索BLOB内容，然后将其反序列化为动态数组（使用<code>fDummyDynArrayValue.LoadFrom</code>方法），然后调用标准<code>ElemLoadFind</code>方法来搜索提供的元素 ， 因此：</p>
+<pre><code class="lang-pascal hljs"> (...)
+  <span class="hljs-keyword">with</span> Func.fDummyDynArray <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">try</span>
+    LoadFrom(DynArray); <span class="hljs-comment">// temporary allocate all dynamic array content</span>
+    <span class="hljs-keyword">try</span>
+      <span class="hljs-keyword">if</span> ElemLoadFind(Elem)&lt;<span class="hljs-number">0</span> <span class="hljs-keyword">then</span>
+        DynArray := <span class="hljs-keyword">nil</span>;
+    <span class="hljs-keyword">finally</span>
+      Clear; <span class="hljs-comment">// release temporary array content in fDummyDynArrayValue</span>
+    <span class="hljs-keyword">end</span>;
+ (...)
+</code></pre>
+<p>  您可以定义类似的类以实现自己的自定义SQL函数。</p>
+<p>  以下是使用此TSQLDataBaseSQLFunctionDynArray类的自定义SQL函数如何在提供的单元测试中注册到现有数据库连接：</p>
+<pre><code class="lang-pascal hljs">Demo.RegisterSQLFunction(TypeInfo(TIntegerDynArray),SortDynArrayInteger,
+    <span class="hljs-string">'MyIntegerDynArrayContains'</span>);
+</code></pre>
+<p>  这个新的SQL函数需要两个BLOB参数，第一个是对BLOB列的引用，第二个是搜索值。 该函数可以这样调用（从框架回归测试中提取的行）：</p>
+<pre><code class="lang-pascal hljs">    aClient.OneFieldValues(TSQLRecordPeopleArray,<span class="hljs-string">'ID'</span>,
+      FormatUTF8(<span class="hljs-string">'MyIntegerDynArrayContains(Ints,:("%"):)'</span>,
+        [BinToBase64WithMagic(@k,sizeof(k))]),IDs);
+</code></pre>
+<p>  请注意，由于第二个参数应该是搜索值的BLOB表示，因此<code>BinToBase64WithMagic</code>函数用于创建BLOB参数，正如ORM所期望的那样。 这里，元素类型是一个整数，它是一个纯二进制变量（不包含引用计数的内部字段）：所以我们使用它的二进制内存中表示的直接映射; 对于更复杂的元素类型，您应该使用泛型<code>BinToBase64WithMagic(aDynArray.ElemSave())</code>表达式，而不是调用<code>TDynArray.ElemSave</code>方法。</p>
+<p>  请注意，我们在这里没有使用重载的OneFieldValues方法和'？' 绑定参数里，但我们可能会这样使用它：</p>
+<pre><code class="lang-pascal hljs">    aClient.OneFieldValues(TSQLRecordPeopleArray,<span class="hljs-string">'ID'</span>,
+      FormatUTF8(<span class="hljs-string">'MyIntegerDynArrayContains(Ints,?)'</span>,[],
+        [BinToBase64WithMagic(@k,sizeof(k))]),IDs);
+</code></pre>
+<p>  由于<code>MyIntegerDynArrayContains</code>函数将在每行的内存中创建一个临时动态数组（存储在<code>fDummyDynArrayValue</code>中），因此专用的<code>IntegerDynArrayContains</code> SQL函数更快。</p>
+<h4 id="toc_15">13.2.2.2. Delphi中的SQLite3底层存储过程<a class="vnote-anchor" href="#toc_15" data-anchor-icon="#"></a></h4>
+<p>  要实现更完整的请求，并处理列中的任何类型的存储数据（如要解析的某些TEXT格式），可以为准备语句的每一行调用<code>TOnSQLStoredProc</code>事件处理程序，并且能够直接访问到数据库请求。</p>
+<p>  可以将此事件处理程序指定给<code>TSQLRestServerDB.StoredProcExecute()</code>方法。</p>
+<p>  请注意，此事件处理程序中的代码不应使用框架的ORM方法，而应使用SQLite3底层访问（以避免重新进入问题）。</p>
+<p>  这将允许在<code>SELECT</code>语句期间直接修改内容。请注意，到目前为止，如果修改虚拟表数据，使用<a href="">神奇的虚拟表</a>中的 <code>TSQLVirtualTableCursorJSON</code>游标是不安全的。</p>
+<p>  请参阅本文档第二部分中的<code>TOnSQLStoredProc</code>事件处理程序和关联的<code>StoredProcExecute()</code>方法的说明。</p>
+<h4 id="toc_16">13.2.2.3. 外部存储过程<a class="vnote-anchor" href="#toc_16" data-anchor-icon="#"></a></h4>
+<p>  如果应用程序依赖外部数据库，请参阅<a href="">外部SQL数据库访问</a>，外部数据库可能位于远程计算机上。</p>
+<p>  在这种情况下，所有RESTful服务端解决方案都可能产生大量网络流量。实际上，自定义SQL函数或存储过程都使用SQLite3引擎作为根组件。</p>
+<p>  为了加快进程，您可以在外部数据库语法（P/SQL、.Net、Java或其他）中定义一些RDMS存储过程，然后定义一些服务端服务以启动这些函数。</p>
+<p>  请注意，在这种情况下，您将失去框架的数据库独立性，及使用ORM/ODM的很多好处，稍后，切换到另一个数据库引擎可能变得不可能。可以仅在现有应用程序的过渡阶段期间设想这样的RDBMS存储过程。用于添加/更新/删除记录的批次序列几乎具有存储过程的所有速度优势，具有纯面向对象代码的优点，易于调试和维护。</p>
+<h2 id="toc_17">13.3. 服务端服务<a class="vnote-anchor" href="#toc_17" data-anchor-icon="#"></a></h2>
+<p><img src="./mORMot_Picture/cartoon03.png" alt="cartoon03" class="view-image"></p>
+<p>  为了遵循面向服务的体系结构（SOA）设计，可以使用mORMot以多种方式实现应用程序的业务逻辑：</p>
+<ul>
+<li>通过一些TSQLRecord派生类，插入到数据库模型中，并通过一些RESTful URI访问，我们的ORM架构已实现，请参阅<a href="">客户端-服务器进程</a>；</li>
+<li>通过一些RESTful服务，在服务器中实现为发布方法，并通过本机Delphi方法在客户端中使用；</li>
+<li>将一些RESTful服务契约定义为标准Delphi接口，然后在客户端上无缝地运行它。</li>
+</ul>
+<p>  第一个类似于RemObject的DataAbstract产品，它允许通过多种协议远程访问数据库。与mORMot有一些相似之处（如外部数据库的即时SQL转换），但也有一个完整的多样化用例（RAD /组件和向导与ORM / MVC）和实现（mORMot利用了SQLite3 SQL核心，在速度和伸缩性方面做了大量优化）。</p>
+<p>  如果您支付了Delphi Architect版本的费用，则可以将前两项与DataSnap Client-Server功能进行比较。自Delphi 2010以来，除了原始的DCOM / DBExpress远程数据代理之外，您实际上可以定义基于JSON的RESTful服务。它使用了自Delphi 2010以来可用的新RTTI，但它具有一些已知的稳定性和性能问题，并且缺乏强大的安全性。它也是基于RAD /向导，而mORMot使用代码方法。</p>
+<p>  最后一项是纯粹基于接口的，因此匹配“契约式设计”原则，由微软的WCF技术实现。我们在mORMot中以WISS约定优先于配置方式包含了WCF中提供的大多数优秀特性。</p>
+<p>  因此，mORMot非常独特，因为它在一个独特的代码库中具有实现SOA应用程序的所有三种方式。它是一个开源项目，多年来一直存在，你不会被专有代码或许可证所困扰。您可以根据管理速度（和资金）将现有代码库移动到域驱动设计中，而无需升级到最新版本的IDE。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

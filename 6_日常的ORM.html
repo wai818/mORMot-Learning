@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>6_日常的ORM</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">6. 日常的ORM<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src='data:image/png;base64,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' alt="" class="view-image"></p>
+<p>  在比较ORM和标准SQL时，必须突出显示一些方面。</p>
+<p>  首先，您不必担心字段顺序和名称，并且可以在IDE中使用字段补全，输入Baby要方便得多。然后选择Name属性，并访问其值。</p>
+<p>  ORM代码比SQL可读性强得多。在代码中，您不必从一种语法转换到另一种语法，因为SQL是一种真正的语言(参见http://www.fossil-scm.org/index.html/doc/tip/www/theory1.wiki)。您甚至可以在大多数项目中忘记SQL本身；只有一些与性能相关的或复杂的查询应该用SQL编写，但大多数时候您应尽量避免使用它，感谢object pascal，快乐的编码，您的软件体系结构将为此感谢您。</p>
+<p>  另一个好处是命名的一致性。例如，如果您想重命名表，该怎么办?只需更改类定义，您的IDE就会为您进行所有重构，而不会丢失任何隐藏的SQL语句。您想重命名或删除字段吗?更改类定义，Delphi编译器将让您知道在代码中使用此属性的所有位置。要向现有数据库添加字段吗?只需添加属性定义，框架就会在数据库模式中为您创建缺少的字段。</p>
+<p>  另一个与风险相关的改进是关于强类型检查，在编译时包含在Delphi语言中，并且仅在执行时使用SQL。您将避免数据库访问的大多数运行时异常，您的客户端将为此感谢您。总之，忘记数据库表中的字段类型不匹配或类型分配错误。在这种情况下，强类型对于代码SQA（代码质量保证）非常有用，如果您使用一些脚本语言（如JavaScript、Python或Ruby），那么您应该希望在您的项目中也有这些特性！</p>
+<p>  值得注意的是，我们的框架允许在Delphi代码中编写触发器和存储过程（或类似于存储过程），并且可以在类定义中创建键索引和执行外键检查。</p>
+<p>  另一个有趣的特性是该框架提供的增强Grid组件，以及通过使用原生JSON流实现C/S数据流的ajax支持。REST协议可以在大多数应用程序中使用，因为该框架为您提供了一个易于使用的“刷新”和缓存机制。您甚至可以离线工作，将远程数据复制到本地数据库。</p>
+<p>  对于C/S，如下所示，您不必连接到数据库，只需创建一个TSQLRestClient对象的实例（使用您希望使用的通信层：直接访问、Windows消息、命名管道或HTTP），并将其用作任何普通的Delphi对象。所有的SQL编码或通信和错误处理都将由框架来完成。在客户端或服务器端可以使用相同的代码，TSQLRest根对象可以同时用在C/S两端，它的属性和方法访问数据的能力非常强大。</p>
+<h2 id="toc_1">6.1. ORM不是数据库<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<p>  值得强调的是，您不应该将ORM仅看作是现有DB模式的映射，这是ORM设计中的一个常见误区。</p>
+<p>  数据库只是对象持久性的一个方面：</p>
+<ul>
+<li>不要只看到简单类型的表（文本/数字…），而要看到高级类型的对象；</li>
+<li>不要只看到主/从关系，而要看到逻辑单元；</li>
+<li>不要只看到“SQL”，更要看到类；</li>
+<li>不要只想“我要如何存储它?”，而是考虑“我需要哪些数据?”</li>
+</ul>
+<p>  例如，不要总是试图创建数据透视表（通过TSQLRecordMany属性），而是考虑使用动态数组、TPersistent, TStrings或TCollection类型的发布属性。</p>
+<p>  或者考虑使用TRecordReference属性，指向TSQLModel的任何已注册类，而不是为每个潜在表创建一个TSQLRecord属性。</p>
+<p>  mORMot框架甚至可以在不使用任何SQL数据库的情况下实现对象的持久化，例如通过TSQLRestStorageInMemory。实际上，ORM内核是经过优化的，且没有与SQL强制绑定。</p>
+<h3 id="toc_2">6.1.1. Objects不是表<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h3>
+<p>  使用ORM，您通常应该比在“普通”关系数据库中定义更少的表，因为您可以使用更高级的TSQLRecord类属性来处理每行数据。</p>
+<p>  首先，可能会让数据库架构师感到震惊的，就是最好不要创建主/从关系表，只需创建一个“主”对象，并将详情信息存储在动态数组、TPersistent, TStrings或TCollection属性的JSON中。</p>
+<p>  其次，不应该为软件配置创建各种表，我们应该反省一些DB架构师为每个模块或每个数据表设计一个配置表。在ORM中，您可以设计一个配置类，然后使用唯一的表来存储所有JSON格式或类似于dfm的配置数据。不要犹豫将配置与数据分离，不与数据相关的都放在配置中，请参见mORMotOptions单元如何工作。使用我们的框架，您可以直接将任何TSQLRecord或TPersistent实例序列化为JSON，而无需将此TSQLRecord添加到TSQLModel列表。从框架的1.13修订版，您可以在TSQLRecord类中定义TPersistent发布属性，并将自动序列化为数据库中的文本。</p>
+<h3 id="toc_3">6.1.2. Methods不是SQL<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  首先，您可能会尝试这样编写代码（这个代码示例发布在我们的论坛上，不算糟糕的代码，只是没有使用框架的ORM）：</p>
+<pre><code class="lang-pascal hljs">  DrivesModel := CreateDrivesModel();
+  GlobalClient := TSQLRestClientDB.Create(DrivesModel, CreateDrivesModel(), <span class="hljs-string">'drives.sqlite'</span>, TSQLRestServerDB);
+  TSQLRestClientDB(GlobalClient).Server.DB.Execute(
+    <span class="hljs-string">'CREATE TABLE IF NOT EXISTS drives '</span> +
+    <span class="hljs-string">'(id INTEGER PRIMARY KEY, drive TEXT NOT NULL UNIQUE COLLATE NOCASE);'</span>);
+  <span class="hljs-keyword">for</span> X := <span class="hljs-string">'A'</span> <span class="hljs-keyword">to</span> <span class="hljs-string">'Z'</span> <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">begin</span>
+    TSQLRestClientDB(GlobalClient).Server.DB.Execute(
+      <span class="hljs-string">'INSERT OR IGNORE INTO drives (drive) VALUES ("'</span> + StringToUTF8(X) + <span class="hljs-string">':")'</span>);
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  请不要这样做。</p>
+<p>  正确的面向ORM的实现应该是：</p>
+<pre><code class="lang-pascal hljs">  DrivesModel := TSQLModel.Create([TDrives], <span class="hljs-string">'root'</span>);
+  GlobalClient := TMyClient.Create(DrivesModel, <span class="hljs-keyword">nil</span>, <span class="hljs-string">'drives.sqlite'</span>, TSQLRestServerDB);
+  GlobalClient.CreateMissingTables(<span class="hljs-number">0</span>);
+  <span class="hljs-keyword">if</span> GlobalClient.TableRowCount(TDrives)=<span class="hljs-number">0</span> <span class="hljs-keyword">then</span>
+  <span class="hljs-keyword">begin</span>
+    D := TDrives.Create;
+    <span class="hljs-keyword">try</span>
+      <span class="hljs-keyword">for</span> X := <span class="hljs-string">'A'</span> <span class="hljs-keyword">to</span> <span class="hljs-string">'Z'</span> <span class="hljs-keyword">do</span>
+      <span class="hljs-keyword">begin</span>
+        D.Drive := X;
+        GlobalClient.Add(D,true);
+      <span class="hljs-keyword">end</span>;
+    <span class="hljs-keyword">finally</span>
+      D.Free;
+    <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  上面的几行代码没有编写任何SQL，由ORM处理SQL：</p>
+<ul>
+<li>通过CreateMissingTables方法创建所有缺失的表，而不是使用"<code>CREATE TABLE IF NOT EXISTS...</code>"SQL语句；</li>
+<li>通过TableRowCount方法检查是否存在数据行，而不是用“SELECT COUNT(*) FROM DRIVES”；</li>
+<li>使用Delphi的TDrives实例和Add方法添加数据，而不是用“INSERT OR IGNORE INTO DRIVES...”。</li>
+</ul>
+<p>  然后，为了查询一些数据，您可能会编写如下代码（从同一论坛文章中提取）：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyClient</span>.<span class="hljs-title">FillDrives</span><span class="hljs-params">(aList: TStrings)</span>;</span>
+<span class="hljs-keyword">var</span>
+  table: TSQLTableJSON;
+  X, FieldIndex: Integer;
+<span class="hljs-keyword">begin</span>
+  table := TSQLRestClientDB(GlobalClient).ExecuteList([TSQLDrives], <span class="hljs-string">'SELECT * FROM drives'</span>);
+  <span class="hljs-keyword">if</span> (table &lt;&gt; <span class="hljs-keyword">nil</span>) <span class="hljs-keyword">then</span>
+  <span class="hljs-keyword">try</span>
+    FieldIndex := table.FieldIndex(<span class="hljs-string">'drive'</span>);
+    <span class="hljs-keyword">if</span> (FieldIndex &gt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">then</span>
+      <span class="hljs-keyword">for</span> X := <span class="hljs-number">1</span> <span class="hljs-keyword">to</span> table.RowCount <span class="hljs-keyword">do</span>
+        Items.Add(UTF8ToString(table.GetU(X, FieldIndex)));
+  <span class="hljs-keyword">finally</span>
+    table.Free;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  得益于TSQLTableJSON类，上面的代码比较容易理解，使用了一个FieldIndex临时变量，利用它在循环中参与运算。</p>
+<p>  也可以这样编码，使用CreateAndFillPrepare然后在循环中调用FillOne方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyClient</span>.<span class="hljs-title">FillDrives</span><span class="hljs-params">(aList: TStrings)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  aList.BeginUpdate;
+  <span class="hljs-keyword">try</span>
+    aList.Clear;
+    <span class="hljs-keyword">with</span> TSQLDrives.CreateAndFillPrepare(GlobalClient,<span class="hljs-string">''</span>) <span class="hljs-keyword">do</span>
+    <span class="hljs-keyword">try</span>
+      <span class="hljs-keyword">while</span> FillOne <span class="hljs-keyword">do</span>
+        aList.Add(UTF8ToString(Drive));
+    <span class="hljs-keyword">finally</span>
+      Free;
+    <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">finally</span>
+    aList.EndUpdate;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  我们添加了BeginUpdate / EndUpdate VCL方法，使代码更简洁、更快（如果你使用TListBox）。</p>
+<p>  注意，在上面的代码中，为了从服务器检索数据，创建了一个隐藏的TSQLTableJSON类，ORM引入的抽象方法使代码效率不是最快的，但是不容易出错（例如，Drive是RawUTF8属性），并且更容易理解。</p>
+<p>  但ORM并非在所有情况下都是完美的。</p>
+<p>  例如，如果Drive字段是要检索的列内容，那么只请求这个列是有意义的。CreateAndFillPrepare方法的一个缺点是，默认情况下，它从服务器检索所有列内容，即使您只需要一个，这是ORM的一个常见的潜在问题，由于库不知道您需要哪些数据，它将检索所有对象数据，这在某些情况下是多余的。</p>
+<p>  您可以指定可选的aCustomFieldsCSV参数，以便仅检索Drive属性内容，并节省一些带宽：</p>
+<pre><code class="lang-pascal hljs">    <span class="hljs-keyword">with</span> TSQLDrives.CreateAndFillPrepare(GlobalClient,<span class="hljs-string">''</span>,<span class="hljs-string">'Drive'</span>) <span class="hljs-keyword">do</span>
+</code></pre>
+<p>  对于这种特殊情况，您有一个更高级的方法，直接将TStrings属性作为参数处理：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyClient</span>.<span class="hljs-title">FillDrives</span><span class="hljs-params">(aList: TStrings)</span>;</span>
+ <span class="hljs-keyword">begin</span>
+  GlobalClients.OneFieldValues(TSQLDrives,<span class="hljs-string">'drive'</span>,<span class="hljs-string">''</span>,aList);
+ <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  整个查询在一行中完成，不需要写SELECT语句。</p>
+<p>  对于特定的ID范围，您可能已经编写了一个特殊的WHERE子句，其中使用了准备好的语句：</p>
+<pre><code class="lang-pascal hljs">  GlobalClients.OneFieldValues(TSQLDrives,<span class="hljs-string">'drive'</span>,
+    <span class="hljs-string">'ID&gt;=? AND ID&lt;=?'</span>,[],[aFirstID,aLastID],aList);
+</code></pre>
+<p>  当然，阅读mORMot.pas的所有（冗长的）接口部分是值得的，例如TSQLRest类，使您对所有可用的高级方法有自己的想法。在下面的章节中，您将找到关于这个特定单元的所有需要的文档。由于我们的框架在实际应用程序中使用，所以应该已经提供了大多数有用的方法。如果您需要额外的高级特性，请在我们的论坛（<a href="http://synopse.info">http://synopse.info</a>）随时询问，最好配上源代码示例。</p>
+<h3 id="toc_4">6.1.3. 考虑多层架构<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h3>
+<p>  不要忘记，由于我们的C/S体系结构，框架能够将对象划分为几个层级，参见下面。这种用法不仅是可能的，而且强烈鼓励。</p>
+<p>  在客户端应该拥有业务逻辑对象，而服务端同时拥有业务逻辑和数据库对象。</p>
+<p>  如果您有一个非常特定的数据库模式，那么业务逻辑对象可以是非常高级的，可以封装一些SQL支持读操作，也可以通过一些RESTful服务支持写操作（参见下面）。</p>
+<p>  高级类型的另一种可能是可以自定义SQLite3 SQL函数或存储过程（见下面），都是可以用Delphi来编写的。</p>
+<h2 id="toc_5">6.2. 强大的ORM<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h2>
+<p>  在下面的章节（数据库层、C/S、服务）中深入讨论mORMot材料之前，您可能会发现这个实现听起来可能有些受限。</p>
+<p>  以下是一些常见的（有根据的）批评：</p>
+<ul>
+<li>关于ORM的方法，我不太喜欢的一点是对现有的Delphi结构的误用，比如定义字符串属性的最大长度的“index n”属性，其他orm使用类属性解决这个问题；</li>
+<li>“您必须从TSQLRecord继承，并且不能持久化普通类”;</li>
+<li>“无法轻松地映射现有的复杂数据库”。</li>
+</ul>
+<p>  这些担忧是可以理解的，我们的mORMot框架并不满足所有需求，但是值得理解为什么它要这样实现，以及为什么它在ORMs家族中是非常独特的，几乎所有的ORMs都遵循Hibernate的实现方式。</p>
+<h3 id="toc_6">6.2.1. 类定义的误区<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h3>
+<p>  Attributes首次出现是在Delphi 2010中，值得说的是FPC也有另一种实现语法。旧版本的Delphi（仍然大量使用）语言中没有Attributes，所以最新版本无法与Delphi6兼容（对于我们的单元，我们也希望实现兼容）。</p>
+<p>  对“滥用index”的批评是正确的，但这是在RTTI中获得类信息的最简单也是唯一的方法，由于这个参数被忽略，很多类都没使用，所以它被重用了（也用于动态数组属性，以支持快速查找）。<br>
+  对于“stored AS_UNIQUE”属性也存在“误解”，该属性用于标识列的唯一性。</p>
+<p>  在很多ORM中，使用Attributes来描述表是非常常见的方法。<br>
+  另一方面，一些编程人员的类定义混合了DB和逻辑，导致DB相关的代码在一定程度上影响了业务级的类定义。</p>
+<p>  这就是为什么其他类型的ORM提供了使用外部文件将类映射到表的方法（一些ORM两种定义方式都支持），这也导致为什么在那些日子里，即使是代码专家也认为Attributes的过度使用降低了代码的可维护性。<br>
+  在处理客户端-服务端ORM时，Attributes确实缩减了代码量，就像我们的一样：在客户端，这些Attributes是不需要的（客户端不需要知道任何关于数据库的信息），所有DB相关代码都连接到服务端应用程序，对mORMot来说，这是一种强有力的论据。</p>
+<p>  出于同样的原因，在mORMot中对列定义（唯一性、索引、必输）实现了两级管理：</p>
+<ul>
+<li>在ORM级与DB相关的（比如索引，它是DB特性，不是业务特性);</li>
+<li>在模型级与业务相关的（如唯一性、验证和过滤）。</li>
+</ul>
+<p>  当你看到提供的验证和过滤功能，参见过滤和验证部分，你会发现这比单纯使用attributes的常见ORM强大很多：你是怎么验证一个条目是一个电子邮件，怎么做的规则匹配，或者怎么确保它以大写格式存储在DB?</p>
+<p>  另一个值得关注的问题是关于安全性，如果远程访问数据，对数据库的全局访问显然是不够的，我们的框架使用ORM处理每个表的CRUD访问，位于DB层之上（并且还为服务提供完整的安全属性），不管底层的DB授权是如何定义的（即使没有用户权限管理的DB（比如内存或SQLite3）也可以这样做）。</p>
+<p>  mORMot的观点（并不是唯一的观点）是让DB尽可能安全高效地持久化数据，但在更高层级来实现业务逻辑。这个框架更倾向于约定优于配置，这样可以节省很多时间（如果您像我一样每天使用WCF，您和您的团队都知道.config综合征）。它将设计工作变得与数据库无关（您甚至完全不需要接触SQL数据库），并使框架代码更易于调试和维护，因为我们不必处理所有的DB引擎特性。简而言之，这就是REST的观点，也是成功的主要原因，CRUD足以支持我们的友好设计。</p>
+<h3 id="toc_7">6.2.2. TSQLRecord持久化类不等于全部类<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h3>
+<p>  关于持久化需要从TSQLRecord继承，并非任意PODO（纯旧的Delphi对象）都能持久化的事实，我们的目标实际上非常类似于领域驱动设计的“Layer Supertype”模式，正如Martin Fowler所解释的那样：在整个系统中，某一层的对象存在重复的方法，这很常见，您可以将所有这些方法移动到一个公共层成为基类。</p>
+<p>  <strong><em>译者注：Layer Supertype，如果一层中的组件具有相同的一组行为，就可以将这些行为提取到一个公共类或组件中，并使层中的所有组件都继承该公共类或组件；换句话说，就是如果多个类有同样的成员，那么建立一个基类，让所有的类继承这个基类。</em></strong></p>
+<p>  实际上，由于TSQLRecord / TSQLRest / ORM远程访问的支持，您已经具备C/S的所有CRUD能力，这些类是通用的抽象超类，已经可以在项目中使用。它已经做了大量的优化（例如，具备缓存和其他不错的特性），所以我不认为重新设计一个数据库的CRUD服务是值得的。您可以使用用户/组属性安全地访问ORM类。几乎所有的东西都是根据TSQLRecord类定义通过RTTI由代码创建的。因此，基于它可能比重新定义所有类层次结构更快，也更安全。</p>
+<p>  公平地说，大多数Java或c#的DDD框架都希望新的实体类从另一个实体类继承，或者向POJO/POCO添加类属性来定义持久化细节，所以在这一点上我们也不是唯一这样做的！</p>
+<p>  但是，担心不能持久保存所有类（需要从TSQLRecord继承）的确意义重大，特别是在DDD建模上下文中，DDD对象与框架解耦是有益的，否则可能会污染业务逻辑，所有这些担心与期望都可能会打破DDD模式所要求的持久性透明原则。</p>
+<p>  <strong><em>译者注：Persistence Ignorance principle，持久性透明原则，说白了就是把DDD中的实体、值对象、服务与数据存储功能完全隔离，使他们不掺杂任何与数据存储相关的代码。</em></strong></p>
+<p>  这就是为什么我们使用数据存储服务，在框架中添加了持久化任何普通类的能力，但仍然使用底层的ORM，以实现对任何SQL或NoSQL数据库引擎的实际持久性。可以从任何Delphi持久化类关联TSQLRecord类，然后mORMot在两个类实例之间自动维护一个映射，这样数据访问就可以定义为清晰的CQRS数据存储服务。<br>
+  例如，TUser类可以这样使用数据存储服务实现持久化：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  IDomUserCommand = <span class="hljs-keyword">interface</span>(IDomUserQuery)
+    [<span class="hljs-string">'{D345854F-7337-4006-B324-5D635FBED312}'</span>]
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Update</span><span class="hljs-params">(<span class="hljs-keyword">const</span> aUpdatedAggregate: TUser)</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Delete</span>:</span> TCQRSResult;
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Commit</span>:</span> TCQRSResult;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  在这里，写操作是在IDomUserCommand服务中定义的，它与用于读取操作的IDomUserQuery分离（但继承），有关此特性的详细信息，请参阅下面。</p>
+<h3 id="toc_8">6.2.3. 多ORM支持<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h3>
+<p>  显然，mORMot提供了几种类型的表定义:</p>
+<ul>
+<li>基于TSQLRecord / TSQLRecordVirtual的ORM原生类：数据存储不是通过TSQLRestStorageInMemory高速内存表，就是SQLite3表（内存、文件或虚拟），此时，我们对字符串不使用index属性（这些引擎都不支持定义字段长度）。</li>
+<li>基于TSQLRecord的ORM管理的外部类：通过调用VirtualTableExternalRegister() / VirtualTableExternalMap()函数注册后，ORM通过SQL创建和管理外部DB表，参见下面。这些类允许通过OleDB、ODBC / ZDBC驱动程序或DB.pas单元，在支持的数据库引擎中创建表，目前支持SQLite3、Oracle、Jet/MSAccess、MS SQL、Firebird、DB2、PostgreSQL、MySQL、Informix和NexusDB。对于ORM管理的外部TSQLRecord类型定义，ORM希望定义文本字段长度（例如RawUTF8或字符串类型的发布属性），对于TQLRead派生类来说，这是唯一需要为这样一个基本实现定义的参数，然后，如果需要的话，可以指定其它的字段/列映射。</li>
+<li>基于TSQLRecord的ORM管理的外部ODM类：调用StaticMongoDBRegister()或StaticMongoDBRegisterAll()函数注册后，通过NoSQL和对象文档映射(ODM)创建和管理外部MongoDB集合。在这种情况下，不需要设置文本字段长度的index属性。</li>
+<li>基于TSQLRecordMappedAutoID / TSQLRecordMappedForcedID的外部映射类：DB表不是由ORM创建的，而是已经存在于DB中，有时具有非常复杂的布局。这个特性还没有实现，但是已经在路线图中开发了。对于这类型的类，我们可能不使用属性，甚至不使用外部文件，但是我们将依靠代码来定义，使用流畅定义，或者专用类（或接口）。</li>
+<li>对于任何类型的Delphi类，可使用CQRS数据存储服务将它们映射成内部TSQLRecord类。</li>
+</ul>
+<p>  为什么同时支持多个数据库后端？</p>
+<p>  现有的大多数软件体系结构都依赖于每个领域一个专用数据库，因为管理单个服务更方便。<br>
+  但是，在某些情况下，同时拥有多个数据库是很有意义的。</p>
+<p>  实际上，当您的数据大量增长时，您可能需要将旧数据存档到远程专用数据库中，如使用廉价存储（支持RAID的大容量硬盘），由于很少检索这些数据，因此访问慢不是问题。而将最新数据放在本地高速引擎（在SSD上运行）上访问。</p>
+<p>  另一种模式是用于数据分析的专用整合数据库。实际上，SQL规范化对于大多数常见的关系工作都很好，但是有时候需要“去规范化”，如为了统计或业务分析的目的。在这种情况下，专用的整合数据库，包含已经准备好的数据，需在已就绪的去规范化布局中建立索引。</p>
+<p>  最后也最重要的是，一些事件溯源架构还期望同时有几个DB后端：</p>
+<p>  <strong><em>译者注：事件溯源架构（Event Sourcing architectures），数据用事件表示，我们不再存储数据本身，而是存储与该数据相关的所有事件，包括数据被创建的事件在内，通过保存数据的“完整的历史”来达到任意时刻都能还原数据的目标。</em></strong></p>
+<ul>
+<li>它将把状态存储在一个数据库中（例如，高性能内存中），以便即时处理常见请求；</li>
+<li>将修改事件存储在另一个ACID数据库中（如SQLite3、Oracle、Jet/MSAccess、MS SQL、Firebird、DB2、PostgreSQL、MySQL、Informix或NexusDB），还有MongoDB这样的高速NoSQL引擎。</li>
+</ul>
+<p>  <strong><em>ACID，指数据库事务正确执行的四个基本要素的缩写。包含：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。一个支持事务（Transaction）的数据库，必须要具有这四种特性，否则在事务过程（Transaction processing）当中无法保证数据的正确性，交易过程极可能达不到交易方的要求。</em></strong></p>
+<p>  可以直接访问远程ORM对象（如整合数据库），主要以只读的方式，专门用于报表，mORMot的一个有潜力的CQRS实现模式就是整合数据。由于框架的安全性，远程访问将是安全的，您的客户端将无法更改整合数据内容！</p>
+<p>  可以很容易地猜到，这种设计模型与仅为类持久性而构建的基础性ORM相去甚远，mORMot的ORM/ODM提供了上述所有这些发展潜力。</p>
+<h3 id="toc_9">6.2.4. 最好的ORM就是你需要的<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h3>
+<p>  因此，根据您的需要，我们可能会总结一些ORM的潜在用途：</p>
+<ul>
+<li>如果你想保存一些数据对象（没有复杂的业务逻辑），轻量化的ORM框架，支持SQLite3，Oracle，Jet/MSAccess，MS SQL，Firebird，DB2，PostgreSQL，MySQL，Informix，NexusDB数据库，还有非SQL引擎，使用TSQLRestStorageInMemory类还可将内容保存在小文件中；</li>
+<li>如果您对ORM的理解只是将现有与业务相关的代码、对象持久化，那么mORMot可以帮助您，通过数据存储库服务可自动生成TSQLRecord类；</li>
+<li>如果您想要一个非常快速的底层C/S层，mORMot是首选，一些用户正在使用内建的JSON序列化和HTTP服务特性来创建他们的应用程序，使用的是RESTful/SOA架构；</li>
+<li>如果您希望映射现有的复杂RDBMS，mORMot将允许将现有的SQL语句作为服务发布，例如使用基于接口的服务，通过良好优化的SynDB.pas数据访问，参见"遗留代码和现有项目”章节；</li>
+<li>如果您需要（也许现在不需要，但将来可能需要）创建某种可扩展的领域驱动设计架构，那么mORMot拥有您所需要的所有特性；</li>
+</ul>
+<p>  因此，mORMot不仅仅只是一个ORM，也不仅仅是一个通常意义上的ORM。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

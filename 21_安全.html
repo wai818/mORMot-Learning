@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>21_安全</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">21. 安全<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAEdBAMAAADX9GeAAAAAMFBMVEU9b5CNuNK83+9ikK6bw+X7/vxhlb1AeKGuydl6oLN8psRIeZTU5O6x0edGgaijwNSsXcfxAAAACXBIWXMAAHYcAAB2HAGnwnjqAAAep0lEQVR4nO2df3QTx53A6fGuvv5yY7BjCsEqJg4cZ37jqIVEeRA34dFSn2TGlZ2R/QgJbrmca6orW9vtpPzwyzbBUUkezw1JKOZHRJwASbmcL3WrHnAKDsGAnehwEowBEU2xk2kc7MdeGrI3s7uSVtpdaWVb/uc6L8+RRtJ+dma+853v9zvfWSaAVIvf+CO4e2lvYSrXmpA6HRp/Nqv9+e600iE4Z9x6h9V9W1rpLrAswadnuCtppUPHFxJ9av2PtNJB+d8l+nQWKUgr/ZtFiT7NDQ6nlb4nR/XmWCwLQlvos3TS4SsqkYcTvhg7AUrRRwn0wejpronqW7mEclRvj4PDDTvTOu72L6rfVdROHI7ey3AZeh30ppNePjHm7S3cQ4Hw65vHawb+AG5PoetTppfGtB2Uo/5D35FfztjiRXV+4EgrvT72fTNZu1bSrsez8xrad1LBSCf9gU1xd4P6s1d0+12rWmsI+TOtSGvb4+kOKwpu2J916zob4a4yMAykk+6Oq7BjIhd0j9zqtI47F3/1N9sQoXdw9FAqemaEdDt3IL7Kcd/iYHBtRMuks+0O/Jqm7lSj+l066cD7J03Vs/3jRv9lvNgBsBvvZCZX6iV1einWDPw8Upe6xI2MXkU+1FThgaJxooPmek3VE6zxrtPjQb9IAvFVVW2kCDgKUhG4kdLLcZGmbh6qA/CzVAyLkdIduE5TV0WoLLrGgw5ytVIPzpONADrHge4vR5c1lXZEcoAz1caPpO1gd8Owpu6v+I/AlZMeulqYITjB/UHzjQriDsDVKUr9iNrusGmnPDWxroAZfpgSfiR0SOWuUVNbitx+V4pTfmT0Uq22BaAaFzk+Se1KI+p5v9O3SdvGM+QaODgedNr1d2lqXVay81gg/XRInQi3tvHnSb3zQkrr/IjotPHPctrGOwl5+faUFM7I6HSpIVoThzb+LzMC40EHzcyaiit2Evze+NBLiVbZg2nkyoVxoUOb1shg4/HQuNDB+7oaJ3g5rZGTSLETnUl3BoVyxoPuB96BnZpaOuk+TMGfGHnb6bKyUVv5GNFZ/tJBd9i0DiVwWrnvjAcdMuWirX6C+2A86ACsIWhYU1mOUuj60dDB/eSPmjpdPZAWup0gLemcjrORFjrw6micUvKf40Qv92k1jktv9UsLHVJzRlO5W8fkTAuddrNWwmeZH/hR0l2YOlByiVjypegX40SnK92jmjtq26T3zXTQ7YRoRrmamF1mRkuntrXGp8uNjEba6WXk9/FV50nReNGhDefEVV0kPxsvOm1pvLJ/3KYNraSLTpV9nAdxwjYwbnTYHK9dKojZ7dDR06l2idd3eWR43OguzZTP0/Fz0kUHj+E4Y+qM2Sk3FvTSeG1bil4bP7qDDMSq1jUo4R792NI1wUuX2VVuTOgPkFhd7zCr7MaEXhE35yDR8XLSRge22FUNZpq06ceG/licbasXy0wfvdwXu640B8eTDnGsbn3SpHUzNnQwi8Sou5M4MJ70MvQ19dt/NmnSjxHd5YtxYH5AzDnxY0QHzQM5qneVeHzpJ7F6zlVygXGll8eoN22KQHrp0Kqe4qXI3K/Gig4+J7eF2ytOKTPpRI8Z/Tz+qvKqasKX5nxpfOnXrVyY7pjAZU1M+OUxpsNp7W3o6+F3J0hIJ36dNjr8HNUuJJHkizcnEJOR6jGhT+PQI8AbFfoKhLRRzHTR30B4CVDTgZf783jR7W3kQXYPP45WlfuCpvYFx4Cey9WvoH6bI6CqO0zWmnHlRk8v5dzvfTtesVaQq+NBh+Al7kqlJjQLbaHC/PTTj79B6sEZbSrESTSpMHk6+Sjp8L0a/DBd4IriPyhHD15YkWa6q7qdqwcBJ9FMMIg3rVhTkGydHRUdTuMI/ir0Q3xN89kCbv/x7Xw66W+j12vIcDelawKW4CTXvzofzE4ffY21YW8Ni4pCovVZK6j2dfmTbI6Ngg695Iqd/NzB6Fp/3YWIOzurMD8hfhR0O3IXVOKdp5nH/HPtxzbCBddPyk+4KzwKeu7ATnB+oIDqtCr0U+3HeaFqH1lY0JOo9SOnVzHP0es+HqBjjHXoJ0NdywjuX+FI0PqR08+Th2mXP0qHXTfnjdq1t7n+hcNob5XxaYJR7L+H/HTor3QyENV3mmJHRcDVjLB7kvF6M2J6Gcu1KiMPbqevKy/l6NyeJIq/akN0sTXKeRwx/Tw3zPy1SfQv+MGAnstqk0JHb2YQ8pzRpviI6VYWHJlF+hh9Fta7+A05nnEHJiGjvk+Nfsei8Ct7208YIPg2u3CuruM0S6m9non7DfAp0SsyIuGZB6S9d2+oh72x6boulQMK80lCModHT38iGpc7J4Xgm/u/B5h8fV3v22UDCtK1DOFNuq1Phe5oi0ZAZfu5JsSOTDh8umHZaK673YZwvZ5opEIvz4zGhuSEYmuIxShcbTpqnt4UtzP80uXN0ElKS42+h0TntVeSgN3SmSxX2091v28tiryEzUgvhJcCna6Z0St4JQ/9JRKgHbrGINViz87oaychOs6VMf14/OpQiVTRkRvSjUzDTJhKDTadzw2r3ryF+rXfMKDf/sI6rqE/VlBuEFU09jHC/uZKOzKlBtsw/6WW8yqfThRNn761jUMEc99S10EStEYp56XJnCvNux/opJ6wEpvYnKvTQ7p0e0Mb1xBczDUEVJXlvsXVOZF3ldJkzpVU7GPITISqUscA0qX/GocOFQJwilPH4N4i+6oLIn1ZKfW2TK/W2tM6xY60GxZ6dGeGspe4h02rrmcWr99Fh/eW4HUCIxmrZYjJ+S+laLA2AUCvuHS2DPTopUgxFkrpKroVI0KwuwDg/rzQ7UfC35kjpRa+xRw4J9JVNurC1nfo0854PXokzul65YM3qfRRPr4M0drPQ+9Fsnu21jBxr2SSVMoVJYH38MwGadYG7fXpYUMpt38BaVi6fkMNamhB+78b8tbuVD6B3x/4iEoi9xqdWMl2Xc+KIk/BN7Dme3r08ohTWEkImsLiEt62XSg7j07CCP0+ghpBVcbGsNozLp0iLQFmhmq0ne64RzTqdwm5W8oNdu2a4872Ugn4Fi+rQJh9P/4z9VTdwIETb75BD6PTrj9pjn7iMO0jJihzcO2rkVuaeHsNCeGvcEpuU9YxQgLAO9BYSl5LSO9gcEGi7zRDd7zNbVzhZ8synhgIV1a6uwhe9BKHubul913+aaSuMZcUPaBzhkNV5KaLjYxeZIYOXJz7O5DlhHM5kbrKTXPauMY3Fx9GsgL+7wsVaMC9jvzu48SazikKyrg/YJIOHsPBgUnP+rinolWVE4+/xMw3hxVx97A77AV5dDEgQX2zKlwglXdGL0iBbm8nhHC16lWmbCKoymEv3m0jmBroYEYBPExfEqS5prqcFYd42vcCu3+zdPDuYqphfq/u0opI0HsORm46jFWr6dcwh3VOr0QLbXqJpUkUGN3suDNFGsR1AXWNPXrk/xQm1+iNdVKL8tg+0pAATpu+Oq/9ed5zk77+2JzMAziZkNr4hGjVvczkCFV0YAtgQcmvAcNyusMy9F5bw90iz6K21rCFnZgO8zjCJYrvw5fYoSwA6SQ+o8lzArBQvu9OKm5Dy61oYLrAprsT+TQX0qNPRsT9fMJ4j9MmnUXsLADN2ly6PsaStAwvUvi64EqhhK1I6FXNV3Xob1KfuxEkPvRzwjfA7PNCO9IklUJBFPwA9on8tuLlz3IbD/f38J4AW+KKTNCrbNgdSHbwAzYTyaA5qep4xQZ20tl9s5cXeM9Q8WHuaLftoz7BU0BNm4ECzWW09GaChmHSI47lROKqt/lhbyF7ConLIqlWwcO/s49Dz5Wjl3le9IPP9XIxNPSZqOEpE2de4G4WISznfqeuPM3oDgkuspbjjOfBeeQXS3i/06dndsfTXRj/BThN2KhPsKMDXh1b2sXYvCB01eAGuiDZ6qCwUqBe9FGdi8bTr9OLmjplVlVDDlRwOlk9dtZwgf/UxjU8z0J5v3C1rLzpIuR32q/G06sQftncETe4D394S+2w9oNTokXkm1ZZOelxL2e4oopvT2mcp59yF0f3UlPV5EGnzSSku+9lH7IIPats5Kh0Z15U8PgzRwprJOWYhG5HZNhlDg666MzUyzCosog3Hc9y8mM47KTeMfWZ6RVIP6k+lj6Nu2r6wIfzML6qV8/ozoygBKdO1l3O1h3bb+idcYinO7n2gMMkHMDPiU6EktJFcbqjrUi+IAoWHGs92M1pVwMt/Qz5EzR9wgxe1M8gtIvCJw7lxs5Q361v6s1jXNBEtLAaD5s/00n1TZwHBU/P/sbiPx0Txc8csj8CbdT08GQVOq3cy0npdrQJpHCK/PFY7/HYM+usXAPnLhGFYUh7HnZeKEcbqeqja/t1Tt/NVdPfx3fB7ebp71VTJQ8324J7GfvZdo7DbdTnyxaFRog/AB18069pF1SJLEA+j3skGd2KA2anGysnqMvjeJcg3JADJ7+CcQNZfPS2E0GLQI13/FPI8++1UWV8lpnyVIHrJjer6HZUB1J5LJCjhoBfSU/5CNZOaENrP/EDe6CUTBHpam77udMz5GUZ1mdFSZIu6pyjjKHPI3dB0+ctAJOp4BobwUdtCNdmLg2wKmdRJaELrB9Yf1JF7RqyCACPTHdRoyEh3YYLWJwH9pi6BVgAbaE8hKnN78ULw1deyNpOzefmn50V7yWbhAJqUsufnODYczLg3JjN2Sjd4asHTXTCXX9F58yfbqkO1mBmfJ6LxsLs5W0HmZB76+eL1/ES8TM4NF25W+9ADjj7AkF369LL0Ye0PY3lX9EafwbFSsjrrFu/Gc3prFredg8T8hvX5ou3blhN9Y4QFiWn9d//kUVh3KqujdIvDhxw0qW92R2r7RKseHTQi9j/z0UNddd031889N39oT5x8MUWgYdiRJBPkTbCIYxU4helHx7wNwFob4uTzQXGhr2VDATY/3Oj2zKORbaNfQEWpygRh7wNO3qhJfxQN3gfwe6D/jVIdc4iSrcFwW3s0RGxqtY1gXvOkK5sfHvlm5DK/pq6Ej+jF4vCrxG3sLBnWPnkbYI3sbtsDunQoe/RKmoULou3AtqXGeZMYTmjz0FUa8jjNXV9Et0iTqH2TW39CuWzdxGW475yhDeO7vR9aKdNbdgZh5g7z7Dx+JIUtahQh97ftF1jW/6zSDa16ldhQkJTpHCZw8YpjuFFEhWlCL0CFXVTL71Ws8ZBq1FM6ll5lCrVq80aW10TYG0fEsXB4lXLEM7cIW6n8xiHhztP1VMRehl6eJguyDopyCc4A/Xz7g/Z35v3qzPIK1DdFiCPO/UoBM9ugoK7LN1ncWQq2UIBLb0UH8gB/lk/0aGodji0BYo16lO5VVwd6+j7gyWSQ9PUuRthjoSsDZEdIp9qcy5CP4OH/aD3Cb2Q63mDOCyc3RoA78ywhY1lNp6uNol+wy2HqvjOrsMs1E/6FbcanPH9UKfnz2PWYye+CrSlwuAcQs+0V47u7/5+5Byk3c92zerYONk29TF4SVOVuHkfXQVxqKVX9jKXEdWOS4R+g7DMJNdOvTZqz51K1U1eQrggiTzXp2qK9ACYRjaBNnZJ9O3Uxiye+jSm3b+294KfuSvq/ZYIvTm0Rb+FtOhbmo5sq/QYr8jBzPcXSTOkkVmTj/RZ2Mg3Mn+a99xKFTy31NLkB2+Ru/XotvqbKT6VyTFkJfSqDRHVfP1h5thvCjCXqFF2o/1wUBwUxaFPrQSRYEtvYXOMbR2hk3rTtrRSXCIhg+vv/E2kIpeFi/fQ6ezC9dAi08EM6TZWLqejj0loMvqSWqFE6Ua71IYFiiS4mo+Ol/0Si2X+kjD984FTbnuh35VF/z9oEZfXcHSBw1yM/zMKOuixcgc9fCD89g3uH+jfWZwfNKMAL9ObToOzDC8OtmS12jiCuSW86imu0XHvT8GYVsoeHJoiBQJZceThvwcsIlng9PU7BbnDPVTJ9lGXWvQUFxcvf5oQtGQbH51yEbrVMD3BuDxBcD0vKHq4xyttXJwkB9737Z0vKxvqyBdKAfpBNv1WvmPFoYO8IERIEfpuk8c81KWCqrGHeKXPZmBpM+lk8DbrxtkKvETgCx288kYs2dzeT9W/wDdp6M0k7DvHTDw4NVGXnOII9R7k13mcFDg8F7o3c7ulWA5clYh8d58ghsvm9dk8C6t4woMcoXtJOBNwmXqvYc8E7SOMVOWiD/2QhQLZAo6lQP1jweUvd+wvEcN0ng+zB0VPCXXyPJQe7vuopsWK+VeVMSGKr8hIHPynXVbPrEjmV0m7k1RnBmBXdrizxaamyEtWLOKQ/GJ7LP08Vsy/cnQpCjyHkmxzVqLgSknqc4mUO+3wXfZ3lljCNIHvUcNLBsPdIPhj6KVE8TLLOK41cvEFKMlDFFw+/GO21VeB5KhUOVrqz98coYuCqF/4WHo5Up4oXIbw3oikeVGyk/zNpF82oeWT8A+Q1f58A6LcGWwkPPFtt4fpM5HqkGUu1Q+J6WdQcMqw9NBKyTT4OJgN8vmSBHxRosuTLmrTZipxx5mcatt9T1I65U7/jBqqIdmvad44G+R7PEnoIt8bS4eZ/ya/qECqM+ULEPlyYjqsxoe67Ti0XjZVq/vnguN8MrjoKYzteeBTIth2pHpK2QKCE+y7SPRm/GDXbrROOQrZ7D5AfXA20xO3PT+27cCHIvSoFZlLal9LTAc3uH4rIosVP3YWE5rO8Kw2LE2FcXSr4sE5M3EUeEZzwFtTLlKrhdjCA1TGDuJGVbteGfLo0C8qdw8zaouUKrj5VhKauiOQkP4kpb+A3fKPgYv7MrM3k4idRVlko/Qy9KD8onqCdCU4+0XbAAlSg8A9nIS+9A4USSG7hRpusMeILtAJz3sEzSpDZf0u+QrwOO27T9dhunyyhA/63+uJev8GWZg1Bwe3K/hSRO2rjl6jVgtU3fCRkGSU7sqM2LodL1AjiM50jtnh7ZyP6Mc55ZJLHmrpakZ7lR87MTkAHE3ypGOSHyuAdH3jdXwZatldluPT8HAbYu5H+9GW7AB7/xK6liB6m0sWtrbeSz4Ku5ozuS/Qphh0Pe11dfKYit4cOsb+d9bG2LXub0/3g/yA1By9BK0Y+uAq/Cijsy51kYbG2R7N6iLI99MU0w4V/UlCBxxc/wo1+9ctXC3dT3CSEm7YazzyuWRp6+AQ2TSs0MFJXN8yqNI24a6nti0fF4RW0S+yZLmtdMDvXL9Los5oUxJvSskS4xCql9I923YPsNWd3T6wc+hHP2q1xHQ4tXAsTYWa8VPRy7gD4DoioZapLRbaT93Hq5HV7Wfhy1PoquEJCKrnl7Z4LHmELZFydowXB3fEwAVhOzytJzoquov7I7URQsVT2X1bhKYu/IsT3CP0gh1dqH6+Ed2FyYYdHvHT6INu8u8g5FCfGs43GUitOkLu5awktPp6S/E29pNtzQ0B6pEGYD7PE/cMo4G3E9J6hC5a1ZHEl093Y7xRNe7UjDSaMmo6tY9D0/ssLOJSvFKceunLLGZz2T/jtzetwflG9HKfu/WgODiUp6TPOa63UYdpo3qSNRmKbMzOCCH7B7Nk+czacVjeZK596un9q22kz+gKb6G61ilUsN/DtcyVPraAii1Cv1XJmzE8hv45WdoiGZ0Wcd/6pTWSQeckl9cfKSakx6jzbiH9jC5uy2MbgHOsVDsG79wRtWr5pt5Cw80eFd3hQ/tlBVk8df369XIgsgKtzToiYnefAd2B6YSTxPr0S1zmggmI3GkRoh4EW1R4vtvoHx9R0U+gpcWSsFimTl1PbD6pw26grGxxkLiXG9DLMknrDokCql5heaj9K7cVx6k4D2+CfgllWxR6ywuYkwK2dnyla0j0kKDRYbcb5FrrfqbQbrLsFxxcK1DdFmfZ8PyFpDOuKqP+nSx5opS0voBrdwUAm4SBbSWWzWTTXP2fQ4yX7spmhEaWpnOn5MBpbbrk8/0B7imPIvGieB+H+3k24e6BtCGbUb3BSbtSOtt3SCvKlrndPdRw0DXohOT0j/EkKcBCTf3BT0on5mWW5FBlU+AcYvdSP6zfdOrJvHhEJoRRevzkdMzNVabJ4CfAOex65XLrPO5fWUqmmEeu6v98JiJLdxm5amq6PlxFz3AruSqiHIZ6IqMG158GXVmi0EwW6f7YtYAEnzkiLdxDdLCHig2seMFohYzQHehah9xpilamM7l2EUtREzcT8qDuj/9K0IZdguwVS3+N6EbaTrU7cJkvlsadzc5Oany9kbFpL3DRAd1KlEyCuPK2j9zZeiTebSrW0g2jYSr/fYlHvnXPFn+HyGy/ybe5CuiwD03D/QGdn5ZTnbqrJcmoC+x6RvAonUqYYgkKW3qYEVQ4DOWM0KFm3awJKu9o165sjyUxnjecbmp6LtkfvV32dzv0A8jTN9tIOKwRU/IQOfS/2Tr9HNNyj2jc8piIWWwjhC206bPZoK5CegcuZnL4I8fU4sFETWeBikRwdcRsilpghpi308HgQh4KafvuFCL1/ipLYn/NIwhbEuZxqCJmB2PHazvs8LCOp7M9qDHn78WEenebmSlgAJbclgQCF0uvRPeI6pbw3T0sNVHwdGHMkb2xv8qj/sbLYLMRWjJpaK8LSeDq+d7fF3cB6WZu/g8K1nCZOarfwK3Uv1wCZmTpcaWfSltxCea5hg45FBPYE7aVeJhF+I6VXIaTuYlRdXVsGaHWp39+ln7TeZ5JOvVVheQhd1XsgkxXxZoEQbJLhJ7JHH4Z+D+fcHXfJOlrrn1tCF+7CWZbhjR6lZcsKeX3JuAq+jxy9Xi09dKk53t7DnPEF6BKv9ptbf+NH/bdSv15tHRK/nyp4SUx050NNh95bebR0OroAdkyV8WmSmrb1Bpqqj1PP/TbJwRtKMgEkDs6PX/77AhyKHwDQm9PGM5C0aaeSx2lQxsOTu8rkRcrOlWb3vm0hqPG+QZJ1Zy+332YSNtv+/3zJ2kCcoLQlD9XFQ1PLnBxdHZ8MdQibR3zzAqf+jQLXyAkGRYdgXloro2uaS0BMH/SXI1ybyo8PVsVqLJE94rM0h02QoIbsr5hWVncUzK4j9B2c0cneVnIzH5oFXb7t+6YPved5S0tFBND5/lCSEVG3SGp08FZK23tnRtaW1taF7PclAHfIT8obf8WbXp+de1z4Oz0Fr6pT2ob+1OsWBNUvuBsPmYwPLy5LaaY/Lo1l1jQxCb/C0kktJb1ObShgKNgMlbOEUB1NIpOSb6bbTzHy4GQ7IEHenQwpz1D/teZcK3PGpIjVefJc71T8etKNE094oJHDj91xMsg2wU0lSUYl9HauZujpTYjuCPwT5nSUUJoWxyyce05Clxlu/GyXw5Zw+M0D5XbxIubPp025MVdFpH5DtDawAZv3qszOQ7LibOwTz22ggSXGx5Ll3ReatpGU07gRSwwssSLlYME0BPTPCbX0DNoiRjSJWq6x0zjE9CZJwMuhtZN+JE86NTM8qjpVKF0sr314lgzXjEzVyYw58zQwfvcXS4Swq8qBzbmCyp9IlBtBqN+n9aQX5kgZGGK7uLq7kXYJ7PpAEcDkB42rJ16Nl3kBhOZsqbo4K9U3eErEbhqVjddgH1ZhmaVmChKZppewZEBJem+IzqiLBbTPVfPrFIrHTPLe5Jz0NVohTx6knUbXbsT7nwo9MCo6WuUHEyXRxUJitgQxfGTPFIsJpfYJGfA5b14OtHVcy1Zsy0RP3iUdLloFTktQzFBCvmWBpVeMCNxZulQZ5Q9Mco1xhHwCN0m4abozti+Lo730WPWdsGcPWme3pF4XzUshLyHvuA9vNmGm6X3GU8wweORp59kBvPmFpcU6bpgurxQn4HvYc4LdT4EyXNMLWXI1LjHN51ypeauZLZvDy+7jMxbF1L6t6jN0Y021wS++/TxHlnxsY5P4qyPkK437BaJBTvD8s6SaFJsuDm6QweeJbDtLWrEU6FjW7tM4FJtuDl6h4Y+aGHCBaMOBO/x3BwB3Ax9trbtAVrdSY15WcmxVcCsbk2ZHr+ZLhnSLLeCLnyCJOu8J7WJlgp9dmwCC8+UWQebZCymxPbyPWJK/4xTavSOGDprOZwtt5k6M2zdH4m8maarpjtrcAE43sf28EXJlRISRkLHgA57ooYqTx31HkEKyyiznB/hkJul02mtRIJ4ak72Mv1CdTrvkaznEU20lOiQl/0ISaGz0fawqUZXU3PO2ijpHbwcjWIixv6yG5Hwoxhx03SXJ6xUpLWM3YEUzBttw83Re8IribSrKckaMypG3XBTdEdkvgl85MWoR9wsPbLISIImjTxV66knHo+MHlXzHlESPDbHx6DXTdIjcDreLP7MEsPHqCSlw57IaFMVwwujUawjoLOdoRLWaEnnNKVuPo2GznyJEkXPjcUUT5nOVli2pyiOlbClQIeKejdMX0grnRlwCVIn0k0Hp0+bi7qmh56+8jf63+h/o///of8flVIb34No0hQAAAAASUVORK5CYII=' alt="" class="view-image"></p>
+<p>  框架努力通过以下方式实现安全性：</p>
+<ul>
+<li>过程安全；</li>
+<li>认证；</li>
+<li>授权。</li>
+</ul>
+<p>  每个<a href="">多层架构</a>级别都实施了流程安全性：</p>
+<ul>
+<li>强大的加密功能可将信息保密 - 请参阅<a href="">HTTP AES加密</a>；</li>
+<li>SQLite3数据库的原子性 - 请参阅<a href="">ACID和速度</a>；</li>
+<li><a href="">无状态ORM</a>架构，以避免大多数同步问题；</li>
+<li>与Object pascal强类型语法关联的<a href="">对象关系映射（ORM）</a>；</li>
+<li>框架核心覆盖扩展测试。</li>
+</ul>
+<p>  验证以识别用户：</p>
+<ul>
+<li>内置可选身份验证机制，实现用户会话和单独的REST身份验证查询；</li>
+<li>身份验证组用于正确授权；</li>
+<li>几种认证方案，从非常安全的HMAC-SHA256挑战到弱但简单的认证；</li>
+<li>基于类的架构，允许自定义扩展。</li>
+</ul>
+<p>  在正确认证后，基于组策略对给定流程授权：</p>
+<ul>
+<li>在框架的最底层内置表访问权限功能;</li>
+<li>基于接口的服务的方法执行策略;</li>
+<li>一般高级安全属性，用于SQL或Service远程执行。</li>
+</ul>
+<p>  过程安全性已做了专门叙述。</p>
+<p>  我们现在将在框架中提供有关身份验证和授权的综合信息。</p>
+<h2 id="toc_1">21.1. 认证<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<p>  从维基百科中提取：</p>
+<p>  身份验证是确认数据或实体属性真实性的行为。这可能涉及确认个人或软件程序的身份，追踪工件的来源，或确保产品是其包装和标签声称的产品。认证通常涉及验证至少一种形式的识别的有效性。</p>
+<h3 id="toc_2">21.1.1. 原则<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h3>
+<p>  如何在RESTful客户端-服务端架构中处理身份验证是一个有争议的问题。</p>
+<p>  通常，可以通过以下方式在SOA over HTTP世界中实现：</p>
+<ul>
+<li>通过HTTPS进行HTTP基本身份验证；</li>
+<li>Cookie和会话管理；</li>
+<li>使用附加签名参数查询身份验证。</li>
+</ul>
+<p>  我们必须适配甚至更好地混合这些技术，以最好地匹配我们的框架架构。</p>
+<p>  每种身份验证方案都有自己的PRO和CON，具体取决于安全策略和软件架构的用途：</p>
+<table>
+<thead>
+<tr>
+<th>标准</th>
+<th>HTTPS基本身份验证</th>
+<th>Cookies+会话</th>
+<th>查询验证</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>浏览器集成</td>
+<td>原生</td>
+<td>原生</td>
+<td>通过Javascript</td>
+</tr>
+<tr>
+<td>用户交互</td>
+<td>简陋</td>
+<td>自定义</td>
+<td>自定义</td>
+</tr>
+<tr>
+<td>Web服务使用<br>(粗略估计)</td>
+<td>95%</td>
+<td>4%</td>
+<td>1%</td>
+</tr>
+<tr>
+<td>Session处理</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>Session管理</td>
+<td>客户端</td>
+<td>服务端</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>服务端密码</td>
+<td>是</td>
+<td>是或否</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>无状态</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>RESTful</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>HTTP-free</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<h4 id="toc_3">21.1.1.1. 通过HTTPS进行HTTP基本身份验证<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h4>
+<p>  大多数Web服务都使用基于标准HTTPS协议的首选解决方案。它很容易实现，默认情况下可以在所有浏览器上使用，但是有一些已知的缺点，比如浏览器上显示的糟糕的身份验证窗口，它会持续存在（这里没有类似LogOut的功能），会增加服务端CPU消耗，以及用户名和密码是通过HTTPS传输到服务端（仅在键盘输入期间将密码保留在客户端，之后以哈希值存储在服务端应该更安全）。</p>
+<p>  提供的<code>TSQLHttpClientWinHTTP</code>和<code>TSQLHttpClientWinINet</code>客户端类可以使用HTTPS进行连接，<code>THttpApiServer</code>服务类可以发送兼容的内容。</p>
+<h4 id="toc_4">21.1.1.2. 通过Cookies会话<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h4>
+<p>  说实话，在服务器上管理的会话并非真正无状态。一种可能性是维护cookie内容中的所有数据，并根据设计在服务端处理cookie（客户端实际上根本不需要解释这个cookie数据：它只是在每个连续请求时将其交还给服务器）。但是这个cookie数据是应用程序状态数据，因此客户端应该在纯无状态世界中管理它，而不是服务端。</p>
+<p>  cookie技术本身是HTTP链接的，所以它不是真正的RESTful，它应该是独立于协议的。由于我们的框架不仅提供HTTP协议，还提供其他传输方式，因此Cookies留在了“面包店的家中”。</p>
+<h4 id="toc_5">21.1.1.3. 查询验证<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h4>
+<p>  查询身份验证包括通过URI上的一些附加参数对每个RESTful请求进行签名。有关此技术，请参见<code>http://broadcast.oreilly.com/2009/12/principles-for-standardized-rest-authentication.html</code>。它在本文中定义如下：</p>
+<p>  所有REST查询必须使用私有凭据作为签名令牌，对按小写字母顺序排序的查询参数签名来进行身份验证，签名应该在URI查询字符串编码之前进行。</p>
+<p>  例如，以下是前述链接中的通用URI示例：</p>
+<pre><code class="hljs"> GET /object?apiKey=Qwerty2010
+</code></pre>
+<p>  应该这样传输：</p>
+<pre><code class="hljs">GET /object?timestamp=1261496500&amp;apiKey=Qwerty2010&amp;signature=abcdef0123456789
+</code></pre>
+<p>  被签名的字符串是<code>"/object?apikey=Qwerty2010&amp;timestamp=1261496500"</code>，签名是使用API​​密钥私有组件对该字符串进行SHA256哈希。</p>
+<p>  这种技术可能与无状态架构更兼容，也可以通过轻型会话管理实现。</p>
+<p>  服务端数据缓存始终可用。在我们的框架中，我们在SQL级别缓存响应，而不是在URI级别（由于我们优化的<code>GetJSONObjectAsSQL</code>实现，URI到SQL的转换非常快）。因此，添加此额外参数不会破坏缓存机制。</p>
+<h3 id="toc_6">21.1.2. 认证框架<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h3>
+<p>  即使从理论上讲，查询身份验证听起来更适合实现真正的RESTful架构，我们的框架也会尝试实现客户端-服务端设计。</p>
+<p>  在实践中，我们可以考虑使用它的两种方式：</p>
+<ul>
+<li>没有认证或用户权限管理（例如，用于本地访问数据，或通过安全网络使用框架）;</li>
+<li>通过定义的安全组进行用户身份验证和权限管理，以及查询身份验证，遵循多个协议（一组mORMot风格，Windows NTLM/Kerberos或任何自定义方案）。</li>
+</ul>
+<p>  根据RESTful原则，处理会话数据不是在这种架构中实现的。引入了一个最小的“类似会话”功能，用于在客户端和服务端以极低的开销处理用户身份验证。因此，用于我们安全性的主要技术是查询身份验证，即URI签名。</p>
+<p>  如果<code>TSQLRestServer.Create</code>构造函数的<code>aHandleUserAuthentication</code>参数保留为默认的<code>false</code>值，则不执行任何身份验证。任何客户端都可以访问所有表格。如上所述，出于安全原因，默认情况下不允许远程连接通过RESTful POST命令执行<code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> SQL语句：只能通过POST执行SELECT。</p>
+<p>  如果为客户端-服务端进程启用了身份验证（即在<code>TSQLRestServer</code>实例构造函数中将<code>aHandleUserAuthentication</code>参数设置为<code>true</code>），则将添加以下安全功能：</p>
+<ul>
+<li>在服务端，可以通过<code>ModelRoot/Auth</code> URI访问专用服务来注册用户，并创建内存会话；</li>
+<li>客户端应打开会话并在完成身份有效验证后访问服务端（例如，通过<code>UserName</code>/<code>Password</code>对或Windows凭据）；</li>
+<li>通过<code>AccessRights</code>列及其<code>GET</code>/<code>POST</code>/<code>PUT</code>/<code>DELETE</code>标识位，对经过身份验证的用户安全组逐一检查CRUD语句；</li>
+<li>用户身份验证的<code>AccessRights</code>字段包含用于<code>AllowRemoteExecute</code>的<code>reSQL</code>标志，允许任何SQL语句命令通过RESTful POST远程操作；</li>
+<li>每个REST请求都需要一个名为<code>session_signature</code>的参数附加到每个URL，使用URI而不是<code>cookie</code>允许签名过程与所有通信协议一起使用，而不仅仅是HTTP；</li>
+<li>当然，您可以根据需要调整甚至绕过给定服务的安全性（基于方法或基于接口）：如仅允许系统管理员使用某些方法，或者提供公共HTML内容。</li>
+</ul>
+<h4 id="toc_7">21.1.2.1. 用户身份验证<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h4>
+<p>  在服务端，由<code>TSQLAuthGroup</code>和<code>TSQLAuthUser</code>类定义的两个表将分别处理组访问权限（授权）和用户验证（身份验证）。在数据库中，它们将作为<code>AuthGroup</code>和<code>AuthUser</code>表存储。</p>
+<p>  服务器将在其模型中搜索从<code>TSQLAuthGroup</code>和<code>TSQLAuthUser</code>继承的任何类。默认情况下，您可以使用纯<code>TSQLAuthGroup</code>和<code>TSQLAuthUser</code>类，如果模型中未定义任何类，并且启用了身份验证，则将自动添加这些必需类。但是您可以从<code>TSQLAuthGroup</code>和<code>TSQLAuthUser</code>继承，并定义您自己的字段，用于组或用户级别的任何自定义目的。可以从<code>TSQLRestServer</code>的<code>SQLAuthUserClass</code>和<code>SQLAuthGroupClass</code>属性获得确切的类类型。</p>
+<p>  由于整个记录将在每次身份验证时加载并保存在内存中，因此不要在这些表中存储太多数据：如不要放置历史数据（以前的客户端活动）或大量BLOB（如详细图片），最好使用专用表或一组表。</p>
+<p>  以下是默认<code>AuthGroup</code>表的布局，由<code>TSQLAuthGroup</code>类定义：</p>
+<div class="plantuml-diagram"><!--?xml version="1.0" encoding="UTF-8" standalone="no"?--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentscripttype="application/ecmascript" contentstyletype="text/css" height="143px" preserveAspectRatio="none" style="width:227px;height:143px;" version="1.1" viewBox="0 0 227 143" width="227px" zoomAndPan="magnify" class="view-svg"><defs><filter height="300%" id="fgbszujl9px8w" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><ellipse cx="111.926" cy="69.8922" fill="#FEFECE" filter="url(#fgbszujl9px8w)" rx="104.926" ry="62.8922" style="stroke: #A80036; stroke-width: 1.5;"></ellipse><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="47" x="88.426" y="27.2337">ID : TID</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="31.3872" x2="192.4648" y1="30.3099" y2="30.3099"></line><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="159" x="32.426" y="50.3538">AccessRights : RawUTF8</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="10.0805" x2="213.7715" y1="57.43" y2="57.43"></line><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="105" x="59.426" y="77.474">ident : RawUTF8</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="10.8895" x2="212.9625" y1="84.5501" y2="84.5501"></line><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="157" x="33.426" y="104.5941">SessionTimeout : integer</text><!--MD5=[5cf1c116092b5e8c7614471259356cf3]
+@startuml
+usecase UC1 as "ID : TID
+- -
+AccessRights : RawUTF8
+- -
+ident : RawUTF8
+- -
+SessionTimeout : integer"
+
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 18:24:54 CST 2019)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 13.0.1+9
+Operating System: Windows 10
+Default Encoding: GBK
+Language: zh
+Country: CN
+--></g></svg></div>
+<p>  <code>AccessRights</code>列是<code>TSQLAccessRights</code>记录内容的文本CSV序列化，正如<code>TSQLRestServer.URI</code>方法所期望的那样。 使用CSV序列化而不是二进制序列化将允许更改<code>MAX_SQLTABLES</code>常量值。</p>
+<p>  由<code>TSQLAuthUser</code>类类型定义的<code>AuthUser</code>表定义如下：</p>
+<div class="plantuml-diagram"><!--?xml version="1.0" encoding="UTF-8" standalone="no"?--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentscripttype="application/ecmascript" contentstyletype="text/css" height="305px" preserveAspectRatio="none" style="width:277px;height:305px;" version="1.1" viewBox="0 0 277 305" width="277px" zoomAndPan="magnify" class="view-svg"><defs><filter height="300%" id="fcjacy8hncdz6" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><ellipse cx="136.0824" cy="104.6299" fill="#FEFECE" filter="url(#fcjacy8hncdz6)" rx="130.0824" ry="96.6299" style="stroke: #A80036; stroke-width: 1.5;"></ellipse><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="47" x="112.5824" y="28.2349">ID : TID</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="52.3505" x2="219.8143" y1="31.3111" y2="31.3111"></line><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="134" x="69.0824" y="51.355">Data : TSQLRawBlob</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="22.8303" x2="249.3345" y1="58.4312" y2="58.4312"></line><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="156" x="58.0824" y="78.4751">DisplayName : RawUTF8</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="9.5607" x2="262.6041" y1="85.5513" y2="85.5513"></line><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="198" x="37.0824" y="105.5952">GroupRights : TSQLAuthGroup</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="7.4512" x2="264.7135" y1="112.6714" y2="112.6714"></line><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="150" x="61.0824" y="132.7154">LogonName : RawUTF8</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="15.9177" x2="256.2471" y1="139.7915" y2="139.7915"></line><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="198" x="37.0824" y="159.8355">PasswordHashHexa : RawUTF8</text><ellipse cx="135.7904" cy="277.52" fill="#FEFECE" filter="url(#fcjacy8hncdz6)" rx="51.7904" ry="16.52" style="stroke: #A80036; stroke-width: 1.5;"></ellipse><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="69" x="101.2904" y="283.58">AnthGroup</text><!--MD5=[1aa3f81a3bd80cff712043234baebedb]
+link UC1 to UC2--><path d="M136,201.4969 C136,221.9286 136,241.5483 136,255.5936 " fill="none" id="UC1->UC2" style="stroke: #A80036; stroke-width: 1.0;"></path><polygon fill="#A80036" points="136,260.8811,140,251.8811,136,255.8811,132,251.8811,136,260.8811" style="stroke: #A80036; stroke-width: 1.0;"></polygon><!--MD5=[20e14ceda417127260867a30db2a2096]
+@startuml
+usecase UC1 as "ID : TID
+- -
+Data : TSQLRawBlob
+- -
+DisplayName : RawUTF8
+- -
+GroupRights : TSQLAuthGroup
+- - -
+LogonName : RawUTF8
+- - -
+PasswordHashHexa : RawUTF8"
+
+usecase UC2 as "AnthGroup"
+
+(UC1) - ->(UC2)
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 18:24:54 CST 2019)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 13.0.1+9
+Operating System: Windows 10
+Default Encoding: GBK
+Language: zh
+Country: CN
+--></g></svg></div>
+<p>  因此，每个用户都有自己关联的<code>AuthGroup</code>表，登录时输入的名称，屏幕上显示的名称或报告，以及其注册密码的SHA256哈希值（可选的PBKDF2_HMAC_SHA256派生），为您自己的应用程序指定的自定义<code>Data</code> BLOB字段，但框架无法访问该字段。</p>
+<p>  默认情况下，在空数据库上创建以下安全组：</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>POST SQL</th>
+<th>SELECT SQL</th>
+<th>Auth R</th>
+<th>Auth W</th>
+<th>Tables R</th>
+<th>Tables W</th>
+<th>Services</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Admin</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Supervisor</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>User</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Guest</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>  <code>'Admin'</code>是唯一能够执行远程POST命令（<code>TSQLAccessRights.AllowRemoteExecute</code>中的<code>reSQL</code>标志）并修改<code>Auth*</code>表（即<code>AuthUser</code>和<code>AuthGroup</code>）。</p>
+<p>  '<code>Admin'</code>和<code>'Supervisor'</code>将允许执行任何SELECT SQL语句，即使无法检索和检查表（对应于<code>reSQLSelectWithoutTable</code>标志）。</p>
+<p>  <code>'User'</code>不具有<code>reSQLSelectWithoutTable</code>标志，也不具有为其他用户检索<code>Auth*</code>表数据的权限。</p>
+<p>  <code>'Guest'</code>将无法访问基于接口的远程JSON-RPC服务（无<code>reService</code>标志），也无法对表执行任何修改：简而言之，这是一个ORM只读的受限用户。</p>
+<p>  有关所有可用选项和用例，请参阅<code>TSQLAccessRights</code>文档。</p>
+<p>  然后使用默认的<code>'synopse'</code>密码创建相应的<code>'Admin'</code>、<code>'Supervisor'</code>和<code>'User'</code> <code>AuthUser</code>帐户。</p>
+<p>  <strong>您必须将每个<code>AuthUser</code>记录默认的<code>'synopse'</code>密码覆盖为自己的真实值。</strong></p>
+<p>  默认安全用户/组定义的典型JSON表示如下：</p>
+<pre><code class="lang-json hljs">[{<span class="hljs-attr">"AuthUser"</span>: [
+{<span class="hljs-attr">"RowID"</span>:<span class="hljs-number">1</span>, <span class="hljs-attr">"LogonName"</span>:<span class="hljs-string">"Admin"</span>, <span class="hljs-attr">"DisplayName"</span>:<span class="hljs-string">"Admin"</span>, <span class="hljs-attr">"PasswordHashHexa"</span>:<span class="hljs-string">"67aeea294e1cb515236fd7829c55ec820ef888e8e221814d24d83b3dc4d825dd"</span>, <span class="hljs-attr">"GroupRights"</span>:<span class="hljs-number">1</span>, <span class="hljs-attr">"Data"</span>:<span class="hljs-literal">null</span>},
+{<span class="hljs-attr">"RowID"</span>:<span class="hljs-number">2</span>, <span class="hljs-attr">"LogonName"</span>:<span class="hljs-string">"Supervisor"</span>, <span class="hljs-attr">"DisplayName"</span>:<span class="hljs-string">"Supervisor"</span>, <span class="hljs-attr">"PasswordHashHexa"</span>:<span class="hljs-string">"67aeea294e1cb515236fd7829c55ec820ef888e8e221814d24d83b3dc4d825dd"</span>, <span class="hljs-attr">"GroupRights"</span>:<span class="hljs-number">2</span>, <span class="hljs-attr">"Data"</span>:<span class="hljs-literal">null</span>},
+{<span class="hljs-attr">"RowID"</span>:<span class="hljs-number">3</span>, <span class="hljs-attr">"LogonName"</span>:<span class="hljs-string">"User"</span>, <span class="hljs-attr">"DisplayName"</span>:<span class="hljs-string">"User"</span>, <span class="hljs-attr">"PasswordHashHexa"</span>:<span class="hljs-string">"67aeea294e1cb515236fd7829c55ec820ef888e8e221814d24d83b3dc4d825dd"</span>, <span class="hljs-attr">"GroupRights"</span>:<span class="hljs-number">3</span>, <span class="hljs-attr">"Data"</span>:<span class="hljs-literal">null</span>}]},
+{<span class="hljs-attr">"AuthGroup"</span>: [
+{<span class="hljs-attr">"RowID"</span>:<span class="hljs-number">1</span>, <span class="hljs-attr">"Ident"</span>:<span class="hljs-string">"Admin"</span>, <span class="hljs-attr">"SessionTimeout"</span>:<span class="hljs-number">10</span>, <span class="hljs-attr">"AccessRights"</span>:<span class="hljs-string">"11,1-256,0,1-256,0,1-256,0,1-256,0"</span>},
+{<span class="hljs-attr">"RowID"</span>:<span class="hljs-number">2</span>, <span class="hljs-attr">"Ident"</span>:<span class="hljs-string">"Supervisor"</span>, <span class="hljs-attr">"SessionTimeout"</span>:<span class="hljs-number">60</span>, <span class="hljs-attr">"AccessRights"</span>:<span class="hljs-string">"10,1-256,0,3-256,0,3-256,0,3-256,0"</span>},
+{<span class="hljs-attr">"RowID"</span>:<span class="hljs-number">3</span>, <span class="hljs-attr">"Ident"</span>:<span class="hljs-string">"User"</span>, <span class="hljs-attr">"SessionTimeout"</span>:<span class="hljs-number">60</span>, <span class="hljs-attr">"AccessRights"</span>:<span class="hljs-string">"10,3-256,0,3-256,0,3-256,0,3-256,0"</span>},
+{<span class="hljs-attr">"RowID"</span>:<span class="hljs-number">4</span>, <span class="hljs-attr">"Ident"</span>:<span class="hljs-string">"Guest"</span>, <span class="hljs-attr">"SessionTimeout"</span>:<span class="hljs-number">60</span>, <span class="hljs-attr">"AccessRights"</span>:<span class="hljs-string">"0,3-256,0,0,0,0"</span>}]}]
+</code></pre>
+<p>  当然，您可以更改<code>AuthUser</code>和<code>AuthGroup</code>表内容，以符合您的安全要求和应用程序规范。您可以通过<code>AccessRights</code>列指定表的CRUD访问权限，如上所述的<code>TSQLAccessRights</code>记录。</p>
+<p>  这将实现查询身份验证以及定义用户权限管理组。</p>
+<h4 id="toc_8">21.1.2.2. 会话处理<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h4>
+<p>  <code>ModelRoot/Auth</code> URI提供的专用RESTful服务将用于用户身份验证，以及处理所谓的会话。</p>
+<p>  在mORMot中，实现了一个非常轻型的内存会话集：</p>
+<ul>
+<li>唯一的<code>ModelRoot/Auth</code> URI端点将在正确授权后创建会话；</li>
+<li>内存会话支持服务端快速处理和反应；</li>
+<li>在服务端关闭时，可以选择将会话保留在磁盘上，以避免破坏现有的客户端连接；</li>
+<li>整数会话标识符用于所有授权过程，独立于基础认证方案（即mORMot不与cookie相关联，并且其会话过程更通用）。</li>
+</ul>
+<p>  这些会话是内存中的<code>TAuthSession</code>类实例。请注意，出于性能和安全性原因，此类不是从<code>TSQLRecord</code>表继承，因此无法远程访问。</p>
+<p>  服务端方法不应该直接访问那些<code>TAuthSession</code>实例，而是依赖于<code>SessionID</code>标识符。但您仍然可以访问当前的会话属性，例如远程用户，感谢<code>TSQLRestServer.SessionGetUser(): TSQLAuthUser</code>等方法。</p>
+<p>  当客户端即将关闭时（通常用<code>TSQLRestClientURI.Destroy</code>），<code>GET ModelRoot/auth?UserName=...&amp;Session=...</code>请求被发送到远程服务器，以便显式关闭服务器中相应的内存会话（避免大多数重放攻击）。</p>
+<p>  请注意，每个打开的会话内部都有一个<code>TimeOut</code>参数（从关联的<code>TSQLAuthGroup</code>表内容中检索）：在一段时间不活动后，服务端关闭会话。</p>
+<p>  此外，会话用于管理安全的跨客户端事务：</p>
+<ul>
+<li>当客户端发起事务时，它将存储相应的客户端会话ID，并使用它来允许客户端安全写入；</li>
+<li>任何对DB的进一步写入（添加/修改/删除）只能从此会话ID访问，直到事务被释放（提交或回滚）；</li>
+<li>如果事务开始并且另一个客户端会话尝试在DB上写入，它需等待当前事务被释放，如果服务端在一段时间内无法获取写入状态，则可能发生超时；</li>
+<li>全局写锁定由<code>TSQLRest.AcquireWriteMode</code>/<code>AcquireWriteTimeOut</code>属性定义，并在服务器端由<code>TSQLRestServer.URI</code>使用，您可以通过设置如<code>AcquireWriteMode := amBackgroundThread</code>来更改此行为，它将锁定在专用线程中执行的任何写操作：这可能是必需的，因为数据库客户端期望事务进程发生在同一个线程中（例如MS SQL）；</li>
+<li>如果服务端不处理会话/身份验证，则在多客户端并发架构中事务可能是不安全的。</li>
+</ul>
+<p>  出于性能原因，在多客户端环境中，必须尽快释放事务（提交或回滚），如使用用于添加/修改/删除记录的批次序列，或者，最好通过接口编写专用的客户端-服务端服务，这些接口将按照工作单元模式一次处理整个事务。</p>
+<p>  您可以为<code>TSQLRestServer.Shutdown()</code>方法指定可选的文件名参数，该方法将当前服务器状态保存到本地文件中。然后，如果您在短时间内重新启动服务器，则可以使用<code>TSQLRestServer.SessionsLoadFromFile()</code>还原所有会话信息。此功能将启用例如生产中快速透明的ORM Server可执行升级。但请注意，即使会话持久且能够恢复，任何与会话相关的复杂数据（如基于接口的服务生成的服务端临时实例生命周期实现）将无法使用。仅当服务端处于ORM模式时，此会话临时备份/恢复才有意义，而不是在用作SOA时。</p>
+<h3 id="toc_9">21.1.3. 认证方案<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h3>
+<h4 id="toc_10">21.1.3.1. 类驱动的身份验证<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h4>
+<p>  身份验证通过以下类在mORMot中实现：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 1194.75 386" style="max-width:1194.75px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M152,64L152,89L238.30319148936172,114" marker-end="url(#arrowhead21)" style="fill:none"></path><defs><marker id="arrowhead21" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M476.5,64L476.5,89L390.1968085106383,114" marker-end="url(#arrowhead22)" style="fill:none"></path><defs><marker id="arrowhead22" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M314.25,158L314.25,183L404.54255319148933,208" marker-end="url(#arrowhead23)" style="fill:none"></path><defs><marker id="arrowhead23" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M653.75,158L653.75,183L563.4574468085107,208" marker-end="url(#arrowhead24)" style="fill:none"></path><defs><marker id="arrowhead24" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M992.75,158L992.75,183L992.75,208" marker-end="url(#arrowhead25)" style="fill:none"></path><defs><marker id="arrowhead25" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M484,252L484,277L574.8244680851064,302" marker-end="url(#arrowhead26)" style="fill:none"></path><defs><marker id="arrowhead26" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M992.75,252L992.75,277L771.75,307.7307692307692" marker-end="url(#arrowhead27)" style="fill:none"></path><defs><marker id="arrowhead27" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A1" transform="translate(152,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-132" y="-22" width="264" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-122,-12)"><foreignObject width="244" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerAuthenticationSSPI</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(314.25,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-153.5" y="-22" width="307" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-143.5,-12)"><foreignObject width="287" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerAuthenticationSignedURI</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(476.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-142.5" y="-22" width="285" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-132.5,-12)"><foreignObject width="265" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerAuthenticationDefault</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(484,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-129.5" y="-22" width="259" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-119.5,-12)"><foreignObject width="239" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerAuthenticationURI</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(653.75,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-136" y="-22" width="272" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-126,-12)"><foreignObject width="252" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerAuthenticationNone</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(992.75,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-150.5" y="-22" width="301" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-140.5,-12)"><foreignObject width="281" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerAuthenticationHttpBasic</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(992.75,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-162" y="-22" width="324" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-152,-12)"><foreignObject width="304" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerAuthenticationHttpAbstract</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(654.75,324)" style="opacity: 1;"><rect rx="0" ry="0" x="-117" y="-22" width="234" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-107,-12)"><foreignObject width="214" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerAuthentication</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  实际上，您可以使用以下RESTful身份验证方案之一：</p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TSQLRestServerAuthenticationDefault</td>
+<td>mORMot安全认证，作为一个专有的双因子挑战和SHA256/PBKDF2_HMAC_SHA256哈希值</td>
+</tr>
+<tr>
+<td>TSQLRestServerAuthenticationSSPI</td>
+<td>Windows身份验证，通过登录用户</td>
+</tr>
+<tr>
+<td>TSQLRestServerAuthenticationNone</td>
+<td>基于用户名的弱而简单的身份验证</td>
+</tr>
+<tr>
+<td>TSQLRestServerAuthenticationHttpBasic</td>
+<td>HTTP基本身份验证<br>警告:密码未加密</td>
+</tr>
+</tbody>
+</table>
+<p>  所有这些类都将根据用户名标识<code>TSQLAuthUser</code>记录，然后关联<code>TSQLAuthGroup</code>用于授权。</p>
+<p>  您可以通过定义自己的类来添加自己的自定义身份验证方案，继承自<code>TSQLRestServerAuthentication</code>。</p>
+<p>  默认情况下，不执行身份验证。</p>
+<p>  如果在调用构造函数<code>TSQLRestServer.Create()</code>时将<code>aHandleUserAuthentication</code>参数设置为<code>true</code>，则可以使用默认的mORMot安全身份验证和Windows身份验证。 实际上，构造函数执行以下操作：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TSQLRestServer</span>.<span class="hljs-title">Create</span><span class="hljs-params">(aModel: TSQLModel; aHandleUserAuthentication: boolean)</span>;</span>
+  (...)
+  <span class="hljs-keyword">if</span> aHandleUserAuthentication <span class="hljs-keyword">then</span>
+    <span class="hljs-comment">// default mORMot authentication schemes</span>
+    AuthenticationRegister([
+      TSQLRestServerAuthenticationDefault,TSQLRestServerAuthenticationSSPI]);
+  (...)
+</code></pre>
+<p>  要定义一个或多个身份验证方案，可以调用<code>TSQLRestServer的AuthenticationRegister()</code>和<code>AuthenticationUnregister()</code>方法。</p>
+<h4 id="toc_11">21.1.3.2. mORMot RESTful安全身份验证<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h4>
+<p>  <code>TSQLRestServerAuthenticationDefault</code>类实现了专有安全的RESTful身份验证。</p>
+<p>  如增强示例中所述：远程SQL访问，使用以下命令执行典型的客户端身份验证：</p>
+<pre><code class="lang-pascal hljs"> MyClient.SetUser(<span class="hljs-string">'User'</span>,<span class="hljs-string">'synopse'</span>); <span class="hljs-comment">// default user for Security tests</span>
+</code></pre>
+<p>  以下是通过mORMot身份验证方案创建新用户会话时要遵循的典型步骤：</p>
+<ul>
+<li>客户端向远程服务器发送<code>GET ModelRoot/auth?UserName=...</code>请求，对应上面的命令，就是<code>GET ModelRoot/auth?UserName=User</code>；</li>
+<li>服务器以十六进制临时内容（有效约5分钟）响应，编码为JSON结果对象；</li>
+<li>客户端向远程服务器发送<code>GET ModelRoot/auth?UserName=...&amp;PassWord=...&amp;ClientNonce=...</code>请求，其中<code>ClientNonce</code>是客户端的临时随机值，<code>PassWord</code>是根据用户登录输入的密码的计算值，使用服务端和客户端临时值进行salt运算；</li>
+<li>服务器检查传输的密码是否有效，即它与存储在数据库中的散列密码和服务器临时值相匹配且在有效时间内，如果值不正确，则验证失败；</li>
+<li>成功时，服务端将创建一个新的内存会话，并返回会话号和在会话期间使用的私钥（编码为JSON结果对象）；</li>
+<li>对服务器的任何进一步访问，将在URL添加<code>&amp;session_signature=</code>参数，并检查会话有效性以验证请求。</li>
+</ul>
+<p>  客户端通过<code>TSQLRestClientURI.SessionSign</code>方法处理查询身份验证，根据使用的<code>TSQLRestServerAuthentication</code>类，为给定URL计算<code>session_signature</code>参数。</p>
+<p>  为了增强安全性，<code>session_signature</code>参数将包含编码为3个十六进制32位数：</p>
+<ul>
+<li>会话ID（用于检索用于签名的私钥）；</li>
+<li>客户端时间戳（256毫秒分辨率），必须大于等于收到的上一个时间戳；</li>
+<li>URI签名，使用会话私钥、用户散列密码和客户端时间戳进行crc32散列运算。</li>
+</ul>
+<p>  这种经典的3要素签名将避免大多数中间人（MITM）或重放攻击。</p>
+<p>  以下是访问根URL的典型签名：</p>
+<pre><code class="hljs"> root?session_signature=0000004C000F6BE365D8D454
+</code></pre>
+<p>  在这种情况下，<code>0000004C</code>是会话ID，<code>000F6BE3</code>是客户端时间戳（也称nonce），<code>65D8D454</code>是签名，由以下Delphi表达式计算：</p>
+<pre><code class="lang-pascal hljs">(crc32(crc32(fPrivateSaltHash,PTimestamp,<span class="hljs-number">8</span>),pointer(aURL),aURLlength)=aSignature);
+</code></pre>
+<p>  例如，RowID=6的<code>TSQLRecordPeople</code>表的RESTful GET将具有以下URI：</p>
+<pre><code class="hljs"> root/People/6?session_signature=0000004C000F6DD02E24541C
+</code></pre>
+<p>  为了获得更好的服务器端性能，URI签名将使用快速crc32散列方法，而不是更安全（速度更慢）的SHA256。由于我们的安全模型未正式验证为标准方法（RESTful应用程序的每个URI身份验证没有标准），因此在客户端和服务端，使用标准HTTPS和受信任CA签名的证书加密整个传输通道可以达到更好的安全性。使用crc32所涉及的安全性足以满足最常见的使用需求。请注意，开启密码散列和会话将使用SHA256或PBKDF2_HMAC_SHA256，以增强安全性而不会降低性能。</p>
+<p>  在我们的实现中，为了更好的服务器响应，<code>session_signature</code>参数附加在URI的末尾，并且URI参数不按字母顺序排序，如上面引用的参考文献所建议的那样。这无论是对Delphi客户端还是AJAX/JavaScript客户端应该没有问题。</p>
+<p>  在实践中，这种方案是安全非常快的，非常适合Delphi客户端或AJAX应用程序。如果您希望URI签名具有更高级别的安全性，则可以考虑通过在服务端通过设置<code>TSQLRestServerAuthenticationSignedURIAlgo</code>来选择MD5/SHA1/SHA256/SHA512哈希等加密级别。</p>
+<h4 id="toc_12">21.1.3.3. 使用Windows凭据进行身份验证<a class="vnote-anchor" href="#toc_12" data-anchor-icon="#"></a></h4>
+<h5 id="toc_13">21.1.3.3.1. Windows身份验证<a class="vnote-anchor" href="#toc_13" data-anchor-icon="#"></a></h5>
+<p>  默认情况下，用户密码的哈希值安全地存储在服务端，每个客户端需要定义新的用户名/密码对，这很烦人，这是企业应用程序的一个问题。</p>
+<p>  从框架的1.18修订版开始，mORMot能够使用Windows身份验证来识别任何用户。也就是说，用户不需要输入任何名称或密码，将使用启动Windows会话时输入的Windows凭据。</p>
+<p>  如果定义了<code>SSPIAUTH</code>条件（这是默认值），则使用空的<code>aUserName</code>参数调用<code>TSQLRestClientURI.SetUser()</code>方法将尝试使用当前记录的名称和密码来执行客户端-服务端安全身份验证，它实际上会调用类函数<code>TSQLRestServerAuthenticationSSPI.ClientSetUser()</code>。</p>
+<p>  在这种情况下，<code>aPassword</code>参数将标识是否要使用NTLM或Kerberos身份验证方案：它可能包含要启用Kerberos的SPN域名。这对框架是透明的，并且将在成功时创建常规会话。</p>
+<p>  唯一的先决条件是<code>TSQLAuthUser</code>表应包含相应的记录，其<code>LogonName</code>字段应等于<code>'DomainNameUserName'</code>。该数据行不会自动创建，因为是应用程序级的允许或禁止用户身份验证及访问，用户可能是域成员，但不一定是应用程序的。</p>
+<h5 id="toc_14">21.1.3.3.2. 使用NTLM或Kerberos<a class="vnote-anchor" href="#toc_14" data-anchor-icon="#"></a></h5>
+<p>  Kerberos是Windows Server 2003和后续Active Directory域的首选身份验证协议。</p>
+<p>  与NTLM身份验证相比，Kerberos身份验证具有以下优势：</p>
+<ul>
+<li>相互认证。<br>
+当客户端使用Kerberos协议对特定服务器上的特定服务进行身份验证时，Kerberos会向客户端提供服务未被网络上的恶意代码模拟的保证。</li>
+<li>简化信任管理。<br>
+具有多个域的网络不再需要一组复杂的明确的点对点信任关系。</li>
+<li>增强安全性。<br>
+旧的NTLM协议存在一些弱点，这些弱点已由Kerberos修复。</li>
+<li>性能。<br>
+提供改进的性能，主要用于服务器应用。</li>
+</ul>
+<p>  Kerberos身份验证的要求如下：</p>
+<ul>
+<li>客户端和服务器必须加入域，并且必须存在受信任的第三方；如果客户端和服务器位于不同的域中，则必须将这两个域配置为双向信任。</li>
+<li>SPN必须已正确注册。服务主体名称（SPN）是服务器上运行的服务的唯一标识符。将使用Kerberos身份验证的每个服务都需要为其设置SPN，以便客户端可以识别网络上的服务。它在Active Directory中的计算机帐户或用户帐户下注册。请参阅下面的相应说明。</li>
+</ul>
+<p>  Kerberos或NTLM的典型用例由aPassword参数定义：</p>
+<ul>
+<li>Kerberos用于通过网络进行远程连接，并且如果<code>aPassword</code>设置为需要的SPN域；</li>
+<li>如果aPassoword为空，则通过网络连接使用NTLM;</li>
+<li>在进行本地连接时使用NTLM。</li>
+</ul>
+<p>  请注意，Kerberos仅在通过网络进行远程连接时使用；在进行本地连接时使用NTLM。</p>
+<p>  要在mORMot中启用Kerberos身份验证，您需要为您的服务注册SPN。</p>
+<p>  SPN的格式是<code>ServiceClass/Host:Port/ServiceName</code>。通常，使用mORMot开发的SPN服务类似于<code>mymormotservice/myserver.mydomain.tld</code>或<code>http/myserver.mydomain.tld</code>。</p>
+<p>  要列出名为<code>MYSERVER</code>的计算机的SPN，请在命令提示符下键入：</p>
+<pre><code class="hljs">    setspn -l myserver
+</code></pre>
+<p>  通常，您可以看到以下输出：</p>
+<pre><code class="hljs">    Registered ServicePrincipalNames for CN=MYSERVER,OU=Computers,DC=domain,DC=tld:
+    HOST/MYSERVER.domain.tld
+    HOST/MYSERVER
+</code></pre>
+<p>  如果您的服务在<code>SYSTEM</code>或<code>Network Service</code>计算机帐户下运行，则可以通过在客户端代码中将<code>aPassword</code>参数设置为值<code>'HOST/MYSERVER.domain.tld'</code>来运行应用程序来测试Kerberos身份验证。</p>
+<p>  要为您的服务注册SPN，请在命令提示符下键入：</p>
+<ul>
+<li>如果您的服务在<code>SYSTEM</code>或<code>Network Service</code>计算机帐户下运行：</li>
+</ul>
+<pre><code class="hljs">  setspn -a mymormotservice/myserver.mydomain.tld myserver
+</code></pre>
+<ul>
+<li>如果您的服务在另一个域帐户下运行：</li>
+</ul>
+<pre><code class="hljs">   setspn -a mymormotservice/myserver.mydomain.tld myserviceaccount
+</code></pre>
+<p>  <code>Domain Admins</code>组中的成员身份或同等身份是完成此过程所需的最低要求。</p>
+<p>  有关详细信息，请参阅<code>http://technet.microsoft.com/en-us/library/cc731241.aspx</code>。</p>
+<p>  注册后，您可以这样连接到服务器：</p>
+<pre><code class="lang-pascal hljs">MyClient.SetUser(<span class="hljs-string">''</span>,<span class="hljs-string">'mymormotservice/myserver.mydomain.tld'</span>); <span class="hljs-comment">// will use Kerberos</span>
+</code></pre>
+<p>  对于旧NTLM，您可以运行：</p>
+<pre><code class="hljs">  MyClient.SetUser('',''); // will use NTLM
+</code></pre>
+<p>  或者直接调用<code>TSQLRestServerAuthenticationSSPI.ClientSetUser()</code>方法。</p>
+<p>  如果在构建服务应用程序时定义<code>WITHLOG</code>条件，并且<code>sllUserAuth</code>位于<code>TSQLLog.Family.Level</code>集中，则使用的身份验证模式将显示在日志文件中。</p>
+<p>  消息如下：</p>
+<pre><code class="hljs"> NTLM Authentication success for domain\myuser
+ Kerberos Authentication success for domain\myuser
+</code></pre>
+<p>  然后将像往常一样处理框架授权，以用于RESTful ORM过程和远程服务等所有功能。</p>
+<h4 id="toc_15">21.1.3.4. 弱认证<a class="vnote-anchor" href="#toc_15" data-anchor-icon="#"></a></h4>
+<p>  如果您信任您的客户端（如通过https连接），则可以使用<code>TSQLRestServerAuthenticationNone</code>类，它将实现一个弱且简单的身份验证方案。</p>
+<p>  以下是通过此身份验证方案创建新用户会话时要遵循的典型步骤：</p>
+<ul>
+<li>客户端向远程服务器发送<code>GET ModelRoot/auth?UserName=...</code>请求；</li>
+<li>服务器检查传输的用户名是否有效，即它在<code>TSQLAuthGroup</code>表中是否可用，如果值不正确，则验证失败</li>
+<li>成功时，服务端将创建一个新的内存中会话并返回相关的会话号（在JSON结果对象中编码为十进制）;</li>
+<li>在对服务器的任何进一步访问中，将使用正确的会话ID（编码为十六进制）将<code>&amp;session_signature=</code>参数添加到URL，并将针对有效会话进行检查以验证请求。</li>
+</ul>
+<p>  例如，RowID=6的<code>TSQLRecordPeople</code>表的RESTful GET将具有以下URI：</p>
+<pre><code class="hljs"> root/People/6?session_signature=0000004C
+</code></pre>
+<p>以下是有关如何定义此身份验证方案的示例代码：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-comment">// on the Server side:</span>
+  Server.AuthenticationRegister(TSQLRestServerAuthenticationNone);
+  ...
+  <span class="hljs-comment">// on the Client side:</span>
+  TSQLRestServerAuthenticationNone.ClientSetUser(Client,<span class="hljs-string">'User'</span>);
+</code></pre>
+<p>  与<code>TSQLRestServerAuthenticationDefault</code>相比，性能优势非常小，因此不应该用于Delphi客户端。</p>
+<h4 id="toc_16">21.1.3.5. HTTP基本身份验证<a class="vnote-anchor" href="#toc_16" data-anchor-icon="#"></a></h4>
+<p>  基本身份验证机制不为传输的凭据提供机密性保护。它们仅在传输过程中使用Base64编码，没有任何方式的加密或散列。因此，基本身份验证通常通过HTTPS使用。</p>
+<p>  <code>TSQLRestServerAuthenticationHttpBasic</code>类可用于启用HTTP基本身份验证。</p>
+<p>  该类不能与mORMot客户端一起使用，因为<code>TSQLRestServerAuthenticationDefault</code>提供了更好的方案，既更安全且更快，但可以通过HTTPS与某些浏览器客户端结合使用。</p>
+<h3 id="toc_17">21.1.4. 客户端身份验证<a class="vnote-anchor" href="#toc_17" data-anchor-icon="#"></a></h3>
+<h4 id="toc_18">21.1.4.1. 客户端交互<a class="vnote-anchor" href="#toc_18" data-anchor-icon="#"></a></h4>
+<p>  请注意，使用此设计，客户端可以在任何请求期间对身份验证错误作出反应，并在任何时候再次询问用户和密码以创建新会话。由于多种原因（服务器重启，会话超时...），服务器可以在不事先通知的情况下关闭会话。</p>
+<p>  实际上，客户端应该只使用<a href="">JSON RESTful客户端-服务端</a>中创建的<code>TSQLRestClientURI</code>类实例，然后调用SetUser方法：</p>
+<pre><code class="lang-pascal hljs">      Check(Client.SetUser(<span class="hljs-string">'User'</span>,<span class="hljs-string">'synopse'</span>)); <span class="hljs-comment">// use default user</span>
+</code></pre>
+<p>  然后，事件处理可以关联<code>TSQLRestClientURI.OnAuthentificationFailed</code>属性，以要求用户输入其登录名和密码：</p>
+<pre><code class="lang-pascal hljs">  TOnAuthentificationFailed = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Retry: integer;
+    <span class="hljs-keyword">var</span> aUserName, aPassword: <span class="hljs-keyword">string</span>)</span>:</span> boolean;
+</code></pre>
+<p>  当然，如果定义了Windows身份验证（见上文），则应按预期调整此事件处理程序，如您可以添加自定义通知以将相应用户注册到<code>TSQLAuthUser</code>表。</p>
+<h4 id="toc_19">21.1.4.2. 使用AJAX进行身份验证<a class="vnote-anchor" href="#toc_19" data-anchor-icon="#"></a></h4>
+<p>  Smart Mobile Studio支持可以从其IDE生成JavaScript代码。我们基于模板的代码生成使该解决方案与我们的mORMot服务器完美集成，尤其是身份验证：您将在我们的<code>SynCrossPlatformREST.pas</code>单元中找到相同的<code>TSQLRestServerAuthenticationDefault</code>和<code>TSQLRestServerAuthenticationNone</code>类，随时可以对服务器进行身份验证。</p>
+<p>  实际上，还有一个可用的命令行编译器（名为<code>smsc.exe</code>），它可以从SmartPascal代码创建<code>.js</code>文件：您可以使用它将生成的客户端集成到常规HTML5应用程序（如JQuery或AngularJS） 。</p>
+<p>  我们的论坛中由框架用户（感谢“RangerX”）发布了一些独立的JavaScript代码，它实现了如上所述的身份验证模式，它使用jQuery和HTML 5 <code>LocalStorage</code>而不是cookie在客户端存储会话信息。参见<code>http://synopse.info/forum/viewtopic.php?pid=2995#p2995</code></p>
+<h2 id="toc_20">21.2. 授权<a class="vnote-anchor" href="#toc_20" data-anchor-icon="#"></a></h2>
+<p>  授权，我们指的是为经过身份验证的用户定义RESTful资源的访问策略的操作。即使该用户可能是访客用户（没有特定的访问凭证），也应该如此识别，如提供公共内容。</p>
+<p>  主要原则是最小特权原则（也称为最小特权原则或最小权限原则）：在计算环境的特定抽象层中，每个模块（如进程、用户或程序）只能访问其合法目的所需的信息和资源。</p>
+<p>  大部分都已实现，如访问控制表（ACL）、功能集或用户组。在mORMot中，我们定义了与<code>TSQLAuthGroup</code> ORM类关联的用户组。</p>
+<p>  现在，授权是信任链的一部分：</p>
+<ul>
+<li>在公司网络中，Active Directory服务为已签名的用户提供令牌，或LDAP允许访问资源;</li>
+<li>在社交网络中，OAuth等协议允许在服务之间信任用户。</li>
+</ul>
+<p>  这支持非常方便的单点登录功能：用户只需进行一次身份验证（如在Windows登录时），然后为整个会话完成身份验证，并为每个授权提供适当的权限。我们的框架，正如我们刚刚看到的那样，具有NTLM/Kerberos身份验证功能。</p>
+<h3 id="toc_21">21.2.1. 表访问权限<a class="vnote-anchor" href="#toc_21" data-anchor-icon="#"></a></h3>
+<p>  即使禁用了身份验证，指向<code>TSQLAccessRights</code>记录的指针以及<code>GET/POST/PUT/DELETE</code>也会作为成员参数发送到服务类的唯一访问点：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TSQLRestServer</span>.<span class="hljs-title">URI</span><span class="hljs-params">(<span class="hljs-keyword">var</span> Call: TSQLRestServerURIParams)</span>;</span>
+</code></pre>
+<p>  这将允许根据调用的表检查所有CRUD操作的访问权限。例如，如果表<code>TSQLRecordPeople</code>在<code>TSQLModel.Tables[]</code>中的索引为2，则只有在<code>RestAccessRights^.POST</code>字段中设置了第2位时，才允许任何传入的<code>TSQLRecordPeople</code> POST命令，如下所示：</p>
+<pre><code class="lang-pascal hljs">    <span class="hljs-keyword">case</span> URI.Method <span class="hljs-keyword">of</span>
+    mPOST: <span class="hljs-keyword">begin</span>       <span class="hljs-comment">// POST=ADD=INSERT</span>
+      <span class="hljs-keyword">if</span> URI.Table=<span class="hljs-keyword">nil</span> <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+      (...)
+    <span class="hljs-keyword">end</span> <span class="hljs-keyword">else</span>
+      <span class="hljs-comment">// here, Table&lt;&gt;nil and TableIndex in [0..MAX_SQLTABLES-1]</span>
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> (URI.TableIndex <span class="hljs-keyword">in</span> Call.RestAccessRights^.POST) <span class="hljs-keyword">then</span> <span class="hljs-comment">// check User</span>
+        Call.OutStatus := HTTP_FORBIDDEN <span class="hljs-keyword">else</span>
+      (...)
+</code></pre>
+<p>  使访问权限成为一个参数允许从框架的最底层开始，将此方法作为纯无状态、线程安全和无会话处理。</p>
+<p>  另一方面，此全局参数定义的安全策略不允许调整用户授权。在当前实现中，所有处理的通信协议（直接访问，Windows消息，命名管道或HTTP）都传输<code>SUPERVISOR_ACCESS_RIGHTS</code>常量。只有通过<code>TSQLRestClientDB</code>直接访问才会使用<code>FULL_ACCESS_RIGHTS</code>，即将<code>AllowRemoteExecute</code>参数设置为所有可用的标志。</p>
+<p>  由<code>Authentication</code>实现的轻型会话过程使用<code>TSQLAuthGroup.AccessRights</code>字段定义覆盖访问权限。</p>
+<p>  请注意，此表访问权限取决于<code>TSQLModel</code>中定义的表顺序。因此，如果您向数据库模型添加一些表，请注意在现有表之后添加新表。如果在当前表中插入新表，则需要更新访问权限值。</p>
+<h3 id="toc_22">21.2.2. 额外的安全<a class="vnote-anchor" href="#toc_22" data-anchor-icon="#"></a></h3>
+<p>  <code>AllowRemoteExecute: TSQLAllowRemoteExecute</code>字段已在<code>TSQLAccessRights</code>记录中可用，以根据通过身份验证的用户以及所属的组来调整远程执行。</p>
+<p>  从SQL或SOA维度，此字段添加一些标志以调整安全策略。</p>
+<h4 id="toc_23">21.2.2.1. SQL远程执行<a class="vnote-anchor" href="#toc_23" data-anchor-icon="#"></a></h4>
+<p>  在我们的RESTful实现中，没有关联表的POST URI命令允许直接执行任何SQL语句，也可以使用GET命令，或者将SQL语句作为主体传输（这很方便，但不是所有HTTP客户端都支持，因为它不是标准的），或者在URI级别内联。</p>
+<p>  执行前应仔细测试这些特殊命令，因为SQL滥用可能会导致严重的安全问题。如果SQL语句不是SELECT，则在任何远程连接上执行此操作都是不安全的。实际上，它可能会影响数据内容。</p>
+<p>  默认情况下，出于安全原因，<code>SUPERVISOR_ACCESS_RIGHTS</code>常量中的<code>AllowRemoteExecute</code>字段值不包含<code>reSQL</code>标志。这意味着不允许远程调用，而是允许安全的只读SELECT语句。</p>
+<p>  发送SELECT语句时，服务器将始终检查其FROM子句中指定的表名。如果出现单个表，则将根据相应表的<code>GET[]</code>标志检查其安全策略。如果SELECT语句更复杂（如JOINed语句），则将检查<code>reSQLSelectWithoutTable</code>以确保用户有权执行此类语句。</p>
+<p>  SQL远程执行的另一种可能性是将<code>sql=....</code>内联参数添加到GET请求（带有可选的分页），<code>reUrlEncodedSQL</code>标志用于启用或禁用此功能。</p>
+<p>  最后但最重要的是，可以将<code>WhereClause=...</code>内联参数添加到DELETE请求中，<code>reUrlEncodedDelete</code>选项用于启用或禁用此功能。</p>
+<p>  您可以通过在<code>TSQLAuthGroup.AccessRights.AllowRemoteExecute</code>字段中包含或删除<code>reSQL</code>、<code>reSQLSelectWithoutTable</code>、<code>reUrlEncodedSQL</code>或<code>reUrlEncodedDelete</code>标志来更改默认安全策略。</p>
+<p>  如果安全性真的是一个问题，您应该在服务器上启用mORMot安全RESTful身份验证和URI签名，以便只有受信任的客户端才能访问服务器。这是框架的主要安全规则，实际上，每个表访问权限或SQL远程执行标志更像是一个设计规则，而不是强大的安全功能。由于任何SQL语句的远程执行都可能不安全，我们建议编写专用的服务端服务（基于方法或基于接口）来执行此类语句，并禁止远程SQL执行；然后，客户端可以安全地使用这些专用安全服务、ORM CRUD操作来处理简单的数据请求。它还可以帮助您的项目不依赖于SQL，因此仍然可以切换到NoSQL持久性引擎，而无需更改客户端代码。</p>
+<h4 id="toc_24">21.2.2.2. 服务执行<a class="vnote-anchor" href="#toc_24" data-anchor-icon="#"></a></h4>
+<p>  <code>AllowRemoteExecute</code>的<code>reService</code>标志：<code>TSQLAllowRemoteExecute</code>可用于启用或停用mORMot<a href="">基于接口的客户端-服务器服务</a>。</p>
+<p>  除了此全局参数之外，您还可以逐个设置服务和方法的安全性。</p>
+<p>  对于<a href="">基于方法的客户端-服务端服务</a>，如果启用了身份验证，则将仅从签名的URI处理任何方法执行。</p>
+<p>  您可以使用<code>TSQLRestServer.ServiceMethodByPassAuthentication()</code>来禁用对给定服务方法的签名的需要，如Auth和Timestamp标准方法服务就是这种情况。</p>
+<p>  对于<a href="">基于接口的客户端-服务器服务</a>，如果启用了身份验证，则将仅从签名的URI处理任何服务执行。</p>
+<p>  您可以使用<code>TServiceFactoryServer.ByPassAuthentication</code>属性，以便不对给定的服务URI进行签名。</p>
+<p>  不要忘记删除要启用<a href="">通过CDN扩展</a>的服务的身份验证。实际上，这种全球范围的CDN缓存服务期望URI是通用的，而不是绑定到特定的客户端会话。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

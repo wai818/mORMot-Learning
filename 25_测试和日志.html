@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>25_测试和日志</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">25. 测试和日志<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src="https://github.com/wai818/mORMot-Learning/blob/master/mORMot_Picture/cartoon07.png?raw=true" alt="" class="view-image"></p>
+<p>  由于我们涵盖了框架的大多数架构和技术方面，现在是时候将最后遗漏的砖块放到建筑物中，这就是测试和日志。</p>
+<h2 id="toc_1">25.1. 自动化测试<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<p>  您应该知道，如果您想避免应用程序中的回归问题，那么测试（几乎）就是一切。</p>
+<p>  您如何确信对软件代码所做的任何更改都不会在软件的其他部分中产生任何错误？</p>
+<p>  自动化单元测试是避免任何严重倒退的良好候选。</p>
+<p>  更好的是，可以鼓励测试驱动的编码：</p>
+<ul>
+<li>编写一个功能的空实现，即没有实现接口代码；</li>
+<li>写一个测试代码；</li>
+<li>启动测试，必然失败；</li>
+<li>实现功能；</li>
+<li>启动测试，它必须通过；</li>
+<li>添加一些功能，并在每次添加新功能时重复所有先前的测试。</li>
+</ul>
+<p>  这听起来像是浪费时间，但这样的编码可以大大提高您的代码质量，至少，它可以帮助您编写和优化每个实现功能。</p>
+<p>  该框架已使用此方法实现，并提供编写测试的所有工具。除了其他Delphi框架提供的功能（例如DUnit/DUnitX），<code>SynTests.pas</code>单元与框架的其他元素（如日志记录）非常集成，是跨平台和交叉编译器，并提供完整的stubbing/mocking机制覆盖<a href="">实践中的接口：依赖注入</a>、<a href="">stubs和mocks</a>。</p>
+<h3 id="toc_2">25.1.1. 涉及统一测试的类<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h3>
+<p>  <code>SynTests.pas</code>单元定义了两个类（都继承自<code>TSynTest</code>），实现了类似于DUnit的完整Unitary测试机制，代码开销更少，并且与框架单元和需求直接接口（支持UTF-8，兼容Delphi 6到Delphi 10.3 Rio和FPC，没有外部依赖）。</p>
+<p>  下图定义了此类层次结构：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 311 198" style="max-width:311px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M63.5,64L63.5,89L103.52659574468086,114" marker-end="url(#arrowhead8)" style="fill:none"></path><defs><marker id="arrowhead8" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M214,64L214,89L173.97340425531914,114" marker-end="url(#arrowhead9)" style="fill:none"></path><defs><marker id="arrowhead9" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(63.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-43.5" y="-22" width="87" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33.5,-12)"><foreignObject width="67" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSynTests</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(138.75,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-40" y="-22" width="80" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-30,-12)"><foreignObject width="60" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSynTest</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(214,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-57" y="-22" width="114" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-47,-12)"><foreignObject width="94" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSynTestCase</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  主要可用的类类型是：</p>
+<ul>
+<li><code>TSynTestCase</code>，它是一个实现测试用例的类：单独的测试是在这个类的发布方法中编写的；</li>
+<li><code>TSynTests</code>，用于运行一系列测试用例，如前一类所定义。</li>
+</ul>
+<p>  为了定义测试，必须定义一些<code>TSynTestCase</code>子节点，并由<code>TSynTests</code>实例启动以执行所有测试。 在当前控制台上创建文本报告，提供统计和通过/失败信息。</p>
+<h3 id="toc_3">25.1.2. 测试的第一步<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  以下是我们要测试的功能：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Add</span><span class="hljs-params">(A,B: double)</span>:</span> Double; <span class="hljs-keyword">overload</span>;
+<span class="hljs-keyword">begin</span>
+  result := A+B;
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Add</span><span class="hljs-params">(A,B: integer)</span>:</span> integer; <span class="hljs-keyword">overload</span>;
+<span class="hljs-keyword">begin</span>
+  result := A+B;
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Multiply</span><span class="hljs-params">(A,B: double)</span>:</span> Double; <span class="hljs-keyword">overload</span>;
+<span class="hljs-keyword">begin</span>
+  result := A*B;
+<span class="hljs-keyword">end</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Multiply</span><span class="hljs-params">(A,B: integer)</span>:</span> integer; <span class="hljs-keyword">overload</span>;
+<span class="hljs-keyword">begin</span>
+  result := A*B;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  因此，我们创建了三个类，一个用于完整测试用例，一个用于测试加法，一个用于测试乘法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TTestNumbersAdding</span> = <span class="hljs-keyword">class</span>(TSynTestCase)
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TestIntegerAdd</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TestDoubleAdd</span>;</span>
+  <span class="hljs-keyword">end</span>;
+
+  <span class="hljs-title">TTestNumbersMultiplying</span> = <span class="hljs-keyword">class</span>(TSynTestCase)
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TestIntegerMultiply</span>;</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TestDoubleMultiply</span>;</span>
+  <span class="hljs-keyword">end</span>;
+
+  <span class="hljs-title">TTestSuit</span> = <span class="hljs-keyword">class</span>(TSynTests)
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">MyTestSuit</span>;</span>
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  诀窍是创建发布方法，每个方法都包含一些要处理的测试。</p>
+<p>  以下是这些测试方法之一的实现方法（猜猜其他方法实现）：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestNumbersAdding</span>.<span class="hljs-title">TestDoubleAdd</span>;</span>
+<span class="hljs-keyword">var</span> A,B: double;
+    i: integer;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span> <span class="hljs-keyword">to</span> <span class="hljs-number">1000</span> <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">begin</span>
+    A := Random;
+    B := Random;
+    CheckSame(A+B,Adding(A,B));
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  由于浮点精度问题，必须使用<code>CheckSame()</code>，我们不能信任通常的<code>=</code> 操作符（即<code>Check(A+B=Adding(A,B))</code>可能因舍入问题而失败）。</p>
+<p>  以下是测试用例实现：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestSuit</span>.<span class="hljs-title">MyTestSuit</span>;</span>
+<span class="hljs-keyword">begin</span>
+  AddCase([TTestNumbersAdding,TTestNumbersMultiplying]);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  主程序（此<code>.dpr</code>预计将作为控制台程序提供）：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">with</span> TTestSuit.Create <span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">try</span>
+    ToConsole := @Output; <span class="hljs-comment">// so we will see something on screen</span>
+    Run;
+    readln;
+  <span class="hljs-keyword">finally</span>
+    Free;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  只需运行此程序，您就会得到：</p>
+<pre><code class="hljs">   Suit
+  ------
+
+
+1. My test suit
+
+ 1.1. Numbers adding:
+  - Test integer add: 1,000 assertions passed  92us
+  - Test double add: 1,000 assertions passed  125us
+  Total failed: 0 / 2,000  - Numbers adding PASSED  360us
+
+ 1.2. Numbers multiplying:
+  - Test integer multiply: 1,000 assertions passed  73us
+  - Test double multiply: 1,000 assertions passed  117us
+  Total failed: 0 / 2,000  - Numbers multiplying PASSED  324us
+
+
+Generated with: Delphi 7 compiler
+
+Time elapsed for all tests: 1.51ms
+Tests performed at 25/03/2014 10:59:33
+
+Total assertions failed for all test suits:  0 / 4,000
+ All tests passed successfully.
+</code></pre>
+<p>  您可以看到屏幕上的所有文本都是由<code>"UnCamelCasing"</code>创建的方法名称（感谢我们古老的<code>Camel</code>），并且测试套装只是遵循注册类时定义的顺序。每种方法都有自己的时间，跟踪性能回归非常方便。</p>
+<p>  此测试程序已上载到源代码存储库的<code>SQLite3\Sample\07 - SynTest</code>文件夹中。</p>
+<h3 id="toc_4">25.1.3. 框架测试覆盖率<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h3>
+<p>  <code>SAD # DI-2.2.2</code>定义了随框架源代码发布的所有类，它涵盖了框架的所有核心方面。全局测试覆盖率良好，非常适合核心组件（对于1.18修订版执行超过25,000,000次单独检查），但仍有一些用户界面相关测试要编写。</p>
+<p>  在任何发布之前，所有单一回归测试都使用以下编译器执行：</p>
+<ul>
+<li>Delphi 5（有限的范围，包括<code>SynCommons.pas</code>，<code>SynLog.pas</code>，<code>SynTests.pas</code>，<code>SynCryto.pas</code>，<code>SynEcc.pas</code>，<code>SynPdf.pas</code>和<code>SynDB.pas</code>）；</li>
+<li>Delphi6；</li>
+<li>Delphi 7，有和没有我们的增强运行时库；</li>
+<li>Delphi 2007；</li>
+<li>Delphi 2010（我们假设能与Delphi 2010正常工作，则它也能与Delphi 2009一起工作，存在通用编译异常）；</li>
+<li>Delphi XE4；</li>
+<li>Delphi XE6；</li>
+<li>Delphi XE7；</li>
+<li>Delphi 10 Seattle；</li>
+<li>Delphi 10.1 Berlin；</li>
+<li>Delphi 10.2 Tokyo；</li>
+<li>Delphi 10.3 Rio；</li>
+<li>CrossKylix 3.0；</li>
+<li>FPC 3.x.x/3.1.1（svn修订版）。</li>
+</ul>
+<p>  目标平台是用于Delphi和FPC的Win32和Win64，以及用于FPC和CrossKylix的Linux 32/64。</p>
+<p>  然后编译所有示例源代码（包括Main Demo和<code>SynDBExplorer</code>复杂工具），并针对这些应用程序执行用户级测试。</p>
+<p>  您可以在我们的源代码库的<code>compil.bat</code>和<code>compilpil.bat</code>文件中找到如何执行增量构建和测试。</p>
+<h2 id="toc_5">25.2. 增强型日志<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h2>
+<p>  日志记录机制与框架的通用基础功能集成在一起。它包括堆栈异常跟踪等，就像MadExcept一样，使用<code>.map</code>文件内容从源代码中检索调试信息。</p>
+<p>  以下是它的一些功能：</p>
+<ul>
+<li>使用多级日志，而不仅仅是单级缩放；</li>
+<li>快速，执行开销低；</li>
+<li>可以加载要在日志记录中显示的<code>.map</code>文件标识符（即记录源代码文件名和行号而不是十六进制值）；</li>
+<li>将<code>.map</code>压缩为二进制<code>.mab</code>（900 KB  - &gt; 70 KB）；</li>
+<li>将<code>.map</code>/<code>.mab</code>包含在<code>.exe</code>中，大小增加非常慢；</li>
+<li>具有单元名称和行号的异常日志记录（Delphi或底层异常）；</li>
+<li>带有单元和行号的可选堆栈跟踪；</li>
+<li>方法或过程递归跟踪，使用Enter和auto-Leave（使用伪接口实例）；</li>
+<li>高分辨率时间戳，用于客户端应用程序执行分析；</li>
+<li>集合/枚举/<code>TList</code>/<code>TPersistent</code>/<code>TObjectList</code>/动态数组JSON序列化；</li>
+<li>每线程或全局日志；</li>
+<li>同一进程上可选的多个日志文件；</li>
+<li>主日志达到指定大小时的可选<code>rotation</code>，压缩<code>rotation</code>日志；</li>
+<li>集成日志存档（<code>.zip</code>或任何其他格式，包括我们的<code>.synlz</code>）；</li>
+<li>可选的彩色回显到控制台窗口，用于交互式调试；</li>
+<li>提供快速日志查看器工具，包括线程过滤和客户端执行分析；</li>
+<li>通过HTTP进行可选的远程日志记录 - 日志查看器可用作服务器；</li>
+<li>可选事件传输到UDP syslog服务器。</li>
+</ul>
+<h3 id="toc_6">25.2.1. 设置日志<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h3>
+<p>  日志主要由类方法定义。 您通常使用<code>TSynLog</code>类并设置其<code>Family</code>属性来定义日志记录期望。 请注意，使用您自己的<code>TSynLog</code>类实例是完全可行的，它具有自己的<code>TSynLog</code>族设置，在构造函数级注入; 但是在mORMot中，我们通常使用类方法，通过<code>TSynLog</code>，<code>TSQLLog</code>，S<code>ynDBLog</code>和<code>SQLite3Log</code> 。</p>
+<p>  有关示例代码（以及关联的日志查看器工具），请参阅<code>"Sqlite3\Samples"</code>中的<code>"11 - Exception logging"</code>文件夹。</p>
+<p>  简而言之，您只需使用<code>TSynLog</code>类就可以向程序添加日志记录，如下所示：</p>
+<pre><code class="lang-pascal hljs">  TSynLog.Add.Log(sllInfo,Stats.DebugMessage);
+</code></pre>
+<p>  此行将使用<code>sllInfo</code>通知级别记录<code>Stats.DebugMessage</code>文本。 请参阅<code>ISynLog</code>接口的所有<code>Log()</code>重载方法的说明，以了解项目如何轻松记录事件。</p>
+<p>  首先，您需要通过代码定义日志记录设置：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">with</span> TSynLog.Family <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+    Level := LOG_VERBOSE;
+    <span class="hljs-comment">//Level := [sllException,sllExceptionOS];</span>
+    <span class="hljs-comment">//HighResolutionTimestamp := true;</span>
+    <span class="hljs-comment">//AutoFlushTimeOut := 5;</span>
+    OnArchive := EventArchiveSynLZ;
+    <span class="hljs-comment">//OnArchive := EventArchiveZip;</span>
+    ArchiveAfterDays := <span class="hljs-number">1</span>; <span class="hljs-comment">// archive after one day</span>
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这里的主要设置是<code>TSynLog.Family.Level := ...</code>它定义了要记录的级别。 也就是说，如果<code>sllInfo</code>是<code>TSynLog.Family.Level</code>的一部分，则任何<code>TSynLog.Add.Log(sllInfo,...)</code>命令都将记录相应的内容 - 否则，它将是无操作。 <code>LOG_VERBOSE</code>是一次设置所有级别的常量。</p>
+<p>  您有几个可用的调试级别，甚至4种自定义类型：</p>
+<pre><code class="lang-pascal hljs">  TSynLogInfo = (
+    sllNone, sllInfo, sllDebug, sllTrace, sllWarning, sllError,
+    sllEnter, sllLeave,
+    sllLastError, sllException, sllExceptionOS, sllMemory, sllStackTrace,
+    sllFail, sllSQL, sllCache, sllResult, sllDB, sllHTTP, sllClient, sllServer,
+    sllServiceCall, sllServiceReturn, sllUserAuth,
+    sllCustom1, sllCustom2, sllCustom3, sllCustom4, sllNewRun);
+</code></pre>
+<p>  以下是每个日志记录级别的用途：</p>
+<ul>
+<li><code>sllInfo</code>将记录一般信息事件；</li>
+<li><code>sllDebug</code>将记录详细的调试信息；</li>
+<li><code>sllTrace</code>将逐步记录低级别的调试信息；</li>
+<li><code>sllWarning</code>将记录意外值（不是错误）；</li>
+<li><code>sllError</code>会记录错误；</li>
+<li><code>sllEnter</code>将记录每个方法的开始；</li>
+<li><code>sllLeave</code>将记录每个方法退出；</li>
+<li><code>sllLastError</code>将记录<code>GetLastError</code> OS消息；</li>
+<li><code>sllException</code>将记录所有引发的异常 - 自Windows XP以来可用；</li>
+<li><code>sllExceptionOS</code>将记录所有操作系统低级异常（<code>EDivByZero</code>，<code>ERangeError</code>，<code>EAccessViolation</code> ...）；</li>
+<li><code>sllMemory</code>将记录内存统计信息；</li>
+<li><code>sllStackTrace</code>将记录调用者的堆栈跟踪（它默认是<code>TSynLogFamily.LevelStackTrace</code>的一部分，类似于<code>sllError</code>，<code>sllException</code>，<code>sllExceptionOS</code>，<code>sllLastError</code>和<code>sllFail</code>）；</li>
+<li><code>sllFail</code>是为<code>TSynTestsLogged</code>定义的。方法失败，可用于记录一些客户端断言（可能是通知而不是错误）；</li>
+<li><code>sllSQL</code>专门用于跟踪SQL语句；</li>
+<li><code>sllCache</code>应该用于跟踪任何内部缓存机制（例如我们的SQL语句缓存）；</li>
+<li><code>sllResult</code>可以跟踪SQL结果，JSON编码；</li>
+<li><code>sllDB</code>致力于跟踪低级数据库引擎功能；</li>
+<li><code>sllHTTP</code>可用于跟踪HTTP进程；</li>
+<li><code>sllClient</code>/<code>sllServer</code>可用于跟踪某些客户端或服务器进程；</li>
+<li><code>sllServiceCall</code>/<code>sllServiceReturn</code>跟踪一些远程服务或库；</li>
+<li><code>sllUserAuth</code>用于跟踪用户身份验证（例如，针对个别请求）；</li>
+<li><code>sllCustom1..sllCustom4</code>项目可以用于您的程序的任何目的；</li>
+<li>当进程重新打开循环日志时，将写入<code>sllNewRun</code>。</li>
+</ul>
+<p>  日志记录不是直接使用<code>TSynLogInfo</code>级别，而是以下集合：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-comment">/// used to define a logging level</span>
+  <span class="hljs-comment">// - i.e. a combination of none or several logging event</span>
+  <span class="hljs-comment">// - e.g. use LOG_VERBOSE constant to log all events</span>
+  TSynLogInfos = <span class="hljs-keyword">set</span> <span class="hljs-keyword">of</span> TSynLogInfo;
+</code></pre>
+<p>  大多数日志工具使用单级伸缩，即具有层次结构，当选择一个时，不包括较低级别。</p>
+<p>  我们的日志记录类使用集合，而不是直接使用特定级别，因此您可以选择值得记录的确切事件。 在实践中，我们发现这种模式很有意义，而且支持效率更高。</p>
+<h3 id="toc_7">25.2.2. 调用跟踪<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h3>
+<p>  日志记录机制可用于跟踪递归调用。 当您进入和离开任何方法时，它可以使用基于接口的机制进行记录：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyDB</span>.<span class="hljs-title">SQLExecute</span><span class="hljs-params">(<span class="hljs-keyword">const</span> SQL: RawUTF8)</span>;</span>
+<span class="hljs-keyword">var</span> ILog: ISynLog;
+<span class="hljs-keyword">begin</span>
+  ILog := TSynLogDB.Enter(self,<span class="hljs-string">'SQLExecute'</span>);
+  <span class="hljs-comment">// do some stuff</span>
+  ILog.Log(sllInfo,<span class="hljs-string">'SQL=%'</span>,[SQL]);
+<span class="hljs-keyword">end</span>; <span class="hljs-comment">// when you leave the method, it will write the corresponding event to the log</span>
+</code></pre>
+<p>  它将被记录为：</p>
+<pre><code class="hljs">20110325 19325801  +    MyDBUnit.TMyDB(004E11F4).SQLExecute
+20110325 19325801 info   SQL=SELECT * FROM Table;
+20110325 19325801  -
+</code></pre>
+<p>  请注意，默认情况下，您可以将使用人类可读的时间和日期写入日志，但也可以使用高分辨率时间戳替换此时间。有了这个，您将能够使用来自客户端的数据在其真实计算机上分析您的应用程序。通过<code>Enter</code>方法（及其auto-Leave功能），您可以获得所需的所有信息。</p>
+<h3 id="toc_8">25.2.3. 包括符号定义<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h3>
+<p>  在上面的日志记录内容中，方法名称在代码中设置（如<code>'SQLExecute'</code>）。但是，如果记录器类能够找到与<code>.exe</code>关联的<code>.map</code>文件，则日志记录机制能够读取此符号信息，并写入事件的确切行号。</p>
+<p>  默认情况下，编译器不会生成<code>.map</code>文件信息。要强制创建，必须确保在每个单元中设置<code>{$D+}</code>编译器指令（默认情况下是这种情况，除非您在源中设置<code>{$D-}</code>），并且选择了<code>"Detailed Map File"</code>选项在Delphi IDE的Project&gt; Options&gt; Linker页面中。</p>
+<p>  在以下日志条目中，您将看到高分辨率时间戳，以及<code>TTestCompression.TestLog</code>方法的进入和离开，而无需其他代码（拥有从<code>.map</code>内容中提取的准确行号）：</p>
+<pre><code class="hljs">0000000000000B56  +    TTestCompression(00AB3570).000E6C79 SynSelfTests.TTestCompression.TestLog (376)
+0000000000001785  -
+</code></pre>
+<p>  已经有一个专用的<code>TSynLogFile</code>类能够读取<code>.log</code>文件并识别其内容。</p>
+<p>  第一次读取<code>.map</code>文件时，会创建一个<code>.mab</code>文件，并包含所需的所有符号信息。 您可以将带有<code>.exe</code>的<code>.mab</code>文件发送到您的客户端，或者甚至将其内容嵌入到<code>.exe</code>中（请参阅<code>Samples\11 - Exception logging\</code>文件夹中的<code>Map2Mab.dpr</code>示例文件）。</p>
+<p>  此<code>.mab</code>文件已经过优化：例如，一个927,984字节的<code>.map</code>压缩为71,943 <code>.mab</code>文件。</p>
+<h3 id="toc_9">25.2.4. 异常处理<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h3>
+<p>  当然，这种日志记录机制能够拦截触发的异常，包括更糟糕的（如<code>EAccessViolation</code>），将自动记录在日志文件中，如下所示：</p>
+<pre><code class="hljs">000000000000090B EXCOS EAccessViolation (C0000005) at 000E9C7A
+SynSelfTests.Proc1 (785)  stack trace 000E9D51
+SynSelfTests.Proc2 (801) 000E9CC1
+SynSelfTests.Proc1 (790) 000E9D51
+SynSelfTests.Proc2 (801) 000E9CC1
+SynSelfTests.Proc1 (790) 000E9D51
+SynSelfTests.Proc2 (801) 000E9CC1
+SynSelfTests.Proc1 (790) 000E9D51
+SynSelfTests.Proc2 (801) 000E9CC1
+SynSelfTests.Proc1 (790) 000E9D51
+SynSelfTests.Proc2 (801) 000E9CC1
+SynSelfTests.Proc1 (790) 000E9E2E 
+ynSelfTests.TestsLog (818) 000EA0FB
+SynSelfTests (853) 00003BF4
+System.InitUnits 00003C5B
+System.@StartExe 000064AB
+SysInit.@InitExe 000EA3EC TestSQL3 (153)
+</code></pre>
+<p>  <code>TSynLogInfo</code>日志记录级别区分了高级Delphi异常（<code>sllException</code>）和最低级别的OS异常（<code>sllExceptionOS</code>），如<code>EAccessViolation</code>。</p>
+<p>  例如，如果您添加到您的程序：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">uses</span>
+  SynLog;
+(...)
+  TSynLog.Family.Level := [sllExceptionOS];
+</code></pre>
+<p>  所有操作系统异常（不包括<code>EConvertError</code>之类的纯Delphi异常等）都将记录到一个单独的日志文件中。</p>
+<pre><code class="lang-pascal hljs">TSynLog.Family.Level := [sllException,sllExceptionOS];
+</code></pre>
+<p>  例如，还将跟踪Delphi异常。</p>
+<p>  您可以通过将它们添加到<code>Family.ExceptionIgnore</code>内部列表来指定一些要忽略的<code>Exception</code>类。 如果您的代码经常触发一些非破坏性异常，例如，添加此设置可能是有意义的。 使用<code>StrToInt()</code>：</p>
+<pre><code class="lang-pascal hljs">TSynLog.Family.ExceptionIgnore.Add(EConvertError);
+</code></pre>
+<p>  如果您的Delphi代码执行某些<code>.Net</code>托管代码（例如通过某些COM包装器组件公开），则该单元能够识别大多数未处理的<code>.Net</code>异常，并使用其原始<code>C#</code>类名称进行记录（例如，<code>EOleSysError</code> <code>80004003</code>将被记录为更加用户友好的<code>"[.NET/CLR unhandled ArgumentNullException]"</code>消息。</p>
+<p>  您可以设置以下全局变量来分配自定义回调，并且能够自定义与任何异常关联的日志记录内容：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-comment">/// global hook callback to customize exceptions logged by TSynLog</span>
+  <span class="hljs-comment">// - should return FALSE if Context.EAddr and Stack trace is to be appended</span>
+  TSynLogExceptionToStr = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(WR: TTextWriter; <span class="hljs-keyword">const</span> Context: TSynLogExceptionContext)</span>:</span> boolean;
+
+<span class="hljs-keyword">var</span>
+  <span class="hljs-comment">/// allow to customize the Exception logging message</span>
+  TSynLogExceptionToStrCustom: TSynLogExceptionToStr = <span class="hljs-keyword">nil</span>;
+</code></pre>
+<p>  <code>Context: TSynLogExceptionContext</code>内容用于将一些文本附加到指定的<code>TTextWriter</code>实例。</p>
+<p>  更容易的可能性是从<code>ESynException</code>继承自定义异常类，并覆盖其唯一的虚拟方法：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-comment">/// generic parent class of all custom Exception types of this unit</span>
+  <span class="hljs-title">ESynException</span> = <span class="hljs-keyword">class</span>(Exception)
+  <span class="hljs-keyword">public</span>
+    <span class="hljs-comment">/// can be used to customize how the exception is logged</span>
+    <span class="hljs-comment">// - this default implementation will call the DefaultSynLogExceptionToStr()</span>
+    <span class="hljs-comment">// callback or TSynLogExceptionToStrCustom, if defined</span>
+    <span class="hljs-comment">// - override this method to provide a custom logging content</span>
+    <span class="hljs-comment">// - should return TRUE if Context.EAddr and Stack trace is not to be</span>
+    <span class="hljs-comment">// written (i.e. as for any TSynLogExceptionToStr callback)</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CustomLog</span><span class="hljs-params">(WR: TTextWriter; <span class="hljs-keyword">const</span> Context: TSynLogExceptionContext)</span>:</span> boolean; <span class="hljs-keyword">virtual</span>;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  请参阅<code>TSynLogExceptionContext</code>以检查执行上下文，以及函数<code>DefaultSynLogExceptionToStr()</code>函数的实现。</p>
+<h3 id="toc_10">25.2.5. 序列化<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h3>
+<p>  动态数组也可以通过默认的<code>TSynLog</code>类在登录请求中序列化为JSON，如<code>SynLog.pas</code>单元中所定义，请参阅<code>TDynArray</code>动态数组包装器。</p>
+<p>  <code>TSQLLog</code>类（使用<code>mORMot.pas</code>单元中定义的增强型RTTI方法）甚至能够在调用<code>TJSONSerializer.RegisterCustomSerializer</code>之后将<code>TSQLRecord</code>，<code>TPersistent</code>，<code>TList</code>和<code>TCollection</code>实例序列化为JSON或任何其他类实例。</p>
+<p>  例如，以下代码：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TestPeopleProc</span>;</span>
+<span class="hljs-keyword">var</span> People: TSQLRecordPeople;
+    Log: ISynLog;
+<span class="hljs-keyword">begin</span>
+  Log := TSQLLog.Enter;
+  People := TSQLRecordPeople.Create;
+  <span class="hljs-keyword">try</span>
+    People.ID := <span class="hljs-number">16</span>;
+    People.FirstName := <span class="hljs-string">'Louis'</span>;
+    People.LastName := <span class="hljs-string">'Croivébaton'</span>;
+    People.YearOfBirth := <span class="hljs-number">1754</span>;
+    People.YearOfDeath := <span class="hljs-number">1793</span>;
+    Log.Log(sllInfo,People);
+  <span class="hljs-keyword">finally</span>
+    People.Free;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  将导致以下日志内容：</p>
+<pre><code class="hljs">0000000000001172  +    000E9F67 SynSelfTests.TestPeopleProc (784)
+000000000000171B info      {"TSQLRecordPeople(00AB92E0)":{"ID":16,"FirstName":"Louis","LastName":"Croivébaton","Data":"","YearOfBirth":1754,"YearOfDeath":1793}}
+0000000000001731  -
+</code></pre>
+<h3 id="toc_11">25.2.6. 多线程应用<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h3>
+<p>  您可以为每个进程定义多个日志文件，甚至每个线程日志文件（如果需要）（有时可能很方便，例如在多个线程中并行运行相同逻辑的服务器上）。</p>
+<p>  日志记录设置是在日志记录类级别进行的。 每个日志记录类（继承自<code>TSynLog</code>）都有自己的<code>TSynLogFamily</code>实例，该实例用于自定义日志记录类级别。 然后，您可以拥有各个<code>TSynLog</code>类的多个实例，每个类共享<code>TSynLogFamily</code>的设置。</p>
+<p>  因此，您可以在使用日志记录之前初始化<code>"family"</code>设置，例如此代码将强制记录所有级别（<code>LOG_VERBOSE</code>），并创建每个线程的日志文件，并写入不在<code>.exe</code>文件夹中的<code>.log</code>内容， 但在自定义目录中：</p>
+<pre><code class="lang-pascal hljs"> <span class="hljs-keyword">with</span> TSynLogDB.Family <span class="hljs-keyword">do</span>
+ <span class="hljs-keyword">begin</span>
+   Level := LOG_VERBOSE;
+   PerThreadLog := ptOneFilePerThread;
+   DestinationPath := <span class="hljs-string">'C:\Logs'</span>;
+ <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  如果为该系列指定<code>PerThreadLog: = ptIdentifiedInOnFile</code>，则将为每个日志行添加一个新列，并使用相应的<code>ThreadID</code>，提供的<code>LogView</code>工具将按预期处理它。 这对于多线程服务器进程非常有用，例如， 作为mORMot的客户端-服务端类的客户端-服务器进程的实现。</p>
+<h3 id="toc_12">25.2.7. 控制台日志输出<a class="vnote-anchor" href="#toc_12" data-anchor-icon="#"></a></h3>
+<p>  出于调试目的，将日志记录内容输出到控制台窗口可能非常方便。 它支持客户端-服务器进程的交互式调试，例如：您可以与客户端交互，然后在服务器控制台窗口实时查看，并检查处理哪些请求，而无需打开日志文件。</p>
+<p>  <code>EchoToConsole</code>属性使您可以选择要在控制台上回显的事件（例如，您可能希望仅显示错误）。</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">with</span> TSQLLog.Family <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+    Level := LOG_VERBOSE;
+    EchoToConsole := LOG_VERBOSE; <span class="hljs-comment">// log all events to the console</span>
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  根据事件，颜色将用于写入相应的信息。 例如，错误将显示为浅红色。</p>
+<p>  请注意，此回显过程会大大减慢日志记录过程，因为它当前以阻塞模式实现，而在Windows下写入控制台比写入文件要慢得多。 因此，默认情况下禁用此功能，而不是在生产服务器上启用此功能，而只是为了使交互式调试更容易。</p>
+<h3 id="toc_13">25.2.8. 远程日志<a class="vnote-anchor" href="#toc_13" data-anchor-icon="#"></a></h3>
+<p>  默认情况下，<code>TSynLog</code>将其活动写入本地文件和/或控制台。 日志文件可以稍后传输（一旦压缩）以支持，以便进一步查看和调试。</p>
+<p>  但有时，在远程计算机上实时查看日志记录可能很方便。</p>
+<p>  您可以通过在use子句中添加<code>mORMotHTTPClient.pas</code>单元，然后调用以下构造函数，为给定的<code>TSynLog</code>类启用此类远程监视：</p>
+<pre><code class="lang-pascal hljs">TSQLHttpClient.CreateForRemoteLogging(<span class="hljs-string">'192.168.1.15'</span>,SQLite3Log,<span class="hljs-string">'8091'</span>,<span class="hljs-string">'LogService'</span>);
+</code></pre>
+<p>  此命令将任何SQLite3Log事件发送到运行在<code>http://192.168.1.15:8091/LogService/RemoteLog</code>的远程服务器，实际上这应该是一个mORMot服务器，但可能是任何REST服务器，能够回答一个PUT命令发送到此URI。</p>
+<p>  将创建一个T<code>SQLHttpClient</code>实例，并由<code>SQLite3Log</code>实例管理。它将在应用程序关闭或调用<code>SQLite3Log.Family.EchoRemoteStop</code>方法时释放。</p>
+<p>  实际上，我们的日志视图工具可以作为兼容的远程服务器运行。执行该工具，设置预期的服务器根名称（默认情况下为<code>"LogService"</code>）和预期的服务器端口（默认为8091），然后单击<code>"Server Launch"</code>按钮。</p>
+<p>  日志视图工具现在将实时显示所有传入事件，搜索其内容，并允许将所有收到的事件保存到常规.log或.synlz文件中，以便进一步存档和学习。</p>
+<p>  请注意，由于日志视图工具将运行基于<code>http.sys</code>的服务器 - 请参阅高性能<code>http.sys</code>服务器 - 您可能必须运行具有管理员权限的工具，才能注册服务器根/服务器端口组合以进行绑定。</p>
+<p>  已在客户端和服务器端调整此远程日志记录的实现。</p>
+<p>  在客户端，收集日志事件并在专用后台线程中发送：如果生成了大量事件，它们将以多行的块传输，以最小化资源和带宽。在服务器端，传入事件存储在内存中，并在运行中编制索引，定期刷新率为500毫秒：即使是非常活跃的客户端记录器也只是让日志视图工具具有响应性和高效性。</p>
+<p>  由于基于<code>http.sys</code>的服务器的性质，可以在同一HTTP端口上与多个Log View工具实例并行访问多个服务器根URI：它将简化网络的IT策略，因为单个转发端口将能够处理多个传入连接。</p>
+<p>  有关远程日志记录的运行示例，请参阅<code>"11 - Exception logging"</code>中的<code>"RemoteLoggingTest.dpr"</code>示例以及同一文件夹中可用的<code>LogView.dpr</code>工具。</p>
+<p>  请注意，我们的跨平台客户端（请参阅跨平台客户端）能够使用与<code>TSynLog</code>类相同的格式登录到远程服务器。</p>
+<h3 id="toc_14">25.2.9. 第三方库日志<a class="vnote-anchor" href="#toc_14" data-anchor-icon="#"></a></h3>
+<p>  我们的<code>TSynLog</code>类旨在将其信息写入文件，并可选择写入控制台或远程日志服务器（如我们所见）。实际上，mORMot框架广泛使用<code>TSynLog</code>来提供有关场景背后发生情况的各种级别的详细信息：它非常适合于调试目的。</p>
+<p>  让<code>TSynLog</code>与任何第三方日志记录应用程序（如<code>CodeSite</code>或<code>SmartInspect</code>）或任何专有解决方案一起使用可能会很方便。因此，mORMot日志可以与现有的应用程序日志混合使用。</p>
+<p>  您可以定义<code>TSynLogFamily.EchoCustom</code>属性以指定要为每个日志操作触发的简单事件：然后，应用程序可以决定登录到第三方记录器应用程序。</p>
+<p>  请注意，还有<code>TSynLogFamily.NoFile</code>属性，该属性允许完全禁用内置文件日志记录机制。</p>
+<p>  例如，你可以写：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TMyClass</span>.<span class="hljs-title">Echo</span><span class="hljs-params">(Sender: TTextWriter; Level: TSynLogInfo; <span class="hljs-keyword">const</span> Text: RawUTF8)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> Level <span class="hljs-keyword">in</span> LOG_STACKTRACE <span class="hljs-keyword">then</span> <span class="hljs-comment">// filter only errors</span>
+    writeln(Text); <span class="hljs-comment">// could be any third-party logger</span>
+<span class="hljs-keyword">end</span>;
+
+...
+  <span class="hljs-keyword">with</span> TSQLLog.Family <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+    Level := LOG_VERBOSE;
+    <span class="hljs-comment">// EchoToConsole := LOG_VERBOSE; // log all events to the console</span>
+    EchoCustom := aMyClass.Echo; <span class="hljs-comment">// register third-party logger</span>
+    NoFile := true; <span class="hljs-comment">// ensure TSynLog won't use the default log file</span>
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  如果需要，类似于<code>TSynLogFile.ProcessOneLine()</code>的进程可以解析传入的<code>Text</code>值。</p>
+<h3 id="toc_15">25.2.10. 日志自动化存档<a class="vnote-anchor" href="#toc_15" data-anchor-icon="#"></a></h3>
+<p>  可以使用以下设置创建日志存档：</p>
+<pre><code class="lang-pascal hljs"> <span class="hljs-keyword">with</span> TSynLogDB.Family <span class="hljs-keyword">do</span>
+ <span class="hljs-keyword">begin</span>
+  (...)
+  OnArchive := EventArchiveZip;
+  ArchivePath := <span class="hljs-string">'\\Remote\WKS2302\Archive\Logs'</span>; <span class="hljs-comment">// or any path</span>
+ <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  <code>ArchivePath</code>属性可以设置为多个函数，从<code>ArchiveAfterDays</code>属性值获取超时延迟：</p>
+<ul>
+<li><code>nil</code>是默认值，不会执行任何操作：<code>.log</code>将保留在磁盘上，直到它们被手动删除;</li>
+<li><code>EventArchiveDelete</code>以删除已弃用的<code>.log</code>文件；</li>
+<li><code>EventArchiveSynLZ</code>将<code>.log</code>文件压缩为专有的SynLZ格式：结果文件名将位于<code>ArchivePath\log\YYYYMM\*.log.synlz</code>和命令行<code>UnSynLz.exe</code>工具（调用<code>SynCommons.pas</code>单元的<code>FileUnSynLZ</code>功能） ）可以用来解压缩到<code>.log</code>文件；</li>
+<li><code>SynZip.EventArchiveZip</code>将归档<code>ArchivePath\log\YYYYMM.zip</code>文件中的<code>.log</code>文件，并对每个文件进行分组。</li>
+</ul>
+<p>  SynLZ文件的压缩程度较低，但创建速度比<code>.zip</code>文件快得多。但是，<code>.zip</code>文件更标准，而在常规应用程序中，压缩速度不会成为应用程序的问题。</p>
+<h3 id="toc_16">25.2.11. 日志文件轮换<a class="vnote-anchor" href="#toc_16" data-anchor-icon="#"></a></h3>
+<p>  您可以设置<code>TSynLogFamily.RotateFileCount</code>和<code>RotateFileSizeKB</code>属性，以启用日志文件轮换：</p>
+<ul>
+<li>如果两个值都大于0，则日志文件将具有固定名称，而不包含任何时间戳；</li>
+<li><code>RotateFileSizeKB</code>将定义主未压缩日志文件的最大大小；</li>
+<li><code>RotateFileCount</code>将定义磁盘上保留的文件数 - 请注意，使用SynLZ压缩轮换的文件，因此压缩速度非常快。</li>
+</ul>
+<p>  日志文件轮换非常简单：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">with</span> TSQLLog.Family <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+    Level := LOG_VERBOSE;
+    RotateFileCount := <span class="hljs-number">5</span>;        <span class="hljs-comment">// will maintain a set of up to 5 files</span>
+    RotateFileSizeKB := <span class="hljs-number">20</span>*<span class="hljs-number">1024</span>; <span class="hljs-comment">// rotate by 20 MB logs</span>
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这样的日志记录定义将在磁盘上创建这些文件，例如 对于<code>TestSQL3.dpr</code>回归测试：</p>
+<ul>
+<li><code>TestSQL3.log</code>将是最新（当前）日志文件，未压缩;</li>
+<li><code>TestSQL3.1.synlz</code>到<code>TestSQL3.4.synlz</code>将是压缩后的4个最新日志文件。 我们的日志查看器工具，能够直接解压缩这些<code>.synlz</code>文件。</li>
+</ul>
+<p>  请注意，只要您激活文件轮换，<code>PerThreadLog = ptOneFilePerThread</code>和 <code>HighResolutionTimestamp</code>属性将被忽略，因为两个功能都希望每个<code>TSynLog</code>类存在一个文件。</p>
+<p>  作为替代，或者除了这种按尺寸轮换模式之外，您还可以指定执行轮换的固定时间。</p>
+<p>  例如，以下将在每天晚上23:00执行日志文件的自动轮换，无论大小如何：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">with</span> TSQLLog.Family <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+    Level := LOG_VERBOSE;
+    RotateFileCount := <span class="hljs-number">5</span>;        <span class="hljs-comment">// will maintain a set of up to 5 files</span>
+    RotateFileDailyAtHour := <span class="hljs-number">23</span>; <span class="hljs-comment">// rotate at 11:00 PM</span>
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  如果默认行为 - 将所有旋转的文件压缩为<code>.synlz</code>格式，并删除旧文件 - 不符合您的需要，您可以将自定义事件设置为<code>TSynLogFamily.OnRotate</code>属性，该属性将处理文件轮换处理。</p>
+<h3 id="toc_17">25.2.12. 集成测试<a class="vnote-anchor" href="#toc_17" data-anchor-icon="#"></a></h3>
+<p>  日志记录集成在单元测试类中，因此任何故障都将在日志中创建包含源代码行和堆栈跟踪的条目：</p>
+<pre><code class="hljs">C:\Dev\lib\SQLite3\exe\TestSQL3.exe 0.0.0.0 (2011-04-13)
+Host=Laptop User=MyName CPU=2*0-15-1027 OS=2.3=5.1.2600 Wow64=0 Freq=3579545
+TSynLogTest 1.13 2011-04-13 05:40:25
+
+20110413 05402559 fail  TTestLowLevelCommon(00B31D70) Low level common: TDynArray "dynamic array failure" stack trace 0002FE0B SynCommons.TDynArray.Init (15148) 00036736 SynCommons.Test64K (18206) 0003682F SynCommons.TTestLowLevelCommon._TDynArray (18214) 000E9C94 TestSQL3 (163)
+</code></pre>
+<p>  没有日志记录的测试套件（<code>SubTests</code>）和带日志记录的测试套件（<code>TSynTestsLogged</code>）之间的区别仅在于此重写方法：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TSynTestsLogged</span>.<span class="hljs-title">Failed</span><span class="hljs-params">(<span class="hljs-keyword">const</span> msg: <span class="hljs-keyword">string</span>; aTest: TSynTestCase)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">inherited</span>;
+  <span class="hljs-keyword">with</span> TestCase[fCurrentMethod] <span class="hljs-keyword">do</span>
+    fLogFile.Log(sllFail,<span class="hljs-string">'%: % "%"'</span>,
+      [Ident,TestName[fCurrentMethodIndex],msg],aTest);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  为了启用测试记录，您只需启用它，例如有：</p>
+<pre><code class="lang-pascal hljs"> TSynLogTestLog.Family.Level := LOG_VERBOSE;
+</code></pre>
+<p>  您可以选择在程序初始化时重定向以下全局变量，以与主mORMot日志共享测试事件：</p>
+<pre><code class="lang-pascal hljs">  <span class="hljs-keyword">with</span> TSQLLog.Family <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+    Level := LOG_VERBOSE;
+    TSynLogTestLog := TSQLLog; <span class="hljs-comment">// share the same log file with whole mORMot</span>
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<h3 id="toc_18">25.2.13. 日志查看器<a class="vnote-anchor" href="#toc_18" data-anchor-icon="#"></a></h3>
+<p>  由于日志文件往往很大（例如，如果您为我们的单一测试设置日志记录，17,000,000个测试用例确实创建了大约550 MB的巨大日志文件），日志查看器确实非常需要。</p>
+<p>  日志查看器应用程序在<code>"Samples"</code>文件夹的<code>"11 - Exception logging"</code>子文件夹中作为源代码提供。</p>
+<h4 id="toc_19">25.2.13.1. 打开日志文件<a class="vnote-anchor" href="#toc_19" data-anchor-icon="#"></a></h4>
+<p>  您可以在命令行上使用指定的日志文件运行它，或使用<code>"Browse"</code>按钮浏览文件。也就是说，您可以将此工具与<code>.log</code>文件相关联，然后只需双击此类文件即可打开它。</p>
+<p>  请注意，如果文件不是我们的<code>TSynLog</code>格式，它仍将以纯文本形式打开。您将能够浏览其内容并在其中进行搜索，但当然，我们的日志记录的所有不错功能都将无法使用。</p>
+<p>  值得一提的是，观众的设计速度很快。</p>
+<p>  实际上，它没有时间打开任何日志文件。例如，在我的笔记本电脑上打开390 MB的日志文件不到一秒钟。在Windows 7下，显示<code>"Open file"</code>对话框窗口比读取和索引390 MB内容需要更多时间。</p>
+<p>  它使用内部存储器映射文件和优化的数据结构来尽可能快地访问数据 - 请参阅<code>TSynLogFile</code>类。</p>
+<h4 id="toc_20">25.2.13.2. 日志浏览器<a class="vnote-anchor" href="#toc_20" data-anchor-icon="#"></a></h4>
+<p>  屏幕分为三个主要空间：</p>
+<ul>
+<li>在左侧，命令面板;</li>
+<li>在右侧，记录事件列表;</li>
+<li>中间是一个可选的方法调用列表，另一个是线程列表（默认情况下未显示）。</li>
+</ul>
+<p>  命令面板允许浏览磁盘以获取<code>.log</code>文件。此按钮是工具最左侧的可选驱动器/目录/文件面板的切换。选择<code>.log</code>/<code>.synlz</code>/<code>.txt</code>文件后，将立即显示其内容。您可以将目录名称指定为工具的参数（例如，在<code>.lnk</code>桌面链接中），这将使查看器以<code>"Browse"</code>模式打开，从指定的文件夹开始。</p>
+<p>  按钮可以访问有关其内容的全局统计信息（客户端硬件和软件运行配置，有关日志的常规数字），甚至可以从日志中可用的十六进制地址请求源代码行号和单元名称，浏览相应的<code>.map</code>文件（如果您没有在主可执行文件中传递<code>.map</code>内容，则可能很方便 - 您应该这样做）。</p>
+<p>  在<code>"Browse"</code>按钮下方，有一个可用的编辑字段，带有？按钮。在此编辑字段中输入任何文本，它将在日志事件列表中搜索。搜索不区分大小写，并且设计得很快。点击？按钮（或按F3键）允许重复上次搜索。</p>
+<p>  在同一个左侧面板中，您可以看到所有现有事件，具有自己的颜色和相关的复选框。请注意，只有<code>.log</code>文件中真正遇到的事件才会出现在此列表中，因此其内容将在日志文件之间更改。通过选择/取消选中复选框，相应的事件将在事件的右侧列表中即时显示/不显示。您可以右键单击事件复选框列表以选择一组预定义的事件。</p>
+<p>  右侧彩色事件列表遵循按时间顺序附加到日志的事件。单击某个事件时，其全行内容将显示在屏幕底部的备忘录中。</p>
+<p>  在日志中跟踪所有SQL/NoSQL和客户端 - 服务器事件绝对是客户支持和错误跟踪的巨大好处。</p>
+<h4 id="toc_21">25.2.13.3. 客户端分析器<a class="vnote-anchor" href="#toc_21" data-anchor-icon="#"></a></h4>
+<p>  <code>TSynLog</code>日志记录类的一个显着特征是它能够映射进入/离开的方法或函数（使用Enter方法），并将其跟踪到日志中。相应的时间也写在“离开”事件中，并允许从客户端进行应用程序分析。大多数情况下，在测试期间使用测试环境和数据库对应用程序进行概要分析。但这不是，也永远不会重现客户使用的确切性质：例如，硬件不一样（网络，内存，CPU），也不是软件（操作系统版本，安装[反]病毒）。通过启用客户端方法分析，日志将包含所有相关信息。这些事件在命令面板复选框列表中命名为<code>"Enter"</code>/<code>"Leave"</code>，并在右侧事件列表中写为<code>+</code>和 <code>-</code>。</p>
+<p>  <code>"Methods profiler"</code>选项允许显示中间可选方法调用列表。可以使用多种排序顺序：按名称（按字母顺序排序），按出现次数（按运行顺序，即按照与事件日志相同的顺序），按时间（对应于此方法的全部时间，即写入“保留“事件”，并按适当的时间（即排除在嵌套方法中花费的所有时间）。</p>
+<p>  <code>"Merge method calls"</code>复选框允许根据其名称重新组合所有相同的方法调用。实际上，大多数方法不是一次调用，而是多次调用。这是在方法中花费的累计时间，这是代码分析的主要参数。</p>
+<p>  我很确定你第一次在庞大的现有应用程序上使用这个分析功能时，你会发现一些你以前从未想过的瓶颈。</p>
+<h4 id="toc_22">25.2.13.4. 线程检查<a class="vnote-anchor" href="#toc_22" data-anchor-icon="#"></a></h4>
+<p>  如果TSynLog系列指定了<code>PerThreadLog: = ptIdentifiedInOnFile</code>属性，则将为每个日志行添加一个新列，其中包含已记录操作的相应<code>ThreadID</code>。</p>
+<p>  日志查看器应用程序将标识此列，并在左侧命令下方显示<code>"Thread"</code>组。它将允许转到下一个线程，或切换可选的线程视图列表。通过检查/取消检查此列表的任何线程，您可以非常轻松地检查给定进程的执行日志。右键单击此线程列表将显示一个弹出菜单，允许在一个命令中选择所有线程或没有线程。</p>
+<h4 id="toc_23">25.2.13.5. 服务端远程日志<a class="vnote-anchor" href="#toc_23" data-anchor-icon="#"></a></h4>
+<p>  如上所述，远程日志记录可以使用我们的日志视图工具作为任何远程客户端的服务器和实时查看器，使用TSynLog或任何跨平台客户端 - 请参阅跨平台客户端。</p>
+<p>  使用远程日志记录对于移动应用程序（使用Delphi / FireMonkey或使用Smart Mobile Studio / AJAX编写）特别有用。我们的查看器工具可以高效地对这些平台进</p>
+<h3 id="toc_24">25.2.14. 框架日志集成<a class="vnote-anchor" href="#toc_24" data-anchor-icon="#"></a></h3>
+<p>  该框架广泛使用<code>SynLog.pas</code>单元中实现的日志记录功能 - 请参阅增强日志记录。</p>
+<p>  在其当前实现中，框架能够登录请求：</p>
+<ul>
+<li>通过<code>sllException</code>和<code>sllExceptionOS</code>级别在进程中触发的任何异常；</li>
+<li>通过<code>sllClient</code>和<code>sllServer</code>级别的客户端和服务器RESTful URL方法；</li>
+<li>SQLite3引擎中的SQL执行语句通过<code>sllSQL</code>级别执行；</li>
+<li>通过<code>sllResult</code>级别从SQLite3引擎检索时的JSON结果；</li>
+<li>通过<code>sllError</code>级别在进程中触发的主要错误；</li>
+<li>通过<code>sllUserAuth</code>进行安全用户身份验证和会话管理；</li>
+<li>通过<code>sllDebug</code>，<code>sllWarning</code>和<code>sllInfo</code>级别获得一些额外的低级信息。</li>
+</ul>
+<p>  这些级别可通过<code>TSQLLog</code>类获得，继承自<code>TSORMLog</code>，如<code>mORMot.pas</code>中所定义。</p>
+<p>  定义了三个主要的<code>TSynLogClass</code>全局变量，以便为整个框架使用相同的日志记录系列。由于mORMot单元是分离的（例如数据库或ORM/SOA），因此已定义了几个变量：</p>
+<ul>
+<li>所有<code>SynDB*</code>单元的<code>SynDBLog</code>，即所有通用数据库代码;</li>
+<li><code>SQLite3Log</code>适用于所有<code>mORMot*</code>单元，即所有与ORM相关的代码;</li>
+<li><code>SynSQLite3Log</code>用于<code>SynSQLite3</code>单元，它实现了SQLite3引擎本身。</li>
+</ul>
+<p>  默认情况下，如果您使用mORMot中的某些功能，则会重定向到主<code>TSQLLog</code>类：</p>
+<ul>
+<li><code>mORMot.pas</code>单元将<code>SQLite3Log</code>定义为自己的<code>TSQLLog</code>类;</li>
+<li><code>mORMotDB.pas</code>单元初始化将设置<code>SynDBLog: = TSQLLog</code>;</li>
+<li><code>moRMotSQLite3.pas单</code>元初始化将设置<code>SynSQLite3Log: = TSQLLog</code>。</li>
+</ul>
+<p>  如果期望分离日志记录，可以将自己的类类型设置为<code>SynDBLog</code>/<code>SynSQLite3Log</code>。</p>
+<p>  因此，如果您在<code>TestSQL3.dpr</code>的开头执行以下语句，则回归测试将生成一些日志记录，如果执行，则会产生超过740 MB的日志文件内容：</p>
+<pre><code class="lang-pascal hljs">  TSynLogTestLog := TSQLLog; <span class="hljs-comment">// share the same log file with whole mORMot</span>
+  <span class="hljs-keyword">with</span> TSQLLog.Family <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+    Level := LOG_VERBOSE;
+    HighResolutionTimestamp := true;
+    PerThreadLog := ptIdentifiedInOnFile;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  创建如此多的日志内容不会增加处理时间。 在最近的笔记本电脑上，整个回归测试过程将花费仅2秒来编写额外的日志记录，这是硬盘写入的瓶颈。</p>
+<p>  如果关闭日志记录，则没有明显的速度惩罚。</p>
+<p>  对于客户端应用程序的交互式调试，日志记录非常方便。 由于我们的<code>TSynLog</code>/<code>TSQLLog</code>类具有对控制台的可选输出，因此您可以实时查看传入的请求 - 例如，参见<code>14 - Interface based services\Project14ServerHttp.pas</code>示例是如何初始化的：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">begin</span>
+  <span class="hljs-comment">// define the log level</span>
+  <span class="hljs-keyword">with</span> TSQLLog.Family <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span>
+    Level := LOG_VERBOSE;
+    EchoToConsole := LOG_VERBOSE; <span class="hljs-comment">// log all events to the console</span>
+  <span class="hljs-keyword">end</span>;
+  <span class="hljs-comment">// create a Data Model</span>
+  aModel := TSQLModel.Create([],ROOT_NAME);
+  (...)
+</code></pre>
+<p>  当然，这种交互式控制台刷新会大大减慢这一过程。 因此，它仅用于调试目的，而不是用于生产。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

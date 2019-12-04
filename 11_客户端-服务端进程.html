@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>11_客户端-服务端进程</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+#mermaid-diagram-1 .node > rect { }
+#mermaid-diagram-1 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-1 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-2 .node > rect { }
+#mermaid-diagram-2 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-2 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-3 .node > rect { }
+#mermaid-diagram-3 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-3 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-4 .node > rect { }
+#mermaid-diagram-4 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-4 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-4 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-4 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-5 .node > rect { }
+#mermaid-diagram-5 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-5 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-5 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-5 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-6 .node > rect { }
+#mermaid-diagram-6 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-6 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-6 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-6 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+#mermaid-diagram-7 .node > rect { }
+#mermaid-diagram-7 .node text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-7 .edgeLabel text { fill: rgb(0, 0, 0); stroke: none; font-weight: 300; font-family: "Helvetica Neue", Helvetica, Arial, sans-serf; font-size: 14px; }
+#mermaid-diagram-7 .cluster rect { fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-7 .cyan > rect, .cyan > polygon, .cyan > circle, .cyan > ellipse { fill: rgb(153, 255, 255); stroke: rgb(255, 255, 255); }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">11. 客户端-服务端进程<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src='data:image/png;base64,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' alt="" class="view-image"></p>
+<p><em>  mORMot</em>框架通过多个通信层，既可以独立使用，也可以在客户端-服务端模型中使用：</p>
+<ul>
+<li>快速进程内访问 （如使用公共库的可执行文件）；</li>
+<li>Windows消息，仅本地在同一台计算机上，对于小的内容非常快速；</li>
+<li>命名管道, 可以使用在本地运行Windows服务的服务器和其它客户端实例之间；</li>
+<li>基于TCP/IP的HTTP/1.1远程访问。</li>
+</ul>
+<p>  请参阅<a href="">mORMot通用架构 - 客户端/服务器</a>。</p>
+<p>  该框架允许您创建<code>TSQLHttpClient</code>，<code>TSQLRestClientURIDll</code>，<code>TSQLRestClientURINamedPipe</code>或<code>TSQLRestClientURIMessage</code>实例，以根据服务端通信协议访问您的数据。</p>
+<p>  系统能力取决于所使用的协议。 例如，HTTP听起来可能比其他选择慢，但它是客户端远程并发访问的最佳协议，甚至可以在本地运行。 例如，mORMot基于<code>http.sys</code>的服务器能够毫无问题地为50,000个并发连接提供服务，但最好不要尝试通过命名管道或消息连接十几个客户端......</p>
+<p>  以下是有关可用通信层的一些常规信息：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>进程通信</th>
+<th>Windows消息</th>
+<th>命名管道</th>
+<th>HTTP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单元</td>
+<td>mORMot.pas</td>
+<td>mORMot.pas</td>
+<td>mORMot.pas</td>
+<td>mORMotHttpServer.pas<br>mORMotHttpClient.pas</td>
+</tr>
+<tr>
+<td>速度</td>
+<td><code>****</code></td>
+<td><code>***</code></td>
+<td><code>**</code></td>
+<td><code>*</code></td>
+</tr>
+<tr>
+<td>伸缩性</td>
+<td><code>****</code></td>
+<td><code>*</code></td>
+<td><code>*</code></td>
+<td><code>***</code></td>
+</tr>
+<tr>
+<td>主机托管</td>
+<td>进程内</td>
+<td>本地</td>
+<td>本地</td>
+<td>远程</td>
+</tr>
+<tr>
+<td>协议</td>
+<td>方法调用</td>
+<td><code>WM_COPYDATA</code></td>
+<td><code>\\.\pipe\mORMot_</code></td>
+<td>标准</td>
+</tr>
+<tr>
+<td>数据</td>
+<td>JSON</td>
+<td>JSON</td>
+<td>JSON</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td>运行为服务</td>
+<td>独立应用</td>
+<td>无需</td>
+<td>是的</td>
+<td>是的</td>
+</tr>
+</tbody>
+</table>
+<p>  注意，可以有几个协议公开相同的TSQLRestServer实例。您可以通过HTTP和命名管道同时公开相同的服务器，这取决于您的速度要求。</p>
+<h2 id="toc_1">11.1. TSQLRest类<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<p>  该架构由类的层次结构实现，实现了RESTful模式，适用于独立或客户端-服务端应用，它们都继承自TSQLRest类，作为两个主要分支：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-1" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 556 198" style="max-width:556px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-1 .node&gt;rect { ; }
+#mermaid-diagram-1 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-1 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-1 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M85,64L85,89L220,124.64606741573034" marker-end="url(#arrowhead9)" style="fill:none"></path><defs><marker id="arrowhead9" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M263,64L263,89L263,114" marker-end="url(#arrowhead10)" style="fill:none"></path><defs><marker id="arrowhead10" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M446,64L446,89L306,124.95628415300547" marker-end="url(#arrowhead11)" style="fill:none"></path><defs><marker id="arrowhead11" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(85,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-65" y="-22" width="130" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-55,-12)"><foreignObject width="110" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServer</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(263,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-43" y="-22" width="86" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33,-12)"><foreignObject width="66" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRest</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(263,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-63" y="-22" width="126" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-53,-12)"><foreignObject width="106" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClient</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(446,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-70" y="-22" width="140" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-60,-12)"><foreignObject width="120" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestStorage</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  所有ORM操作（又名CRUD过程）都可以从抽象的<code>TSQLRest</code>类定义中实现，通过重载实现服务端（通过<code>TSQLRestServer</code>类）或客户端（通过<code>TSQLRestClientURI</code>类）对数据的访问。</p>
+<p>  您应该根据传输协议实例化相应的类，但应该更好地依赖于抽象，即依赖于抽象的<code>TSQLRestClient</code> / <code>TSQLRestServer</code>类来实现您的整个代码逻辑。之后，根据客户的要求，有助于在运行时更改协议或配置。</p>
+<h3 id="toc_2">11.1.1. 服务端类<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h3>
+<p>  以下类可用于实现服务端实例：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-2" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 729 292" style="max-width:729px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-2 .node&gt;rect { ; }
+#mermaid-diagram-2 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-2 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-2 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M95,64L95,89L257.5,122.57142857142857" marker-end="url(#arrowhead25)" style="fill:none"></path><defs><marker id="arrowhead25" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M322.5,64L322.5,89L322.5,114" marker-end="url(#arrowhead26)" style="fill:none"></path><defs><marker id="arrowhead26" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M582,64L582,89L387.5,124.22736030828517" marker-end="url(#arrowhead27)" style="fill:none"></path><defs><marker id="arrowhead27" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M322.5,158L322.5,183L322.5,208" marker-end="url(#arrowhead28)" style="fill:none"></path><defs><marker id="arrowhead28" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(95,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-75" y="-22" width="150" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-65,-12)"><foreignObject width="130" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerDB</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(322.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-65" y="-22" width="130" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-55,-12)"><foreignObject width="110" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServer</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(322.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-102.5" y="-22" width="205" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-92.5,-12)"><foreignObject width="185" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerRemoteDB</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(582,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-107" y="-22" width="214" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-97,-12)"><foreignObject width="194" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestServerFullMemory</div></foreignObject></g></g></g><g class="node cyan" id="E" transform="translate(322.5,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-43" y="-22" width="86" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33,-12)"><foreignObject width="66" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRest</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  在实践中，为了实现业务逻辑，您最好创建一个新类，继承自上面的<code>TSQLRestServer</code>的某个类。拥有自己的继承类是有意义的，特别是对于实现自己的基于方法的服务，或者重载内部方法。</p>
+<p>  <code>TSQLRestServerDB</code>类是该框架的主要服务端类型，它将依托一个SQLite3引擎，作为其核心数据库层。</p>
+<p>  如果你的目的是不使用完整的SQLite3引擎，您可以从<code>TSQLRestServerFullMemory</code>类而不是<code>TSQLRestServerDB</code>创建服务端：使用快速内存引擎（`TSQLRestStorageInMemory实例），具备基本的CRUD功能（ORM），JSON或优化的二进制文件的磁盘持久化，这种服务端足以处理身份验证，以独立应用提供服务。</p>
+<p>  如果您的服务需要访问远程ORM服务器，则可以使用<code>TSQLRestServerRemoteDB</code>类：此服务器将使用内部TSQLRestClient实例来处理所有ORM操作，可以使用如在独立服务器上托管一些服务，从另一台服务器检索所有ORM和数据访问：它将允许轻松实现代理体系结构（如作为发布服务的DMZ，但让ORM进程保持在范围外）。 请参阅下面的一些托管方案。</p>
+<p>  另一种选择可能是使用<code>TSQLRestClientRedirect</code>，它做了类似的事情，但继承自TSQLRestClientURI。</p>
+<h3 id="toc_3">11.1.2. 存储类<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  在mORMot单元中，您可能还会发现如下继承自<code>TSQLRestStorage</code>的类：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-3" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 1044 386" style="max-width:1044px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-3 .node&gt;rect { ; }
+#mermaid-diagram-3 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-3 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-3 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M643.5,64L643.5,89L643.5,114" marker-end="url(#arrowhead48)" style="fill:none"></path><defs><marker id="arrowhead48" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M643.5,158L643.5,183L643.5,208" marker-end="url(#arrowhead49)" style="fill:none"></path><defs><marker id="arrowhead49" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M118,252L118,277L437.75,315.5586914688903" marker-end="url(#arrowhead50)" style="fill:none"></path><defs><marker id="arrowhead50" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M372,252L372,277L444.20744680851067,302" marker-end="url(#arrowhead51)" style="fill:none"></path><defs><marker id="arrowhead51" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M643.5,252L643.5,277L571.2925531914893,302" marker-end="url(#arrowhead52)" style="fill:none"></path><defs><marker id="arrowhead52" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M906.5,252L906.5,277L577.75,315.7492163009404" marker-end="url(#arrowhead53)" style="fill:none"></path><defs><marker id="arrowhead53" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(643.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-134" y="-22" width="268" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-124,-12)"><foreignObject width="248" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestStorageInMemoryExternal</div></foreignObject></g></g></g><g class="node cyan" id="B" transform="translate(643.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-106.5" y="-22" width="213" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-96.5,-12)"><foreignObject width="193" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestStorageInMemory</div></foreignObject></g></g></g><g class="node cyan" id="C3" transform="translate(643.5,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-115.5" y="-22" width="231" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-105.5,-12)"><foreignObject width="211" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestStorageRecordBased</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(118,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-98" y="-22" width="196" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-88,-12)"><foreignObject width="176" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestStorageExternal</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(507.75,324)" style="opacity: 1;"><rect rx="0" ry="0" x="-70" y="-22" width="140" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-60,-12)"><foreignObject width="120" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestStorage</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(372,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-106" y="-22" width="212" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-96,-12)"><foreignObject width="192" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestStorageMongoDB</div></foreignObject></g></g></g><g class="node cyan" id="C4" transform="translate(906.5,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-97.5" y="-22" width="195" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-87.5,-12)"><foreignObject width="175" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestStorageRemote</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  在上面的类层次结构中，<code>TSQLRestStorage[InMemory][External]</code>类实际上用于在非SQL后端存储一些<code>TSQLRecord</code>表：</p>
+<ul>
+<li><code>TSQLRestStorageExternal</code>映射存储在外部数据库中的表，请参阅<a href="">外部SQL数据库访问</a>；</li>
+<li><code>TSQLRestStorageInMemory</code>将数据存储在TObjectList中，参见<a href="">内存静态进程</a>；</li>
+<li><code>TSQLRestStorageRemote</code>会将给定表的CRUD操作重定向到外部TSQLRest实例（客户端或服务器），请参阅<a href="">重定向到外部TSQLRest</a>；</li>
+<li><code>TSQLRestStorageMongoDB</code>将连接到远程MongoDB服务器并将表存储为NoSQL文档集合，请参阅<a href="">外部NoSQL数据库访问</a>。</li>
+</ul>
+<p>  这些类在主<code>TSQLRestServer</code>中用于承载某些给定的<code>TSQLRecord</code>类，无论是在内存中还是在外部数据库上。它们不会在我们的客户端 - 服务端表现层中管理帐户，而是在服务器端实现细节。</p>
+<h3 id="toc_4">11.1.3. 客户端类<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h3>
+<p>  一整套客户端类将实现对远程数据库的RESTful访问，以及相关的服务和业务逻辑：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-4" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 1310 574" style="max-width:1310px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-4 .node&gt;rect { ; }
+#mermaid-diagram-4 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-4 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-4 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-4 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M210,277L239,277L338.5744680851064,349" marker-end="url(#arrowhead88)" style="fill:none"></path><defs><marker id="arrowhead88" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M214,371L239,371L264,371" marker-end="url(#arrowhead89)" style="fill:none"></path><defs><marker id="arrowhead89" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M195.5,465L239,465L338.5744680851064,393" marker-end="url(#arrowhead90)" style="fill:none"></path><defs><marker id="arrowhead90" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M474,371L499,371L574.2659574468086,396" marker-end="url(#arrowhead91)" style="fill:none"></path><defs><marker id="arrowhead91" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M463.5,465L499,465L574.2659574468086,440" marker-end="url(#arrowhead92)" style="fill:none"></path><defs><marker id="arrowhead92" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M757,42L782,42L873.0914893617021,255" marker-end="url(#arrowhead93)" style="fill:none"></path><defs><marker id="arrowhead93" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M747,136L782,136L866.8191489361702,255" marker-end="url(#arrowhead94)" style="fill:none"></path><defs><marker id="arrowhead94" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M725.5,230L782,230L835.4574468085107,255" marker-end="url(#arrowhead95)" style="fill:none"></path><defs><marker id="arrowhead95" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M714,324L782,324L835.4574468085107,299" marker-end="url(#arrowhead96)" style="fill:none"></path><defs><marker id="arrowhead96" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M731.5,418L782,418L866.8191489361702,299" marker-end="url(#arrowhead97)" style="fill:none"></path><defs><marker id="arrowhead97" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M732.5,512L782,512L873.0914893617021,299" marker-end="url(#arrowhead98)" style="fill:none"></path><defs><marker id="arrowhead98" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M958,277L983,277L1008,277" marker-end="url(#arrowhead99)" style="fill:none"></path><defs><marker id="arrowhead99" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M1134,277L1159,277L1184,277" marker-end="url(#arrowhead100)" style="fill:none"></path><defs><marker id="arrowhead100" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A1" transform="translate(117,277)" style="opacity: 1;"><rect rx="0" ry="0" x="-93" y="-22" width="186" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-83,-12)"><foreignObject width="166" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientWinINet</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(369,371)" style="opacity: 1;"><rect rx="0" ry="0" x="-105" y="-22" width="210" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-95,-12)"><foreignObject width="190" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientWinGeneric</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(117,371)" style="opacity: 1;"><rect rx="0" ry="0" x="-97" y="-22" width="194" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-87,-12)"><foreignObject width="174" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientWinHTTP</div></foreignObject></g></g></g><g class="node cyan" id="A3" transform="translate(117,465)" style="opacity: 1;"><rect rx="0" ry="0" x="-78.5" y="-22" width="157" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-68.5,-12)"><foreignObject width="137" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientCurl</div></foreignObject></g></g></g><g class="node cyan" id="C5" transform="translate(640.5,418)" style="opacity: 1;"><rect rx="0" ry="0" x="-91" y="-22" width="182" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-81,-12)"><foreignObject width="162" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientGeneric</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(369,465)" style="opacity: 1;"><rect rx="0" ry="0" x="-94.5" y="-22" width="189" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-84.5,-12)"><foreignObject width="169" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientWinSock</div></foreignObject></g></g></g><g class="node cyan" id="C1" transform="translate(640.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-116.5" y="-22" width="233" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-106.5,-12)"><foreignObject width="213" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClientURINamedPipe</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(882.5,277)" style="opacity: 1;"><rect rx="0" ry="0" x="-75.5" y="-22" width="151" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-65.5,-12)"><foreignObject width="131" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClientURI</div></foreignObject></g></g></g><g class="node cyan" id="C2" transform="translate(640.5,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-106.5" y="-22" width="213" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-96.5,-12)"><foreignObject width="193" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClientURIMessage</div></foreignObject></g></g></g><g class="node cyan" id="C3" transform="translate(640.5,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-85" y="-22" width="170" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-75,-12)"><foreignObject width="150" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClientURIDll</div></foreignObject></g></g></g><g class="node cyan" id="C4" transform="translate(640.5,324)" style="opacity: 1;"><rect rx="0" ry="0" x="-73.5" y="-22" width="147" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-63.5,-12)"><foreignObject width="127" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClientDB</div></foreignObject></g></g></g><g class="node cyan" id="C6" transform="translate(640.5,512)" style="opacity: 1;"><rect rx="0" ry="0" x="-92" y="-22" width="184" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-82,-12)"><foreignObject width="164" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClientRedirect</div></foreignObject></g></g></g><g class="node cyan" id="E" transform="translate(1071,277)" style="opacity: 1;"><rect rx="0" ry="0" x="-63" y="-22" width="126" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-53,-12)"><foreignObject width="106" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRestClient</div></foreignObject></g></g></g><g class="node cyan" id="F" transform="translate(1227,277)" style="opacity: 1;"><rect rx="0" ry="0" x="-43" y="-22" width="86" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33,-12)"><foreignObject width="66" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLRest</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  当然, 所有这些<code>tsqlrestclient*</code>类都希望通过相应的传输协议访问<code>TSQLRestServer</code>。</p>
+<h2 id="toc_5">11.2. 进程间通信独立应用<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h2>
+<p>  独立应用需创建<code>TSQLRestClientDB</code>，此特定类将初始化内部 <code>TSQLRestServerDB</code> 实例，并且您将在同一进程中完全访问 sqlite3 数据库，而没有速度损失。</p>
+<p>  内容仍将与JSON相互转换, 不会因为数据传输而出现延迟。采用JSON将支持内部缓存 ，并允许将此进程内独立应用与其他传输协议 (如命名管道HTTP） 联合使用。</p>
+<p>  另一个选项是使用<code>TSQLRestClientRedirect</code>，它允许从 <code>TSQLRestClient</code>或<code>TSQLRestServer</code>派生的任何<code>TSQLRest</code>子类重定向,。任何<code>TSQLRestClientURI.URI</code>请求都将传递到重定向的<code>TSQLRest</code>实例，该实例可以是本地的，也可以是远程的。 <code>TSQLRestClientRedirect.RedirectTo</code>方法允许在运行时启用或禁用重定向 （通过设置 <code>aRedirected=nil</code>），或动态更改重定向的<code>TSQLRest</code>实例, 而无需创建新的 <code>TSQLRestClientRedirect</code>实例。</p>
+<p>  您也可以直接使用TSQLRestServerDB实例 , 但您将错过<code>TSQLRestClientURI</code>类的一些方便的功能，例如基于<code>TSQLRestServer.URI</code>进程的用户接口交互或高级ORM/SOA功能。</p>
+<h2 id="toc_6">11.3. 基于命名管道或Windows消息的本地访问<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h2>
+<p>  对于客户端-服务端本地应用（即在同一物理计算机上运行的一些可执行文件），创建一个<code>TSQLRestServerDB</code>实例, 然后使用相应的ExportServer、ExportServerNamedPipe、ExportServerMessage方法来实例化进程间、命名管或Windows消息服务器。</p>
+<p>  Windows消息层的开销最低，是同一台计算机上多个应用程序之间可用的最快传输层。但它有一个问题，即仅支持桌面应用程序（Windows Vista之后），因此当您作为后台服务运行时,，将无法访问Windows消息服务器。</p>
+<p>  命名管道通信可以使用Windows服务来提供服务，并且在传输大的消息时效率更高。因此，它是本地应用客户端之间共享数据的首选通信方式。</p>
+<p>  由于较新版本的Windows（从Vista开始）的安全限制，命名管道在默认情况下不能通过网络使用，这就是为什么此协议仅被列为本地访问的原因。</p>
+<h2 id="toc_7">11.4. 基于HTTP的网络和因特网访问<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h2>
+<p>  对于通过TCP/IP发布基于HTTP/1.1的服务器，需创建一个TSQLHttpServer实例，并将正在运行的TSQLRestServerDB与它相关联。</p>
+<p>  从示例"<code>04 - HTTP Client-Server</code>" 中提取的典型初始化代码如下：</p>
+<pre><code class="lang-pascal hljs">  Model := CreateSampleModel;
+  DBServer := TSQLRestServerDB.Create(Model,ChangeFileExt(paramstr(<span class="hljs-number">0</span>),<span class="hljs-string">'.db3'</span>),true);
+  DBServer.CreateMissingTables;
+  HttpServer := TSQLHttpServer.Create(<span class="hljs-string">'8080'</span>,[DBServer],<span class="hljs-string">'+'</span>,HTTP_DEFAULT_MODE);
+</code></pre>
+<p>  通常定义以下选项：</p>
+<pre><code class="lang-pascal hljs">  HttpServer.AccessControlAllowOrigin := <span class="hljs-string">'*'</span>; <span class="hljs-comment">// allow cross-site AJAX queries</span>
+</code></pre>
+<p>  您还可以选择定义每个域/每个子域托管重定向：</p>
+<pre><code class="lang-pascal hljs">  HttpServer.DomainHostRedirect(<span class="hljs-string">'project.com'</span>,<span class="hljs-string">'root'</span>);           <span class="hljs-comment">// 'root' is current Model.Root</span>
+  HttpServer.DomainHostRedirect(<span class="hljs-string">'blog.project.com'</span>,<span class="hljs-string">'root/blog'</span>); <span class="hljs-comment">// MVC application</span>
+</code></pre>
+<p>  在所有情况下，即使HTTP协议非常适合网络（特别是在80端口上），在通过公司网络进行任何部署之前，您应始终听取IT的建议并获得批准，至少要协商防火墙设置。</p>
+<h3 id="toc_8">11.4.1. HTTP服务器<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h3>
+<p>  <code>TSQLHttpServer</code>类能够使用<code>SynCrtSock</code>单元中定义的两个HTTP服务器类中的任何一个，以及用于<code>WebSockets</code>的<code>SynBidirSock</code>：</p>
+<ul>
+<li><code>THttpServer</code>是一个轻量且经过优化的服务器，在原始套接字API上具有线程池和IOCP实现模式；</li>
+<li><code>THttpApiServer</code>是基于<code>http.sys</code>API；</li>
+<li><code>TWebSocketServer</code>是一个<code>THttpServer</code>服务器，能够升级到<code>WebSockets</code>协议以进行异步双向回调 。</li>
+</ul>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-5" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 366 386" style="max-width:366px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-5 .node&gt;rect { ; }
+#mermaid-diagram-5 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-5 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-5 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-5 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M250,64L250,89L250,114" marker-end="url(#arrowhead118)" style="fill:none"></path><defs><marker id="arrowhead118" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M84,158L84,183L128.14893617021278,208" marker-end="url(#arrowhead119)" style="fill:none"></path><defs><marker id="arrowhead119" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M250,158L250,183L205.85106382978722,208" marker-end="url(#arrowhead120)" style="fill:none"></path><defs><marker id="arrowhead120" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M167,252L167,277L167,302" marker-end="url(#arrowhead121)" style="fill:none"></path><defs><marker id="arrowhead121" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A" transform="translate(250,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-76" y="-22" width="152" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-66,-12)"><foreignObject width="132" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TWebSocketServer</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(250,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-52" y="-22" width="104" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-42,-12)"><foreignObject width="84" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">THttpServer</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(84,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-64" y="-22" width="128" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-54,-12)"><foreignObject width="108" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">THttpApiServer</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(167,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-79" y="-22" width="158" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-69,-12)"><foreignObject width="138" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">THttpServerGeneric</div></foreignObject></g></g></g><g class="node cyan" id="D" transform="translate(167,324)" style="opacity: 1;"><rect rx="0" ry="0" x="-39" y="-22" width="78" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29,-12)"><foreignObject width="58" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TThread</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  在生产上，<code>THttpApiServer</code>似乎提供了最好的结果，并且具有经过验证的安全实施。如果需要，它也是唯一一个实现HTTPS / SSL安全通信的类。这就是为什么<code>TSQLHttpServer</code>将首先尝试使用最快的http.sys内核模式服务器，然后在发生故障时回退到基于通用套接字的<code>THttpServer</code>类。</p>
+<p>  您可以通过<code>TSQLHttpServer.Create</code>构造函数的<code>aHttpServerKind: TSQLHttpServerOptions</code>指定要使用哪种HTTP服务器类。默认情况下，它将是<code>HTTP_DEFAULT_MODE</code>（如Windows使用<code>useHttpApi</code>），但您也可以指定<code>useHttpApiRegisteringURI</code>用于自动注册URI，或使用<code>HttpSocket</code>来使用基于套接字的<code>THttpServer</code>，或者使用<code>useBidirSocket</code>来使用<code>TWebSocketServer</code>。</p>
+<p>  <code>THttpServerGeneric</code>抽象类提供了一个<code>OnRequest</code>属性事件，它需要输入一些参数，然后计算要作为响应发送的输出内容：</p>
+<pre><code class="lang-pascal hljs">TOnHttpServerRequest = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Ctxt: THttpServerRequest)</span>:</span> cardinal <span class="hljs-keyword">of</span> <span class="hljs-keyword">object</span>;
+</code></pre>
+<p>  此事件处理程序原型由实现<code>HTTP/1.1</code>服务的两个<code>TThread</code>类实例共享。</p>
+<p>  <code>THttpApiServer</code>和<code>THttpServer</code>类将接收任何传入请求，通过<code>OnRequest</code>事件处理程序响应发送URI请求的<code>TSQLRestServer</code>实例。</p>
+<p>  如果请求是远程ORM操作，则从框架的内部缓存中检索JSON响应，或使用SQLite3数据库引擎计算JSON响应。如果是远程服务访问，则在服务器端计算请求，并将数据编组为JSON。如果您指定了<code>useBidirSocket</code>类型的服务，则可以通过接口使用异步回调访问远程服务。</p>
+<p>  如果AJAX客户端是支持SynLZ的Delphi应用，将使用我们优化的SynLZ算法对生成的JSON内容进行压缩（比Zip/Deflate压缩快20倍），默认情况下不会压缩（即使你可以启用deflate算法，这可能会减慢服务器的速度）。</p>
+<p>  然后响应将被标记为发送回客户端...</p>
+<h3 id="toc_9">11.4.2. 高性能http.sys服务<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h3>
+<p>  从Windows XP SP2和Windows Server 2003开始，操作系统提供了一个内核堆栈来处理HTTP请求。这个http.sys驱动程序实际上是一个全功能的HTTP服务器，在内核模式下运行。它作为核心组件是Windows操作系统的网络子系统的一部分。</p>
+<p>  SynCrtSock单元可以基于此组件实现HTTP服务器，如果可用，Synopse mORMot框架将使用它；如果不可用，则使用I/O实现端口和线程池启动我们优化的纯Delphi HTTP服务。</p>
+<p>  关于https.sys有什么好处？</p>
+<ul>
+<li>内核模式请求排队：请求在上下文切换中的开销较少，因为内核将正确地将请求直接转发给工作进程。如果没有可用于接受请求的工作进程，则内核模式请求队列将保留该请求，直到工作进程获取该请求为止。</li>
+<li>增强稳定性：当工作进程失败时，服务不会中断，用户无法感知到故障，因为内核会为该应用池的WWW服务启动新的工作进程并对请求进行排队。</li>
+<li>更快的进程：处理请求的速度更快，因为它们直接从内核路由到适当的用户模式工作进程，而不是在两个用户模式进程之间路由，即旧的WinSock库和工作进程。</li>
+<li>嵌入式SSL流程，支持安全的HTTPS通信。</li>
+</ul>
+<h4 id="toc_10">11.4.2.1. 使用http.sys服务器<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h4>
+<p>  看看示例<code>“04 - HTTP Client-Server”</code>，它可以使用我们的RESTful ORM服务通过HTTP提供SQLite3数据库内容。</p>
+<p>  默认情况下，它将尝试使用<code>http.sys</code>服务，然后在失败时回退到普通套接字服务。</p>
+<p>  实际上，<code>TSQLHttpServer</code>构造函数执行了两个步骤：</p>
+<ul>
+<li>在调用<code>THttpApiServer.Create</code>构造函数时，首先初始化HTTP Server API（如果需要），动态加载<code>HttpApi.dll</code>库（它是http.sys的包装器），因此，如果您运行的是旧系统（例如Windows XP SP1），您仍然可以使用该服务。</li>
+<li>然后它尝试通过<code>THttpApiServer.AddUrl</code>方法注册与RESTful模型匹配的URI。简而言之，就是使用<code>TSQLModel.Root</code>属性计算所需的RESTful URI。如果你需要的话，您可以注册多个<code>TSQLRestServer</code>实例，每个实例都有自己的<code>TSQLModel.Root</code>。</li>
+</ul>
+<p>  正如我们已经说过的，如果这两个步骤中的任何一个失败（如http.sys不可用，或无法注册URL），TSQLHttpServer类将重新使用另一个普通的Delphi多线程THttpServer服务类，我们不会让你失望！</p>
+<p>  在http.sys完成了所有神奇的操作......它会监听任何传入的连接请求，处理报文头，然后检查任何匹配的URL。</p>
+<p>  http.sys将负责处理所有通信，让服务端线程可以自由处理下一个请求。</p>
+<p>  您甚至可以使用http.sys的特殊功能来尽可能快地提供文件内容。实际上，如果将<code>Ctxt.OutContentType</code>指定为<code>HTTP_RESP_STATICFILE</code>，则<code>Ctxt.OutContent</code>将发送文件的UTF-8文件名到客户端。请注意，它仅适用于THttpApiServer类型的服务（即使用高性能的http.sys API）。整个文件的访问和发送将在后台，内核级别进行，因此具有最佳性能。请参阅示例<code>"*09 - HttpApi web server*"</code>的<code>HttpApiServer.dpr</code>文件。</p>
+<p>  如果您使用TSQLHttpServer，最简单的方法是定义基于方法的服务，并调用<code>Ctxt.ReturnFile()</code>根据文件名返回文件内容。我们将在后面看到有关此细节。另一种是重载<code>TSQLHttpServer.Request()</code>方法，如<code>Project04ServerStatic.dpr</code>示例所述，但我们认为基于方法的服务和<code>Ctxt.ReturnFile()</code>是首选。</p>
+<h4 id="toc_11">11.4.2.2. 管理员的URI授权<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h4>
+<p>  这在XP下工作正常，性能非常好，稳定性也不差。但是……却再次出现了UAC的噩梦。</p>
+<p>  自XP之后更改了安全设置，现在，只有以管理员权限运行的应用程序才能将URL注册到http.sys。也就是说，没有真正的应用。因此，在Vista和Seven默认情况下，URI注册步骤将始终失败。</p>
+<p>  唯一可能进行授权的情况，是应用程序作为Windows服务启动，默认具有执行服务权限的用户。默认情况下，Windows服务是使用具有管理员权限的用户启动的。</p>
+<h5 id="toc_12">11.4.2.2.1. 特定的安全授权<a class="vnote-anchor" href="#toc_12" data-anchor-icon="#"></a></h5>
+<p>  Windows为其所有基于http.sys系统（即IIS和WCF服务）请求的标准安全策略是显式注册URI。</p>
+<p>  根据其运行的系统（即Windows XP或Vista及更高版本），将使用多种命令行工具。这可能让人感到困惑。</p>
+<p>  为了简单起见，我们的SynCrtSock单元提供了一种专用方法来授权任何用户注册特定的URI前缀。</p>
+<p>  因此，可以使用管理员权限轻松创建和调用一次程序，以使http.sys与我们的框架一起工作，这可以作为安装程序的一部分来完成。</p>
+<p>  之后，当您的服务端应用程序启动时（如作为具有普通用户权限的托盘图标中的应用程序，或具有调整用户权限的后台Windows服务），它将能够注册所有需要的URL。</p>
+<p>  如下是一个示例程序，可以启动我们的TestSQL3.dpr并按预期工作，它将允许通过888端口进行任何连接，<code>TSQLModel.root</code>设置为“root” ，即内核服务所期望的URI前缀为<code>http://+:888/root/</code>：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">program</span> TestSQL3Register;
+<span class="hljs-keyword">uses</span>
+  SynCrtSock,
+  SysUtils;
+
+<span class="hljs-comment">// force elevation to Administrator under Vista/Seven</span>
+<span class="hljs-meta">{$R VistaAdm.res}</span>
+
+<span class="hljs-keyword">begin</span>
+  THttpApiServer.AddUrlAuthorize(<span class="hljs-string">'root'</span>,<span class="hljs-string">'888'</span>,false,<span class="hljs-string">'+'</span>));
+<span class="hljs-keyword">end</span>.
+</code></pre>
+<p>  客户端/服务端RESTful完整解决方案还可以查看<code>Project04ServerRegister.dpr</code>示例。</p>
+<p>  请注意，如果您希望像往常一样，允许外部世界访问您的服务器，则需要在Windows防火墙中打开传入TCP流的IP端口。</p>
+<h5 id="toc_13">11.4.2.2.2. 自动授权<a class="vnote-anchor" href="#toc_13" data-anchor-icon="#"></a></h5>
+<p>  更简单的是至少以系统管理员身份运行一次服务端应用程序。</p>
+<p>  <code>TSQLHttpServer.Create()</code>构造函数拥有<code>aHttpServerKind: TSQLHttpServerOptions</code>参数。 默认情况下，它将设置为<code>useHttpApi</code>，如果指定为<code>useHttpApiRegisteringURI</code>，则类将在启动服务端进程之前注册URI。</p>
+<p>  所有mORMot示例都使用此标志进行编译，如下所示：</p>
+<pre><code class="lang-pascal hljs"> aHTTPServer := TSQLHttpServer.Create(PORT_NAME,[aServer],<span class="hljs-string">'+'</span>,useHttpApiRegisteringURI);
+</code></pre>
+<p>  请注意，它没有遵循Windows的默认安全策略，但它使您的应用程序开发更容易。</p>
+<h5 id="toc_14">11.4.2.2.3. 手动URI授权<a class="vnote-anchor" href="#toc_14" data-anchor-icon="#"></a></h5>
+<p>  如果在给定计算机上配置了多个http.sys服务器，则可能会在一段时间后发生URI注册冲突。</p>
+<p>  您可以使用netsh工具列出所有已注册的URL：</p>
+<pre><code class="lang-sh hljs"> netsh http show urlacl
+</code></pre>
+<p>  您可以选择指定完整的URL，例如：</p>
+<pre><code class="lang-sh hljs"> netsh http show urlacl url=http://+:80/MyUrl
+ netsh http show urlacl url=http://www.contoso.com:80/MyUrl
+</code></pre>
+<p>  您可以删除任何已注册的URL：</p>
+<pre><code class="lang-sh hljs"> netsh http delete urlacl http://host:port/[URI]
+</code></pre>
+<p>  [URI]是注册的URL路径或域。 例如：</p>
+<pre><code class="lang-sh hljs"> netsh delete urlacl url=http://+:80/MyUri
+ netsh delete urlacl url=http://www.contoso.com:80/MyUri
+</code></pre>
+<p>  请注意，应使用管理员权限运行所有这些命令。</p>
+<p>  您可以通过https://msdn.microsoft.com/en-us/library/windows/desktop/cc307236查阅HTTP内容关于netsh http命令的相关文档，以查看和配置http.sys设置和参数。</p>
+<h4 id="toc_15">11.4.2.3. HTTP API 2.0功能<a class="vnote-anchor" href="#toc_15" data-anchor-icon="#"></a></h4>
+<p>  自Windows Vista和Windows Server 2008之后的HTTP Server 2.0 API提供了一些<code>THttpApiServer</code>方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HasAPI2</td>
+<td>检查HTTP API 2.0是否可用</td>
+</tr>
+<tr>
+<td>SetTimeOutLimits()</td>
+<td>高级超时设置</td>
+</tr>
+<tr>
+<td>LogStart()和LogStop</td>
+<td>HTTP级标准日志</td>
+</tr>
+<tr>
+<td>SetTimeOutLimits()</td>
+<td>内核级身份验证</td>
+</tr>
+</tbody>
+</table>
+<p>  更多详细信息，请参阅<code>SynCrtSock.pas</code>的相应文档，以及https://msdn.microsoft.com/en-us/library/windows/desktop/aa364703中关于这些功能的底层参考。 请注意，<a href="http://http.xn--sys-if0f3a736mt7j4ype5f.Net">http.sys的实现比官方.Net</a> WCF框架中当前包含的更完整。 对于第三方库来说这很不错，不是吗？</p>
+<h3 id="toc_16">11.4.3. HTTP客户端<a class="vnote-anchor" href="#toc_16" data-anchor-icon="#"></a></h3>
+<p>  事实上，根据类层次结构，HTTP / 1.1客户端有几种实现：</p>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-6" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 947.5 292" style="max-width:947.5px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-6 .node&gt;rect { ; }
+#mermaid-diagram-6 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-6 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-6 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-6 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M113,64L113,89L176.82978723404256,114" marker-end="url(#arrowhead137)" style="fill:none"></path><defs><marker id="arrowhead137" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M353,64L353,89L289.17021276595744,114" marker-end="url(#arrowhead138)" style="fill:none"></path><defs><marker id="arrowhead138" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M606,64L606,89L606,114" marker-end="url(#arrowhead139)" style="fill:none"></path><defs><marker id="arrowhead139" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M233,158L233,183L515,218.53351206434317" marker-end="url(#arrowhead140)" style="fill:none"></path><defs><marker id="arrowhead140" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M606,158L606,183L606,208" marker-end="url(#arrowhead141)" style="fill:none"></path><defs><marker id="arrowhead141" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M829,158L829,183L697,210.82062780269058" marker-end="url(#arrowhead142)" style="fill:none"></path><defs><marker id="arrowhead142" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A1" transform="translate(113,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-93" y="-22" width="186" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-83,-12)"><foreignObject width="166" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientWinINet</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(233,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-105" y="-22" width="210" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-95,-12)"><foreignObject width="190" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientWinGeneric</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(353,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-97" y="-22" width="194" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-87,-12)"><foreignObject width="174" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientWinHTTP</div></foreignObject></g></g></g><g class="node cyan" id="A3" transform="translate(606,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-106" y="-22" width="212" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-96,-12)"><foreignObject width="192" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientWebsockets</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(606,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-94.5" y="-22" width="189" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-84.5,-12)"><foreignObject width="169" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientWinSock</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(606,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-91" y="-22" width="182" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-81,-12)"><foreignObject width="162" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientGeneric</div></foreignObject></g></g></g><g class="node cyan" id="B3" transform="translate(829,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-78.5" y="-22" width="157" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-68.5,-12)"><foreignObject width="137" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">TSQLHttpClientCurl</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  因此，您可以在Windows下为HTTP/1.1客户端选用<code>TSQLHttpClientWinSock</code>、<code>TSQLHttpClientWinINet</code>或<code>TSQLHttpClientWinHTTP</code>。根据设计，<code>TSQLHttpClientWinINet</code>或<code>TSQLHttpClientWinHTTP</code>在Windows之外不可用，但如果安装了libcurl库，<code>TSQLHttpClientCurl</code>在Linux下是一个很好的选择，特别是如果你想使用HTTPS。</p>
+<p>  <code>TSQLHttpClientWebsockets</code>类能够将HTTP连接升级到WebSockets协议，该协议将用于双向回调 。</p>
+<p>  每个类都有自己的体系结构，并将自身附加到Windows通信库，所有这些都基于WinSock API。如其名称所述，<code>TSQLHttpClientWinSock</code>将直接调用WinSock API，<code>TSQLHttpClientWinINet</code>将调用WinINet API（由IE 6使用），<code>TSQLHttpClientWinHTTP</code>将调用最新的WinHTTP API：</p>
+<ul>
+<li>WinSock是访问Windows套接字堆栈的通用用户空间API，如IP连接，它能够处理任何IP协议，包括TCP/IP、UDP/IP及其上的任何协议（包括HTTP）;</li>
+<li>WinINet被设计为HTTP API客户端平台，允许使用交互式消息对话框，如输入用户凭据，它能够处理HTTP和FTP协议；</li>
+<li>WinHTTP的API集面向非交互式环境，允许在不需要用户交互的基于服务的应用程序中使用，并且比WinINet快得多，它只处理HTTP协议。</li>
+</ul>
+<div class="mermaid-diagram"><svg id="mermaid-diagram-7" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 433 292" style="max-width:433px;"><style type="text/css" title="mermaid-svg-internal-css">/*  */
+#mermaid-diagram-7 .node&gt;rect { ; }
+#mermaid-diagram-7 .node text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-7 .edgeLabel text  { fill:#000; stroke:none; font-weight:300; font-family:"Helvetica Neue",Helvetica,Arial,sans-serf; font-size:14px; }
+#mermaid-diagram-7 .cluster rect  { rx:4px; fill: rgb(255, 255, 222); rx: 4px; stroke: rgb(170, 170, 51); stroke-width: 1px; }
+#mermaid-diagram-7 .cyan&gt;rect, .cyan&gt;polygon, .cyan&gt;circle, .cyan&gt;ellipse { fill:#9ff;  stroke:#fff; }
+/*  */
+</style><g><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M84,64L84,89L84,114" marker-end="url(#arrowhead157)" style="fill:none"></path><defs><marker id="arrowhead157" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M234.5,64L234.5,89L267.07978723404256,114" marker-end="url(#arrowhead158)" style="fill:none"></path><defs><marker id="arrowhead158" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M357,64L357,89L324.42021276595744,114" marker-end="url(#arrowhead159)" style="fill:none"></path><defs><marker id="arrowhead159" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M84,158L84,183L180,216.05494505494505" marker-end="url(#arrowhead160)" style="fill:none"></path><defs><marker id="arrowhead160" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M295.75,158L295.75,183L255.72340425531914,208" marker-end="url(#arrowhead161)" style="fill:none"></path><defs><marker id="arrowhead161" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" transform="" style="opacity: 1;"><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node cyan" id="A1" transform="translate(84,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-64" y="-22" width="128" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-54,-12)"><foreignObject width="108" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">AutoProxy APIs</div></foreignObject></g></g></g><g class="node cyan" id="B1" transform="translate(84,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-42.5" y="-22" width="85" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-32.5,-12)"><foreignObject width="65" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">WinHTTP</div></foreignObject></g></g></g><g class="node cyan" id="A2" transform="translate(234.5,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-36.5" y="-22" width="73" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-26.5,-12)"><foreignObject width="53" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">UrlMon</div></foreignObject></g></g></g><g class="node cyan" id="B2" transform="translate(295.75,136)" style="opacity: 1;"><rect rx="0" ry="0" x="-39" y="-22" width="78" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29,-12)"><foreignObject width="58" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">WinINet</div></foreignObject></g></g></g><g class="node cyan" id="A3" transform="translate(357,42)" style="opacity: 1;"><rect rx="0" ry="0" x="-36" y="-22" width="72" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-26,-12)"><foreignObject width="52" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">RASAPI</div></foreignObject></g></g></g><g class="node cyan" id="C" transform="translate(220.5,230)" style="opacity: 1;"><rect rx="0" ry="0" x="-40.5" y="-22" width="81" height="44"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-30.5,-12)"><foreignObject width="61" height="24"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml">WinSock</div></foreignObject></g></g></g></g></g></g></svg></div>
+<p>  以下是Windows下可用解决方案的一些PRO和CON：</p>
+<table>
+<thead>
+<tr>
+<th>依据</th>
+<th>WinSock</th>
+<th>WinINet</th>
+<th>WinHTTP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API级</td>
+<td>低</td>
+<td>高</td>
+<td>中</td>
+</tr>
+<tr>
+<td>本地速度</td>
+<td>非常快速</td>
+<td>低速</td>
+<td>快速</td>
+</tr>
+<tr>
+<td>网络速度</td>
+<td>低速</td>
+<td>中速</td>
+<td>快速</td>
+</tr>
+<tr>
+<td>最低系统</td>
+<td>Win95/98</td>
+<td>Win95/98</td>
+<td>Win2000</td>
+</tr>
+<tr>
+<td>HTTPS</td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>IE集成</td>
+<td>无</td>
+<td>优秀（代理）</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>用户交互</td>
+<td>无</td>
+<td>优秀（认证、拨号）</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<p>  如上所述，在网络上使用直接<code>TSQLHttpClientWinSock</code>类仍然存在潜在的性能问题。在我们的论坛上已有报告，但根本原因尚未确定。</p>
+<p>  因此，<code>TSQLHttpClient</code>类默认映射到<code>TSQLHttpClientWinHTTP</code>类。这是Delphi客户端应用的推荐用法。</p>
+<p>  请注意，即使WinHTTP默认情况下不与Internet Explorer共享任何代理设置，它也可以导入当前的IE设置。 WinHTTP代理配置由Windows XP和Windows Server 2003或更早版本上的<code>proxycfg.exe</code>或Windows Vista和Windows Server 2008或更高版本上的<code>netsh.exe</code>设置，如您可以运行<code>“proxycfg -u”</code>或<code>“netsh winhttp import proxy source = ie”</code>来使用Internet Explorer的当前用户代理设置。在64位Vista/Seven下，要使用32位WinHttp设置配置应用程序，请显式调用<code>％SystemRoot％\ SysWOW64</code>文件夹中的netsh或proxycfg。</p>
+<p>  请注意，根据设计，<code>TSQLHttpClient*</code>类与其他<code>TSQLRestClientURI</code>实现一样，设计为线程安全的，因为它们的<code>URI()</code>方法受锁保护。</p>
+<h3 id="toc_17">11.4.4. HTTPS服务<a class="vnote-anchor" href="#toc_17" data-anchor-icon="#"></a></h3>
+<p>  可以定义<code>http.sys</code>内核模式服务器以提供HTTPS安全内容，即HTTP上的SSL协议。</p>
+<p>  当<code>TSQLHttpServer.Create()</code>构造函数的<code>aHttpServerSecurity</code>参数设置为<code>secSSL</code>时，将在http.sys中启用SSL层。请注意，<code>useHttpSocket</code>类服务器尚未提供SSL/TLS加密。</p>
+<p>  为了让SSL层按预期工作，您首先需要创建并导入一组证书。</p>
+<h4 id="toc_18">11.4.4.1. 证书<a class="vnote-anchor" href="#toc_18" data-anchor-icon="#"></a></h4>
+<p>  您需要一个证书（cert）用于您的root权限，并且需要一个用于SSL的实际证书，需要由您的root权限进行签名。如果您设置为root权限，那么您的单个证书将不受信任，并且您将在很久以后通过一系列非常烦人的异常开始发现这一点。要获得免费证书，即使出于测试目的，您也可以使用http://www.startssl.com等在线服务申请。</p>
+<p>  根据您使用的Windows修订版，您可以运行Internet信息服务（IIS）管理器：从Windows“开始”菜单中，单击“管理工具”&gt;“Internet信息服务（IIS）管理器”。请参见http://support.microsoft.com/kb/299875</p>
+<p>  您还可以使用命令行安装所需的证书，这对于使用.bat文件进行快速安装非常方便。所需的步骤详见http://www.codeproject.com/Articles/24027/SSL-with-Self-hosted-WCF-Service和<a href="http://msdn.microsoft.com/en-us/library/ms733791">http://msdn.microsoft.com/en-us/library/ms733791</a></p>
+<p>  以下命令（在Visual Studio命令提示符下运行）将创建根证书：</p>
+<pre><code class="lang-sh hljs">makecert -sv SignRoot.pvk -cy authority -r signroot.cer -a
+    sha1 -n <span class="hljs-string">"CN=Dev Certification Authority"</span> -ss my -sr localmachine
+</code></pre>
+<p>  看一下上面的链接，看看每个参数的意思，它不是非常重要，但最好清楚。</p>
+<p>  MakeCert工具作为Windows SDK的一部分提供，如果您不想下载整个Visual Studio软件包，可以从http://go.microsoft.com/fwlink/p/?linkid=84091下载。 完成此过程所需的最低要求是本地计算机上的管理员或同等成员。</p>
+<p>  一旦此命令运行并成功，您需要使此证书成为受信任的权限。 您可以使用控制台中的MMC管理单元执行此操作。 转到运行窗口并输入“mmc”，然后按Enter键。 然后在打开的窗口（称为“Microsoft管理控制台”，对于那些熟悉的人）执行以下操作：</p>
+<pre><code class="hljs">File -&gt; Add/Remove Snap-in -&gt; Add
+ -&gt; Double click Certificates -&gt; Select Computer Account and Click Next -&gt; Finish -&gt; Close -&gt; OK
+</code></pre>
+<p>  然后选择证书（本地计算机） -&gt; 个人 -&gt; 证书节点。</p>
+<p>  您应该看到一个名为“Dev Certificate Authority”的证书（或者您在上面的命令行参数命名的任何其他证书）。 将此证书从当前节点移动到证书（本地计算机） -&gt; 受信任的根证书颁发机构 -&gt;证书节点，拖放即可。现在你还没有完成你需要的证书）。</p>
+<p>  您已经使自己能够创建受信任的证书，这很好。</p>
+<p>  现在您必须创建另一个证书，您实际将要使用它。</p>
+<p>  再次运行makecert，但运行如下...</p>
+<pre><code class="lang-sh hljs">makecert -iv SignRoot.pvk -ic signroot.cer -cy end -pe -n
+    CN=<span class="hljs-string">"localhost"</span> -eku 1.3.6.1.5.5.7.3.1 -ss my -sr
+    localmachine -sky exchange -sp
+<span class="hljs-string">"Microsoft RSA SChannel Cryptographic Provider"</span> -sy 12
+</code></pre>
+<p>  请注意，您使用第一个证书作为此新证书的颁发者，这很重要......我使用localhost而你需要输入你的DNS名称。换句话说，如果终端通过<code>http://bob:10010/Service</code>访问您部署的服务，则名称必须为bob。此外，您需要为运行的每个主机执行此操作（是的，一个用于bob，另一个用于localhost）。</p>
+<p>  双击证书（选择证书（本地计算机）'个人'证书），打开详细信息选项卡，然后向下滚动到“指纹”选项，获取证书的签名。</p>
+<p>  选择指纹并复制它。将它放在记事本或任何其他文本编辑器中，并删除空格。安全地保存好这个指纹heaxdecimal值，因为我们很快就会需要它。</p>
+<p>  您已设置证书。恭喜！</p>
+<p>  但我们尚未最后完成。</p>
+<h4 id="toc_19">11.4.4.2. 使用SSL证书配置端口<a class="vnote-anchor" href="#toc_19" data-anchor-icon="#"></a></h4>
+<p>  现在你可以使用另一个有趣的工具，httpcfg（适用于XP / 2003），或者更新的版本，名为netsh http（适用于Vista / Seven / Eight）。</p>
+<p>  首先运行以下命令检查您没有在所需端口上运行任何内容。</p>
+<pre><code class="lang-sh hljs">httpcfg query ssl
+</code></pre>
+<p>  （在XP下）</p>
+<pre><code class="lang-sh hljs">netsh http show sslcert
+</code></pre>
+<p>  （在Vista/Seven/Eight下）</p>
+<p>  如果这是你第一次这样做，它应该只返回换行符。 如果已经在要使用的IP上设置了SSL（或者以后需要删除任何错误），则可以使用以下命令，其中IP和端口显示为上一个查询的结果。</p>
+<p>  现在我们必须将SSL证书绑定到端口号，因此（0000000000003ed9cd0c315bbb6dc1c08da5e6是证书的指纹，复制到记事本中的）：</p>
+<pre><code class="lang-sh hljs">httpcfg <span class="hljs-built_in">set</span> ssl -i 0.0.0.0:8012 -h 0000000000003ed9cd0c315bbb6dc1c08da5e6
+</code></pre>
+<p>  （在XP下）</p>
+<pre><code class="lang-sh hljs">netsh http add sslcert ipport=0.0.0.0:8000 certhash=0000000000003ed9cd0c315bbb6dc1c08da5e6 appid={00112233-4455-6677-8899-AABBCCDDEEFF}
+</code></pre>
+<p>  （在Vista/Seven/Eight下）</p>
+<p>  这里<code>appid =</code>参数是一个GUID，可用于标识拥有的应用程序。</p>
+<p>  要从先前注册的端口号中删除SSL证书，可以使用以下命令之一：</p>
+<pre><code class="lang-sh hljs">httpcfg delete ssl -i 0.0.0.0:8005 -h 0000000000003ed9cd0c315bbb6dc1c08da5e6
+httpcfg delete ssl -i 0.0.0.0:8005
+</code></pre>
+<p>  (在XP下)</p>
+<pre><code class="lang-sh hljs">netsh http delete sslcert ipport=0.0.0.0:8005
+</code></pre>
+<p>  （在Vista/Seven/Eight下）</p>
+<p>  请注意，在将已有证书替换为新证书之前，必须首先删除原证书。</p>
+<h3 id="toc_20">11.4.5. 自定义编码<a class="vnote-anchor" href="#toc_20" data-anchor-icon="#"></a></h3>
+<h4 id="toc_21">11.4.5.1. SynLZ/deflate压缩<a class="vnote-anchor" href="#toc_21" data-anchor-icon="#"></a></h4>
+<p>  在客户端，默认情况下，<code>TSQLHttpClientGeneric.Compression</code>属性设置如下：</p>
+<pre><code class="lang-pascal hljs"> MyClient.Compression := [hcSynLZ];
+</code></pre>
+<p>  它将在HTTP标头中启用SynLZ压缩：</p>
+<pre><code class="hljs"> ACCEPT-ENCODING: synlz
+</code></pre>
+<p>  我们的SynLZ非常高效，特别是在JSON内容上，在服务器端非常快。因此，它将比hcDeflate使用更少的资源，在平衡资源与并发客户端压缩率时是首选。</p>
+<p>  如果要支持zip派生压缩算法，可以在浏览器或各种HTTP库中包含hcDeflate属性。就CPU资源而言，hcDeflate将比hcSynLZ更加完善，但是会获得稍好的压缩比。</p>
+<p>  如果同时定义了[hcSynLZ，hcDeflate]，则mORMot客户端将使用SynLZ压缩，而其他客户端（例如，不了解SynLZ编码的浏览器）将使用标准的deflate压缩。</p>
+<h4 id="toc_22">11.4.5.2. HTTP的AES加密<a class="vnote-anchor" href="#toc_22" data-anchor-icon="#"></a></h4>
+<p>  除了常规的HTTPS流加密，由于需要的证书不易设置，mORMot提出了一种专有的加密方案。它基于SHA256和AES256-CFB算法，因此是安全的。您无需在服务端或客户端配置上设置任何内容，只需运行带有相应参数的<code>TSQLHttpClient</code>和<code>TSQLHttpServer</code>类。</p>
+<p>  请注意，此加密使用全局密钥全程加密，该密钥应在服务器端和客户端都匹配。您最好在客户端和服务端Delphi应用中对此公钥进行硬编码，具体取决于各最终用户服务。您可以使用<code>SynCrypto.pas</code>中定义的<code>CompressShaAesSetKey()</code>来全局设置此加密密钥和可选的初始化向量。如果默认的<code>TAESCFB</code>模式不是您期望的，您可以采用自定义AES链的模式。</p>
+<p>  当<code>TSQLHttpServer.Create()</code>构造函数的<code>aHttpServerSecurity``参数设置为secSynShaAes</code>时，将在服务器端启用此专有加密。例如：</p>
+<pre><code class="lang-pascal hljs"> MyServer := TSQLHttpServer.Create(<span class="hljs-string">'888'</span>,[DataBase],<span class="hljs-string">'+'</span>,useHttpApi,<span class="hljs-number">32</span>,secSynShaAes);
+</code></pre>
+<p>  在客户端，您可以按需要设置<code>TSQLHttpClientGeneric.Compression</code>属性：</p>
+<pre><code class="lang-pascal hljs"> MyClient.Compression := [hcSynShaAes];
+</code></pre>
+<p>  一旦设置了这些参数，就会在HTTP头中定义一个新的专有编码：</p>
+<pre><code class="hljs"> ACCEPT-ENCODING: synshaaes
+</code></pre>
+<p>  然后，所有HTTP正文内容将通过我们的SynLZ算法进行压缩，并使用非常安全的AES256-CFB方案进行编码。</p>
+<p>  在客户端和服务端，此加密将使用AES-NI硬件指令（如果在运行的CPU上可用）。它确保增强的安全性，而不是以性能和可扩展性为代价。</p>
+<p>  由于它是一种专有算法，因此仅适用于Delphi客户端。当使用普通的AJAX客户端访问或使用<code>TSQLHttpClientGeneric.Compression = []</code>的Delphi应用程序时，由于HTTP能接受的编码方式，因此根本不会有任何加密。为安全起见，您应该将其与per-URI身份验证结合使用 - 请参阅下文。</p>
+<h4 id="toc_23">11.4.5.3. mORMot节点间首选WebSockets<a class="vnote-anchor" href="#toc_23" data-anchor-icon="#"></a></h4>
+<p>  正如我们刚才看到的，<code>hcSynShaAes</code>定义只能在mORMot节点之间使用，如果它们都支持该编码。如果客户端没有定义synshaaes，则没有保证在传输过程中内容一定会被加密。</p>
+<p>  因此，为了在mORMot节点之间进行真正安全的通信，您可以考虑使用我们的<code>WebSockets</code>客户端/服务器实现。它使用SynLZ压缩和AES256-CFB加密为其通信帧实现专有的二进制协议。并且，最后最重要的是，如果需要，它具有实时回调功能。事实上，这种访问可以被认为是从稳定的mORMot客户端远程连接到mORMot服务端的最安全的可用方式。对mORMot云，RESTful（AJAX /移动）客户端可以依赖于纯HTTP，具有hcDeflate压缩。</p>
+<h2 id="toc_24">11.5. 线程安全<a class="vnote-anchor" href="#toc_24" data-anchor-icon="#"></a></h2>
+<p>  我们努力使mORMot既快速又安全，并且能够在其运行的硬件上以最佳性能进行扩展。多线程是更好地利用现代多核CPU以及客户响应的关键。</p>
+<p>  因此，在服务器端，我们的框架被设计为线程安全的。</p>
+<p>  在典型的生产环境中，mORMot HTTP服务器（请参阅JSON RESTful Client-Server）将运行在自己的优化线程池，然后调用<code>TSQLRestServer.URI</code>方法。因此，该方法是线程安全的，如调用<code>TSQLHttpServer. Request</code>方法。由于我们框架的RESTful方法，这个方法是唯一一个线程安全的方法，因为它是整个服务的单一入口。此良好设计确保了很好的测试覆盖率。</p>
+<p>  在客户端，所有<code>TSQLRestClientURI</code>类都受到全局互斥锁（Critical Sections）保护，因此是线程安全的。单个TSQLHttpClient实例可以在多个线程之间共享，即使您也为每个线程使用一个客户端，参见示例21以获得更好的响应性。</p>
+<h3 id="toc_25">11.5.1. 线程安全设计<a class="vnote-anchor" href="#toc_25" data-anchor-icon="#"></a></h3>
+<p>  我们现在将重点关注服务器端，这是任何客户端-服务端架构的主要战略要点（也是潜在的瓶颈或故障点）。</p>
+<p>  为了在不牺牲性能的情况下实现此线程安全性，在<code>TSQLRestServer.URI</code>中应用了以下规则：</p>
+<ul>
+<li>此方法的大部分逻辑是处理传入请求的URI和参数（<code>TSQLRestServerURIContext.URIDecode*</code>方法），因此设计是线程安全的（如模型和<code>RecordProps</code>访问在进程期间不会更改）;</li>
+<li>在RESTful / CRUD级别，默认情况下会锁定<code>Add/Update/Delete/TransactionBegin/Commit/Rollback</code>方法（超时为2秒），而<code>Retrieve*</code>方法则不会；</li>
+<li><code>TSQLRestStorage</code>主要方法（<code>EngineList，EngineRetrieve，EngineAdd，EngineUpdate，EngineDelete，EngineRetrieveBlob，EngineUpdateBlob</code>）是线程安全的：如<code>TSQLRestStorageInMemory</code>使用表级临界区；</li>
+<li>基于<code>TSQLRestServerCallBack</code>方法的服务，即如下所述的继承自<code>TSQLRestServer</code>类的发布方法，必须默认实现为线程安全的；</li>
+<li>基于接口的服务有几种执行模式，包括线程安全的自动选项（参见<code>TServiceMethodOption</code>）或手动线程安全期望，以便更好地扩展；</li>
+<li>受保护的<code>fSessionCriticalSection</code>用于保护客户端之间的共享<code>fSession []</code>访问；</li>
+<li>通过<code>TSQLRestServerDB</code>方法中的<code>DB.LockJSON()</code>调用，SQLite3引擎访问在SQL / JSON缓存级别受到保护；</li>
+<li>远程外部表 - 请参阅外部SQL数据库访问 - 在通过SQL访问数据库时使用线程安全连接和语句；</li>
+<li>对<code>fStats</code>的访问不是线程安全的，因为此数据仅供参考：未使用互斥锁来保护此资源。</li>
+</ul>
+<p>  我们努力尽可能短地使用内部互斥锁，或仅在表级（如<code>TSQLRestStorageInMemory</code>）。</p>
+<p>  在SQLite3引擎级别，存在某种“巨锁”，因此所有<code>TSQLDatabase</code>请求进程都将排队。这只会导致轻微的性能损失 - 请参阅数据访问基准测试 - 因为内部SQL / JSON缓存实现需要这样的全局锁定，并且因为大多数SQLite3资源使用都将包含磁盘访问，这将需要排队。如果需要，它还允许在lmExclusive锁定模式下使用SQLite3引擎 - 请参阅ACID和速度 - 同时具有高性能和多线程友好性的优点。</p>
+<p>  从客户端来看，框架的REST核心应该是设计上的客户端安全的，因此是完全线程安全的：这是无状态架构的一个好处。</p>
+<h3 id="toc_26">11.5.2. 高级线程设置<a class="vnote-anchor" href="#toc_26" data-anchor-icon="#"></a></h3>
+<p>  您可以使用<code>TSQLRestServerURI.AcquireExecutionMode []</code>属性来优化服务器端线程模式。当设置为<code>amLocked</code>，您还可以设置<code>AcquireExecutionLockedTimeOut []</code>属性以指定获取锁定的等待时间。</p>
+<p>  默认的线程行为如下：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>execSOAByMethod</td>
+<td>用于基于方法的服务</td>
+<td>amUnlocked</td>
+</tr>
+<tr>
+<td>execSOAByInterface</td>
+<td>用于基于接口的服务</td>
+<td>amUnlocked</td>
+</tr>
+<tr>
+<td>execORMGet</td>
+<td>用于ORM读，如*Retrieve**方法</td>
+<td>amUnlocked</td>
+</tr>
+<tr>
+<td>execORMWrite</td>
+<td>用于ORM写，如<em>Add Update Delete TransactionBegin Commit Rollback</em>方法</td>
+<td><code>amLocked</code> +<br>2000ms超时</td>
+</tr>
+</tbody>
+</table>
+<p>  根据需要，您可以更改这些设置，以定义特定的执行方案。</p>
+<p>  例如，某些外部数据库（如MS SQL）希望在同一连接中执行任何事务，因此在<code>SynOleDB.pas</code>的相同线程上下文中，因为它使用每线程连接池。 当服务器通过HTTP远程访问时，传入的请求将从HTTP服务器线程池的任何线程执行。 因此，您将无法使用默认设置从客户端通过MS SQL管理事务。</p>
+<p>  要修复它，您可以通过设置以下任一项来确保所有ORM写操作都将在专用后台线程中执行：</p>
+<pre><code class="lang-pascal hljs"> aServer.AcquireExecutionMode[execORMWrite] := amBackgroundThread;
+ aServer.AcquireWriteMode := amBackgroundThread; <span class="hljs-comment">// same as previous</span>
+</code></pre>
+<p>  可以为所有类型的命令定义相同级别的线程安全性，即使您在更改默认设置时应该更好地了解自己在做什么，因为它可能会在服务器端创建一些巨大的锁定，从而导致多线程性能扩展失效，而这恰恰是mORMot擅长的。</p>
+<p>  在ORM级别，对于外部数据库，您的mORMot服务器可能会遇到与远程数据库断开连接的问题。 为避免这种情况，您可以使用<code>ConnectionTimeOutMinutes</code>属性指定超时时间，之后将刷新并重新创建所有连接，以避免可能出现的连接断开问题。</p>
+<p>  在这种情况下，您应确保阻止所有ORM进程，以便清除连接池不会破坏多线程服务器中的任何内容。 因此，您可以为<code>execORMGet</code>和<code>execORMWrite</code>设置阻止模式，例如：</p>
+<pre><code class="lang-pascal hljs"> aServer.AcquireExecutionMode[execORMGet] := amBackgroundThread;
+ aServer.AcquireExecutionMode[execORMWrite] := amBackgroundThread;
+</code></pre>
+<p>  上面的命令将为所有读操作（execORMGet）创建一个线程，为所有写操作创建另一个线程（execORMWrite）。 如果您希望所有数据库访问都在一个线程中进行，那么对于读写操作，您可以编写：</p>
+<pre><code class="lang-pascal hljs"> aServer.AcquireExecutionMode[execORMGet] := amBackgroundORMSharedThread;
+ aServer.AcquireExecutionMode[execORMWrite] := amBackgroundORMSharedThread;
+</code></pre>
+<p>  例如，当使用Jet/MSAccess作为外部数据库时，这应该是强制性的，因为它的实现似乎不是线程安全的：如果你在一个线程中写入，然后在另一个线程中立即读取，Jet引擎无法从另一个线程找到刚刚写入的数据。这显然是Jet引擎的一个错误，但可以设置<code>amBackgroundORMSharedThread</code>选项来规避问题。</p>
+<p>  在任何ORM或SOA过程中，您可以从<code>ServiceContext threadvar</code>变量访问当前执行上下文。例如，您可以检索当前记录的用户或其会话ID。</p>
+<p>  在实践中，<code>execSOAByMethod</code>可能会受益于每个方法的锁定，<code>execSOAByInterface</code>使用自己的执行选项，并且<code>execORMGet</code>被解锁以允许并发读取所有连接的客户端。</p>
+<h3 id="toc_27">11.5.3. 经验证的行为<a class="vnote-anchor" href="#toc_27" data-anchor-icon="#"></a></h3>
+<p>  当我们谈论线程安全时，没有什么能比得上专门的压力测试程序了。一般人脑（如我们的）不足以确保正确设计这样一个复杂的过程。所以我们必须证明我们的mORMot的能力。</p>
+<p>  在提供的回归测试中，我们设计了一整类多线程测试，名为<code>TTestMultiThreadProcess</code>。它的方法将逐一验证每个客户端-服务端及其可用协议（通过TSQLRestServerDB或TSQLRestCLientDB，Windows消息，命名管道和两个HTTP服务器直接访问 - 即基于http.sys或基于WinSock），请参阅<a href="">客户端-服务器进程</a>。</p>
+<p>  每个协议将并行执行INSERT列表，即TSQLRest.Add()，后跟SELECT列表，即TSQLRest.Retrieve()。这些请求将在1个线程中执行，然后在2个，5个，10个，30个和50个并发线程中执行。所有这些客户端一次访问完全相同的SQLite3数据库（在lmExclusive锁定模式下）。然后将每个线程生成的ID进行比较，以确保在此过程中不会发生交叉插入。</p>
+<p>  这些自动化测试确实已经揭示了框架初始实现中的一些问题。我们尽快修复了遇到的任何问题。请随时向我们发送各种反馈，并使用代码重现问题：但不要忘记多线程也难以测试，问题可能不在框架中发生，而是在测试代码本身！</p>
+<p>  当将OperationCount设置为1000而不是默认值200时，即在并发线程中运行1000个INSERTION和1000个SELECT时，数据如下，在本地机器上（使用Delphi XE4编译）：</p>
+<pre><code class="lang-sh hljs"> Multi thread process:
+  - Create thread pool: 1 assertion passed  3.11ms
+  - TSQLRestServerDB: 24,061 assertions passed  903.31ms
+     1=41986/s  2=24466/s  5=14041/s  10=9212/s  30=10376/s  50=10028/s
+  - TSQLRestClientDB: 24,062 assertions passed  374.93ms
+     1=38606/s  2=35823/s  5=30083/s  10=32739/s  30=33454/s  50=30905/s
+  - TSQLRestClientURINamedPipe: 12,012 assertions passed  1.68s
+     1=4562/s  2=5002/s  5=3177/s
+  - TSQLRestClientURIMessage: 16,022 assertions passed  616.00ms
+     1=16129/s  2=24873/s  5=8613/s  10=11857/s
+  - TSQLHttpClientWinHTTP_HTTPAPI: 24,056 assertions passed  1.63s
+     1=5352/s  2=7441/s  5=7563/s  10=7903/s  30=8413/s  50=9106/s
+  - TSQLHttpClientWinSock_WinSock: 24,061 assertions passed  1.10s
+     1=11528/s  2=10941/s  5=12014/s  10=12039/s  30=9443/s  50=10831/s
+  Total failed: 0 / 124,275  - Multi thread process PASSED  6.31s
+</code></pre>
+<p>  对于直接进程内访问，TSQLRestClientDB看起来是最佳选择：它的抽象层非常薄，并且比直接TSQLRestServerDB调用多线程更友好。它还将根据需要提供缓存，请参阅ORM缓存。它将允许您的代码在其共享的抽象方法之间切换TSQLRestClientURI类。</p>
+<p>  命名管道和Windows消息在高度并行模式下有点受限，但HTTP确实很好。基于http.sys（HTTP API）的服务器令人印象深刻：客户端越多，响应越快。众所周知，它比基于WinSock的类扩展性更好，它使用一个独特的本地客户端（即在那些进程内回归测试的上下文中），但在生产中看起来不太可靠。</p>
+<h3 id="toc_28">11.5.4. 高并发客户端性能<a class="vnote-anchor" href="#toc_28" data-anchor-icon="#"></a></h3>
+<p>  此外，您可以自己思索，并在本地或通过网络运行<code>"21 - HTTP Client-Server performance"</code>示例程序，以检查mORMot扩展能力，并以尽可能小的资源消耗为大量客户提供服务。</p>
+<p>  编译客户端和服务端项目，然后启动Project21HttpServer.exe。服务器端将作为控制台窗口执行。</p>
+<p>  此服务器将定义与我们的多线程回归测试期间使用的相同的TSQLRecordPeople，即：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">type</span>
+  <span class="hljs-title">TSQLRecordPeople</span> = <span class="hljs-keyword">class</span>(TSQLRecord)
+  <span class="hljs-keyword">private</span>
+    fFirstName: RawUTF8;
+    fLastName: RawUTF8;
+    fYearOfBirth: integer;
+    fYearOfDeath: word;
+  <span class="hljs-keyword">published</span>
+    <span class="hljs-keyword">property</span> FirstName: RawUTF8 <span class="hljs-keyword">read</span> fFirstName <span class="hljs-keyword">write</span> fFirstName;
+    <span class="hljs-keyword">property</span> LastName: RawUTF8 <span class="hljs-keyword">read</span> fLastName <span class="hljs-keyword">write</span> fLastName;
+    <span class="hljs-keyword">property</span> YearOfBirth: integer <span class="hljs-keyword">read</span> fYearOfBirth <span class="hljs-keyword">write</span> fYearOfBirth;
+    <span class="hljs-keyword">property</span> YearOfDeath: word <span class="hljs-keyword">read</span> fYearOfDeath <span class="hljs-keyword">write</span> fYearOfDeath;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  服务器main语句块如下：</p>
+<pre><code class="lang-pascal hljs">  aModel := TSQLModel.Create([TSQLRecordPeople]);
+  <span class="hljs-keyword">try</span>
+    aDatabaseFile := ChangeFileExt(paramstr(<span class="hljs-number">0</span>),<span class="hljs-string">'.db3'</span>);
+    DeleteFile(aDatabaseFile);
+    aServer := TSQLRestServerDB.Create(aModel,aDatabaseFile);
+    <span class="hljs-keyword">try</span>
+      aServer.DB.Synchronous := smOff;
+      aServer.DB.LockingMode := lmExclusive;
+      aServer.NoAJAXJSON := true;
+      aServer.CreateMissingTables;
+      <span class="hljs-comment">// launch the server</span>
+      aHTTPServer := TSQLHttpServer.Create(<span class="hljs-string">'888'</span>,[aServer]);
+      <span class="hljs-keyword">try</span>
+        writeln(<span class="hljs-string">#13#10</span><span class="hljs-string">'Background server is running at http://localhost:888'</span><span class="hljs-string">#13#10</span>+
+                <span class="hljs-string">#13#10</span><span class="hljs-string">'Press [Enter] to close the server.'</span>);
+        ConsoleWaitForEnterKey;
+      <span class="hljs-keyword">finally</span>
+        aHTTPServer.Free;
+      <span class="hljs-keyword">end</span>;
+    <span class="hljs-keyword">finally</span>
+      aServer.Free;
+    <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">finally</span>
+    aModel.Free;
+  <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  遵循模型-视图-控制器模式，aServer将从HTTP提供对TSQLRecordPeople表（在aModel中定义）的远程CRUD访问。 我们定义了Synchronous：= smOff和LockingMode：= lmExclusive以获得最佳性能，如<a href="">ACID和速度</a>所述。 我们的目的不是要有真正的ACID行为，而是测试并发远程访问。</p>
+<p>  客户端只是一个RAD表单，它将执行与回归测试期间完全相同的代码，即TTestMultiThreadProcess类实例，如以下代码所示：</p>
+<pre><code class="lang-pascal hljs">    Tests := TSynTestsLogged.Create;
+    Test := TTestMultiThreadProcess.Create(Tests);
+    <span class="hljs-keyword">try</span>
+      Test.ClientOnlyServerIP := StringToAnsi7(lbledtServerAddress.Text);
+      Test.MinThreads := ThreadCount;
+      Test.MaxThreads := ThreadCount;
+      Test.OperationCount := OperationCount;
+      Test.ClientPerThread := ClientPerThread;
+      Test.CreateThreadPool;
+      txt := Format
+        (<span class="hljs-string">'%s'</span><span class="hljs-string">#13#10#13#10</span><span class="hljs-string">'Test started with %d threads, %d client(s) per thread and %d rows to be inserted...'</span>,
+        [txt,ThreadCount,ClientPerThread,OperationCount]);
+      mmoInfo.Text := txt;
+      Timer.Start;
+      Test._TSQLHttpClientWinHTTP_HTTPAPI;
+      txt := mmoInfo.Text+Format(<span class="hljs-string">#13#10</span><span class="hljs-string">'Assertion(s) failed: %d / %d'</span>+
+        <span class="hljs-string">#13#10</span><span class="hljs-string">'Number of clients connected at once: %d'</span>+
+        <span class="hljs-string">#13#10</span><span class="hljs-string">'Time to process: %s'</span><span class="hljs-string">#13#10</span><span class="hljs-string">'Operation per second: %d'</span>,
+        [Test.AssertionsFailed,Test.Assertions,
+         ThreadCount*ClientPerThread,Timer.Stop,Timer.PerSec(OperationCount*<span class="hljs-number">2</span>)]);
+      mmoInfo.Text := txt;
+    <span class="hljs-keyword">finally</span>
+      Test.Free;
+      Tests.Free;
+    <span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  线程池的每个线程将创建自己的HTTP连接，然后循环插入（添加ORM方法）并检索（检索ORM方法）固定数量的对象 - 检查检索到的对象字段是否与插入的值匹配。 然后检查所有线程的所有生成的ID的一致性，以确保没有发生竞争条件。</p>
+<p>  因此输入参数如下：</p>
+<ul>
+<li>远程HTTP服务器IP（端口为888）;</li>
+<li>客户端线程数；</li>
+<li>每个线程的客户端实例数；</li>
+<li>添加的TSQLRecordPeople对象数。</li>
+</ul>
+<p>  运行时硬件配置如下：</p>
+<ul>
+<li>服务器是带有SSD的Core i7笔记本电脑，Windows 7系统；</li>
+<li>客户端是Core 2 Duo工作站，在Windows 7下具有常规硬盘驱动器（未使用）；</li>
+<li>使用价格低廉的以太网HUB通过速度稍慢的100 Mb网络进行通信。</li>
+</ul>
+<p>  典型结果如下：</p>
+<table>
+<thead>
+<tr>
+<th>线程</th>
+<th>客户端/线程</th>
+<th>插入行数</th>
+<th>客户端总数</th>
+<th>时间（秒）</th>
+<th>操作/秒</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>10000</td>
+<td>1</td>
+<td>15.78</td>
+<td>1267</td>
+</tr>
+<tr>
+<td>50</td>
+<td>1</td>
+<td>10000</td>
+<td>50</td>
+<td>2.96</td>
+<td>6737</td>
+</tr>
+<tr>
+<td>100</td>
+<td>1</td>
+<td>10000</td>
+<td>100</td>
+<td>3.09</td>
+<td>6462</td>
+</tr>
+<tr>
+<td>100</td>
+<td>1</td>
+<td>20000</td>
+<td>100</td>
+<td>6.19</td>
+<td>6459</td>
+</tr>
+<tr>
+<td>50</td>
+<td>2</td>
+<td>100000</td>
+<td>100</td>
+<td>34.99</td>
+<td>5714</td>
+</tr>
+<tr>
+<td>100</td>
+<td>2</td>
+<td>100000</td>
+<td>200</td>
+<td>36.56</td>
+<td>5469</td>
+</tr>
+<tr>
+<td>500</td>
+<td>100</td>
+<td>100000</td>
+<td>50000</td>
+<td>92.92</td>
+<td>2152</td>
+</tr>
+</tbody>
+</table>
+<p>  在所有测试期间，没有断言失败，这意味着没有发生并发问题，也没有任何远程命令丢失。通过mORMot服务器暴露的SQlite3核心以惊人的6000 op/sec的速度输出数据，与大多数高端数据库相当。值得注意的是，当连续运行多次时，同一组输入参数给出了相同的速度结果：它表明该体系结构非常稳定并且可以认为是安全的。该系统甚至可以同时为50000个连接的客户端提供服务，没有数据丢失，在这种情况下，性能较低（上表中为2152插入/秒），但我们明显达到了客户端硬件配置的CPU和网络极限；与此同时，笔记本电脑服务器上的服务器CPU资源确实还有一些潜力，而且RAM消耗相当慢。</p>
+<p>  平均性能相当不错，如果我们考虑每个请求插入一个对象而没有事务，则更高。事实上，这听起来好像我们的SQLite3服务器比大多数数据库服务器更快，即使在高度并发模式下访问！在批处理模式，我们可能会取得更惊人的成果。</p>
+<p>  您可以随意发送自己的基准测试结果和反馈，例如：在我们的论坛上，发布多个工作站上的并发客户端或长时间运行的测试结果。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>

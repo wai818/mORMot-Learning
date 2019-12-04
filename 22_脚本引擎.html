@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="VNote">
+
+    <title>22_脚本引擎</title>
+    <link rel="icon" href="https://github.com/tamlok/vnote/raw/master/src/resources/icons/vnote.ico">
+
+    <style type="text/css">
+    /* STYLE_GLOBAL_PLACE_HOLDER */
+    </style>
+
+    <style type="text/css">
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-9 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-2 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-xl-10 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.333333%;
+        flex: 0 0 83.333333%;
+        max-width: 83.333333%;
+    }
+}
+
+@media (min-width: 768px) {
+    .pt-md-3, .py-md-3 {
+        padding-top: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pb-md-3, .py-md-3 {
+        padding-bottom: 1rem!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .pl-md-5, .px-md-5 {
+        padding-left: 3rem!important;
+    }
+}
+
+.d-none {
+    display: none!important;
+}
+
+@media (min-width: 1200px) {
+    .d-xl-block {
+        display: block!important;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block!important;
+    }
+}
+
+.bd-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+}
+
+.bd-toc {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+    height: calc(100vh - 10rem);
+    overflow-y: auto;
+}
+
+.bd-toc {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: .875rem;
+}
+
+.section-nav {
+    padding-left: 0;
+}
+
+.section-nav ul {
+    font-size: .875rem;
+    list-style-type: none;
+}
+
+.section-nav li {
+    font-size: .875rem;
+}
+
+.section-nav a {
+    color: inherit !important;
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+@media (min-width: 1200px) {
+    .flex-xl-nowrap {
+        flex-wrap: nowrap !important;
+    }
+}
+
+#floating-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #00897B;
+    position: fixed;
+    top: .5rem;
+    right: .5rem;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px #666;
+}
+
+#floating-button .more {
+    color: #F5F5F5;
+    position: absolute;
+    top: 0;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 2.5rem;
+    font-size: 2rem;
+    font-family: 'monospace';
+    font-weight: 300;
+}
+
+.hide-none {
+    display: none !important;
+}
+
+.col-expand {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    padding-right: 3rem !important;
+}
+
+.outline-bold {
+    font-weight: bolder !important;
+}
+
+@media print {
+    #floating-button {
+        display: none !important;
+    }
+}
+
+    @keyframes flash { 
+  0% { color: rgb(128, 203, 196); }
+  10% { color: rgb(0, 137, 123); }
+  40% { color: rgb(0, 137, 123); }
+  50% { color: rgb(128, 203, 196); }
+  60% { color: rgb(0, 137, 123); }
+  90% { color: rgb(0, 137, 123); }
+}
+.highlighted-anchor { animation: flash 1s; }
+div.mark-rect { background: transparent; border: 5px solid rgb(87, 104, 196); border-radius: 2px; position: absolute; }
+#vnote-footer { width: 100%; text-align: center; opacity: 0.2; margin-top: 3rem; }
+#vnote-footer p { font-size: 0.8rem; }
+#vnote-footer a { color: inherit !important; }
+x-eqs { display: flex; flex-direction: row; align-content: space-between; align-items: center; }
+x-eqs > x-eqn { width: 100%; margin-left: 3rem; }
+x-eqs > span { text-align: right; }
+.view-image, .view-svg { transition: 0.3s; }
+.modal-box { display: none; position: fixed; z-index: 1000; padding-top: 50px; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; background-color: rgba(68, 68, 68, 0.952941); }
+.modal-content { margin: auto; display: block; width: auto; height: auto; cursor: move; }
+.modal-content { animation-name: zoom; animation-duration: 0.6s; }
+@-webkit-keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+@keyframes zoom { 
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+span.modal-close { position: absolute; z-index: 1000; top: 15px; right: 35px; color: rgb(218, 218, 218); font-size: 40px; font-weight: bold; transition: 0.3s; }
+span.modal-close:hover, span.modal-close:focus { color: rgb(238, 238, 238); text-decoration: none; cursor: pointer; }
+@media print {
+  pre, pre code, td.hljs-ln-code { white-space: pre-wrap !important; word-break: break-all !important; }
+  code, a { word-break: break-all !important; }
+  div.flowchart-diagram, div.mermaid-diagram, div.plantuml-diagram { overflow: hidden !important; }
+  img { max-width: 100% !important; height: auto !important; }
+  #vnote-footer { display: none !important; }
+}
+.alert { position: relative; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; }
+.alert-primary { color: rgb(0, 64, 133); background-color: rgb(204, 229, 255); border-color: rgb(184, 218, 255); }
+.alert-secondary { color: rgb(56, 61, 65); background-color: rgb(226, 227, 229); border-color: rgb(214, 216, 219); }
+.alert-success { color: rgb(21, 87, 36); background-color: rgb(212, 237, 218); border-color: rgb(195, 230, 203); }
+.alert-info { color: rgb(12, 84, 96); background-color: rgb(209, 236, 241); border-color: rgb(190, 229, 235); }
+.alert-warning { color: rgb(133, 100, 4); background-color: rgb(255, 243, 205); border-color: rgb(255, 238, 186); }
+.alert-danger { color: rgb(114, 28, 36); background-color: rgb(248, 215, 218); border-color: rgb(245, 198, 203); }
+.alert-light { color: rgb(129, 129, 130); background-color: rgb(254, 254, 254); border-color: rgb(253, 253, 254); }
+.alert-dark { color: rgb(27, 30, 33); background-color: rgb(214, 216, 217); border-color: rgb(198, 200, 202); }
+.vnote-anchor { font-weight: 400; color: rgba(0, 123, 255, 0.498039); transition: color 0.16s linear; padding-left: 0.375em; -webkit-font-smoothing: antialiased; text-decoration: none; opacity: 0; }
+.vnote-anchor:hover { color: rgb(0, 123, 255); text-decoration: none; opacity: 1; }
+.vnote-anchor::after { content: attr(data-anchor-icon); }
+.vnote-btn { position: relative; display: inline-block; padding: 6px 12px; font-size: 13px; font-weight: 700; line-height: 20px; white-space: nowrap; vertical-align: middle; cursor: pointer; border: none; user-select: none; -webkit-appearance: none; }
+.vnote-copy-clipboard-btn { transition: opacity 0.3s ease-in-out; opacity: 0; padding: 2px 6px; position: absolute; top: 5px; right: 5px; }
+pre:hover .vnote-copy-clipboard-btn { opacity: 1; }
+pre.vnote-snippet { position: relative; }
+body { margin: 0px auto; font-family: "Segoe UI", Helvetica, sans-serif, Tahoma, Arial, Geneva, Georgia, Palatino, "Times New Roman", "Hiragino Sans GB", 冬青黑体, "Microsoft YaHei", 微软雅黑, "Microsoft YaHei UI", "WenQuanYi Micro Hei", 文泉驿雅黑, Dengxian, 等线体, STXihei, 华文细黑, "Liberation Sans", "Droid Sans", NSimSun, 新宋体, SimSun, 宋体; color: rgb(34, 34, 34); line-height: 1.5; padding: 15px; background: rgb(238, 238, 238); font-size: 16px; }
+h1, h2, h3, h4, h5, h6 { color: rgb(34, 34, 34); font-weight: bold; margin-top: 20px; margin-bottom: 10px; padding: 0px; }
+p { padding: 0px; margin-top: 16px; margin-bottom: 16px; }
+h1 { font-size: 26px; }
+h2 { font-size: 24px; }
+h3 { font-size: 22px; }
+h4 { font-size: 20px; }
+h5 { font-size: 19px; }
+h6 { font-size: 18px; }
+a { color: rgb(0, 153, 255); margin: 0px; padding: 0px; vertical-align: baseline; text-decoration: none; word-break: break-word; }
+a:hover { text-decoration: underline; color: rgb(255, 102, 0); }
+a:visited { color: purple; }
+ul, ol { padding: 0px 0px 0px 24px; }
+li { line-height: 24px; }
+li ul, li ol { margin-left: 16px; }
+p, ul, ol { font-size: 16px; line-height: 24px; }
+pre { display: block; overflow-y: hidden; overflow-x: auto; tab-size: 4; }
+code { font-family: Consolas, Monaco, monospace, Courier; color: rgb(142, 36, 170); word-break: break-word; }
+pre code { display: block; overflow-x: auto; padding: 0.5em; color: rgb(34, 34, 34); background-color: rgb(224, 224, 224); border-left: 0.5em solid rgb(0, 137, 123); line-height: 1.5; font-family: Consolas, Monaco, monospace, Courier; white-space: pre; tab-size: 4; }
+pre code.markdown-metadata { border-left: 0.5em solid rgb(128, 203, 196); }
+aside { display: block; float: right; width: 390px; }
+blockquote { color: rgb(102, 102, 102); border-left: 0.5em solid rgb(122, 122, 122); padding: 0px 1em; margin-left: 0px; }
+blockquote p { color: rgb(102, 102, 102); }
+hr { display: block; text-align: left; margin: 1em 0px; border: none; height: 2px; background: rgb(153, 153, 153); }
+table { padding: 0px; margin: 1rem 0.5rem; border-collapse: collapse; }
+table tr { border-top: 2px solid rgb(204, 204, 204); background-color: white; margin: 0px; padding: 0px; }
+table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr td { border: 2px solid rgb(204, 204, 204); margin: 0px; padding: 6px 13px; }
+table tr th :first-child, table tr td :first-child { margin-top: 0px; }
+table tr th :last-child, table tr td :last-child { margin-bottom: 0px; }
+div.mermaid-diagram { margin: 16px 0px; overflow-y: hidden; }
+div.flowchart-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.wavedrom-diagram { padding: 0px 5px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+div.plantuml-diagram { padding: 5px 5px 0px; margin: 16px 0px; width: fit-content; overflow: hidden; }
+.img-package { text-align: center; }
+img.img-center { display: block; margin-left: auto; margin-right: auto; }
+span.img-caption { min-width: 20%; max-width: 80%; display: inline-block; padding: 10px; margin: 0px auto; border-bottom: 1px solid rgb(192, 192, 192); color: rgb(108, 108, 108); text-align: center; line-height: 1.5; }
+.emoji_zero, .emoji_one, .emoji_two, .emoji_three, .emoji_four, .emoji_five, .emoji_six, .emoji_seven, .emoji_eight, .emoji_nine { margin-left: 5px; margin-right: 8px; }
+div.preview-hint { opacity: 0.5; margin-top: 30%; margin-bottom: 30%; align-items: center; display: flex; flex-direction: column; justify-content: center; }
+table.hljs-ln tr { border: none; background-color: transparent; }
+table.hljs-ln tr td { border: none; background-color: transparent; }
+table.hljs-ln tr td.hljs-ln-numbers { user-select: none; text-align: center; color: rgb(170, 170, 170); border-right: 1px solid rgb(204, 204, 204); vertical-align: top; padding-right: 5px; white-space: nowrap; }
+table.hljs-ln tr td.hljs-ln-code { padding-left: 10px; }
+::-webkit-scrollbar { background-color: rgb(234, 234, 234); width: 14px; height: 14px; border: none; }
+::-webkit-scrollbar-corner { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button { height: 14px; width: 14px; background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-button:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-button:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-track { background-color: rgb(234, 234, 234); }
+::-webkit-scrollbar-thumb { border: none; background-color: rgb(218, 218, 218); }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(208, 208, 208); }
+::-webkit-scrollbar-thumb:active { background-color: rgb(178, 178, 178); }
+::-webkit-scrollbar-button:horizontal:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(-90 256.00000000000006,256) " id="svg_1">   <polygon fill="%23333333" id="svg_2" points="128,192 256,320 384,192  "/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:horizontal:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(90 255.99999999999997,256.00000000000006) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:increment { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="null" id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::-webkit-scrollbar-button:vertical:decrement { background-image: url('data:image/svg+xml;utf8,<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <g>    <g transform="rotate(180 255.99999999999997,256) " id="svg_1">   <polygon points="128,192 256,320 384,192  " id="svg_2" fill="%23333333"/>  </g> </g></svg>'); background-repeat: no-repeat; background-size: contain; }
+::selection { background: rgb(25, 118, 210); color: rgb(238, 238, 238); }
+.modal-box { background-color: rgba(234, 234, 234, 0.952941); }
+span.modal-close { color: rgb(102, 102, 102); }
+span.modal-close:hover, span.modal-close:focus { color: rgb(34, 34, 34); }
+.hljs { display: block; overflow-x: auto; padding: 0.5em; background: rgb(224, 224, 224); }
+.hljs, .hljs-subst { color: rgb(54, 54, 54); }
+.hljs-comment { color: rgb(118, 118, 118); }
+.hljs-keyword, .hljs-attribute, .hljs-selector-tag, .hljs-meta-keyword, .hljs-doctag, .hljs-name { color: rgb(0, 0, 238); }
+.hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion { color: rgb(136, 0, 0); }
+.hljs-title, .hljs-section { color: rgb(136, 0, 0); font-weight: bold; }
+.hljs-regexp, .hljs-symbol, .hljs-variable, .hljs-template-variable, .hljs-link, .hljs-selector-attr, .hljs-selector-pseudo { color: rgb(188, 96, 96); }
+.hljs-literal { color: rgb(175, 0, 215); }
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition { color: rgb(0, 135, 0); }
+.hljs-meta { color: rgb(31, 113, 153); }
+.hljs-meta-string { color: rgb(77, 153, 191); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.mermaid-diagram .mermaid .label { color: rgb(51, 51, 51); }
+.mermaid-diagram .node rect, .mermaid-diagram .node circle, .mermaid-diagram .node ellipse, .mermaid-diagram .node polygon { fill: rgb(236, 236, 255); stroke: rgb(204, 204, 255); stroke-width: 1px; }
+.mermaid-diagram .edgePath .path { stroke: rgb(51, 51, 51); }
+.mermaid-diagram .edgeLabel { background-color: rgb(232, 232, 232); }
+.mermaid-diagram .cluster rect { fill: rgb(255, 255, 222) !important; rx: 4 !important; stroke: rgb(170, 170, 51) !important; stroke-width: 1px !important; }
+.mermaid-diagram .cluster text { fill: rgb(51, 51, 51); }
+.mermaid-diagram .actor { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram text.actor { fill: black; stroke: none; }
+.mermaid-diagram .actor-line { stroke: grey; }
+.mermaid-diagram .messageLine0 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram .messageLine1 { stroke-width: 1.5; stroke: rgb(51, 51, 51); }
+.mermaid-diagram #arrowhead { fill: rgb(51, 51, 51); }
+.mermaid-diagram #crosshead path { fill: rgb(51, 51, 51) !important; stroke: rgb(51, 51, 51) !important; }
+.mermaid-diagram .messageText { fill: rgb(51, 51, 51); stroke: none; }
+.mermaid-diagram .labelBox { stroke: rgb(204, 204, 255); fill: rgb(236, 236, 255); }
+.mermaid-diagram .labelText { fill: black; stroke: none; }
+.mermaid-diagram .loopText { fill: black; stroke: none; }
+.mermaid-diagram .loopLine { stroke-width: 2; stroke: rgb(204, 204, 255); }
+.mermaid-diagram .note { stroke: rgb(170, 170, 51); fill: rgb(255, 245, 173); }
+.mermaid-diagram .noteText { fill: black; stroke: none; font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram .section { stroke: none; opacity: 0.2; }
+.mermaid-diagram .section0 { fill: rgba(102, 102, 255, 0.490196); }
+.mermaid-diagram .section2 { fill: rgb(255, 244, 0); }
+.mermaid-diagram .section1, .mermaid-diagram .section3 { fill: white; opacity: 0.2; }
+.mermaid-diagram .sectionTitle0 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle1 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle2 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle3 { fill: rgb(51, 51, 51); }
+.mermaid-diagram .sectionTitle { text-anchor: start; font-size: 11px; }
+.mermaid-diagram .grid .tick { stroke: lightgrey; opacity: 0.3; shape-rendering: crispEdges; }
+.mermaid-diagram .grid path { stroke-width: 0; }
+.mermaid-diagram .today { fill: none; stroke: red; stroke-width: 2px; }
+.mermaid-diagram .task { stroke-width: 2; }
+.mermaid-diagram .taskText { text-anchor: middle; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideRight { fill: black; text-anchor: start; font-size: 11px; }
+.mermaid-diagram .taskTextOutsideLeft { fill: black; text-anchor: end; font-size: 11px; }
+.mermaid-diagram .taskText0, .mermaid-diagram .taskText1, .mermaid-diagram .taskText2, .mermaid-diagram .taskText3 { fill: white; }
+.mermaid-diagram .task0, .mermaid-diagram .task1, .mermaid-diagram .task2, .mermaid-diagram .task3 { fill: rgb(138, 144, 221); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .taskTextOutside0, .mermaid-diagram .taskTextOutside2 { fill: black; }
+.mermaid-diagram .taskTextOutside1, .mermaid-diagram .taskTextOutside3 { fill: black; }
+.mermaid-diagram .active0, .mermaid-diagram .active1, .mermaid-diagram .active2, .mermaid-diagram .active3 { fill: rgb(191, 199, 255); stroke: rgb(83, 79, 188); }
+.mermaid-diagram .activeText0, .mermaid-diagram .activeText1, .mermaid-diagram .activeText2, .mermaid-diagram .activeText3 { fill: black !important; }
+.mermaid-diagram .done0, .mermaid-diagram .done1, .mermaid-diagram .done2, .mermaid-diagram .done3 { stroke: grey; fill: lightgrey; stroke-width: 2; }
+.mermaid-diagram .doneText0, .mermaid-diagram .doneText1, .mermaid-diagram .doneText2, .mermaid-diagram .doneText3 { fill: black !important; }
+.mermaid-diagram .crit0, .mermaid-diagram .crit1, .mermaid-diagram .crit2, .mermaid-diagram .crit3 { stroke: rgb(255, 136, 136); fill: red; stroke-width: 2; }
+.mermaid-diagram .activeCrit0, .mermaid-diagram .activeCrit1, .mermaid-diagram .activeCrit2, .mermaid-diagram .activeCrit3 { stroke: rgb(255, 136, 136); fill: rgb(191, 199, 255); stroke-width: 2; }
+.mermaid-diagram .doneCrit0, .mermaid-diagram .doneCrit1, .mermaid-diagram .doneCrit2, .mermaid-diagram .doneCrit3 { stroke: rgb(255, 136, 136); fill: lightgrey; stroke-width: 2; cursor: pointer; shape-rendering: crispEdges; }
+.mermaid-diagram .doneCritText0, .mermaid-diagram .doneCritText1, .mermaid-diagram .doneCritText2, .mermaid-diagram .doneCritText3 { fill: black !important; }
+.mermaid-diagram .activeCritText0, .mermaid-diagram .activeCritText1, .mermaid-diagram .activeCritText2, .mermaid-diagram .activeCritText3 { fill: black !important; }
+.mermaid-diagram .titleText { text-anchor: middle; font-size: 18px; fill: black; }
+.mermaid-diagram .node text { font-family: "trebuchet ms", verdana, arial; font-size: 14px; }
+.mermaid-diagram div.mermaidTooltip { position: absolute; text-align: center; max-width: 200px; padding: 2px; font-family: "trebuchet ms", verdana, arial; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(170, 170, 51); border-radius: 2px; pointer-events: none; z-index: 100; }
+
+    </style>
+
+    <script type="text/javascript">
+var toc = [];
+
+var setVisible = function(node, visible) {
+    var cl = 'hide-none';
+    if (visible) {
+        node.classList.remove(cl);
+    } else {
+        node.classList.add(cl);
+    }
+};
+
+var isVisible = function(node) {
+    var cl = 'hide-none';
+    return !node.classList.contains(cl);
+};
+
+var setPostContentExpanded = function(node, expanded) {
+    var cl = 'col-expand';
+    if (expanded) {
+        node.classList.add(cl);
+    } else {
+        node.classList.remove(cl);
+    }
+};
+
+var setOutlinePanelVisible = function(visible) {
+    var outlinePanel = document.getElementById('outline-panel');
+    var postContent = document.getElementById('post-content');
+
+    setVisible(outlinePanel, visible);
+    setPostContentExpanded(postContent, !visible);
+};
+
+var isOutlinePanelVisible = function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    return isVisible(outlinePanel);
+};
+
+window.addEventListener('load', function() {
+    var outlinePanel = document.getElementById('outline-panel');
+    outlinePanel.style.display = 'initial';
+
+    var floatingContainer = document.getElementById('container-floating');
+    floatingContainer.style.display = 'initial';
+
+    var outlineContent = document.getElementById('outline-content');
+    var postContent = document.getElementById('post-content');
+
+    // Escape @text to Html.
+    var escapeHtml = function(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    // Fetch the outline.
+    var headers = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    toc = [];
+    for (var i = 0; i < headers.length; ++i) {
+        var header = headers[i];
+
+        toc.push({
+            level: parseInt(header.tagName.substr(1)),
+            anchor: header.id,
+            title: escapeHtml(header.textContent)
+        });
+    }
+
+    if (toc.length == 0) {
+        setOutlinePanelVisible(false);
+        setVisible(floatingContainer, false);
+        return;
+    }
+
+    var baseLevel = baseLevelOfToc(toc);
+    var tocTree = tocToTree(toPerfectToc(toc, baseLevel), baseLevel);
+
+    outlineContent.innerHTML = tocTree;
+    setOutlinePanelVisible(true);
+    setVisible(floatingContainer, true);
+});
+
+// Return the topest level of @toc, starting from 1.
+var baseLevelOfToc = function(p_toc) {
+    var level = -1;
+    for (i in p_toc) {
+        if (level == -1) {
+            level = p_toc[i].level;
+        } else if (level > p_toc[i].level) {
+            level = p_toc[i].level;
+        }
+    }
+
+    if (level == -1) {
+        level = 1;
+    }
+
+    return level;
+};
+
+// Handle wrong title levels, such as '#' followed by '###'
+var toPerfectToc = function(p_toc, p_baseLevel) {
+    var i;
+    var curLevel = p_baseLevel - 1;
+    var perfToc = [];
+    for (i in p_toc) {
+        var item = p_toc[i];
+
+        // Insert empty header.
+        while (item.level > curLevel + 1) {
+            curLevel += 1;
+            var tmp = { level: curLevel,
+                        anchor: '',
+                        title: '[EMPTY]'
+                      };
+            perfToc.push(tmp);
+        }
+
+        perfToc.push(item);
+        curLevel = item.level;
+    }
+
+    return perfToc;
+};
+
+var itemToHtml = function(item) {
+    return '<a href="#' + item.anchor + '" data="' + item.anchor + '">' + item.title + '</a>';
+};
+
+// Turn a perfect toc to a tree using <ul>
+var tocToTree = function(p_toc, p_baseLevel) {
+    var i;
+    var front = '<li>';
+    var ending = ['</li>'];
+    var curLevel = p_baseLevel;
+    for (i in p_toc) {
+        var item = p_toc[i];
+        if (item.level == curLevel) {
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        } else if (item.level > curLevel) {
+            // assert(item.level - curLevel == 1)
+            front += '<ul>';
+            ending.push('</ul>');
+            front += '<li>';
+            front += itemToHtml(item);
+            ending.push('</li>');
+            curLevel = item.level;
+        } else {
+            while (item.level < curLevel) {
+                var ele = ending.pop();
+                front += ele;
+                if (ele == '</ul>') {
+                    curLevel--;
+                }
+            }
+            front += '</li>';
+            front += '<li>';
+            front += itemToHtml(item);
+        }
+    }
+    while (ending.length > 0) {
+        front += ending.pop();
+    }
+    front = front.replace("<li></li>", "");
+    front = '<ul>' + front + '</ul>';
+    return front;
+};
+
+var toggleMore = function() {
+    if (toc.length == 0) {
+        return;
+    }
+
+    var p = document.getElementById('floating-more');
+    if (isOutlinePanelVisible()) {
+        p.textContent = '<';
+        setOutlinePanelVisible(false);
+    } else {
+        p.textContent = '>';
+        setOutlinePanelVisible(true);
+    }
+};
+
+window.addEventListener('scroll', function() {
+    if (toc.length == 0 || !isOutlinePanelVisible()) {
+        return;
+    }
+
+    var postContent = document.getElementById('post-content');
+    var scrollTop = document.documentElement.scrollTop
+                    || document.body.scrollTop
+                    || window.pageYOffset;
+    var eles = postContent.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+    if (eles.length == 0) {
+        return;
+    }
+
+    var idx = -1;
+    var biaScrollTop = scrollTop + 50;
+    for (var i = 0; i < eles.length; ++i) {
+        if (biaScrollTop >= eles[i].offsetTop) {
+            idx = i;
+        } else {
+            break;
+        }
+    }
+
+    var header = '';
+    if (idx != -1) {
+        header = eles[idx].id;
+    }
+
+    highlightItemOnlyInOutline(header);
+});
+
+var highlightItemOnlyInOutline = function(id) {
+    var cl = 'outline-bold';
+    var outlineContent = document.getElementById('outline-content');
+    var eles = outlineContent.querySelectorAll("a");
+    var target = null;
+    for (var i = 0; i < eles.length; ++i) {
+        var ele = eles[i];
+        if (ele.getAttribute('data') == id) {
+            target = ele;
+            ele.classList.add(cl);
+        } else {
+            ele.classList.remove(cl);
+        }
+    }
+
+    // TODO: scroll target into view within the outline panel scroll area.
+};
+
+</script>
+
+
+<!-- HEAD_PLACE_HOLDER -->
+</head>
+<body>
+<div class="container-fluid">
+<div class="row flex-xl-nowrap">
+    <div id="outline-panel" style="display:none;" class="d-none d-md-block d-xl-block col-md-3 col-xl-2 bd-toc">
+        <div id="outline-content" class="section-nav"></div>
+    </div>
+    <div id="post-content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content">
+    <div style="page-break-after: always;"></div>
+<h1 id="toc_0">22. 脚本引擎<a class="vnote-anchor" href="#toc_0" data-anchor-icon="#"></a></h1>
+<p><img src='data:image/png;base64,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' alt="" class="view-image"></p>
+<h2 id="toc_1">22.1. 脚本引擎<a class="vnote-anchor" href="#toc_1" data-anchor-icon="#"></a></h2>
+<p>  作为一个Delphi框架，mORMot高级语言支持pascal对象语言。但是，不要在可执行文件中修复某些部分软件可能会更方便。实际上，一旦编译了应用程序，执行流程就会写在一起，你不能改变它，除非你修改Delphi源并再次编译它。由于mORMot是开源的，您可以无限制地将整个源代码发送给您的客户或服务，并将您自己的代码扩散为预编译的.dcu文件，但您的最终用户需要安装Delphi IDE（支付费用），并了解Delphi语言。</p>
+<p>  这就是需要脚本的时候啦。</p>
+<p>  例如，脚本可以允许为最终用户定制应用程序行为（如报表），或者允许领域专家根据领域驱动设计定义不断发展的适当业务规则。</p>
+<p>  如果您的业务模式是在多个客户端之间发布核心领域专业知识（如会计、外围设备驱动、数据库模型、领域对象、通信、AJAX客户端......），您迟早需要将您的应用程序调整为面对一个或多个客户，而不是“一个exe统治全部”。维护几个可执行文件可能会变成一个“分支地狱”。脚本在这里是受欢迎的：速度和内存关键功能（mORMot擅长）将在主可执行文件中进行硬编码，然后其他所有内容都可以在脚本中定义。</p>
+<p>  有很多脚本语言可供使用。</p>
+<p>  我们考虑过<code>http://code.google.com/p/dwscript</code>，该项目维护良好且富有表现力（这是我们心爱的Smart Mobile Studio的代码），但并不常用，我们仍然希望在不久的将来加入它。</p>
+<p>  然后<code>http://www.lua.org</code>定义了一种轻便且通用的语言，专用于嵌入任何应用程序。听起来像是一个可行的解决方案：如果您能提供帮助，欢迎您的贡献！</p>
+<p>  我们也考虑了<code>http://www.python.org</code>和<code>http://www.ruby-lang.org</code>，但两者现在都远非光明，并不打算嵌入，因为它们是通用语言，拥有大量功能齐全的程序包。</p>
+<p>  然后，就是JavaScript：</p>
+<ul>
+<li>这是万维网汇编程序。每个程序员都以这样或那样的方式了解JavaScript；</li>
+<li>JavaScript是一种非常强大的语言，请参阅Crockford的<code>"JavaScript - The Good Parts"</code>一书；</li>
+<li>已有很多JavaScript编写的库：模板引擎（jade、mustache...），SOAP和LDAP客户端，以及许多其他库（当然包括所有<code>node.js</code>库）；</li>
+<li>它是一些强类型扩展语法的基础，如CoffeScript、TypeScript、Dart；</li>
+<li>在<code>AJAX/Rich Internet Application</code>的情况下，我们可以直接在客户端和服务端之间共享部分逻辑（验证、模板渲染......）而无需任何中间件；</li>
+<li>很长一段时间，mORMot的用户（Pavel，又称mpv）已经将SpiderMonkey集成到mORMot的核心。他的解决方案用于生产，每天为数十亿的请求提供服务，并取得了成功。我们正式整合了他的单元。谢谢Pavel！</li>
+</ul>
+<p>  因此，mORMot通过SpiderMonkey直接引入了JavaScript支持。</p>
+<p>  它支持：</p>
+<ul>
+<li>从JavaScript执行Delphi代码，包括我们的对象关系映射（ORM）、面向服务的架构（SOA）等方法，甚至报表；</li>
+<li>从Delphi中获取JavaScript代码（例如，定义和自定义任何服务或规则，或使用一些现有的<code>.js</code>库）;</li>
+<li>通过<code>TSMVariant</code>自定义变体类型公开JavaScript对象和函数：它允许访问任何JavaScript对象属性或通过后期绑定从Delphi代码调用其任何函数，就像它是用本地Object-Pascal编写的一样；</li>
+<li>遵循经典的同步阻塞模式，基于mORMot的多线程高效模型，易于编写和维护；</li>
+<li>将JavaScript或Delphi对象作为<a href="">Unicode和UTF-8 JSON</a>处理，支持<a href="">JSON RESTful 客户端-服务端</a>远程访问的发布和使用。</li>
+</ul>
+<h2 id="toc_2">22.2. SpiderMonkey集成<a class="vnote-anchor" href="#toc_2" data-anchor-icon="#"></a></h2>
+<h3 id="toc_3">22.2.1. 强大的JavaScript引擎<a class="vnote-anchor" href="#toc_3" data-anchor-icon="#"></a></h3>
+<p>  Mozilla JavaScript引擎SpiderMonkey可以嵌入到mORMot应用程序中。它可以在客户端使用，在Delphi应用程序中（如用于报表），但对它的主要兴趣可能是在服务端。</p>
+<p>  JavaScript这个词可能会想到诸如事件处理程序（如onclick）、DOM对象、window.open和XMLHttpRequest之类的功能。</p>
+<p>  但是SpiderMonkey引擎本身并不提供所有这些功能。</p>
+<p>  SpiderMonkey提供了几个JavaScript核心数据类型，数字、字符串、数组、对象等，以及一些方法，如<code>Array.push</code>。它还使每个应用程序都可以轻松地将一些自己的对象和函数公开给JavaScript代码，浏览器公开DOM对象，您的应用程序将公开与您要编写的脚本类型相关的对象，应用程序开发人员可以决定向脚本公开哪些对象和方法。</p>
+<h3 id="toc_4">22.2.2. 直接访问SpiderMonkey API<a class="vnote-anchor" href="#toc_4" data-anchor-icon="#"></a></h3>
+<p>  <code>SynSMAPI.pas</code>单元是SpiderMonkey API的优化转换，提供完整的ECMAScript 5支持和JIT，包含SpiderMonkey 24修订版引擎，其中包含C++原始代码的自定义C包装器。</p>
+<p>  您可以查看<code>http://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey</code>以获取此底层API的完整描述，并查看我们的修订版本库，修改并发布为C而不是C++，在mORMot源代码存储库的<code>synsm-mozjs</code>文件夹中。</p>
+<p>  <code>SynSM.pas</code>单元将大部分功能封装到更高级别的Delphi类和结构（包括自定义变体类型）中，因此您可能不需要在代码中直接使用<code>SynSMAPI.pas</code>：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TSMEngineManager</td>
+<td>对每个SpiderMonkey线程脚本引擎的主要访问点</td>
+</tr>
+<tr>
+<td>TSMEngine</td>
+<td>实现一个线程安全的JavaScript引擎实例</td>
+</tr>
+<tr>
+<td>TSMObject</td>
+<td>包装一个JavaScript对象及其执行上下文</td>
+</tr>
+<tr>
+<td>TSMValue</td>
+<td>包装JavaScript值，并与Delphi类型接口</td>
+</tr>
+<tr>
+<td>TSMVariant<br>TSMVariantData</td>
+<td>定义一个自定义变体类型，用于直接访问任何JavaScript对象，具有后期绑定</td>
+</tr>
+</tbody>
+</table>
+<p>  我们将看到如何使用所有这些类。</p>
+<h3 id="toc_5">22.2.3. 执行方案<a class="vnote-anchor" href="#toc_5" data-anchor-icon="#"></a></h3>
+<p>  SpiderMonkey JavaScript引擎编译并执行包含JavaScript语句和函数的脚本。引擎处理执行脚本所需对象的内存分配，并清理不再需要的对象进行垃圾回收。</p>
+<p>  为了在SpiderMonkey中运行任何JavaScript代码，应用程序必须具有三个关键元素：</p>
+<ul>
+<li>一个<code>JSRuntime</code>，</li>
+<li>一个<code>JSContext</code>，</li>
+<li>还有一个全局的<code>JSObject</code>。</li>
+</ul>
+<p>  <code>JSRuntime</code>运行时是分配应用程序使用的JavaScript变量，对象，脚本和上下文的空间。每个<code>JSContext</code>和应用程序中的每个对象都存在于<code>JSRuntime</code>中。他们无法前往其他运行时或跨运行时共享。</p>
+<p>  <code>JSContext</code>上下文就像一台可以执行涉及JavaScript代码和对象的许多事情的小机器。它可以编译和执行脚本，获取和设置对象属性，调用JavaScript函数，将JavaScript数据从一种类型转换为另一种类型，创建对象等等。</p>
+<p>  最后，全局<code>JSObject</code>是一个JavaScript对象，它包含可供JavaScript代码使用的所有类，函数和变量。当Web浏览器代码执行<code>window.open("http://www.mozilla.org/")</code>之类的操作时，它就会访问全局属性，在本例中为<code>window</code>。SpiderMonkey应用程序可以完全控制全局属性脚本可以看到的内容。</p>
+<p>  每个SpiderMonkey实例都通过创建<code>JSRunTime</code>、<code>JSContext</code>实例和全局<code>JSObject</code>来启动每个执行上下文，它使用标准JavaScript类（如<code>Array</code>和<code>Object</code>）填充此全局对象。然后，应用程序初始化代码将添加应用程序想要提供的任何自定义类、函数和变量（如<code>window</code>）；对于mORMot服务端应用程序，它可能是ORM访问、SOA服务使用、实现。</p>
+<p>  每次应用程序运行JavaScript脚本（如使用<code>JS_EvaluateScript</code>）时，它都会为该脚本提供全局对象。当脚本运行时，它可以创建自己的全局函数和变量。所有这些函数，类和变量都存储为全局对象的属性。</p>
+<h3 id="toc_6">22.2.4. 创建执行上下文<a class="vnote-anchor" href="#toc_6" data-anchor-icon="#"></a></h3>
+<p>  关于这三个关键元素的要点是，在SpiderMonkey的当前实现模式中，运行时、上下文或全局对象不是线程安全的。</p>
+<p>  因此，在mORMot使用这个库时，每个线程都会有自己的实例。</p>
+<p>  在<code>SynSM.pas</code>单元中，定义了<code>TSMEngine</code>类以允许访问所有这些链接元素：</p>
+<pre><code class="lang-pascal hljs">  TSMEngine = <span class="hljs-keyword">class</span>
+  ...
+    <span class="hljs-comment">/// access to the associated global object as a TSMVariant custom variant</span>
+    <span class="hljs-comment">// - allows direct property and method executions in Delphi code, via</span>
+    <span class="hljs-comment">// late-binding</span>
+    <span class="hljs-keyword">property</span> Global: variant <span class="hljs-keyword">read</span> FGlobal;
+    <span class="hljs-comment">/// access to the associated global object as a TSMObject wrapper</span>
+    <span class="hljs-comment">// - you can use it to register a method</span>
+    <span class="hljs-keyword">property</span> GlobalObject: TSMObject <span class="hljs-keyword">read</span> FGlobalObject;
+    <span class="hljs-comment">/// access to the associated global object as low-level PJSObject</span>
+    <span class="hljs-keyword">property</span> GlobalObj: PJSObject <span class="hljs-keyword">read</span> FGlobalObject.fobj;
+    <span class="hljs-comment">/// access to the associated execution context</span>
+    <span class="hljs-keyword">property</span> cx: PJSContext <span class="hljs-keyword">read</span> fCx;
+    <span class="hljs-comment">/// access to the associated execution runtime</span>
+    <span class="hljs-keyword">property</span> rt: PJSRuntime <span class="hljs-keyword">read</span> frt;
+  ...
+</code></pre>
+<p>  我们的实现将为每个线程定义一个Runtime、一个Context和一个全局对象，即每个线程一个<code>TSMEngine</code>类实例。</p>
+<p>  为每个<code>TSMEngine</code>实例创建JSRuntime运行时，实际上，您不需要访问此值，而是依赖于JSContext或直接依赖TSMEngine。</p>
+<p>  <code>JSContext</code>上下文将是所有SpiderMonkey API的主要入口点，它希望将此上下文作为参数提供。在mORMot中，您可以使用<code>function TSMObject.Engine: TSMEngine</code>从其上下文中检索正在运行的<code>TSMEngine</code>，实际上，引擎实例存储在每个<code>JSContext</code>的私有数据槽中。</p>
+<p>  最后，<code>TSMEngine</code>的全局对象包含可供JavaScript代码使用的所有类、函数和变量。对于mORMot服务端应用程序，ORM访问、SOA服务消耗使用、实现，如上所述。</p>
+<p>  您可能注意到，有几种方法可以访问此全局对象实例，从高级到低级JavaScript对象类型。上面的<code>TSMEngine.Global</code>属性实际上是一种变体。我们的<code>SynSM.pas</code>单元实际上定义了一个自定义变体类型，标识为<code>TSMVariant</code>类，能够通过后期绑定访问任何JavaScript对象、变量和函数：</p>
+<pre><code class="lang-pascal hljs">  engine.Global.MyVariable := <span class="hljs-number">1.0594631</span>;
+  engine.Global.MyFunction(<span class="hljs-number">1</span>,<span class="hljs-string">'text'</span>);
+</code></pre>
+<p>  大多数Web应用程序只需要一个运行时，因为它们在单个线程中运行，并使用回调来执行非阻塞。但是在mORMot中，每个线程都有一个<code>TMSEngine</code>实例，使用<code>TSMEngineManager.ThreadSafeEngine</code>方法。然后，所有执行都可能阻塞，没有任何明显的性能问题，因为整个mORMot线程设计被定义为最大化执行资源。</p>
+<h3 id="toc_7">22.2.5. 阻塞线程模型<a class="vnote-anchor" href="#toc_7" data-anchor-icon="#"></a></h3>
+<p>  这种线程模型与其他服务端脚本实现方案有很大不同，如众所周知的node.js解决方案。</p>
+<p>  如果使用得当，多线程并不邪恶。由于mORMot的设计，你不会害怕编写阻塞的JavaScript代码，没有任何回调。实际上，这些回调是大多数JavaScript代码难以维护的原因。</p>
+<p>  在客户端，即在Web浏览器中，JavaScript引擎每个网页仅使用一个线程，然后使用回调来推迟长时间运行的方法（如远程HTTP请求）的执行。</p>
+<p>  事实上，这是现代AJAX应用程序中一个明确的性能问题。例如，在不破坏Web应用程序响应性的情况下，无法在JavaScript中执行某些密集计算：您必须将计算任务拆分为小任务，然后让JavaScript代码暂停，直到可以触发下一次计算。在服务端，<code>node.js</code>允许定义<code>Fibers</code>和<code>Futures</code>，请参阅<code>http://github.com/laverdet/node-fibers</code>，但这不适用于Web客户端。有些浏览器只是从HTML渲染线程中解开JavaScript执行线程，甚至这很难实现，我们在这里达到了植根于80年代的技术极限......</p>
+<p>  在服务端，<code>node.js</code>确实遵循这种模式，这确实有意义（它允许与客户端共享代码，使用一些名称空间技巧），​​但它也是一大浪费资源。为什么我们要坚持从80年代的计算模型继承而来的实现模式，当时所有CPU都是单核，并且线程不可用。</p>
+<p>  使用单个线程时的主要问题是您的代码应该是异步的。不久之后，你将面临一种被称为“回调地狱”的综合症。简而言之，您正在嵌套匿名函数，并定义回调。主要问题是，除了较低的可读性和可能陷入<code>function()</code>嵌套之外，您失去了JavaScript异常模型。实际上，每个回调函数都必须显式检查错误（作为回调函数中的参数返回），并处理它。</p>
+<p>  当然，你可以使用所谓的Promises和一些很好的库，要是<code>async.js</code>。</p>
+<p>  但即使是那些库也会增加复杂性，并使代码编写起来更加困难。例如，考虑以下非阻塞异步代码：</p>
+<pre><code class="lang-javascript hljs">getTweetsFor(<span class="hljs-string">"domenic"</span>) <span class="hljs-comment">// promise-returning function</span>
+  .then(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">tweets</span>) </span>{
+    <span class="hljs-keyword">var</span> shortUrls = parseTweetsForUrls(tweets);
+    <span class="hljs-keyword">var</span> mostRecentShortUrl = shortUrls[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">return</span> expandUrlUsingTwitterApi(mostRecentShortUrl); <span class="hljs-comment">// promise-returning function</span>
+  })
+  .then(httpGet) <span class="hljs-comment">// promise-returning function</span>
+  .then(
+    <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">responseBody</span>) </span>{
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Most recent link text:"</span>, responseBody);
+    },
+    <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">error</span>) </span>{
+      <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Error with the twitterverse:"</span>, error);
+    }
+  );
+</code></pre>
+<p>  摘自<code>http://domenic.me/2012/10/14/youre-missing-the-point-of-promises</code></p>
+<p>  对于JavaScript日常用户或熟悉函数式语言的人来说，这种代码将是完全可读的。</p>
+<p>  但是对于大多数Delphi/Java/C#程序员来说，下面的阻塞同步代码可能看起来更熟悉、更安全、更简洁：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-keyword">try</span> <span class="hljs-comment">{
+  var tweets = getTweetsFor("domenic"); // blocking
+  var shortUrls = parseTweetsForUrls(tweets);
+  var mostRecentShortUrl = shortUrls[0];
+  var responseBody = httpGet(expandUrlUsingTwitterApi(mostRecentShortUrl)); // blocking x 2
+  console.log("Most recent link text:", responseBody);
+}</span> catch (error) <span class="hljs-comment">{
+  console.error("Error with the twitterverse: ", error);
+}</span>
+</code></pre>
+<p>  由于阻塞模式，很明显代码可读性和可维护性更高，并且通过JavaScript异常和全局<code>try .. catch</code>可以很好地检测处理错误。</p>
+<p>  最后但最重要的是，调试阻塞代码简单明了，因为执行代码流程是线性的。</p>
+<p>  由于<code>yield</code>关键字和一些任务生成器，即将推出的ECMAScript 6应该更进一步，请参阅<code>http://taskjs.org</code>，以便异步代码可以更接近同步模式。但即使有了<code>yield</code>，你的代码也不会像普通的阻塞风格一样干净。</p>
+<p>  在mORMot中，我们选择遵循另一条途径，即写入阻塞同步代码。上面的示例显示了它的使用方式。如果您使用它来定义一些巨大的业务逻辑，或者让领域专家编写代码，那么阻塞语法要简单得多。</p>
+<p>  当然，如果需要，mORMot允许您在JavaScript代码中使用回调和函数编程模式。但默认情况下，您可以编写友好的阻塞代码。</p>
+<h2 id="toc_8">22.3. 与现有代码交互<a class="vnote-anchor" href="#toc_8" data-anchor-icon="#"></a></h2>
+<p>  在mORMot单元中，您可以通过两种方式混合使用Delphi和JavaScript代码：</p>
+<ul>
+<li>在Delphi代码中定义自己的函数，并从JavaScript执行它们；</li>
+<li>或者在JavaScript代码（包括任何第三方库）中定义自己的函数，并从Delphi中执行它们。</li>
+</ul>
+<p>  与我们框架的其他部分一样，性能和集成已经过调整，遵循我们的KISS方式。</p>
+<p>  您可以查看<code>"22 - JavaScript HTTPApi web server\JSHttpApiServer.dpr"</code>示例以获取参考代码。</p>
+<h3 id="toc_9">22.3.1. 引擎初始化<a class="vnote-anchor" href="#toc_9" data-anchor-icon="#"></a></h3>
+<p>  如前所述，连接JavaScript引擎的要点是在初始化<code>TSMEngine</code>实例时注册所有方法。</p>
+<p>  为此，您需要为<code>TSMEngineManager</code>实例设置相应的<code>OnNewEngine</code>回调事件。</p>
+<p>  参见示例代码：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">constructor</span> <span class="hljs-title">TTestServer</span>.<span class="hljs-title">Create</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Path: TFileName)</span>;</span>
+<span class="hljs-keyword">begin</span>
+  ...
+  fSMManager := TSMEngineManager.Create;
+  fSMManager.OnNewEngine := DoOnNewEngine;
+  ...
+</code></pre>
+<p>  在<code>DoOnNewEngine</code>中，您将初始化每个新创建的TSMEngine实例，以注册所有需要的Delphi方法，并通过运行时的全局<code>JSObject</code>准备对JavaScript的访问。</p>
+<p>  然后每次要访问JavaScript引擎时，您将编写：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TTestServer</span>.<span class="hljs-title">Process</span><span class="hljs-params">(Ctxt: THttpServerRequest)</span>:</span> cardinal;
+<span class="hljs-keyword">var</span> engine: TSMEngine;
+...
+   engine := fSMManager.ThreadSafeEngine;
+...  <span class="hljs-comment">// now you can use engine, e.g. engine.Global.someMethod()</span>
+</code></pre>
+<p>  如果需要，将动态初始化HTTP服务器线程池的每个线程，或快速返回先前初始化的实例。</p>
+<p>  获得与当前线程对应的TSMEngine实例后，可以对其全局对象启动操作，或调整其执行。</p>
+<p>  例如，检查JavaScript VM的垃圾收集器可能是个好主意：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TTestServer</span>.<span class="hljs-title">Process</span><span class="hljs-params">(Ctxt: THttpServerRequest)</span>:</span> cardinal;
+...
+   engine := fSMManager.ThreadSafeEngine;
+   engine.MaybeGarbageCollect; <span class="hljs-comment">// perform garbage collection if needed</span>
+...
+</code></pre>
+<p>  我们现在将了解如何在JavaScript和Delphi代码之间进行交互。</p>
+<h3 id="toc_10">22.3.2. 从JavaScript调用Delphi代码<a class="vnote-anchor" href="#toc_10" data-anchor-icon="#"></a></h3>
+<p>  为了从JavaScript调用一些Delphi方法，您必须注册该方法。</p>
+<p>  如上所述，它是通过在<code>TSMEngineManager.OnNewEngine</code>初始化代码中设置回调来完成的。 例如：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestServer</span>.<span class="hljs-title">DoOnNewEngine</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Engine: TSMEngine)</span>;</span>
+...
+  <span class="hljs-comment">// add native function to the engine</span>
+  Engine.RegisterMethod(Engine.GlobalObj,<span class="hljs-string">'loadFile'</span>,LoadFile,<span class="hljs-number">1</span>);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  这里，本地<code>LoadFile()</code>方法在本机代码中实现：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TTestServer</span>.<span class="hljs-title">LoadFile</span><span class="hljs-params">(<span class="hljs-keyword">const</span> This: variant; <span class="hljs-keyword">const</span> Args: <span class="hljs-keyword">array</span> <span class="hljs-keyword">of</span> variant)</span>:</span> variant;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">if</span> length(Args)&lt;&gt;<span class="hljs-number">1</span> <span class="hljs-keyword">then</span>
+    <span class="hljs-keyword">raise</span> Exception.Create(<span class="hljs-string">'Invalid number of args for loadFile(): required 1 (file path)'</span>);
+  result := AnyTextFileToSynUnicode(Args[<span class="hljs-number">0</span>]);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  如您所见，这非常容易理解。</p>
+<p>  其目的是通过定义名为<code>loadFile()</code>的新全局函数从JavaScript加载文件内容。</p>
+<p>  请记住，SpiderMonkey引擎本身并不了解文件系统、数据库甚至DOM。只注册了基本对象，如数组。我们必须显式注册JavaScript代码所需的函数。</p>
+<p>  在上面的代码片段中，我们使用了<code>TSMEngineMethodEventVariant</code>回调签名，将变体值编码为参数。这是最简单的方法，只会对性能产生轻微影响。</p>
+<p>  这些方法具有以下特征：</p>
+<ul>
+<li>参数将从JavaScript值传输为简单的Delphi类型（用于数字或文本），或者作为JavaScript对象的自定义<code>TSMVariant</code>类型传输，允许后期绑定；</li>
+<li><code>This: variant</code>第一个参数将<code>"callee"</code>JavaScript对象映射为<code>TSMVariant</code>自定义实例，这样您就可以通过后期绑定直接访问其他对象的方法或属性；</li>
+<li>调用函数时，您可以从可变数量的参数的JavaScript功能中受益，因为输入参数是变量的动态数组；</li>
+<li>所有这些注册的方法都在<code>TSMEngine</code>实例维护的列表中注册，因此在某些情况下使用它可能非常方便；</li>
+<li>如果需要，您仍然可以访问任何参数的低级<code>JSObject</code>值，因为它们可以被转换为<code>TSMVariantData</code>实例，因此您不会丢失任何信息；</li>
+<li>Delphi本机方法将受mORMot包装器的保护，因此进程中引发的任何异常都将作为JavaScript异常捕获并传输到运行时；</li>
+<li>在执行本机代码期间还有一组隐藏的FPU异常掩码，在这里你不用操心它。</li>
+</ul>
+<p>  现在考虑如何通过低级API调用编写相同的<code>loadFile()</code>函数。</p>
+<p>  首先，我们注册回调：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestServer</span>.<span class="hljs-title">DoOnNewEngine</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Engine: TSMEngine)</span>;</span>
+...
+  <span class="hljs-comment">// add native function to the engine</span>
+ Engine.GlobalObject.DefineNativeMethod(<span class="hljs-string">'loadFile'</span>, nsm_loadFile, <span class="hljs-number">1</span>);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  然后它的实现：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">nsm_loadFile</span><span class="hljs-params">(cx: PJSContext; argc: uintN; vp: Pjsval)</span>:</span> JSBool; <span class="hljs-keyword">cdecl</span>;
+<span class="hljs-keyword">var</span> in_argv: PjsvalVector;
+    filePath: TFileName;
+<span class="hljs-keyword">begin</span>
+  TSynFPUException.ForDelphiCode;
+  <span class="hljs-keyword">try</span>
+    <span class="hljs-keyword">if</span> argc&lt;&gt;<span class="hljs-number">1</span> <span class="hljs-keyword">then</span>
+      <span class="hljs-keyword">raise</span> Exception.Create(<span class="hljs-string">'Invalid number of args for loadFile(): required 1 (file path)'</span>);
+    in_argv := JS_ARGV(cx,vp);
+    filePath := JSVAL_TO_STRING(in_argv[<span class="hljs-number">0</span>]).ToString(cx);
+    JS_SET_RVAL(cx, vp, cx^.NewJSString(AnyTextFileToSynUnicode(filePath)).ToJSVal);
+    Result := JS_TRUE;
+  <span class="hljs-keyword">except</span>
+    <span class="hljs-keyword">on</span> E: Exception <span class="hljs-keyword">do</span> <span class="hljs-keyword">begin</span> <span class="hljs-comment">// all exceptions MUST be catched on Delphi side</span>
+      JS_SET_RVAL(cx, vp, JSVAL_VOID);
+      JSError(cx, E);
+      Result := JS_FALSE;
+    <span class="hljs-keyword">end</span>;
+  <span class="hljs-keyword">end</span>;
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  如您所见，这个<code>nsm_loadFile()</code>函数更难以遵循：</p>
+<ul>
+<li>您的代码应以隐藏的<code>TSynFPUException.ForDelphiCode</code>指令开头，以在执行本机代码期间保护FPU异常标志（Delphi RTL在执行期间期望其自己的一组FPU异常掩码，这与SpiderMonkey期望的FPU异常掩码不匹配）；</li>
+<li>您必须使用<code>try...finally</code>块显式捕获可能引发的任何Delphi异常，并将它们作为JavaScript错误编码返回；</li>
+<li>您需要进行大量手动低级转换，通过<code>JS_ARGV()</code>，如<code>JSVAL_TO_STRING()</code>宏，检索参数的实际值；</li>
+<li>返回函数将手动编码，请参阅<code>JS_SET_RVAL()</code>行。</li>
+</ul>
+<p>  由于基于变体的回调只有轻微的性能影响（SpiderMonkey引擎性能本身无法测量），并且仍然可以访问所有传输的信息，我们强烈建议您使用这种更安全，更清晰的模式，并且没有通过低级API定义任何本机函数。</p>
+<p>  请注意，有一个备用的基于JSON的回调，它不会在您的最终用户代码中使用，但会在需要编码到JSON时使用，如使用mORMot的ORM或SOA功能时。</p>
+<h3 id="toc_11">22.3.3. TSMVariant自定义类型<a class="vnote-anchor" href="#toc_11" data-anchor-icon="#"></a></h3>
+<p>  如上所述，<code>SynSM.pas</code>单元定义了<code>TSMVariant</code>自定义变体类型。它将被单元用来封送任何<code>JSObject</code>实例作为变体。</p>
+<p>  通过后期绑定的魔力，它将允许访问任何JavaScript对象属性，或执行其任何功能。只是略微降低了性能，但代码可读性比SpiderMonkey API的低级访问要好得多。</p>
+<p>  <code>TSMVariantData</code>内存结构可用于映射此类<code>TSMVariant</code>变体实例。实际上，自定义变量类型不仅会存储<code>JSObject</code>值，还会存储其执行上下文，即<code>JSContext</code>，因此使用起来非常方便。</p>
+<p>  例如，您可以编写代码：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TMyClass</span>.<span class="hljs-title">MyFunction</span><span class="hljs-params">(<span class="hljs-keyword">const</span> This: variant; <span class="hljs-keyword">const</span> Args: <span class="hljs-keyword">array</span> <span class="hljs-keyword">of</span> variant)</span>:</span> variant;
+<span class="hljs-keyword">var</span> global: variant;
+<span class="hljs-keyword">begin</span>
+  TSMVariantData(This).GetGlobal(global);
+  global.anotherFunction(Args[<span class="hljs-number">0</span>],Args[<span class="hljs-number">1</span>],<span class="hljs-string">'test'</span>);
+  <span class="hljs-comment">// same as:</span>
+  global := TSMVariantData(This).SMObject.Engine.Global;
+  global.anotherFunction(Args[<span class="hljs-number">0</span>],Args[<span class="hljs-number">1</span>],<span class="hljs-string">'test'</span>);
+  <span class="hljs-comment">// but you may also write directly:</span>
+  <span class="hljs-keyword">with</span> TSMVariantData(This).SMObject.Engine <span class="hljs-keyword">do</span>
+    Global.anotherFunction(Args[<span class="hljs-number">0</span>],Args[<span class="hljs-number">1</span>],<span class="hljs-string">'test'</span>);
+  result := AnyTextFileToSynUnicode(Args[<span class="hljs-number">0</span>]);
+<span class="hljs-keyword">end</span>;
+</code></pre>
+<p>  此处，此自定义变体实例通过<code>TSMVariantData(This)</code>进行转换，以访问其内部属性。</p>
+<h3 id="toc_12">22.3.4. 从Delphi调用JavaScript代码<a class="vnote-anchor" href="#toc_12" data-anchor-icon="#"></a></h3>
+<p>  为了从Delphi执行一些JavaScript代码，您应该首先定义要执行的JavaScript函数。</p>
+<p>  这应该在<code>TSMEngineManager.OnNewEngine</code>初始化代码中进行：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">procedure</span> <span class="hljs-title">TTestServer</span>.<span class="hljs-title">DoOnNewEngine</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Engine: TSMEngine)</span>;</span>
+<span class="hljs-keyword">var</span> showDownRunner: SynUnicode;
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-comment">// add external JavaScript library to engine (port of the Markdown library)</span>
+  Engine.Evaluate(fShowDownLib, <span class="hljs-string">'showdown.js'</span>);
+  <span class="hljs-comment">// add the bootstrap function calling loadfile() then showdown's makeHtml()</span>
+  showDownRunner := AnyTextFileToSynUnicode(ExeVersion.ProgramFilePath+<span class="hljs-string">'showDownRunner.js'</span>);
+  Engine.Evaluate(showDownRunner, <span class="hljs-string">'showDownRunner.js'</span>);
+  ...
+</code></pre>
+<p>  此代码首先评估（执行）<code>showdown.js</code>文件中包含的通用JavaScript库，该文件位于示例可执行文件夹中。 这是一个开源库，能够将任何Markdown标记转换为HTML。 简单的标准JavaScript代码。</p>
+<p>  然后我们评估（执行）一小段JavaScript代码，将刚定义的库的<code>makeHtml()</code>函数与我们的<code>loadFile()</code>本机函数链接：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showDownRunner</span><span class="hljs-params">(pathToFile)</span><span class="hljs-comment">{
+  var src = loadFile(pathToFile);            // call Delphi native code
+  var converter = new Showdown.converter();  // get the Showdown converted
+  return converter.makeHtml(src);            // convert .md content into HTML via showdown.js
+}</span>
+</span></code></pre>
+<p>  现在我们手头有一个新的全局<code>function showDownRunner(pathToFile)</code>，可以通过我们的Delphi代码执行：</p>
+<pre><code class="lang-pascal hljs"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TTestServer</span>.<span class="hljs-title">Process</span><span class="hljs-params">(Ctxt: THttpServerRequest)</span>:</span> cardinal;
+<span class="hljs-keyword">var</span> content: variant;
+    FileName, FileExt: TFileName;
+    engine: TSMEngine;
+  ...
+  <span class="hljs-keyword">if</span> FileExt=<span class="hljs-string">'.md'</span> <span class="hljs-keyword">then</span> <span class="hljs-keyword">begin</span>
+  ...
+    engine := fSMManager.ThreadSafeEngine;
+  ...
+    content := engine.Global.showDownRunner(FileName);
+  ...
+</code></pre>
+<p>  如您所见，我们通过后期绑定访问该功能。 上面的代码是完全可读的，我们在这里称之为JavaScript函数和整个库，就像它是本机代码一样自然。</p>
+<p>  如果没有后期绑定，我们可能已编写，不是访问<code>Global TSMVariant</code>实例，而是访问较低级别的<code>GlobalObject: TSMObject</code>属性：</p>
+<pre><code class="lang-pascal hljs">  ...
+    content := engine.GlobalObject.Run(<span class="hljs-string">'showDownRunner'</span>,[SynUnicode(FileName)]);
+  ...
+</code></pre>
+<p>  您可以选择自己喜欢的代码，但后期绑定值得考虑。</p>
+
+    </div>
+</div>
+</div>
+
+<div id="container-floating" style="display:none;" class="d-none d-md-block d-xl-block">
+    <div id="floating-button" onclick="toggleMore()">
+        <p id="floating-more" class="more">&gt;</p>
+    </div>
+</div>
+
+<!--
+<div class="footer" id="vnote-footer">
+    <p>Generated by <em><a href="https://tamlok.github.io/vnote/">VNote</a></em>.</p>
+</div>
+-->
+</body>
+</html>
