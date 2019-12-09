@@ -1,4 +1,8 @@
-# mORMot-Learning
+# 原文
+[Synopse mORMot Framework Documentation](https://synopse.info/files/html/Synopse%20mORMot%20Framework%20SAD%201.18.html)
+
+# 译文
+仅完成1~25章。
 
 [第一章 Synopse mORMot概述](https://htmlpreview.github.io/?https://github.com/wai818/mORMot-Learning/blob/master/1_Synopse%20mORMot%E6%A6%82%E8%BF%B0.html)
 
